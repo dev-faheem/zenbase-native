@@ -1,0 +1,21 @@
+{
+  "plugins": [
+    ["module:react-native-dotenv"],
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "components": "./components",
+          "services": "./services",
+          "stores": "./stores",
+          "themes": "./themes",
+          "screens": "./screens",
+          "assets": "./assets",
+          "mock": "./mock",
+          "queries": "./queries"
+        }
+      }
+    ]
+  ]
+}
