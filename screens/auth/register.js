@@ -10,6 +10,7 @@ export default function Register() {
         <Text>Hello Register</Text>
         <Button
           title="I already have an account"
+          block
           variant="silent"
           onPress={() => {
             navigation.navigate("Login");

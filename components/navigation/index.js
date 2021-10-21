@@ -18,17 +18,17 @@ export function AuthWall() {
   const { isLoggedIn } = useAuth();
 
   // Auth Guard
-  if (!isLoggedIn) {
-    return (
-      <Text>
-        You are not logged in. You must log in before accessing these screens
-      </Text>
-    );
-  }
+  // if (!isLoggedIn) {
+  //   return (
+  //     <Text>
+  //       You are not logged in. You must log in before accessing these screens
+  //     </Text>
+  //   );
+  // }
 
   return (
     <Tabs.Navigator
-      initialRouteName="Home"
+      initialRouteName="Search"
       screenOptions={{ headerShown: false }}
     >
       <Tabs.Screen name="Home" component={Home} />
@@ -45,7 +45,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="App"
         screenOptions={{
           headerShown: false,
         }}

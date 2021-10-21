@@ -2,8 +2,8 @@ const light = {
   color: {
     background: "#ffffff",
     primary: "#8B57FF",
-    black: "#000000",
-    white: "#ffffff",
+    black: "#ffffff",
+    white: "#000000",
     secondary: "#8F9094",
     information: "#ABABAC",
     informationBackground: "#2E2E30",

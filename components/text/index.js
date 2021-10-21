@@ -1,11 +1,18 @@
 import React from "react";
 import styled from "styled-components/native";
 
-const TextComponent = styled.Text`
+const TextRenderer = styled.Text`
   color: ${(props) =>
     props.color ? props.theme.color[props.color] || "white" : "white"};
+
+  font-size: ${(props) =>
+    props.fontSize
+      ? props.theme.fontSize[props.fontSize]
+      : props.theme.fontSize.md};
+
+  font-weight: ${(props) => props.fontWeight || "normal"};
 `;
 
 export default function Text(props) {
-  return <TextComponent {...props} />;
+  return <TextRenderer {...props} />;
 }
