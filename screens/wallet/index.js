@@ -49,7 +49,13 @@ export default function Wallet() {
     <Canvas>
       <Container center screen>
         <ZentCoin tokens={0.01} usd={0} />
-        <Alert title='What is Zenbase Rewards?' body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.' />
+        <Alert
+          onClose={() => {
+            console.log('It Worked!!');
+          }}
+          title='What is Zenbase Rewards?'
+          body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.'
+        />
       </Container>
     </Canvas>
   );

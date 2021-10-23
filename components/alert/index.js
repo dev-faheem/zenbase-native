@@ -2,6 +2,8 @@ import React from 'react';
 import { Text } from "components";
 import styled from 'styled-components/native';
 
+import { TouchableOpacity } from 'react-native';
+
 // Import Images
 import closeImage from 'assets/images/close.png';
 
@@ -30,11 +32,14 @@ const AlertBody = styled.View`
 `
 
 
-export default function Alert({ title, body }) {
+export default function Alert({ title, body, onClose }) {
+
     return <AlertWrapper>
         <AlertHeader>
             <Text fontSize="lg" fontWeight="bold">{title}</Text>
-            <CloseButton source={closeImage} />
+            <TouchableOpacity onPress={onClose}>
+                <CloseButton source={closeImage} />
+            </TouchableOpacity>
         </AlertHeader>
         <AlertBody>
             <Text color='secondary'>{body}</Text>
