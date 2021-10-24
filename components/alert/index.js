@@ -1,7 +1,7 @@
-import React from 'react';
+// Import Dependencies
+import React, { useState } from 'react';
 import { Text } from "components";
 import styled from 'styled-components/native';
-
 import { TouchableOpacity } from 'react-native';
 
 // Import Images
@@ -33,11 +33,18 @@ const AlertBody = styled.View`
 
 
 export default function Alert({ title, body, onClose }) {
+    const [isAlert, setIsAlert] = useState(true);
 
-    return <AlertWrapper>
+    return isAlert && <AlertWrapper>
         <AlertHeader>
             <Text fontSize="lg" fontWeight="bold">{title}</Text>
-            <TouchableOpacity onPress={onClose}>
+            <TouchableOpacity onPress={() => {
+                if (typeof onClose == 'function') {
+                    onClose();
+                } else {
+                    setIsAlert(!isAlert);
+                }
+            }}>
                 <CloseButton source={closeImage} />
             </TouchableOpacity>
         </AlertHeader>
