@@ -41,9 +41,8 @@ export default function Alert({ title, body, onClose }) {
             <TouchableOpacity onPress={() => {
                 if (typeof onClose == 'function') {
                     onClose();
-                } else {
-                    setIsAlert(!isAlert);
                 }
+                setIsAlert(!isAlert);
             }}>
                 <CloseButton source={closeImage} />
             </TouchableOpacity>
