@@ -17,7 +17,7 @@ export default function Canvas({ children }) {
     <BackdropView style={expandBoundsStyle}>
       <SafeAreaView style={expandBoundsStyle}>
         <StatusBar barStyle="light-content" />
-        <ScrollView style={expandBoundsStyle}>{children}</ScrollView>
+        {children}
       </SafeAreaView>
     </BackdropView>
   );

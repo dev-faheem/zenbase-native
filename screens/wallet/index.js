@@ -13,7 +13,6 @@ const ZentWrapper = styled.ImageBackground`
   width: 100%;
   height: 250px;
   margin-top: ${props => props.theme.spacing.md};
-  flex: 1;
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -47,7 +46,7 @@ function ZentCoin({ tokens, usd }) {
 export default function Wallet() {
   return (
     <Canvas>
-      <Container center screen>
+      <Container>
         <ZentCoin tokens={0.01} usd={0} />
         <Alert
           title='What is Zenbase Rewards?'
