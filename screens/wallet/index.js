@@ -63,7 +63,7 @@ const WalletInfoBody = styled.View`
   align-items: center;
 `
 
-const WalletInfoFotter = styled.View`
+const WalletInfoFooter = styled.View`
   width: 100%;
   flex-direction: column;
 `
@@ -97,10 +97,10 @@ function ReferFriend() {
       <Text fontSize='h2'>Refer a Friend</Text>
       <Text fontSize='md' style={{ marginTop: 5 }}>Invite your circle and earn 2x faster.</Text>
     </WalletInfoBody>
-    <WalletInfoFotter>
+    <WalletInfoFooter>
       <Button title='Invite friends' block />
       <Button title='Skip' variant='secondary' block style={{ marginTop: 5 }} />
-    </WalletInfoFotter>
+    </WalletInfoFooter>
   </WalletInfoWrapper>
 }
 
@@ -112,9 +112,9 @@ function History() {
       <Text fontSize='h2'>History</Text>
       <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
     </WalletInfoBody>
-    <WalletInfoFotter>
+    <WalletInfoFooter>
       <Button title='Start earning' block />
-    </WalletInfoFotter>
+    </WalletInfoFooter>
   </WalletInfoWrapper>
 }
 
