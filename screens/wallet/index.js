@@ -5,7 +5,8 @@ import styled from 'styled-components/native';
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
 import zentLogo from 'assets/images/zentoken-Logo.png';
-import userImageLight from 'assets/images/user-white.png';
+import userImageWhite from 'assets/images/user-white.png';
+import clockImageWhite from 'assets/images/clock-white.png';
 
 // Styled Components
 
@@ -43,11 +44,11 @@ const ZentValue = styled.Text`
 `
 
 /**
- * ***********
- * ReferFriend
- * ***********
+ * *********************************************
+ * Wallet Information (Refer a friend & History)
+ * *********************************************
  */
-const ReferFriendWrapper = styled.View`
+const WalletInfoWrapper = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
@@ -55,19 +56,19 @@ const ReferFriendWrapper = styled.View`
   align-items: center;
 `
 
-const ReferFriendBody = styled.View`
+const WalletInfoBody = styled.View`
   flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `
 
-const ReferFriendFotter = styled.View`
+const WalletInfoFotter = styled.View`
   width: 100%;
   flex-direction: column;
 `
 
-const ReferFriendLogo = styled.Image`
+const WalletInfoLogo = styled.Image`
     width: 30px;
     height: 30px;
     margin-bottom: ${props => props.theme.spacing.md}
@@ -90,17 +91,31 @@ function ZentCoin({ tokens, usd }) {
 
 // ReferFriend Component
 function ReferFriend() {
-  return <ReferFriendWrapper>
-    <ReferFriendBody>
-      <ReferFriendLogo source={userImageLight} />
+  return <WalletInfoWrapper>
+    <WalletInfoBody>
+      <WalletInfoLogo source={userImageWhite} />
       <Text fontSize='h2'>Refer a Friend</Text>
       <Text fontSize='md' style={{ marginTop: 5 }}>Invite your circle and earn 2x faster.</Text>
-    </ReferFriendBody>
-    <ReferFriendFotter>
+    </WalletInfoBody>
+    <WalletInfoFotter>
       <Button title='Invite friends' block />
       <Button title='Skip' variant='secondary' block style={{ marginTop: 5 }} />
-    </ReferFriendFotter>
-  </ReferFriendWrapper>
+    </WalletInfoFotter>
+  </WalletInfoWrapper>
+}
+
+// History Component
+function History() {
+  return <WalletInfoWrapper>
+    <WalletInfoBody>
+      <WalletInfoLogo source={clockImageWhite} />
+      <Text fontSize='h2'>History</Text>
+      <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
+    </WalletInfoBody>
+    <WalletInfoFotter>
+      <Button title='Start earning' block />
+    </WalletInfoFotter>
+  </WalletInfoWrapper>
 }
 
 // Wallet Component (Default)
@@ -113,7 +128,6 @@ export default function Wallet() {
           title='What is Zenbase Rewards?'
           body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.'
         />
-
         <ReferFriend />
       </Container>
     </Canvas>
