@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Alert, Container, Canvas, Text, Button } from "components";
 import styled from 'styled-components/native';
 
@@ -90,8 +90,9 @@ function ZentCoin({ tokens, usd }) {
 }
 
 // ReferFriend Component
-function ReferFriend() {
-  return <WalletInfoWrapper>
+function ReferFriend({ display }) {
+  const [displayReferFriend, setDisplayReferFriend] = display;
+  return displayReferFriend && <WalletInfoWrapper>
     <WalletInfoBody>
       <WalletInfoLogo source={userImageWhite} />
       <Text fontSize='h2'>Refer a Friend</Text>
@@ -99,7 +100,7 @@ function ReferFriend() {
     </WalletInfoBody>
     <WalletInfoFooter>
       <Button title='Invite friends' block />
-      <Button title='Skip' variant='secondary' block style={{ marginTop: 5 }} />
+      <Button title='Skip' variant='secondary' block style={{ marginTop: 5 }} onPress={() => setDisplayReferFriend(false)} />
     </WalletInfoFooter>
   </WalletInfoWrapper>
 }
@@ -120,6 +121,7 @@ function History() {
 
 // Wallet Component (Default)
 export default function Wallet() {
+  const [displayReferFriend, setDisplayReferFriend] = useState(true);
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
@@ -128,7 +130,8 @@ export default function Wallet() {
           title='What is Zenbase Rewards?'
           body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.'
         />
-        <ReferFriend />
+        <ReferFriend display={[displayReferFriend, setDisplayReferFriend]} />
+        {!displayReferFriend && <History />}
       </Container>
     </Canvas>
   );
