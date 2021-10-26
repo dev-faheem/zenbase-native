@@ -72,7 +72,7 @@ const WalletInfoFooter = styled.View`
 const WalletInfoLogo = styled.Image`
     width: 30px;
     height: 30px;
-    margin-bottom: ${props => props.theme.spacing.md}
+    margin-bottom: ${props => props.theme.spacing.md};
 `
 
 /**
@@ -151,7 +151,7 @@ export default function Wallet() {
           title='What is Zenbase Rewards?'
           body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.'
         />
-        {(displayComponent && <ReferFriend setDisplay={setDisplayComponent} />) || <History />}
+        {displayComponent ? <ReferFriend setDisplay={setDisplayComponent} /> : <History />}
       </Container>
     </Canvas>
   );
