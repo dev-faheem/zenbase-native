@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Alert, Container, Canvas, Text, Button } from "components";
+import { Alert, Container, Canvas, Text, Button } from 'components';
+import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
 
 // Import Images
@@ -91,6 +92,27 @@ function ZentCoin({ tokens, usd }) {
 
 // ReferFriend Component
 function ReferFriend({ setDisplay }) {
+
+  // Invite Friend (React Native Share)
+  const inviteFriend = (message) => {
+    ReactNativeShare(
+      message,
+      () => {
+        // Shared
+      },
+      () => {
+        // Dismissed
+      },
+      (err) => {
+        // Error
+      }
+    );
+  }
+
+  const user = {
+    fullname: 'Rupinder Singh'
+  }
+
   return <WalletInfoWrapper>
     <WalletInfoBody>
       <WalletInfoLogo source={userImageWhite} />
@@ -98,7 +120,7 @@ function ReferFriend({ setDisplay }) {
       <Text fontSize='md' style={{ marginTop: 5 }}>Invite your circle and earn 2x faster.</Text>
     </WalletInfoBody>
     <WalletInfoFooter>
-      <Button title='Invite friends' block />
+      <Button title='Invite friends' block onPress={() => inviteFriend(`${user.fullname} is inviting you to meditate with him/her. \n\nJoin Here: https://zenbase.us`)} />
       <Button title='Skip' variant='secondary' block style={{ marginTop: 5 }} onPress={() => setDisplay(false)} />
     </WalletInfoFooter>
   </WalletInfoWrapper>

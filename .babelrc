@@ -13,7 +13,8 @@
           "screens": "./screens",
           "assets": "./assets",
           "mock": "./mock",
-          "queries": "./queries"
+          "queries": "./queries",
+          "helpers": "./helpers"
         }
       }
     ]

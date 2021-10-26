@@ -8,7 +8,8 @@
       "themes/*": ["./themes/*"],
       "screens/*": ["./screens/*"],
       "assets/*": ["./assets/*"],
-      "mock/*": ["./mock/*"]
+      "mock/*": ["./mock/*"],
+      "helpers/*": ["./helpers/*"]
     }
   },
   "exclude": ["node_modules"]
