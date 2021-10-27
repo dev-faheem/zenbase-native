@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StatusBar } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native";
 import styled from "styled-components/native";
 
 const BackdropView = styled.View`
@@ -8,15 +8,15 @@ const BackdropView = styled.View`
 `;
 
 const expandBoundsStyle = {
-  height: "100%",
-  width: "100%",
+  height: '100%',
+  width: '100%'
 };
 
 export default function Canvas({ children }) {
   return (
     <BackdropView style={expandBoundsStyle}>
+      <StatusBar barStyle="light-content" />
       <SafeAreaView style={expandBoundsStyle}>
-        <StatusBar barStyle="light-content" />
         {children}
       </SafeAreaView>
     </BackdropView>
