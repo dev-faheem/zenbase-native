@@ -1,5 +1,6 @@
 export { default as Button } from "components/button";
 export { default as Text } from "components/text";
+export { default as Alert } from "components/alert";
 export { default as Canvas } from "components/canvas";
 export { default as SongTile } from "components/song/tile";
 export { default as SongList } from "components/song/list";
@@ -10,3 +11,4 @@ export { default as CategoryGrid } from "components/category/grid";
 export { CategoryList } from "components/category/list";
 export { default as Box } from "components/box";
 export { default as Divider } from "components/divider";
+export { default as TabBar } from "components/tab-bar";
