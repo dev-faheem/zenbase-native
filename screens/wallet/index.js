@@ -166,7 +166,7 @@ function HistoryList() {
         <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Damon</Text>
         <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>5 minutes • 0.01 ZENT</Text>
       </WalletHistoryListText>
-      <WalletHistoryListThumbnail source={wallpaper1} resizeMode='fill' />
+      <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
     </WalletHistoryList>
 
     <WalletHistoryList>
@@ -175,7 +175,7 @@ function HistoryList() {
         <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Super Seeker</Text>
         <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>10 minutes • 0.02 ZENT</Text>
       </WalletHistoryListText>
-      <WalletHistoryListThumbnail source={wallpaper2} resizeMode='fill' />
+      <WalletHistoryListThumbnail source={wallpaper2} resizeMode='cover' />
     </WalletHistoryList>
 
     <WalletHistoryList>
@@ -184,7 +184,7 @@ function HistoryList() {
         <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Freestyle</Text>
         <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>5 minutes • 0.01 ZENT</Text>
       </WalletHistoryListText>
-      <WalletHistoryListThumbnail source={wallpaper3} resizeMode='fill' />
+      <WalletHistoryListThumbnail source={wallpaper3} resizeMode='cover' />
     </WalletHistoryList>
 
     <WalletHistoryList>
@@ -193,7 +193,7 @@ function HistoryList() {
         <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
         <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>15 minutes • 0.03 ZENT</Text>
       </WalletHistoryListText>
-      <WalletHistoryListThumbnail source={wallpaper4} resizeMode='fill' />
+      <WalletHistoryListThumbnail source={wallpaper4} resizeMode='cover' />
     </WalletHistoryList>
 
     {/* Wallet History List - End*/}
