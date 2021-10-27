@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { Text } from "components";
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
 
 // Import Images
-import closeImage from 'assets/images/close.png';
+import { useTheme } from 'stores/theme';
 
 // Styled Components
 const AlertWrapper = styled.View`
@@ -20,17 +22,12 @@ const AlertHeader = styled.View`
     justify-content: space-between;
 `
 
-const CloseButton = styled.Image`
-    height: 12px; 
-    width: 12px;
-`
-
 const AlertBody = styled.View`
     margin-top: ${props => props.theme.spacing.md};
 `
 
-
 export default function Alert({ title, body, onClose, style }) {
+    const { theme } = useTheme();
     const [isAlert, setIsAlert] = useState(true);
 
     return isAlert && <AlertWrapper style={style}>
@@ -40,7 +37,7 @@ export default function Alert({ title, body, onClose, style }) {
                 onClose?.();
                 setIsAlert(!isAlert);
             }}>
-                <CloseButton source={closeImage} />
+                <Ionicons name="close" size={24} color={theme.color.secondary} style={{ marginTop: -5 }} />
             </TouchableOpacity>
         </AlertHeader>
         <AlertBody>

@@ -4,11 +4,12 @@ import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
 
+// Import Icons
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
 import zentLogo from 'assets/images/zentoken-Logo.png';
-import userImageWhite from 'assets/images/user-white.png';
-import clockImageWhite from 'assets/images/clock-white.png';
 
 import wallpaper1 from 'assets/images/wallpapers/wallpaper-1.png';
 import wallpaper2 from 'assets/images/wallpapers/wallpaper-2.png';
@@ -114,7 +115,6 @@ const WalletHistoryListThumbnail = styled.Image`
  * Components
  * **********
  */
-
 // ZentCoin Component
 function ZentCoin({ tokens, usd }) {
   return <ZentWrapper source={zentBackground}>
@@ -126,7 +126,6 @@ function ZentCoin({ tokens, usd }) {
 
 // ReferFriend Component
 function ReferFriend({ setDisplay }) {
-
   // Invite Friend (React Native Share)
   const inviteFriend = (message) => {
     ReactNativeShare(
@@ -149,7 +148,7 @@ function ReferFriend({ setDisplay }) {
 
   return <WalletInfoWrapper>
     <WalletInfoBody>
-      <WalletInfoLogo source={userImageWhite} />
+      <FontAwesome name='user-circle-o' size={34} style={{ marginBottom: 12 }} color='white' />
       <Text fontSize='h2'>Refer a Friend</Text>
       <Text fontSize='md' style={{ marginTop: 5 }}>Invite your circle and earn 2x faster.</Text>
     </WalletInfoBody>
@@ -160,6 +159,7 @@ function ReferFriend({ setDisplay }) {
   </WalletInfoWrapper>
 }
 
+// Histroy List
 function HistoryList() {
   return <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
     {/* Wallet History List */}
@@ -206,15 +206,15 @@ function HistoryList() {
 // History Component
 function History() {
   return <WalletInfoWrapper>
-    <HistoryList />
-    {/* <WalletInfoBody>
-      <WalletInfoLogo source={clockImageWhite} />
+    {/* <HistoryList /> */}
+    <WalletInfoBody>
+      <MaterialCommunityIcons name="clock-time-nine" size={40} color='white' style={{ marginBottom: 6 }} />
       <Text fontSize='h2'>History</Text>
       <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
     </WalletInfoBody>
     <WalletInfoFooter>
       <Button title='Start earning' block />
-    </WalletInfoFooter> */}
+    </WalletInfoFooter>
   </WalletInfoWrapper>
 }
 
