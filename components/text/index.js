@@ -7,7 +7,7 @@ const TextRenderer = styled.Text`
 
   font-size: ${(props) =>
     props.fontSize
-      ? props.theme.fontSize[props.fontSize]
+      ? (props.theme.fontSize[props.fontSize] || `${props.fontSize}px`)
       : props.theme.fontSize.md};
 
   font-weight: ${(props) => props.fontWeight || "normal"};

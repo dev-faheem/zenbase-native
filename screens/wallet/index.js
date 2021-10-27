@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { Alert, Container, Canvas, Text, Button } from 'components';
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
+import { ScrollView } from 'react-native';
 
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
 import zentLogo from 'assets/images/zentoken-Logo.png';
 import userImageWhite from 'assets/images/user-white.png';
 import clockImageWhite from 'assets/images/clock-white.png';
+
+import wallpaper1 from 'assets/images/wallpapers/wallpaper-1.png';
+import wallpaper2 from 'assets/images/wallpapers/wallpaper-2.png';
+import wallpaper3 from 'assets/images/wallpapers/wallpaper-3.png';
+import wallpaper4 from 'assets/images/wallpapers/wallpaper-4.png';
 
 // Styled Components
 
@@ -76,6 +82,31 @@ const WalletInfoLogo = styled.Image`
 `
 
 /**
+ * *******************
+ * Wallet History List
+ * *******************
+ */
+const WalletHistoryList = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: ${props => props.theme.spacing.lg};
+  padding: ${props => props.theme.spacing.md};
+  padding-left: ${props => props.theme.spacing.xxl};
+  padding-right: ${props => props.theme.spacing.xxl};
+  background-color: ${props => props.theme.color.hud};
+  border-radius: ${props => props.theme.borderRadius.lg};
+`
+
+const WalletHistoryListText = styled.View``
+
+const WalletHistoryListThumbnail = styled.Image`
+  width: 78px;
+  height: 78px;
+  border-radius: ${props => props.theme.borderRadius.lg};
+`
+
+/**
  * **********
  * Components
  * **********
@@ -126,17 +157,61 @@ function ReferFriend({ setDisplay }) {
   </WalletInfoWrapper>
 }
 
+function HistoryList() {
+  return <ScrollView style={{ width: '100%' }}>
+    {/* Wallet History List */}
+    <WalletHistoryList>
+      <WalletHistoryListText>
+        <Text fontSize='lg'>Our Purpose Has Presence</Text>
+        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Damon</Text>
+        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>5 minutes • 0.01 ZENT</Text>
+      </WalletHistoryListText>
+      <WalletHistoryListThumbnail source={wallpaper1} resizeMode='fill' />
+    </WalletHistoryList>
+
+    <WalletHistoryList>
+      <WalletHistoryListText>
+        <Text fontSize='lg'>Move Mountain</Text>
+        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Super Seeker</Text>
+        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>10 minutes • 0.02 ZENT</Text>
+      </WalletHistoryListText>
+      <WalletHistoryListThumbnail source={wallpaper2} resizeMode='fill' />
+    </WalletHistoryList>
+
+    <WalletHistoryList>
+      <WalletHistoryListText>
+        <Text fontSize='lg'>Let Go</Text>
+        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Freestyle</Text>
+        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>5 minutes • 0.01 ZENT</Text>
+      </WalletHistoryListText>
+      <WalletHistoryListThumbnail source={wallpaper3} resizeMode='fill' />
+    </WalletHistoryList>
+
+    <WalletHistoryList>
+      <WalletHistoryListText>
+        <Text fontSize='lg'>Wisdom of The Ancients</Text>
+        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
+        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>15 minutes • 0.03 ZENT</Text>
+      </WalletHistoryListText>
+      <WalletHistoryListThumbnail source={wallpaper4} resizeMode='fill' />
+    </WalletHistoryList>
+
+    {/* Wallet History List - End*/}
+  </ScrollView>
+}
+
 // History Component
 function History() {
   return <WalletInfoWrapper>
-    <WalletInfoBody>
+    <HistoryList />
+    {/* <WalletInfoBody>
       <WalletInfoLogo source={clockImageWhite} />
       <Text fontSize='h2'>History</Text>
       <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
     </WalletInfoBody>
     <WalletInfoFooter>
       <Button title='Start earning' block />
-    </WalletInfoFooter>
+    </WalletInfoFooter> */}
   </WalletInfoWrapper>
 }
 

@@ -10,10 +10,10 @@ import closeImage from 'assets/images/close.png';
 // Styled Components
 const AlertWrapper = styled.View`
     width: 100%;
-    margin-top: ${props => props.theme.spacing.xxl}
+    margin-top: ${props => props.theme.spacing.xxl};
     padding: ${props => props.theme.spacing.lg};
     background-color: ${props => props.theme.color.hud};
-    border-radius: ${props => props.theme.borderRadius.lg}
+    border-radius: ${props => props.theme.borderRadius.lg};
 `;
 
 const AlertHeader = styled.View`
