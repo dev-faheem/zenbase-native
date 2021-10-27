@@ -11,6 +11,7 @@ import Wallet from "screens/wallet";
 import Search from "screens/search";
 import { useAuth } from "stores/auth";
 import { Text } from "react-native";
+import { useTheme } from "stores/theme";
 
 const Tabs = createBottomTabNavigator();
 
@@ -26,10 +27,16 @@ export function AuthWall() {
   //   );
   // }
 
+  const { theme } = useTheme();
+
   return (
     <Tabs.Navigator
-      initialRouteName="Search"
+      initialRouteName="Wallet"
       screenOptions={{ headerShown: false }}
+      tabBarOptions={{
+        activeTintColor: theme.color.primary,
+        style: { backgroundColor: 'black' }
+      }}
     >
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="Search" component={Search} />

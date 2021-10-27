@@ -28,6 +28,7 @@ const ZentWrapper = styled.ImageBackground`
   width: 100%;
   height: 250px;
   margin-top: ${props => props.theme.spacing.md};
+  margin-bottom: ${props => props.theme.spacing.md};
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -73,6 +74,7 @@ const WalletInfoBody = styled.View`
 const WalletInfoFooter = styled.View`
   width: 100%;
   flex-direction: column;
+  padding-bottom: ${props => props.theme.spacing.lg};
 `
 
 const WalletInfoLogo = styled.Image`
@@ -90,7 +92,8 @@ const WalletHistoryList = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: ${props => props.theme.spacing.lg};
+  margin-top: ${props => props.theme.spacing.sm};
+  margin-bottom: ${props => props.theme.spacing.sm};
   padding: ${props => props.theme.spacing.md};
   padding-left: ${props => props.theme.spacing.xxl};
   padding-right: ${props => props.theme.spacing.xxl};
@@ -158,7 +161,7 @@ function ReferFriend({ setDisplay }) {
 }
 
 function HistoryList() {
-  return <ScrollView style={{ width: '100%' }}>
+  return <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
     {/* Wallet History List */}
     <WalletHistoryList>
       <WalletHistoryListText>
@@ -225,6 +228,7 @@ export default function Wallet() {
         <Alert
           title='What is Zenbase Rewards?'
           body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.'
+          style={{ marginTop: 5, marginBottom: 8 }}
         />
         {displayComponent ? <ReferFriend setDisplay={setDisplayComponent} /> : <History />}
       </Container>

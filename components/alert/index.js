@@ -10,7 +10,6 @@ import closeImage from 'assets/images/close.png';
 // Styled Components
 const AlertWrapper = styled.View`
     width: 100%;
-    margin-top: ${props => props.theme.spacing.xxl};
     padding: ${props => props.theme.spacing.lg};
     background-color: ${props => props.theme.color.hud};
     border-radius: ${props => props.theme.borderRadius.lg};
@@ -31,10 +30,10 @@ const AlertBody = styled.View`
 `
 
 
-export default function Alert({ title, body, onClose }) {
+export default function Alert({ title, body, onClose, style }) {
     const [isAlert, setIsAlert] = useState(true);
 
-    return isAlert && <AlertWrapper>
+    return isAlert && <AlertWrapper style={style}>
         <AlertHeader>
             <Text fontSize="lg" fontWeight="bold">{title}</Text>
             <TouchableOpacity onPress={() => {
