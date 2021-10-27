@@ -1,7 +1,14 @@
+// Import Dependencies
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useAuth } from "stores/auth";
+
+// Import Components
+import { TabBar } from 'components';
+
+// Import Screens
 import Login from "screens/auth/login";
 import Register from "screens/auth/register";
 import Home from "screens/home";
@@ -9,12 +16,21 @@ import Profile from "screens/profile";
 import Favorites from "screens/favorites";
 import Wallet from "screens/wallet";
 import Search from "screens/search";
-import { useAuth } from "stores/auth";
-import { Text } from "react-native";
-import { useTheme } from "stores/theme";
 
+
+// Create Stack Navigator
+const Stack = createNativeStackNavigator();
+
+// Create Bottom Tab Navigator
 const Tabs = createBottomTabNavigator();
 
+/**
+ * **********
+ * Components
+ * ********** 
+ */
+
+// Auth Wall
 export function AuthWall() {
   const { isLoggedIn } = useAuth();
 
@@ -27,16 +43,11 @@ export function AuthWall() {
   //   );
   // }
 
-  const { theme } = useTheme();
-
   return (
     <Tabs.Navigator
       initialRouteName="Wallet"
       screenOptions={{ headerShown: false }}
-      tabBarOptions={{
-        activeTintColor: theme.color.primary,
-        style: { backgroundColor: 'black' }
-      }}
+      tabBar={props => <TabBar {...props} />}
     >
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="Search" component={Search} />
@@ -46,8 +57,9 @@ export function AuthWall() {
     </Tabs.Navigator>
   );
 }
-const Stack = createNativeStackNavigator();
 
+
+// Navigation Component (Default)
 export default function Navigation() {
   return (
     <NavigationContainer>

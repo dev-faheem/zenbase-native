@@ -11,3 +11,4 @@ export { default as CategoryGrid } from "components/category/grid";
 export { CategoryList } from "components/category/list";
 export { default as Box } from "components/box";
 export { default as Divider } from "components/divider";
+export { default as TabBar } from "components/tab-bar";
