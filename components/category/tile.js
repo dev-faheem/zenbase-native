@@ -15,13 +15,15 @@ const CategoryTileName = styled.Text`
 
 const CategoryTileWrapper = styled.View``;
 
-export default function CategoryTile({ category, mock }) {
+export default function CategoryTile({ category, mock, inlineTitle = false }) {
   category = useMock("category", category, mock);
 
   return (
     <CategoryTileWrapper>
       <CategoryTileImage source={category.image} />
-      <CategoryTileName>{category.name}</CategoryTileName>
+      <CategoryTileName inlineTitle={inlineTitle}>
+        {category.name}
+      </CategoryTileName>
     </CategoryTileWrapper>
   );
 }

@@ -3,7 +3,7 @@ import { Image, Text, View } from "react-native";
 import { useMock } from "services/mock";
 import styled from "styled-components/native";
 
-const SongTileView = styled.View``;
+const SongTileView = styled.TouchableOpacity``;
 
 const SongArtwork = styled.Image`
   position: relative;
@@ -15,6 +15,7 @@ const SongArtwork = styled.Image`
 const SongName = styled.Text`
   color: ${(props) => props.theme.color.white};
   font-size: ${(props) => props.theme.fontSize.sm};
+  margin-top: 6px;
 `;
 
 const SongArtistName = styled.Text`
@@ -33,9 +34,15 @@ const SongLength = styled.Text`
 export default function SongTile({ song, mock = false }) {
   song = useMock("song", song, mock);
 
+  console.log(song.artwork);
+
   return (
-    <SongTileView>
-      <SongArtwork source={song.artwork} />
+    <SongTileView
+      onPress={() => {
+        alert("Now playing: " + song.name);
+      }}
+    >
+      <SongArtwork source={{ uri: song.artwork?.replace("https", "http") }} />
       <SongLength>{song.length}</SongLength>
       <SongName>{song.name}</SongName>
       <SongArtistName>{song.artist?.name}</SongArtistName>

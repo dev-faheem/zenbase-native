@@ -15,9 +15,7 @@ const expandBoundsStyle = {
 export default function Canvas({ children }) {
   return (
     <BackdropView style={expandBoundsStyle}>
-      <SafeAreaView style={expandBoundsStyle}>
-        <ScrollView style={expandBoundsStyle}>{children}</ScrollView>
-      </SafeAreaView>
+      <SafeAreaView style={expandBoundsStyle}>{children}</SafeAreaView>
     </BackdropView>
   );
 }

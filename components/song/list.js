@@ -18,7 +18,12 @@ const TitleContainer = styled.View`
   margin-bottom: 10px;
 `;
 
-export default function SongList({ title, songs, mock }) {
+export default function SongList({
+  title,
+  songs,
+  mock = false,
+  showDivider = true,
+}) {
   songs = useMock("songs", songs, mock);
 
   return (
@@ -45,7 +50,7 @@ export default function SongList({ title, songs, mock }) {
         )}
       />
 
-      <Divider />
+      {showDivider && <Divider />}
     </>
   );
 }

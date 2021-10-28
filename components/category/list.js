@@ -32,7 +32,8 @@ export const CategoryList = ({ categories, mock }) => {
       <FlatList
         data={categories}
         horizontal
-        renderItem={() => {
+        keyExtractor={(item) => item._id}
+        renderItem={({ item }) => {
           return (
             <Box ml="10px">
               <CategoryTile mock />
