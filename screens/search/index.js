@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Text, Container, Canvas, CategoryGrid } from "components";
+import { Text, Container, Canvas, CategoryGrid, SongListing } from "components";
 import styled from "styled-components/native";
 import useSearch from "queries/useSearch";
 import { FlatList } from "react-native";
-import useDebounce from "services/useDebounce";
 
 const SearchInput = styled.TextInput`
   background-color: rgba(27, 28, 30, 0.9);
@@ -37,11 +36,18 @@ export default function Search() {
           onChangeText={(value) => setSearch(value)}
         />
 
+        {searchQuery?.data?.results?.length > 0 && (
+          <Text fontSize="xs" color="secondary">
+            TOP MATCHES
+          </Text>
+        )}
+
         <FlatList
           data={searchQuery?.data?.results}
           renderItem={({ item, index }) => {
-            return <Text>{item.name}</Text>;
+            return <SongListing song={item} index={index} />;
           }}
+          style={{ width: "100%" }}
         />
 
         <CategoryGrid mock />

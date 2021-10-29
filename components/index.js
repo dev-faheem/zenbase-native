@@ -3,6 +3,7 @@ export { default as Text } from "components/text";
 export { default as Canvas } from "components/canvas";
 export { default as SongTile } from "components/song/tile";
 export { default as SongList } from "components/song/list";
+export { default as SongListing } from "components/song/listing";
 export { default as Container } from "components/container";
 export { default as Icon } from "components/icon";
 export { default as CategoryTile } from "components/category/tile";

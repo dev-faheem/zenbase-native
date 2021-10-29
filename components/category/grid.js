@@ -65,8 +65,6 @@ const CategoryGrid = ({ categories, mock }) => {
           <CategoryTile inlineTitle mock />
         </GridItem>
       </GridRow>
-
-      <Divider />
     </>
   );
 };

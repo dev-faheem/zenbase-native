@@ -17,7 +17,7 @@ export default function Home() {
   const bestNewSounds = useSearch();
 
   useEffect(() => {
-    bestNewSounds.mutate({ sort: "createdAt", page: 4, limit: 100 });
+    bestNewSounds.mutate({ sort: "createdAt" });
   }, []);
 
   return (
