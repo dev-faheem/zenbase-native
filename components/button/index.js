@@ -10,7 +10,7 @@ const variants = {
   },
   secondary: {
     background: "hud",
-    color: "primary",
+    color: "white",
   },
   information: {
     background: "informationBackground",
@@ -30,7 +30,7 @@ const ButtonWrapper = styled.View`
   background: ${(props) =>
     props.variant
       ? props.theme.color[variants[props.variant]?.background] ||
-        props.theme.color.primary
+      props.theme.color.primary
       : props.theme.color.primary};
 
   width: ${(props) => (props.block ? "100%" : "auto")};
@@ -48,7 +48,7 @@ const TextWrapper = styled(Text)`
   color: ${(props) =>
     props.variant
       ? props.theme.color[variants[props.variant]?.color] ||
-        props.theme.color.white
+      props.theme.color.white
       : props.theme.color.white};
   font-weight: 500;
 `;
