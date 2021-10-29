@@ -1,6 +1,6 @@
 // Import Dependencies
 import React from "react";
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { Text, Container, Canvas } from "components";
 import styled from "styled-components/native";
 
@@ -44,7 +44,7 @@ const ProfileHeaderImage = styled.Image`
 
 // Profile Header
 function ProfileHeader() {
-  return <ProfileHeaderWrapper source={profileImage} blurRadius={100}>
+  return <ProfileHeaderWrapper source={profileImage} blurRadius={Platform.OS == 'android' ? 25 : 100} >
     <ProfileHeaderOverlay>
       <ProfileHeaderSafeArea>
         <ProfileHeaderImage source={profileImage} resizeMode='cover' />

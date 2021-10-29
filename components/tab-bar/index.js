@@ -1,6 +1,6 @@
 // Import Dependencies
 import React from 'react';
-import { TouchableOpacity, SafeAreaView, View, Text } from 'react-native';
+import { TouchableOpacity, SafeAreaView, View, Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'stores/theme';
@@ -10,6 +10,7 @@ const TabBarWrapper = styled.View`
     justify-content: center;
     align-items: center;
     padding-top: ${props => props.theme.spacing.lg};
+    padding-bottom: ${props => Platform.OS == 'android' ? props.theme.spacing.sm : '0px'};
 `
 
 export default function TabBar({ state, descriptors, navigation }) {
