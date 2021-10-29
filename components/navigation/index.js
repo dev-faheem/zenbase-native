@@ -45,7 +45,7 @@ export function AuthWall() {
 
   return (
     <Tabs.Navigator
-      initialRouteName="Wallet"
+      initialRouteName="Profile"
       screenOptions={{ headerShown: false }}
       tabBar={props => <TabBar {...props} />}
     >
