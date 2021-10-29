@@ -6,7 +6,6 @@ import styled from "styled-components/native";
 
 // Import Images
 import profileImage from 'assets/images/artist.png';
-import { useTheme } from "stores/theme";
 
 // Styled Component
 /**
