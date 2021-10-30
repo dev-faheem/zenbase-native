@@ -5,9 +5,6 @@ import { Text, Button } from "components";
 import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
 
-// Import Images
-import profileImage from 'assets/images/artist.png';
-
 // Styled Component
 /**
  * **************
@@ -63,14 +60,17 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
  */
 
 // Profile Header
-export default function ProfileHeader() {
-  return <ProfileHeaderWrapper source={profileImage} blurRadius={Platform.OS == 'android' ? 35 : 100} >
+export default function ProfileHeader({ profilePicture }) {
+
+  const imageSource = typeof profilePicture == 'string' ? { uri: profilePicture} : profilePicture;
+
+  return <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == 'android' ? 35 : 100} >
     <ProfileHeaderOverlay>
       <ProfileHeaderButtons>
 
         {/* Icon Buttons */}
         <ProfileHeaderIconWrapper style={{ right: 30 }}>
-          <Ionicons name="ios-add" size={24} color="white" style={{ marginLeft: 3}} />
+          <Ionicons name="ios-add" size={24} color="white" style={{ marginLeft: 3 }} />
         </ProfileHeaderIconWrapper>
 
         <ProfileHeaderIconWrapper style={{ right: 20 }}>
@@ -83,7 +83,7 @@ export default function ProfileHeader() {
       </ProfileHeaderButtons>
 
       <ProfileHeaderSafeArea>
-        <ProfileHeaderImage source={profileImage} resizeMode='cover' />
+        <ProfileHeaderImage source={imageSource} resizeMode='cover' />
         <Text color='secondary' fontSize='30' fontWeight='bold' style={{ marginTop: 8 }}>Ella Lopez</Text>
         <Text color='secondary' fontSize='xl' style={{ marginTop: 8 }}>@EllaLopez</Text>
         <Text color='white' fontSize='lg' style={{ marginTop: 8 }}>https://zenbase.us/</Text>
