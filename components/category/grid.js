@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
-import Divider from "components/divider";
 import CategoryTile from "components/category/tile";
 import Text from "components/text";
-import { FlatList, TouchableOpacity } from "react-native";
-import { useMock } from "services/mock";
-import Box from "components/box";
+import { View } from "react-native";
 
 const TitleContainer = styled.View`
   display: flex;
@@ -28,43 +25,42 @@ const GridItem = styled.View`
   margin-bottom: 10px;
 `;
 
-const CategoryGrid = ({ categories, mock }) => {
-  categories = useMock("categories", categories, mock);
+const CategoryGrid = ({ categories }) => {
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    let categoryRowCount = Math.ceil(categories.length / 2);
+    const _rows = [...new Array(categoryRowCount)]
+      .map((_, index) => index)
+      .map((index) => {
+        if (!categories[index + 1]) return [categories[index]];
+        return [categories[index], categories[index + 1]];
+      });
+    setRows(_rows);
+  }, []);
 
   return (
     <>
       <TitleContainer>
         <Text fontSize="xl" color="white">
-          Browse Vibes
+          Browse Vibrations
         </Text>
       </TitleContainer>
 
-      <GridRow>
-        <GridItem>
-          <CategoryTile inlineTitle mock />
-        </GridItem>
-        <GridItem>
-          <CategoryTile inlineTitle mock />
-        </GridItem>
-      </GridRow>
-
-      <GridRow>
-        <GridItem>
-          <CategoryTile inlineTitle mock />
-        </GridItem>
-        <GridItem>
-          <CategoryTile inlineTitle mock />
-        </GridItem>
-      </GridRow>
-
-      <GridRow>
-        <GridItem>
-          <CategoryTile inlineTitle mock />
-        </GridItem>
-        <GridItem>
-          <CategoryTile inlineTitle mock />
-        </GridItem>
-      </GridRow>
+      {rows?.map((row) => {
+        return (
+          <GridRow>
+            <GridItem>
+              <CategoryTile category={row[0]} inlineTitle={true} />
+            </GridItem>
+            {row[1] && (
+              <GridItem>
+                <CategoryTile category={row[1]} inlineTitle={true} />
+              </GridItem>
+            )}
+          </GridRow>
+        );
+      })}
     </>
   );
 };

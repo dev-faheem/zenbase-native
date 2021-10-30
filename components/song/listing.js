@@ -1,8 +1,10 @@
 import Text from "components/text";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
+import { Feather } from "@expo/vector-icons";
+import { useTheme } from "stores/theme";
 
-const SongWrapper = styled.View`
+const SongWrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -17,6 +19,7 @@ const SongImage = styled.Image`
 `;
 
 const SongTextWrapper = styled.View`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -30,14 +33,26 @@ const Divider = styled.View`
   margin-top: 7px;
 `;
 
+const ButtonMore = styled.TouchableOpacity`
+  position: absolute;
+  right: 50px;
+  top: 20px;
+`;
+
 export default function SongListing({ song, index }) {
+  const { theme } = useTheme();
   return (
-    <SongWrapper>
+    <SongWrapper onPress={() => alert("Pressed song: " + song?.name)}>
       <SongImage source={{ uri: song.artwork }} />
       <SongTextWrapper>
         {index === 0 && <Divider />}
-        <Text>{song.name}</Text>
-        <Text color="secondary">Song • {song.artist.name}</Text>
+        <SongTextWrapper>
+          <Text>{song.name}</Text>
+          <Text color="secondary">Song • {song.artist.name}</Text>
+        </SongTextWrapper>
+        <ButtonMore onPress={() => alert("Press more on song: " + song?.name)}>
+          <Feather name="more-horizontal" size={24} color={theme.color.white} />
+        </ButtonMore>
         <Divider />
       </SongTextWrapper>
     </SongWrapper>

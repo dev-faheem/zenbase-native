@@ -3,37 +3,56 @@ import {
   Text,
   Container,
   Canvas,
-  Button,
-  SongTile,
-  CategoryTile,
   Box,
   SongList,
   CategoryList,
+  Explorables,
 } from "components";
 import { ScrollView } from "react-native";
 import useSearch from "queries/useSearch";
+import useCategories from "queries/useCategories";
 
 export default function Home() {
   const bestNewSounds = useSearch();
+  const { data: categories } = useCategories();
 
   useEffect(() => {
-    bestNewSounds.mutate({ sort: "createdAt" });
+    bestNewSounds.mutate({ sort: "-createdAt" });
   }, []);
 
   return (
     <Canvas>
       <ScrollView>
-        <Container center>
-          <Text>Home Page Header Placeholder</Text>
+        <Container>
+          <Box mt="20px"></Box>
+          <Text fontSize="h2" fontWeight="bold">
+            Explore
+          </Text>
 
-          <CategoryList />
+          <Explorables />
+
+          <CategoryList categories={categories} />
           <SongList
             title="Best New Sounds"
             songs={bestNewSounds?.data?.results || []}
           />
-          {/* <SongList title="Under 10 minutes" mock={true} />
-          <SongList title="Guided Meditations" mock={true} />
-          <SongList title="Chill" mock={true} showDivider={false} /> */}
+
+          <SongList
+            title="Under 10 Minutes"
+            songs={bestNewSounds?.data?.results || []}
+          />
+
+          <SongList
+            title="Guided Meditations"
+            songs={bestNewSounds?.data?.results || []}
+          />
+
+          <SongList
+            title="Chill"
+            songs={bestNewSounds?.data?.results || []}
+            showDivider={false}
+          />
+          <Box mt="20px"></Box>
         </Container>
       </ScrollView>
     </Canvas>

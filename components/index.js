@@ -13,3 +13,4 @@ export { CategoryList } from "components/category/list";
 export { default as Box } from "components/box";
 export { default as Divider } from "components/divider";
 export { default as TabBar } from "components/tab-bar";
+export { default as Explorables } from "components/explorables";

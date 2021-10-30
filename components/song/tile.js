@@ -34,8 +34,6 @@ const SongLength = styled.Text`
 export default function SongTile({ song, mock = false }) {
   song = useMock("song", song, mock);
 
-  console.log(song.artwork);
-
   return (
     <SongTileView
       onPress={() => {
