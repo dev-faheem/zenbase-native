@@ -3,7 +3,7 @@ import Box from "components/box";
 import Text from "components/text";
 import { FlatList, TouchableOpacity } from "react-native";
 import { useMock } from "services/mock";
-import { SongTile } from "..";
+import SongTile from "components/song/tile";
 import styled from "styled-components/native";
 import Divider from "components/divider";
 
@@ -11,14 +11,19 @@ const TitleContainer = styled.View`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  padding-left: 10px;
-  padding-right: 10px;
+  /* padding-left: 10px;
+  padding-right: 10px; */
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
 `;
 
-export default function SongList({ title, songs, mock }) {
+export default function SongList({
+  title,
+  songs,
+  mock = false,
+  showDivider = true,
+}) {
   songs = useMock("songs", songs, mock);
 
   return (
@@ -38,14 +43,15 @@ export default function SongList({ title, songs, mock }) {
       <FlatList
         horizontal
         data={songs}
+        keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
-          <Box ml="10px">
+          <Box mr={index === songs.length - 1 ? 0 : "10px"}>
             <SongTile key={index} song={item} />
           </Box>
         )}
       />
 
-      <Divider />
+      {showDivider && <Divider />}
     </>
   );
 }

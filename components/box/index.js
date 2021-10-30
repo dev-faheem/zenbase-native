@@ -1,6 +1,8 @@
 import styled from "styled-components/native";
 
 const Box = styled.View`
+  display: flex;
+  justify-content: flex-start;
   margin: ${(props) => props.m || "auto"};
   padding: ${(props) => props.p || "0"};
 

@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useAuth } from "stores/auth";
 
 // Import Components
-import { TabBar } from 'components';
+import { TabBar } from "components";
 
 // Import Screens
 import Login from "screens/auth/login";
@@ -17,7 +17,6 @@ import Favorites from "screens/favorites";
 import Wallet from "screens/wallet";
 import Search from "screens/search";
 
-
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +26,7 @@ const Tabs = createBottomTabNavigator();
 /**
  * **********
  * Components
- * ********** 
+ * **********
  */
 
 // Auth Wall
@@ -35,19 +34,19 @@ export function AuthWall() {
   const { isLoggedIn } = useAuth();
 
   // Auth Guard
-  // if (!isLoggedIn) {
-  //   return (
-  //     <Text>
-  //       You are not logged in. You must log in before accessing these screens
-  //     </Text>
-  //   );
-  // }
+  if (!isLoggedIn) {
+    return (
+      <Text>
+        You are not logged in. You must log in before accessing these screens
+      </Text>
+    );
+  }
 
   return (
     <Tabs.Navigator
       initialRouteName="Profile"
       screenOptions={{ headerShown: false }}
-      tabBar={props => <TabBar {...props} />}
+      tabBar={(props) => <TabBar {...props} />}
     >
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="Search" component={Search} />
@@ -58,13 +57,12 @@ export function AuthWall() {
   );
 }
 
-
 // Navigation Component (Default)
 export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="App"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false,
         }}

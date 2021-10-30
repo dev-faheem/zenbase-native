@@ -11,16 +11,12 @@ const TitleContainer = styled.View`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  padding-left: 10px;
-  padding-right: 10px;
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
 `;
 
-export const CategoryList = ({ categories, mock }) => {
-  categories = useMock("categories", categories, mock);
-
+export const CategoryList = ({ categories }) => {
   return (
     <>
       <TitleContainer>
@@ -32,10 +28,11 @@ export const CategoryList = ({ categories, mock }) => {
       <FlatList
         data={categories}
         horizontal
-        renderItem={() => {
+        keyExtractor={(item) => item._id}
+        renderItem={({ item, index }) => {
           return (
-            <Box ml="10px">
-              <CategoryTile mock />
+            <Box mr={index === categories.length - 1 ? 0 : "10px"}>
+              <CategoryTile category={item} inlineTitle={false} />
             </Box>
           );
         }}

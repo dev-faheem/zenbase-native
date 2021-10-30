@@ -1,11 +1,21 @@
 import axios from "services/axios";
-import { useQuery } from "react-query";
+import { useMutation } from "react-query";
 
-export default function useSearch(query) {
-  return useQuery(["search", query], () => async () => {
-    const { data } = await axios.get(`/songs`, {
-      data: query,
+export async function getSearch(query) {
+  try {
+    const response = await axios.get(`/songs`, {
+      params: query,
     });
-    return { data };
-  });
+    return response.data?.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export default function useSearch(options) {
+  return useMutation(
+    ["search"],
+    async (query) => await getSearch(query),
+    options
+  );
 }
