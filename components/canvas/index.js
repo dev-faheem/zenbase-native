@@ -8,17 +8,15 @@ const BackdropView = styled.View`
 `;
 
 const expandBoundsStyle = {
-  height: '100%',
-  width: '100%'
+  height: "100%",
+  width: "100%",
 };
 
 export default function Canvas({ children }) {
   return (
     <BackdropView style={expandBoundsStyle}>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView style={expandBoundsStyle}>
-        {children}
-      </SafeAreaView>
+      <SafeAreaView style={expandBoundsStyle}>{children}</SafeAreaView>
     </BackdropView>
   );
 }
