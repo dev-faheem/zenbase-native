@@ -9,7 +9,6 @@ export default function Login() {
   return (
     <Canvas>
       <Container center screen>
-        <Text>Hello Login</Text>
         <Button
           title="Login"
           onPress={() => {
