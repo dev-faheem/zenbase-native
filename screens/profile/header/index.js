@@ -37,7 +37,7 @@ const ProfileHeaderImage = styled.Image`
 const ProfileHeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: 60px;
+  top: ${() => Platform.OS == 'android' ? '25px': '60px'};
   justify-content: flex-end;
   flex-direction: row;
   width: 100%;
