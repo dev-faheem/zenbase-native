@@ -1,7 +1,7 @@
 // Import Dependencies
 import React from "react";
 import { ScrollView, View } from 'react-native';
-import { Text, Container, Canvas, Button, IOSList } from "components";
+import { Text, Container, Canvas, Button, IOSList, SongTile } from "components";
 import styled from "styled-components/native";
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from 'stores/theme';
@@ -44,6 +44,8 @@ export default function Profile() {
                 }
               }
             ]} />
+            
+            <Text fontWeight="bold" fontSize="h2" style={{ marginTop: 22 }}>Listening To</Text>
           </Container>
         </ScrollView>
       </Canvas>
