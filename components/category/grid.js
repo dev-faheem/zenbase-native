@@ -25,7 +25,7 @@ const GridItem = styled.View`
   margin-bottom: 10px;
 `;
 
-const CategoryGrid = ({ categories }) => {
+const CategoryGrid = ({ categories = [] }) => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
