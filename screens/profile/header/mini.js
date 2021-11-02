@@ -5,6 +5,7 @@ import { Text, Button } from "components";
 import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from "stores/theme";
+import { useNavigation } from "@react-navigation/core";
 
 // Styled Component
 /**
@@ -68,15 +69,14 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
 
 // Profile Header
 export default function MiniProfileHeader({ 
-    profilePicture, 
-    route, 
-    navigation, 
+    profilePicture,  
     secondaryButton, 
     secondaryButtonOnPress,   
     backButton = true, 
 }) {
 
     const { theme } = useTheme();
+    const navigation = useNavigation();
 
     const imageSource = typeof profilePicture == 'string' ? { uri: profilePicture } : profilePicture;
 

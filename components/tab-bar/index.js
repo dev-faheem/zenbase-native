@@ -51,7 +51,13 @@ export default function TabBar({ state, descriptors, navigation }) {
                     };
 
                     return (
-                        <TouchableOpacity
+                        (
+                            label == 'Home' ||
+                            label == 'Search' ||
+                            label == 'Wallet' ||
+                            label == 'Favorite' ||
+                            label == 'Profile'
+                        ) && <TouchableOpacity
                             key={index}
                             accessibilityRole="button"
                             accessibilityState={isFocused ? { selected: true } : {}}

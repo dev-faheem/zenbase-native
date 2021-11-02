@@ -60,7 +60,7 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
  */
 
 // Profile Header
-export default function ProfileHeader({ profilePicture, route, navigation }) {
+export default function ProfileHeader({ profilePicture }) {
 
   const imageSource = typeof profilePicture == 'string' ? { uri: profilePicture} : profilePicture;
 

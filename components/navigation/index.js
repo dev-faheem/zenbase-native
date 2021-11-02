@@ -45,15 +45,17 @@ export function AuthWall() {
 
   return (
     <Tabs.Navigator
-      initialRouteName="Profile"
+      initialRouteName="Home"
       screenOptions={{ headerShown: false }}
       tabBar={(props) => <TabBar {...props} />}
+      backBehavior="history"
     >
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="Search" component={Search} />
       <Tabs.Screen name="Wallet" component={Wallet} />
       <Tabs.Screen name="Favorite" component={Favorites} />
       <Tabs.Screen name="Profile" component={Profile} />
+      <Tabs.Screen name="Followers" component={Followers} />
     </Tabs.Navigator>
   );
 }
@@ -68,7 +70,6 @@ export default function Navigation() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Followers" component={Followers} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="App" component={AuthWall} />
