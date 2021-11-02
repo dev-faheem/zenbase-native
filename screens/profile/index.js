@@ -12,12 +12,11 @@ import profileImage from 'assets/images/artist.png';
 // Import Profile Header
 import ProfileHeader from "screens/profile/header";
 
-export default function Profile() {
+export default function Profile({ route, navigation }) {
   const { theme } = useTheme();
-  const primaryColor = theme.color.primary
   return (
     <View>
-      <ProfileHeader profilePicture={profileImage} />
+      <ProfileHeader profilePicture={profileImage} route={route} navigation={navigation} />
       <Canvas>
         <ScrollView style={{ flex: 1 }}>
           <Container style={{ flex: 1 }}>
@@ -33,14 +32,18 @@ export default function Profile() {
                 icon: <FontAwesome5 name="users" size={20} color={theme.color.primary} />,
                 title: 'Followers',
                 onPress: () => {
-
+                  navigation.navigate('Followers', {
+                    title: 'Followers'
+                  })
                 }
               },
               {
                 icon: <FontAwesome5 name="user-alt" size={20} color={theme.color.primary} style={{ marginRight: 3 }} />,
                 title: 'Following',
                 onPress: () => {
-
+                  navigation.navigate('Followers', {
+                    title: 'Following'
+                  })
                 }
               }
             ]} />

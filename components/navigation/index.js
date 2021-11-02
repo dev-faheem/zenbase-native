@@ -16,6 +16,7 @@ import Profile from "screens/profile";
 import Favorites from "screens/favorites";
 import Wallet from "screens/wallet";
 import Search from "screens/search";
+import Followers from "screens/followers";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -67,6 +68,7 @@ export default function Navigation() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="Followers" component={Followers} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="App" component={AuthWall} />
