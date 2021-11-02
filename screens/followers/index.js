@@ -22,13 +22,6 @@ export default function Followers({ route, navigation }) {
                 profilePicture={profileImage} 
                 route={route} 
                 navigation={navigation} 
-
-                backButton={true}
-
-                secondaryButton='Done'
-                secondaryButtonOnPress={() => {
-                    
-                }}
             />
             <Canvas>
                 <ScrollView style={{ flex: 1 }}>
