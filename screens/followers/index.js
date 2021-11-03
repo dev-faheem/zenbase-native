@@ -17,19 +17,19 @@ export default function Followers({ route, navigation }) {
     const { title } = route.params;
 
     return (
-        <View>
+        <View style={{flex: 1}}>
             <MiniProfileHeader 
                 profilePicture={profileImage} 
                 route={route} 
                 navigation={navigation} 
             />
-            <Canvas>
+            <View style={{flex: 1, backgroundColor: theme.color.black}}>
                 <ScrollView style={{ flex: 1 }}>
                     <Container style={{ flex: 1 }}>
                         <Text fontWeight="bold" fontSize="h2" style={{ marginTop: 22 }}>{title}</Text>
                     </Container>
                 </ScrollView>
-            </Canvas>
+            </View>
         </View>
     );
 }

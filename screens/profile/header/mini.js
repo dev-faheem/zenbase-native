@@ -39,7 +39,7 @@ const ProfileHeaderImageWrapper = styled.View`
 const ProfileHeaderImage = styled.Image`
   height: 40px;
   width: 40px;
-  border-radius: 50;
+  border-radius: 50px;
 `
 
 const ProfileHeaderButtons = styled.View`
@@ -55,7 +55,7 @@ const ProfileHeaderButtons = styled.View`
 const ProfileHeaderIconWrapper = styled.TouchableOpacity`
   width: 30px;
   height: 30px;
-  border-radius: 50;
+  border-radius: 50px;
   background-color: ${props => props.theme.color.secondary};
   justify-content: center;
   align-items: center;
