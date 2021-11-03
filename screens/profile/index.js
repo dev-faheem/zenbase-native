@@ -14,6 +14,7 @@ import ProfileHeader from "screens/profile/header";
 
 // Styled Component
 const SongListWrapper = styled.View`
+  width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -58,10 +59,10 @@ export default function Profile({ route, navigation }) {
             <Text fontSize="20" style={{ marginTop: 22, marginBottom: 22 }}>Listening To</Text>
 
             <SongListWrapper> 
-              <SongTile style={{marginBottom: 20}} mock/>
-              <SongTile style={{marginBottom: 20}} mock/>
-              <SongTile style={{marginBottom: 20}} mock/>
-              <SongTile style={{marginBottom: 20}} mock/>
+              <SongTile style={{marginBottom: 20}} inGrid mock/>
+              <SongTile style={{marginBottom: 20}} inGrid mock/>
+              <SongTile style={{marginBottom: 20}} inGrid mock/>
+              <SongTile style={{marginBottom: 20}} inGrid mock/>
             </SongListWrapper>
           </Container>
         </ScrollView>
