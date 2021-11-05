@@ -10,7 +10,7 @@ const TabBarWrapper = styled.View`
     justify-content: center;
     align-items: center;
     padding-top: ${props => props.theme.spacing.lg};
-    padding-bottom: ${props => Platform.OS == 'android' ? props.theme.spacing.sm : '0px'};
+    padding-bottom: ${props => props.theme.spacing.lg};
 `
 
 export default function TabBar({ state, descriptors, navigation }) {

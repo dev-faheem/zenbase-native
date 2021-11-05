@@ -28,12 +28,12 @@ export default function Profile({ route, navigation }) {
       <View style={{flex: 1, backgroundColor: theme.color.black}}>
         <ScrollView>
           <Container>
-            <IOSList style={{ marginTop: 12, borderRadius: 10 }} transparent data={[
+            <IOSList style={{ marginTop: 12, borderRadius: 10 }} notDefault transparent data={[
               {
                 icon: <Ionicons name="ios-musical-note" size={24} color={theme.color.primary} />,
                 title: 'Sounds',
                 onPress: () => {
-
+                  navigation.navigate('Sounds');
                 }
               },
               {
@@ -42,7 +42,7 @@ export default function Profile({ route, navigation }) {
                 onPress: () => {
                   navigation.navigate('Followers', {
                     title: 'Followers'
-                  })
+                  });
                 }
               },
               {
@@ -51,7 +51,7 @@ export default function Profile({ route, navigation }) {
                 onPress: () => {
                   navigation.navigate('Followers', {
                     title: 'Following'
-                  })
+                  });
                 }
               }
             ]} />

@@ -17,6 +17,7 @@ import Favorites from "screens/favorites";
 import Wallet from "screens/wallet";
 import Search from "screens/search";
 import Followers from "screens/followers";
+import Sounds from "screens/sounds";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -56,6 +57,7 @@ export function AuthWall() {
       <Tabs.Screen name="Favorite" component={Favorites} />
       <Tabs.Screen name="Profile" component={Profile} />
       <Tabs.Screen name="Followers" component={Followers} />
+      <Tabs.Screen name="Sounds" component={Sounds} />
     </Tabs.Navigator>
   );
 }

@@ -1,6 +1,6 @@
 // Import Dependencies
 import React from "react";
-import { Platform } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { Text, Button } from "components";
 import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';

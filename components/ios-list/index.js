@@ -29,11 +29,21 @@ const VAlignCenter = styled.View`
     justify-content: center;
 `
 
-export default function IOSList({ data = [], transparent, style }) {
+export default function IOSList({ data = [], transparent, notDefault, style }) {
 
     const { theme } = useTheme();
 
-    return <View style={!transparent ? { ...style, backgroundColor: theme.color.hud } : style}>
+    return <View style={
+        !transparent 
+            ? { ...style, backgroundColor: theme.color.hud } 
+            : (notDefault ? style: { 
+                ...style, 
+                borderTopWidth: 1, 
+                borderTopColor: theme.color.informationBackground,
+                borderBottomWidth: 1, 
+                borderBottomColor: theme.color.informationBackground 
+            })
+        }>
         {data.map((obj, index) => {
             /**
              * obj: {
@@ -47,7 +57,7 @@ export default function IOSList({ data = [], transparent, style }) {
                     <VAlignCenter style={{ marginLeft: 5 }}>
                         {obj.icon}
                     </VAlignCenter>
-                    <ListContentWrapper style={!transparent  && data.length - 1 == index && { borderBottomWidth: 0}}>
+                    <ListContentWrapper style={!(transparent && notDefault) && data.length - 1 == index && { borderBottomWidth: 0}}>
                         <VAlignCenter>
                             <Text>{obj.title}</Text>
                         </VAlignCenter>
