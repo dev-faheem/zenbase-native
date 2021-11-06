@@ -29,7 +29,7 @@ const VAlignCenter = styled.View`
     justify-content: center;
 `
 
-export default function IOSList({ data = [], transparent, notDefault, style }) {
+export default function IOSList({ data = [], transparent, notDefault, withoutChevron, style }) {
 
     const { theme } = useTheme();
 
@@ -62,7 +62,7 @@ export default function IOSList({ data = [], transparent, notDefault, style }) {
                             <Text color={obj.color || 'white'}>{obj.title}</Text>
                         </VAlignCenter>
                         <VAlignCenter style={{ paddingRight: 5 }}>
-                            <Ionicons name="ios-chevron-forward" size={24} color={theme.color.information} />
+                            {withoutChevron || <Ionicons name="ios-chevron-forward" size={24} color={theme.color.information} />}
                         </VAlignCenter>
                     </ListContentWrapper>
                 </ListWrapper>

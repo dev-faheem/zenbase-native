@@ -62,9 +62,9 @@ export default function Sounds({ route, navigation }) {
                         {
                             isEdit
                                 ?
-                                <IOSList style={{ marginTop: 18, marginBottom: 18 }} transparent data={[
+                                <IOSList style={{ marginTop: 18, marginBottom: 18 }} withoutChevron transparent data={[
                                     {
-                                        icon: (<View style={{ width: 20, height: 20, borderRadius: 50, backgroundColor: '#39C859', justifyContent: 'center', alignItems: 'center'}}>
+                                        icon: (<View style={{ width: 20, height: 20, borderRadius: 50, marginLeft: 10, backgroundColor: '#39C859', justifyContent: 'center', alignItems: 'center'}}>
                                             <Ionicons name="ios-add" size={18} color='white' style={{marginLeft: 2}} />
                                         </View>),
                                         title: 'Post new sound',
