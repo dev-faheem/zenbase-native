@@ -42,14 +42,14 @@ export default function Sounds({ route, navigation }) {
     const { theme } = useTheme();
 
     const [isEdit, setIsEdit] = useState(false);
-    
+
     return (
         <View style={{ flex: 1 }}>
             <MiniProfileHeader
                 profilePicture={profileImage}
                 route={route}
                 navigation={navigation}
-                secondaryButton={isEdit ? 'Done': 'Edit'}
+                secondaryButton={isEdit ? 'Done' : 'Edit'}
                 secondaryButtonOnPress={() => {
                     setIsEdit(!isEdit);
                 }}
@@ -58,25 +58,44 @@ export default function Sounds({ route, navigation }) {
                 <ScrollView style={{ flex: 1 }}>
                     <Container style={{ flex: 1 }}>
                         <Text fontWeight="bold" fontSize="h2" style={{ marginTop: 22 }}>Sounds</Text>
-                        
-                        <ButtonWrapper>
-                            <CustomButton>
-                                <Ionicons name="ios-play" size={24} color={theme.color.primary} style={{ marginRight: 4}} />
-                                <Text color="primary">Play</Text>
-                            </CustomButton>
-                            <CustomButton>
-                                <Ionicons name="shuffle-outline" size={24} color={theme.color.primary} style={{ marginRight: 4}} />
-                                <Text color="primary">Shuffle</Text>
-                            </CustomButton>
-                        </ButtonWrapper>
+
+                        {
+                            isEdit
+                                ?
+                                <IOSList style={{ marginTop: 18, marginBottom: 18 }} transparent data={[
+                                    {
+                                        icon: (<View style={{ width: 20, height: 20, borderRadius: 50, backgroundColor: '#39C859', justifyContent: 'center', alignItems: 'center'}}>
+                                            <Ionicons name="ios-add" size={18} color='white' style={{marginLeft: 2}} />
+                                        </View>),
+                                        title: 'Post new sound',
+                                        color: 'primary',
+                                        onPress: () => {
+
+                                        }
+                                    }
+                                ]} />
+                                :
+                                <ButtonWrapper>
+                                    <CustomButton>
+                                        <Ionicons name="ios-play" size={24} color={theme.color.primary} style={{ marginRight: 4 }} />
+                                        <Text color="primary">Play</Text>
+                                    </CustomButton>
+                                    <CustomButton>
+                                        <Ionicons name="shuffle-outline" size={24} color={theme.color.primary} style={{ marginRight: 4 }} />
+                                        <Text color="primary">Shuffle</Text>
+                                    </CustomButton>
+                                </ButtonWrapper>
+                        }
+
+
 
                         <SongListWrapper>
-                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }}/>
-                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }}/>
-                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }}/>
-                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }}/>
-                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }}/>
-                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }}/>
+                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }} />
+                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }} />
+                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }} />
+                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }} />
+                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }} />
+                            <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }} />
                         </SongListWrapper>
                     </Container>
                 </ScrollView>

@@ -59,7 +59,7 @@ export default function IOSList({ data = [], transparent, notDefault, style }) {
                     </VAlignCenter>
                     <ListContentWrapper style={!(transparent && notDefault) && data.length - 1 == index && { borderBottomWidth: 0}}>
                         <VAlignCenter>
-                            <Text>{obj.title}</Text>
+                            <Text color={obj.color || 'white'}>{obj.title}</Text>
                         </VAlignCenter>
                         <VAlignCenter style={{ paddingRight: 5 }}>
                             <Ionicons name="ios-chevron-forward" size={24} color={theme.color.information} />
