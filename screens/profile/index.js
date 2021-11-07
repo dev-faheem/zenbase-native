@@ -46,12 +46,19 @@ export default function Profile({ route, navigation }) {
                 }
               },
               {
-                icon: <FontAwesome5 name="user-alt" size={20} color={theme.color.primary} style={{ marginRight: 3 }} />,
+                icon: <FontAwesome5 name="user-alt" size={19} color={theme.color.primary} style={{ marginLeft: 2, marginRight: 3 }} />,
                 title: 'Following',
                 onPress: () => {
                   navigation.navigate('Followers', {
                     title: 'Following'
                   });
+                }
+              },
+              {
+                icon: <Ionicons name="ios-journal" size={24} color={theme.color.primary} />,
+                title: 'My Journal',
+                onPress: () => {
+                  
                 }
               }
             ]} />

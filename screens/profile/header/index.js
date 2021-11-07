@@ -37,7 +37,7 @@ const ProfileHeaderImage = styled.Image`
 const ProfileHeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() => Platform.OS == 'android' ? '25px': '60px'};
+  top: ${() => Platform.OS == 'android' ? '25px': '55px'};
   justify-content: flex-end;
   flex-direction: row;
   width: 100%;
@@ -61,8 +61,8 @@ const ProfileHeaderEditButton = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: ${props => props.theme.spacing.md};
-  margin-bottom: ${props => props.theme.spacing.xl};
+  margin-top: ${props => props.theme.spacing.lg};
+  margin-bottom: ${props => props.theme.spacing.lg};
   background-color: ${props => props.theme.color.primary};
   border-radius: ${props => props.theme.borderRadius.lg};
 `
@@ -74,7 +74,7 @@ const ProfileHeaderEditButton = styled.TouchableOpacity`
  */
 
 // Profile Header
-export default function ProfileHeader({ profilePicture, editable }) {
+export default function ProfileHeader({ profilePicture, editable, route, navigation }) {
 
   const imageSource = typeof profilePicture == 'string' ? { uri: profilePicture} : profilePicture;
 
@@ -83,14 +83,18 @@ export default function ProfileHeader({ profilePicture, editable }) {
       <ProfileHeaderButtons>
 
         {editable ?
-          <Button variant="silent" title="Done" style={{ right: 0, top: -2}} />
+          <Button variant="silent" title="Done" style={{ right: 0, top: -2}} onPress={() => {
+            navigation.goBack();
+          }} />
         : 
           <>
             <ProfileHeaderIconWrapper style={{ right: 30 }}>
               <Ionicons name="ios-add" size={24} color="white" style={{ marginLeft: 3 }} />
             </ProfileHeaderIconWrapper>
 
-            <ProfileHeaderIconWrapper style={{ right: 20 }}>
+            <ProfileHeaderIconWrapper style={{ right: 20 }} onPress={() => {
+              navigation.navigate('Settings');
+            }}>
               <Ionicons name="settings-sharp" size={16} color="white" />
             </ProfileHeaderIconWrapper>
           </>

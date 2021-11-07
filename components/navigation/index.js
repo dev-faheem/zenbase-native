@@ -18,6 +18,7 @@ import Wallet from "screens/wallet";
 import Search from "screens/search";
 import Followers from "screens/followers";
 import Sounds from "screens/sounds";
+import Settings from "screens/settings";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -78,8 +79,8 @@ export default function Navigation() {
           <Stack.Screen name="App" component={AuthWall} />
         </Stack.Group>
 
-        <Stack.Group screenOPtions={{ presentation: 'modal' }}>
-          
+        <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
+          <Stack.Screen name="Settings" component={Settings} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
