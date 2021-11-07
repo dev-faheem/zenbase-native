@@ -1,6 +1,6 @@
 // Import Dependencies
 import React from "react";
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions, Platform, View } from 'react-native';
 import { Text, Button } from "components";
 import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
@@ -53,6 +53,20 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
   align-items: center;
 `
 
+const ProfileHeaderEditButton = styled.TouchableOpacity`
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: ${props => props.theme.spacing.md};
+  padding-right: ${props => props.theme.spacing.md};
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: ${props => props.theme.spacing.md};
+  margin-bottom: ${props => props.theme.spacing.xl};
+  background-color: ${props => props.theme.color.primary};
+  border-radius: ${props => props.theme.borderRadius.lg};
+`
+
 /**
  * **********
  * Components
@@ -60,7 +74,7 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
  */
 
 // Profile Header
-export default function ProfileHeader({ profilePicture }) {
+export default function ProfileHeader({ profilePicture, editable }) {
 
   const imageSource = typeof profilePicture == 'string' ? { uri: profilePicture} : profilePicture;
 
@@ -68,17 +82,19 @@ export default function ProfileHeader({ profilePicture }) {
     <ProfileHeaderOverlay>
       <ProfileHeaderButtons>
 
-        {/* Icon Buttons */}
-        <ProfileHeaderIconWrapper style={{ right: 30 }}>
-          <Ionicons name="ios-add" size={24} color="white" style={{ marginLeft: 3 }} />
-        </ProfileHeaderIconWrapper>
+        {editable ?
+          <Button variant="silent" title="Done" style={{ right: 0, top: -2}} />
+        : 
+          <>
+            <ProfileHeaderIconWrapper style={{ right: 30 }}>
+              <Ionicons name="ios-add" size={24} color="white" style={{ marginLeft: 3 }} />
+            </ProfileHeaderIconWrapper>
 
-        <ProfileHeaderIconWrapper style={{ right: 20 }}>
-          <Ionicons name="settings-sharp" size={16} color="white" />
-        </ProfileHeaderIconWrapper>
-
-        {/* Text Button */}
-        {/* <Button variant="silent" title="Done" style={{ right: 0, top: -2}} /> */}
+            <ProfileHeaderIconWrapper style={{ right: 20 }}>
+              <Ionicons name="settings-sharp" size={16} color="white" />
+            </ProfileHeaderIconWrapper>
+          </>
+        }
 
       </ProfileHeaderButtons>
 
@@ -87,6 +103,9 @@ export default function ProfileHeader({ profilePicture }) {
         <Text color='secondary' fontSize='30' fontWeight='bold' style={{ marginTop: 8 }}>Ella Lopez</Text>
         <Text color='secondary' fontSize='xl' style={{ marginTop: 8 }}>@EllaLopez</Text>
         <Text color='white' fontSize='lg' style={{ marginTop: 8 }}>https://zenbase.us/</Text>
+        {editable && <ProfileHeaderEditButton >
+            <Text color='white' fontSize='md'>EDIT</Text>
+        </ProfileHeaderEditButton>}
       </ProfileHeaderSafeArea>
 
     </ProfileHeaderOverlay>

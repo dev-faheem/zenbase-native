@@ -72,9 +72,15 @@ export default function Navigation() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="App" component={AuthWall} />
+        <Stack.Group>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="App" component={AuthWall} />
+        </Stack.Group>
+
+        <Stack.Group screenOPtions={{ presentation: 'modal' }}>
+          
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );
