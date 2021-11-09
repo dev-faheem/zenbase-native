@@ -107,7 +107,10 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
         <Text color='secondary' fontSize='30' fontWeight='bold' style={{ marginTop: 8 }}>Ella Lopez</Text>
         <Text color='secondary' fontSize='xl' style={{ marginTop: 8 }}>@EllaLopez</Text>
         <Text color='white' fontSize='lg' style={{ marginTop: 8 }}>https://zenbase.us/</Text>
-        {editable && <ProfileHeaderEditButton >
+        {editable && <ProfileHeaderEditButton onPress={() => {
+          // navigation.goBack();
+          navigation.navigate('EditProfile');
+        }}>
             <Text color='white' fontSize='md'>EDIT</Text>
         </ProfileHeaderEditButton>}
       </ProfileHeaderSafeArea>

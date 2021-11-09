@@ -52,7 +52,7 @@ export default function IOSList({ data = [], transparent, notDefault, withoutChe
              *   onPress # Function
              * }
              */
-            return <TouchableOpacity onPress={obj.onPress || null} style={{ width: '100%' }}>
+            return <TouchableOpacity key={index} onPress={obj.onPress || null} style={{ width: '100%' }}>
                 <ListWrapper>
                     <VAlignCenter style={{ marginLeft: 5 }}>
                         {obj.icon}

@@ -19,6 +19,7 @@ import Search from "screens/search";
 import Followers from "screens/followers";
 import Sounds from "screens/sounds";
 import Settings from "screens/settings";
+import EditProfile from "screens/edit-profile";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -81,6 +82,7 @@ export default function Navigation() {
 
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
           <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
