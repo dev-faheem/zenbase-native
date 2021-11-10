@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Container, Canvas, Text, Button } from 'components';
 import styled from 'styled-components/native';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { useTheme } from "stores/theme";
 
 // Import Images
@@ -45,16 +45,76 @@ const EditButton = styled.TouchableOpacity`
   border-radius: ${props => props.theme.borderRadius.lg};
 `
 
+const InputWrapper = styled.View`
+  width: 100%;
+  background-color: ${props => props.theme.color.hud};
+  border-radius: ${props => props.theme.borderRadius.lg};
+  margin-top: ${props => props.theme.spacing.md};
+`
+
+const InputGroup = styled.View`
+  padding-left: ${props => props.theme.spacing.lg};
+  height: 45px;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`
+
+const InputLabel = styled.View`
+  flex: 1;
+`
+
+const Input = styled.TextInput`
+  max-width: 50%;
+  color: ${props => props.theme.color.white};
+  height: 45px;
+  margin-right: ${props => props.theme.spacing.md};
+  text-align: right;
+`
+
+const HR = styled.View`
+  margin-left: ${props => props.theme.spacing.lg};
+  border-bottom-width: 0.5px;
+  border-bottom-color: ${props => props.theme.color.informationBackground};
+`
+
 // Edti Profile Component (Default)
 export default function EditProfile({ route, navigation }) {
+  // Theme Configuration
   const { theme } = useTheme();
+
+  // States
+  const [isProfileUpdated, setIsProfileUpdated] = useState(false);
+  const [fullname, setFullname] = useState('Ella Lopez');
+  const [username, setUsername] = useState('ellalopez')
+  const [website, setWebsite] = useState('https://zenbase.us/')
+
+  // Input Handler
+  const updateInput = (setState, value) => {
+    setState(value);
+
+    if (!isProfileUpdated) {
+      setIsProfileUpdated(true);
+    }
+  }
+
+  // Save Changes
+  const saveChanges = () => {
+    if (isProfileUpdated) {
+      // Logic to save profile changes
+
+      // Close Edit Profile Model after updating profile
+      navigation.goBack();
+    }
+  }
+
   return (
     <Canvas>
       <EditProfileHeader>
           <TouchableOpacity onPress={() => { navigation.goBack(); }}>
             <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
           </TouchableOpacity>
-          <Button variant="dull" title="Done" onPress={() => { }} />
+          <Button variant={isProfileUpdated ? 'silent': 'dull'} title="Done" onPress={saveChanges} />
       </EditProfileHeader>
       <Container style={{ flex: 1 }}>
         <ProfileImageWrapper>
@@ -65,6 +125,58 @@ export default function EditProfile({ route, navigation }) {
             <Text color='white' fontSize='md'>EDIT</Text>
         </EditButton>
         </ProfileImageWrapper>
+
+        <InputWrapper>
+
+          {/* Full Name */}
+          <InputGroup>
+              <InputLabel>
+                <Text>Name</Text>
+              </InputLabel>
+              <Input 
+                placeholder='Full Name'
+                placeholderTextColor={theme.color.secondary}
+                onChangeText={(value) => updateInput(setFullname, value)}
+                value={fullname}
+              />
+          </InputGroup>
+          {/* Full Name - End*/}
+
+          <HR />
+
+          {/* Username */}
+          <InputGroup>
+              <InputLabel>
+                <Text>Username</Text>
+              </InputLabel>
+              <Text color='secondary'>@</Text>
+              <Input 
+                placeholder='username'
+                placeholderTextColor={theme.color.secondary}
+                onChangeText={(value) => updateInput(setUsername, value)}
+                value={username}
+              />
+          </InputGroup>
+          {/* Username - End*/}
+
+          <HR />
+
+          {/* Website */}
+          <InputGroup>
+              <InputLabel>
+                <Text>Website</Text>
+              </InputLabel>
+              <Input 
+                placeholder='optional'
+                placeholderTextColor={theme.color.secondary}
+                onChangeText={(value) => updateInput(setWebsite, value)}
+                value={website}
+              />
+          </InputGroup>
+          {/* Website - End*/}
+
+        </InputWrapper>
+        <Text color='information' style={{ padding: 5, paddingTop: 10 }} fontSize='sm'>Your photo, name, and username will be visible in Zenbase and web search results.</Text>
       </Container>
     </Canvas>
   );
