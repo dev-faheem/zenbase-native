@@ -3,6 +3,7 @@ import { Alert, Container, Canvas, Text, Button } from 'components';
 import styled from 'styled-components/native';
 import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { useTheme } from "stores/theme";
+import * as ImagePicker from 'expo-image-picker';
 
 // Import Images
 import profileImage from 'assets/images/artist.png';
@@ -83,6 +84,9 @@ export default function EditProfile({ route, navigation }) {
   // Theme Configuration
   const { theme } = useTheme();
 
+  // Profile Image 
+  const [image, setImage] = useState(null);
+
   // States
   const [isProfileUpdated, setIsProfileUpdated] = useState(false);
   const [fullname, setFullname] = useState('Ella Lopez');
@@ -98,6 +102,37 @@ export default function EditProfile({ route, navigation }) {
     }
   }
 
+  const editProfile = async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        setImage(result.uri);
+
+        // Form Data to Save Photo
+        let body = new FormData();
+        body.append('profilePicture', { uri: result.uri, name: 'image.jpg', type: 'image/jpeg' });
+
+        if (!isProfileUpdated) {
+          setIsProfileUpdated(true);
+        }
+      }
+    } catch (err) {
+      // Error Handling
+    }
+
+  }
+
   // Save Changes
   const saveChanges = () => {
     if (isProfileUpdated) {
@@ -111,34 +146,32 @@ export default function EditProfile({ route, navigation }) {
   return (
     <Canvas>
       <EditProfileHeader>
-          <TouchableOpacity onPress={() => { navigation.goBack(); }}>
-            <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
-          </TouchableOpacity>
-          <Button variant={isProfileUpdated ? 'silent': 'dull'} title="Done" onPress={saveChanges} />
+        <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+          <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
+        </TouchableOpacity>
+        <Button variant={isProfileUpdated ? 'silent' : 'dull'} title="Done" onPress={saveChanges} />
       </EditProfileHeader>
       <Container style={{ flex: 1 }}>
         <ProfileImageWrapper>
-          <ProfileImage source={profileImage}/>
-          <EditButton onPress={() => {
-            
-          }}>
+          <ProfileImage source={image ? { uri: image } : profileImage} resizeMode='cover' />
+          <EditButton onPress={editProfile}>
             <Text color='white' fontSize='md'>EDIT</Text>
-        </EditButton>
+          </EditButton>
         </ProfileImageWrapper>
 
         <InputWrapper>
 
           {/* Full Name */}
           <InputGroup>
-              <InputLabel>
-                <Text>Name</Text>
-              </InputLabel>
-              <Input 
-                placeholder='Full Name'
-                placeholderTextColor={theme.color.secondary}
-                onChangeText={(value) => updateInput(setFullname, value)}
-                value={fullname}
-              />
+            <InputLabel>
+              <Text>Name</Text>
+            </InputLabel>
+            <Input
+              placeholder='Full Name'
+              placeholderTextColor={theme.color.secondary}
+              onChangeText={(value) => updateInput(setFullname, value)}
+              value={fullname}
+            />
           </InputGroup>
           {/* Full Name - End*/}
 
@@ -146,16 +179,16 @@ export default function EditProfile({ route, navigation }) {
 
           {/* Username */}
           <InputGroup>
-              <InputLabel>
-                <Text>Username</Text>
-              </InputLabel>
-              <Text color='secondary'>@</Text>
-              <Input 
-                placeholder='username'
-                placeholderTextColor={theme.color.secondary}
-                onChangeText={(value) => updateInput(setUsername, value)}
-                value={username}
-              />
+            <InputLabel>
+              <Text>Username</Text>
+            </InputLabel>
+            <Text color='secondary'>@</Text>
+            <Input
+              placeholder='username'
+              placeholderTextColor={theme.color.secondary}
+              onChangeText={(value) => updateInput(setUsername, value)}
+              value={username}
+            />
           </InputGroup>
           {/* Username - End*/}
 
@@ -163,15 +196,15 @@ export default function EditProfile({ route, navigation }) {
 
           {/* Website */}
           <InputGroup>
-              <InputLabel>
-                <Text>Website</Text>
-              </InputLabel>
-              <Input 
-                placeholder='optional'
-                placeholderTextColor={theme.color.secondary}
-                onChangeText={(value) => updateInput(setWebsite, value)}
-                value={website}
-              />
+            <InputLabel>
+              <Text>Website</Text>
+            </InputLabel>
+            <Input
+              placeholder='optional'
+              placeholderTextColor={theme.color.secondary}
+              onChangeText={(value) => updateInput(setWebsite, value)}
+              value={website}
+            />
           </InputGroup>
           {/* Website - End*/}
 
