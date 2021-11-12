@@ -33,6 +33,7 @@ const dark = {
   borderRadius: {
     md: "5px",
     lg: "10px",
+    xl: "12px",
     round: "99999px",
   },
   fontFamily: {},

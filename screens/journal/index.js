@@ -58,7 +58,7 @@ const JournalDeleteWrapper = styled.View`
 `
 
 const JournalDeleteButton = styled.TouchableOpacity`
-    width: 65px;
+    width: 70px;
     background-color: red;
     flex-direction: row;
     justify-content: center;
@@ -111,13 +111,17 @@ export default function Journal({ route, navigation }) {
 
                                 if (data.index == 0) {
                                     listStyle = {
-                                        borderTopLeftRadius: theme.borderRadius.md,
-                                        borderTopRightRadius: theme.borderRadius.md,
+                                        ...listStyle,
+                                        borderTopLeftRadius: theme.borderRadius.lg,
+                                        borderTopRightRadius: theme.borderRadius.lg,
                                     }
-                                } else if (data.index == (journals.length - 1)) {
+                                } 
+                                 
+                                if (data.index == (journals.length - 1)) {
                                     listStyle = {
-                                        borderBottomLeftRadius: theme.borderRadius.md,
-                                        borderBottomRightRadius: theme.borderRadius.md,
+                                        ...listStyle,
+                                        borderBottomLeftRadius: theme.borderRadius.lg,
+                                        borderBottomRightRadius: theme.borderRadius.lg,
                                     }
                                 }
 
@@ -141,11 +145,15 @@ export default function Journal({ route, navigation }) {
 
                                 if (data.index == 0) {
                                     deleteButtonStyle = {
-                                        borderTopRightRadius: theme.borderRadius.lg,
+                                        ...deleteButtonStyle,
+                                        borderTopRightRadius: theme.borderRadius.xl,
                                     }
-                                } else if (data.index == (journals.length - 1)) {
+                                } 
+                                
+                                if (data.index == (journals.length - 1)) {
                                     deleteButtonStyle = {
-                                        borderBottomRightRadius: theme.borderRadius.lg,
+                                        ...deleteButtonStyle,
+                                        borderBottomRightRadius: theme.borderRadius.xl,
                                     }
                                 }
 
