@@ -99,10 +99,9 @@ export default function Journal({ route, navigation }) {
                 </TouchableOpacity>
             </JournalHeader>
             <Container style={{ flex: 1 }}>
-                <ScrollView style={{ width: '100%' }}>
+                <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                     <Text fontSize='h2' fontWeight='bold' style={{ marginTop: 8, marginBottom: 18 }}>My Journal</Text>
                     <JournalWrapper >
-
                         <SwipeListView
                             closeOnRowOpen={true}
                             data={journals}
@@ -159,7 +158,7 @@ export default function Journal({ route, navigation }) {
 
                                 return <JournalDeleteWrapper>
                                     <JournalDeleteButton style={deleteButtonStyle}>
-                                        <Ionicons name="trash" size={24} color={theme.color.white} />
+                                        <Ionicons name="trash" size={24} color={theme.color.white} style={{ marginLeft: 7}} />
                                     </JournalDeleteButton>
                                 </JournalDeleteWrapper>
                             }}
