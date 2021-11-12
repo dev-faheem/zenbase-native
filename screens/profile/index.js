@@ -58,7 +58,7 @@ export default function Profile({ route, navigation }) {
                 icon: <Ionicons name="ios-journal" size={24} color={theme.color.primary} />,
                 title: 'My Journal',
                 onPress: () => {
-                  
+                  navigation.navigate('Journal');
                 }
               }
             ]} />

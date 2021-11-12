@@ -20,6 +20,7 @@ import Followers from "screens/followers";
 import Sounds from "screens/sounds";
 import Settings from "screens/settings";
 import EditProfile from "screens/edit-profile";
+import Journal from "screens/journal";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -78,6 +79,7 @@ export default function Navigation() {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="App" component={AuthWall} />
+          <Stack.Screen name="Journal" component={Journal} />
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
