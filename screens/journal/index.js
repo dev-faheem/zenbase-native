@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Alert, Container, Canvas, Text, Button } from 'components';
-import styled from 'styled-components/native';
-import { ScrollView, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { Alert, Container, Canvas, Text, Button, IOSList } from 'components';
+import { ScrollView, TextInput, TouchableHighlight, TouchableOpacity, View, Image } from 'react-native';
 import { useTheme } from "stores/theme";
 import { SwipeListView } from 'react-native-swipe-list-view';
+import styled from 'styled-components/native';
 
 // Import Images
 import SongImage from 'assets/images/song.png';
+import ZenbaseVectorGrey from 'assets/vectors/zenbase-grey.png';
 
 // Import Icons
 import { Ionicons } from '@expo/vector-icons';
@@ -179,6 +180,20 @@ export default function Journal({ route, navigation }) {
                         rightOpenValue={-60}
                         stopRightSwipe={-62}
                     />
+
+                   <TouchableOpacity style={{marginTop: 25}}>
+                        <JournalList style={{ borderRadius: theme.borderRadius.lg, paddingBottom: 3 }}>
+                            <JournalListImg source={ZenbaseVectorGrey} resizeMode='cover' />
+                            <JournalListContent style={{ borderBottomWidth: 0 }}>
+                                <View style={{ width: '88%' }}>
+                                    <Text color='information' style={{ marginTop: 6, lineHeight: 18 }} fontSize='13'>Earn and save all of your journal entries with Zenbase Premium.</Text>
+                                </View>
+                                <View style={{ width: '12%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Ionicons name="ios-chevron-forward" size={20} color={theme.color.information} />
+                                </View>
+                            </JournalListContent>
+                        </JournalList>
+                    </TouchableOpacity>
                 </ScrollView>
             </Container>
         </Canvas>
