@@ -20,9 +20,6 @@ const JournalHeader = styled.View`
     padding-left: ${props => props.theme.spacing.md}; 
 `
 
-const JournalWrapper = styled.View`
-    width: 100%;
-`
 const JournalList = styled.View`
     width: 100%;
     flex-direction: row;
@@ -51,13 +48,13 @@ const JournalListImg = styled.Image`
     margin-right: ${props => props.theme.spacing.sm};
 `
 
-const JournalDeleteWrapper = styled.View`
+const JournalDeleteWrapper = styled.TouchableOpacity`
     flex: 1;
     flex-direction: row;
     justify-content: flex-end;
 `
 
-const JournalDeleteButton = styled.TouchableOpacity`
+const JournalDeleteButton = styled.View`
     width: 70px;
     background-color: red;
     flex-direction: row;
@@ -72,21 +69,24 @@ export default function Journal({ route, navigation }) {
 
     const journals = [
         {
+            id: 1,
             title: 'Today Was A Good Day',
             date: '10/20/21',
-            description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci vero atque quam doloribus cupiditate, neque voluptate id dolore corrupti, error rem reiciendis ad quisquam, ullam commodi alias at perferendis maiores. ',
+            description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
             zentValue: 0
         },
         {
+            id: 2,
             title: 'Today Was A Good Day',
             date: '10/20/21',
-            description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci vero atque quam doloribus cupiditate, neque voluptate id dolore corrupti, error rem reiciendis ad quisquam, ullam commodi alias at perferendis maiores. ',
+            description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
             zentValue: 0
         },
         {
+            id: 3,
             title: 'Today Was A Good Day',
             date: '10/20/21',
-            description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci vero atque quam doloribus cupiditate, neque voluptate id dolore corrupti, error rem reiciendis ad quisquam, ullam commodi alias at perferendis maiores. ',
+            description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
             zentValue: 0
         }
     ]
@@ -101,75 +101,75 @@ export default function Journal({ route, navigation }) {
             <Container style={{ flex: 1 }}>
                 <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                     <Text fontSize='h2' fontWeight='bold' style={{ marginTop: 8, marginBottom: 18 }}>My Journal</Text>
-                    <JournalWrapper >
-                        <SwipeListView
-                            closeOnRowOpen={true}
-                            data={journals}
-                            renderItem={(data, rowMap) => {
-                                let listStyle = {}
+                    <SwipeListView
+                        closeOnRowOpen={true}
+                        data={journals}
+                        renderItem={(data, rowMap) => {
+                            let listStyle = {}
 
-                                if (data.index == 0) {
-                                    listStyle = {
-                                        ...listStyle,
-                                        borderTopLeftRadius: theme.borderRadius.lg,
-                                        borderTopRightRadius: theme.borderRadius.lg,
-                                    }
-                                } 
-                                 
-                                if (data.index == (journals.length - 1)) {
-                                    listStyle = {
-                                        ...listStyle,
-                                        borderBottomLeftRadius: theme.borderRadius.lg,
-                                        borderBottomRightRadius: theme.borderRadius.lg,
-                                    }
+                            if (data.index == 0) {
+                                listStyle = {
+                                    ...listStyle,
+                                    borderTopLeftRadius: theme.borderRadius.lg,
+                                    borderTopRightRadius: theme.borderRadius.lg,
                                 }
+                            }
 
-                                return <TouchableHighlight>
-                                    <JournalList style={listStyle}>
-                                        <JournalListImg source={SongImage} resizeMode='cover' />
-                                        <JournalListContent style={data.index == (journals.length - 1) ? { borderBottomWidth: 0 } : null}>
-                                            <View style={{ width: '75%' }}>
-                                                <Text numberOfLines={1} style={{ marginTop: 4 }}>{data.item.title}</Text>
-                                                <Text color='information' numberOfLines={1} style={{ marginTop: 5 }} fontSize='sm'>{data.item.date} {data.item.description}</Text>
-                                            </View>
-                                            <View style={{ width: '25%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                                <Text numberOfLines={1} color='primary'>{data.item.zentValue} Zent</Text>
-                                            </View>
-                                        </JournalListContent>
-                                    </JournalList> 
-                                </TouchableHighlight>
-                            }}
-                            renderHiddenItem={(data, rowMap) => {
-                                let deleteButtonStyle = {}
-
-                                if (data.index == 0) {
-                                    deleteButtonStyle = {
-                                        ...deleteButtonStyle,
-                                        borderTopRightRadius: theme.borderRadius.xl,
-                                    }
-                                } 
-                                
-                                if (data.index == (journals.length - 1)) {
-                                    deleteButtonStyle = {
-                                        ...deleteButtonStyle,
-                                        borderBottomRightRadius: theme.borderRadius.xl,
-                                    }
+                            if (data.index == (journals.length - 1)) {
+                                listStyle = {
+                                    ...listStyle,
+                                    borderBottomLeftRadius: theme.borderRadius.lg,
+                                    borderBottomRightRadius: theme.borderRadius.lg,
                                 }
+                            }
 
-                                return <JournalDeleteWrapper>
-                                    <JournalDeleteButton style={deleteButtonStyle}>
-                                        <Ionicons name="trash" size={24} color={theme.color.white} style={{ marginLeft: 7}} />
-                                    </JournalDeleteButton>
-                                </JournalDeleteWrapper>
-                            }}
-                            disableRightSwipe
-                            keyExtractor={(data, index) => {
-                                return `${index}`;
-                            }}
-                            rightOpenValue={-60}
-                            stopRightSwipe={-62}
-                        />
-                    </JournalWrapper>
+                            return <TouchableHighlight>
+                                <JournalList style={listStyle}>
+                                    <JournalListImg source={SongImage} resizeMode='cover' />
+                                    <JournalListContent style={data.index == (journals.length - 1) ? { borderBottomWidth: 0 } : null}>
+                                        <View style={{ width: '75%' }}>
+                                            <Text numberOfLines={1} style={{ marginTop: 4 }}>{data.item.title}</Text>
+                                            <Text color='information' numberOfLines={1} style={{ marginTop: 5 }} fontSize='sm'>{data.item.date} {data.item.description}</Text>
+                                        </View>
+                                        <View style={{ width: '25%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Text numberOfLines={1} color='primary'>{data.item.zentValue} Zent</Text>
+                                        </View>
+                                    </JournalListContent>
+                                </JournalList>
+                            </TouchableHighlight>
+                        }}
+                        renderHiddenItem={(data, rowMap) => {
+                            let deleteButtonStyle = {}
+
+                            if (data.index == 0) {
+                                deleteButtonStyle = {
+                                    ...deleteButtonStyle,
+                                    borderTopRightRadius: theme.borderRadius.xl,
+                                }
+                            }
+
+                            if (data.index == (journals.length - 1)) {
+                                deleteButtonStyle = {
+                                    ...deleteButtonStyle,
+                                    borderBottomRightRadius: theme.borderRadius.xl,
+                                }
+                            }
+
+                            return <JournalDeleteWrapper onPress={() => {
+                                navigation.navigate('DeleteJournal', data.item);
+                            }}>
+                                <JournalDeleteButton style={deleteButtonStyle}>
+                                    <Ionicons name="trash" size={24} color={theme.color.white} style={{ marginLeft: 7 }} />
+                                </JournalDeleteButton>
+                            </JournalDeleteWrapper>
+                        }}
+                        disableRightSwipe
+                        keyExtractor={(data, index) => {
+                            return `${index}`;
+                        }}
+                        rightOpenValue={-60}
+                        stopRightSwipe={-62}
+                    />
                 </ScrollView>
             </Container>
         </Canvas>

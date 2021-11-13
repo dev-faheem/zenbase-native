@@ -21,6 +21,7 @@ import Sounds from "screens/sounds";
 import Settings from "screens/settings";
 import EditProfile from "screens/edit-profile";
 import Journal from "screens/journal";
+import DeleteJournal from "screens/journal/delete";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -85,6 +86,7 @@ export default function Navigation() {
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
