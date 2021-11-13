@@ -110,8 +110,8 @@ export default function Journal({ route, navigation }) {
             </JournalHeader>
             <Container style={{ flex: 1 }}>
                 <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                    <Text fontSize='h2' fontWeight='bold' style={{ marginTop: 8, marginBottom: 18 }}>My Journal</Text>
-                    <SwipeListView
+                    <Text fontSize='h2' fontWeight='bold' style={{ marginTop: 10, marginBottom: 18 }}>My Journal</Text>
+                    {journals.length > 0 && <SwipeListView
                         closeOnRowOpen={true}
                         data={journals}
                         renderItem={(data, rowMap) => {
@@ -166,6 +166,7 @@ export default function Journal({ route, navigation }) {
                             }
 
                             return <JournalDeleteWrapper onPress={() => {
+                                rowMap[data.index].closeRow();
                                 navigation.navigate('DeleteJournal', { journal: data.item, index: data.index, deleteFunction: deleteJournal });
                             }}>
                                 <JournalDeleteButton style={deleteButtonStyle}>
@@ -179,9 +180,10 @@ export default function Journal({ route, navigation }) {
                         }}
                         rightOpenValue={-60}
                         stopRightSwipe={-62}
-                    />
+                        style={{marginBottom: 18}}
+                    />}
 
-                   <TouchableOpacity style={{marginTop: 25}}>
+                   <TouchableOpacity>
                         <JournalList style={{ borderRadius: theme.borderRadius.lg, paddingBottom: 3 }}>
                             <JournalListImg source={ZenbaseVectorGrey} resizeMode='cover' />
                             <JournalListContent style={{ borderBottomWidth: 0 }}>
