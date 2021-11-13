@@ -23,11 +23,11 @@ const Header = styled.View`
 export default function DeleteJournal({ route, navigation }) {
     // Theme Configuration
     const { theme } = useTheme();
-    const journal = route.params;
+    const { journal, index: journalIndex, deleteFunction } = route.params;
 
     const deleteJournal = () => {
         // Delete Journal Logic
-        // console.log(journal)
+        deleteFunction(journal, journalIndex);
         
         navigation.goBack()
     }

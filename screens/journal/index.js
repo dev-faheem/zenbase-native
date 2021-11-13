@@ -67,7 +67,7 @@ export default function Journal({ route, navigation }) {
     // Theme Configuration
     const { theme } = useTheme();
 
-    const journals = [
+    const [journals, setJournals] = useState([
         {
             id: 1,
             title: 'Today Was A Good Day',
@@ -87,9 +87,18 @@ export default function Journal({ route, navigation }) {
             title: 'Today Was A Good Day',
             date: '10/20/21',
             description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
-            zentValue: 0
+            zentValue: 10
         }
-    ]
+    ]);
+
+    // Function to delete Journal
+    const deleteJournal = (journal, journalIndex) => {
+        // Delete Logic...
+
+        // Remove Journal from the `journals` list
+        journals.splice(journalIndex, 1);
+        setJournals([...journals])
+    }
 
     return (
         <Canvas>
@@ -156,7 +165,7 @@ export default function Journal({ route, navigation }) {
                             }
 
                             return <JournalDeleteWrapper onPress={() => {
-                                navigation.navigate('DeleteJournal', data.item);
+                                navigation.navigate('DeleteJournal', { journal: data.item, index: data.index, deleteFunction: deleteJournal });
                             }}>
                                 <JournalDeleteButton style={deleteButtonStyle}>
                                     <Ionicons name="trash" size={24} color={theme.color.white} style={{ marginLeft: 7 }} />
