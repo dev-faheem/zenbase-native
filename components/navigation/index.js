@@ -16,6 +16,12 @@ import Profile from "screens/profile";
 import Favorites from "screens/favorites";
 import Wallet from "screens/wallet";
 import Search from "screens/search";
+import Followers from "screens/followers";
+import Sounds from "screens/sounds";
+import Settings from "screens/settings";
+import EditProfile from "screens/edit-profile";
+import Journal from "screens/journal";
+import DeleteJournal from "screens/journal/delete";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -47,12 +53,15 @@ export function AuthWall() {
       initialRouteName="Home"
       screenOptions={{ headerShown: false }}
       tabBar={(props) => <TabBar {...props} />}
+      backBehavior="history"
     >
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="Search" component={Search} />
       <Tabs.Screen name="Wallet" component={Wallet} />
       <Tabs.Screen name="Favorite" component={Favorites} />
       <Tabs.Screen name="Profile" component={Profile} />
+      <Tabs.Screen name="Followers" component={Followers} />
+      <Tabs.Screen name="Sounds" component={Sounds} />
     </Tabs.Navigator>
   );
 }
@@ -67,9 +76,18 @@ export default function Navigation() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="App" component={AuthWall} />
+        <Stack.Group>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="App" component={AuthWall} />
+          <Stack.Screen name="Journal" component={Journal} />
+        </Stack.Group>
+
+        <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
+          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -14,3 +14,4 @@ export { default as Box } from "components/box";
 export { default as Divider } from "components/divider";
 export { default as TabBar } from "components/tab-bar";
 export { default as Explorables } from "components/explorables";
+export { default as IOSList } from "components/ios-list";

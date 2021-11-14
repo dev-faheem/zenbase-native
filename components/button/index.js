@@ -16,6 +16,14 @@ const variants = {
     background: "informationBackground",
     color: "information",
   },
+  danger: {
+    background: 'red',
+    color: 'white'
+  },
+  dull: {
+    background: "transparent",
+    color: "informationBackground",
+  },
   silent: {
     background: "transparent",
     color: "primary",

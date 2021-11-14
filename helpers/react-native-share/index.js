@@ -7,7 +7,7 @@ export default async function ReactNativeShare(message, shared, dismissed, error
             if (result.activityType) {
                 shared(result.activityType);
             } else {
-                shared();
+                shared(null);
             }
         } else if (result.action === Share.dismissedAction) {
             dismissed();

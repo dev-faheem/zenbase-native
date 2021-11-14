@@ -1,6 +1,8 @@
 import React from "react";
 import { Text, Container, Canvas, Button } from "components";
 import { useNavigation } from "@react-navigation/core";
+import { StackActions, CommonActions } from "@react-navigation/native";
+
 import { useAuth } from "stores/auth";
 
 export default function Login() {
@@ -9,14 +11,21 @@ export default function Login() {
   return (
     <Canvas>
       <Container center screen>
-        <Text>Hello Login</Text>
         <Button
           title="Login"
           onPress={() => {
             login({ name: "Test User" });
-            navigation.navigate("App", {
-              screen: "Home",
-            });
+
+            // Reset Stack Navigation
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [
+                  { name: 'App' },
+                ],
+              })
+            );
+            
           }}
         />
         <Button

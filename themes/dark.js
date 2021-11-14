@@ -4,6 +4,7 @@ const dark = {
     primary: "#8B57FF",
     black: "#000000",
     white: "#ffffff",
+    red: '#FD3B30',
     secondary: "#8F9094",
     information: "#ABABAC",
     informationBackground: "#2E2E30",
@@ -11,7 +12,7 @@ const dark = {
     navbar: "rgba(18,19,20, 0.8)",
     suggestions: "#88898D",
     header: "rgba(247,248,250,0.6)",
-    transparent: "rgba(0,0,0,0)",
+    transparent: "rgba(0,0,0,0)", 
   },
   fontSize: {
     xs: "10px",
@@ -33,6 +34,7 @@ const dark = {
   borderRadius: {
     md: "5px",
     lg: "10px",
+    xl: "12px",
     round: "99999px",
   },
   fontFamily: {},

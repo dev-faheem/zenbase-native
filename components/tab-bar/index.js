@@ -1,6 +1,6 @@
 // Import Dependencies
 import React from 'react';
-import { TouchableOpacity, SafeAreaView, View, Text } from 'react-native';
+import { TouchableOpacity, SafeAreaView, View, Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'stores/theme';
@@ -10,6 +10,7 @@ const TabBarWrapper = styled.View`
     justify-content: center;
     align-items: center;
     padding-top: ${props => props.theme.spacing.lg};
+    padding-bottom: ${props => props.theme.spacing.lg};
 `
 
 export default function TabBar({ state, descriptors, navigation }) {
@@ -50,7 +51,13 @@ export default function TabBar({ state, descriptors, navigation }) {
                     };
 
                     return (
-                        <TouchableOpacity
+                        (
+                            label == 'Home' ||
+                            label == 'Search' ||
+                            label == 'Wallet' ||
+                            label == 'Favorite' ||
+                            label == 'Profile'
+                        ) && <TouchableOpacity
                             key={index}
                             accessibilityRole="button"
                             accessibilityState={isFocused ? { selected: true } : {}}
