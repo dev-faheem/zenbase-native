@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert, Container, Canvas, Text, Button } from 'components';
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
-import { ScrollView } from 'react-native';
+import { ScrollView, Image, TouchableWithoutFeedback } from 'react-native';
 
 // Import Icons
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
 import zentLogo from 'assets/images/zentoken-Logo.png';
+import expandVector from 'assets/vectors/expand.png';
 
 import wallpaper1 from 'assets/images/wallpapers/wallpaper-1.png';
 import wallpaper2 from 'assets/images/wallpapers/wallpaper-2.png';
@@ -33,6 +34,14 @@ const ZentWrapper = styled.ImageBackground`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+`
+
+const ZentExpandIconWrapper = styled.View`
+  position: absolute;
+  top: 10;
+  right: 10;
+  flex-direction: row-reverse;
+  width: 100%;
 `
 
 const ZentLogo = styled.Image`
@@ -117,11 +126,18 @@ const WalletHistoryListThumbnail = styled.Image`
  */
 // ZentCoin Component
 function ZentCoin({ tokens, usd }) {
-  return <ZentWrapper source={zentBackground}>
-    <ZentLogo source={zentLogo} />
-    <ZentTokens>{tokens || 0} ZENT</ZentTokens>
-    <ZentValue>{usd || 0} USD</ZentValue>
-  </ZentWrapper>
+  return <TouchableWithoutFeedback onPress={() => {
+
+  }}>
+    <ZentWrapper source={zentBackground}>
+      <ZentExpandIconWrapper>
+        <Image source={expandVector} style={{ width: 16, height: 16 }} />
+      </ZentExpandIconWrapper>
+      <ZentLogo source={zentLogo} />
+      <ZentTokens>{tokens || 0} ZENT</ZentTokens>
+      <ZentValue>{usd || 0} USD</ZentValue>
+    </ZentWrapper>
+  </TouchableWithoutFeedback>
 }
 
 // ReferFriend Component
