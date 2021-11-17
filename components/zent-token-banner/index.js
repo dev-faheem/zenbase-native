@@ -18,7 +18,7 @@ import expandVector from 'assets/vectors/expand.png';
  overflow: hidden;
  border-radius: ${props => props.theme.borderRadius.lg};
  width: 100%;
- height: 250px;
+ height: 225px;
  margin-top: ${props => props.theme.spacing.md};
  margin-bottom: ${props => props.theme.spacing.md};
  justify-content: center;
