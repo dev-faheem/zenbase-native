@@ -74,21 +74,24 @@ export default function Journal({ route, navigation }) {
             title: 'Today Was A Good Day',
             date: '10/20/21',
             description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
-            zentValue: 0
+            zentValue: 0,
+            type: 'happy'
         },
         {
             id: 2,
             title: 'Today Was A Good Day',
             date: '10/20/21',
             description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
-            zentValue: 0
+            zentValue: 0,
+            type: 'sad'
         },
         {
             id: 3,
             title: 'Today Was A Good Day',
             date: '10/20/21',
             description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
-            zentValue: 10
+            zentValue: 10,
+            type: 'neutral'
         }
     ]);
 
