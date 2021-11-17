@@ -15,3 +15,4 @@ export { default as Divider } from "components/divider";
 export { default as TabBar } from "components/tab-bar";
 export { default as Explorables } from "components/explorables";
 export { default as IOSList } from "components/ios-list";
+export { default as ZentTokenBanner } from "components/zent-token-banner";
