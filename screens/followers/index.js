@@ -51,7 +51,7 @@ const UserImage = styled.Image`
 export default function Followers({ route, navigation }) {
   const { theme } = useTheme();
   const { title } = route.params;
-
+  
   return (
     <View style={{ flex: 1 }}>
       <MiniProfileHeader

@@ -21,7 +21,7 @@ export default function Login() {
               CommonActions.reset({
                 index: 0,
                 routes: [
-                  { name: 'App' },
+                  { name: 'Home' },
                 ],
               })
             );

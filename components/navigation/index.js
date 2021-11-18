@@ -36,19 +36,8 @@ const Tabs = createBottomTabNavigator();
  * **********
  */
 
-// Auth Wall
-export function AuthWall() {
-  const { isLoggedIn } = useAuth();
-
-  // Auth Guard
-  if (!isLoggedIn) {
-    return (
-      <Text>
-        You are not logged in. You must log in before accessing these screens
-      </Text>
-    );
-  }
-
+// Bottom Tab Navigator
+export function HomeStack() {
   return (
     <Tabs.Navigator
       initialRouteName="Home"
@@ -78,9 +67,9 @@ export default function Navigation() {
         }}
       >
         <Stack.Group>
+          <Stack.Screen name="Home" component={HomeStack} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="App" component={AuthWall} />
           <Stack.Screen name="Journal" component={Journal} />
         </Stack.Group>
 
@@ -90,6 +79,7 @@ export default function Navigation() {
           <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
           <Stack.Screen name="ZentDonation" component={ZentDonation} />
         </Stack.Group>
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
