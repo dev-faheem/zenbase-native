@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components/native';
-import { ScrollView, Image, TouchableWithoutFeedback } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
@@ -53,14 +53,16 @@ const ZentValue = styled.Text`
 
 // ZentCoin Component
 export default function ZentTokenBanner({ tokens, usd, onPress = null }) {
-    return <TouchableWithoutFeedback onPress={onPress}>
+    const Banner = (
       <ZentWrapper source={zentBackground}>
-        {onPress && <ZentExpandIconWrapper>
-          <Image source={expandVector} style={{ width: 16, height: 16 }} />
-        </ZentExpandIconWrapper>}
-        <ZentLogo source={zentLogo} />
-        <ZentTokens>{tokens || 0} ZENT</ZentTokens>
-        <ZentValue>{usd || 0} USD</ZentValue>
-      </ZentWrapper>
-    </TouchableWithoutFeedback>
+      {onPress && <ZentExpandIconWrapper>
+        <Image source={expandVector} style={{ width: 16, height: 16 }} />
+      </ZentExpandIconWrapper>}
+      <ZentLogo source={zentLogo} />
+      <ZentTokens>{tokens || 0} ZENT</ZentTokens>
+      <ZentValue>{usd || 0} USD</ZentValue>
+    </ZentWrapper>
+    );
+    
+    return onPress ? <TouchableOpacity style={{ width: '100%'}} onPress={onPress}>{Banner}</TouchableOpacity>: Banner;
   }
