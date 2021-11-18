@@ -28,8 +28,8 @@ import expandVector from 'assets/vectors/expand.png';
 
 const ZentExpandIconWrapper = styled.View`
  position: absolute;
- top: 10;
- right: 10;
+ top: 10px;
+ right: 10px;
  flex-direction: row-reverse;
  width: 100%;
 `

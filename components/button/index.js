@@ -12,6 +12,10 @@ const variants = {
     background: "hud",
     color: "white",
   },
+  disabled: {
+    background: "hud",
+    color: "informationBackground",
+  },
   information: {
     background: "informationBackground",
     color: "information",
@@ -20,13 +24,13 @@ const variants = {
     background: 'red',
     color: 'white'
   },
-  dull: {
-    background: "transparent",
-    color: "informationBackground",
-  },
   silent: {
     background: "transparent",
     color: "primary",
+  },
+  silentDisabled: {
+    background: "transparent",
+    color: "informationBackground",
   },
 };
 

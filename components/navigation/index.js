@@ -67,7 +67,7 @@ export default function Navigation() {
         }}
       >
         <Stack.Group>
-          <Stack.Screen name="Home" component={HomeStack} />
+          <Stack.Screen name="App" component={HomeStack} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Journal" component={Journal} />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Container, Canvas, Text, Button, ZentTokenBanner } from 'components';
+import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
 import { ScrollView, Image } from 'react-native';
@@ -106,7 +106,8 @@ function ReferFriend({ setDisplay }) {
     </WalletInfoBody>
     <WalletInfoFooter>
       <Button title='Invite friends' block onPress={() => inviteFriend(`${user.fullname} is inviting you to meditate with him/her. \n\nJoin Here: https://zenbase.us`)} />
-      <Button title='Skip' variant='secondary' block style={{ marginTop: 5 }} onPress={() => setDisplay(false)} />
+      <Box h='10px' />
+      <Button title='Skip' variant='secondary' block onPress={() => setDisplay(false)} />
     </WalletInfoFooter>
   </WalletInfoWrapper>
 }
