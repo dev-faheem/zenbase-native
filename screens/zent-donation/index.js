@@ -124,6 +124,7 @@ export default function ZentDonation({ route, navigation }) {
     const donateZent = () => {
         // Donate Zen Tokens
 
+        navigation.navigate('DonationThanks');
     }
 
 

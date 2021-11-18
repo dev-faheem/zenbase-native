@@ -4,6 +4,10 @@ import styled from "styled-components/native";
 import Icon from "components/icon";
 
 const variants = {
+  white: {
+    background: 'white',
+    color: 'black'
+  },
   primary: {
     background: "primary",
     color: "white",

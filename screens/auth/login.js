@@ -19,7 +19,6 @@ export default function Login() {
             // Reset Stack Navigation
             navigation.dispatch(
               CommonActions.reset({
-                index: 0,
                 routes: [
                   { name: 'App' },
                 ],

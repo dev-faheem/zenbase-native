@@ -23,6 +23,7 @@ import EditProfile from "screens/edit-profile";
 import Journal from "screens/journal";
 import DeleteJournal from "screens/journal/delete";
 import ZentDonation from "screens/zent-donation";
+import DonationThanks from "screens/zent-donation/donation-thanks";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -78,6 +79,7 @@ export default function Navigation() {
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
           <Stack.Screen name="ZentDonation" component={ZentDonation} />
+          <Stack.Screen name="DonationThanks" component={DonationThanks} />
         </Stack.Group>
         
       </Stack.Navigator>
