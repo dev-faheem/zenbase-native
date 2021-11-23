@@ -24,6 +24,7 @@ import Journal from "screens/journal";
 import DeleteJournal from "screens/journal/delete";
 import ZentDonation from "screens/zent-donation";
 import DonationThanks from "screens/zent-donation/donation-thanks";
+import FavoritesType from "screens/favorites/favorites-type";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -49,7 +50,8 @@ export function HomeStack() {
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="Search" component={Search} />
       <Tabs.Screen name="Wallet" component={Wallet} />
-      <Tabs.Screen name="Favorite" component={Favorites} />
+      <Tabs.Screen name="Favorites" component={Favorites} />
+      <Tabs.Screen name="FavoritesType" component={FavoritesType} />
       <Tabs.Screen name="Profile" component={Profile} />
       <Tabs.Screen name="Followers" component={Followers} />
       <Tabs.Screen name="Sounds" component={Sounds} />

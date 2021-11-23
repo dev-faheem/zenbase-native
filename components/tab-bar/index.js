@@ -55,7 +55,7 @@ export default function TabBar({ state, descriptors, navigation }) {
                             label == 'Home' ||
                             label == 'Search' ||
                             label == 'Wallet' ||
-                            label == 'Favorite' ||
+                            label == 'Favorites' ||
                             label == 'Profile'
                         ) && <TouchableOpacity
                             key={index}
@@ -75,7 +75,7 @@ export default function TabBar({ state, descriptors, navigation }) {
                                         return <Ionicons name='ios-search' size={28} color={isFocused ? theme.color.primary : theme.color.secondary} />
                                     case 'Wallet':
                                         return <Ionicons name='md-wallet' size={28} color={isFocused ? theme.color.primary : theme.color.secondary} />
-                                    case 'Favorite':
+                                    case 'Favorites':
                                         return <Ionicons name='heart' size={28} color={isFocused ? theme.color.primary : theme.color.secondary} />
                                     case 'Profile':
                                         return <Ionicons name='person-circle-outline' size={28} color={isFocused ? theme.color.primary : theme.color.secondary} />
