@@ -74,21 +74,24 @@ export default function Journal({ route, navigation }) {
             title: 'Today Was A Good Day',
             date: '10/20/21',
             description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
-            zentValue: 0
+            zentValue: 0,
+            type: 'happy'
         },
         {
             id: 2,
             title: 'Today Was A Good Day',
             date: '10/20/21',
             description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
-            zentValue: 0
+            zentValue: 0,
+            type: 'sad'
         },
         {
             id: 3,
             title: 'Today Was A Good Day',
             date: '10/20/21',
             description: 'There are good ships, there are wood ships, there are ships that sail the sea, but the best ships are friendships, and may they always be.',
-            zentValue: 10
+            zentValue: 10,
+            type: 'neutral'
         }
     ]);
 
@@ -120,16 +123,16 @@ export default function Journal({ route, navigation }) {
                             if (data.index == 0) {
                                 listStyle = {
                                     ...listStyle,
-                                    borderTopLeftRadius: theme.borderRadius.lg,
-                                    borderTopRightRadius: theme.borderRadius.lg,
+                                    borderTopLeftRadius: 10,
+                                    borderTopRightRadius: 10,
                                 }
                             }
 
                             if (data.index == (journals.length - 1)) {
                                 listStyle = {
                                     ...listStyle,
-                                    borderBottomLeftRadius: theme.borderRadius.lg,
-                                    borderBottomRightRadius: theme.borderRadius.lg,
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
                                 }
                             }
 
@@ -154,14 +157,14 @@ export default function Journal({ route, navigation }) {
                             if (data.index == 0) {
                                 deleteButtonStyle = {
                                     ...deleteButtonStyle,
-                                    borderTopRightRadius: theme.borderRadius.xl,
+                                    borderTopRightRadius: 12,
                                 }
                             }
 
                             if (data.index == (journals.length - 1)) {
                                 deleteButtonStyle = {
                                     ...deleteButtonStyle,
-                                    borderBottomRightRadius: theme.borderRadius.xl,
+                                    borderBottomRightRadius: 12,
                                 }
                             }
 
@@ -184,7 +187,7 @@ export default function Journal({ route, navigation }) {
                     />}
 
                    <TouchableOpacity>
-                        <JournalList style={{ borderRadius: theme.borderRadius.lg, paddingBottom: 3 }}>
+                        <JournalList style={{ borderRadius: 10, paddingBottom: 3 }}>
                             <JournalListImg source={ZenbaseVectorGrey} resizeMode='cover' />
                             <JournalListContent style={{ borderBottomWidth: 0 }}>
                                 <View style={{ width: '88%' }}>

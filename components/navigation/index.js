@@ -22,6 +22,8 @@ import Settings from "screens/settings";
 import EditProfile from "screens/edit-profile";
 import Journal from "screens/journal";
 import DeleteJournal from "screens/journal/delete";
+import ZentDonation from "screens/zent-donation";
+import DonationThanks from "screens/zent-donation/donation-thanks";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -35,19 +37,8 @@ const Tabs = createBottomTabNavigator();
  * **********
  */
 
-// Auth Wall
-export function AuthWall() {
-  const { isLoggedIn } = useAuth();
-
-  // Auth Guard
-  if (!isLoggedIn) {
-    return (
-      <Text>
-        You are not logged in. You must log in before accessing these screens
-      </Text>
-    );
-  }
-
+// Bottom Tab Navigator
+export function HomeStack() {
   return (
     <Tabs.Navigator
       initialRouteName="Home"
@@ -77,9 +68,9 @@ export default function Navigation() {
         }}
       >
         <Stack.Group>
+          <Stack.Screen name="App" component={HomeStack} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="App" component={AuthWall} />
           <Stack.Screen name="Journal" component={Journal} />
         </Stack.Group>
 
@@ -87,7 +78,10 @@ export default function Navigation() {
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
+          <Stack.Screen name="ZentDonation" component={ZentDonation} />
+          <Stack.Screen name="DonationThanks" component={DonationThanks} />
         </Stack.Group>
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -4,6 +4,10 @@ import styled from "styled-components/native";
 import Icon from "components/icon";
 
 const variants = {
+  white: {
+    background: 'white',
+    color: 'black'
+  },
   primary: {
     background: "primary",
     color: "white",
@@ -11,6 +15,10 @@ const variants = {
   secondary: {
     background: "hud",
     color: "white",
+  },
+  disabled: {
+    background: "hud",
+    color: "informationBackground",
   },
   information: {
     background: "informationBackground",
@@ -20,13 +28,13 @@ const variants = {
     background: 'red',
     color: 'white'
   },
-  dull: {
-    background: "transparent",
-    color: "informationBackground",
-  },
   silent: {
     background: "transparent",
     color: "primary",
+  },
+  silentDisabled: {
+    background: "transparent",
+    color: "informationBackground",
   },
 };
 

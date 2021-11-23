@@ -149,7 +149,7 @@ export default function EditProfile({ route, navigation }) {
         <TouchableOpacity onPress={() => { navigation.goBack(); }}>
           <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
         </TouchableOpacity>
-        <Button variant={isProfileUpdated ? 'silent' : 'dull'} title="Done" onPress={saveChanges} />
+        <Button variant={isProfileUpdated ? 'silent' : 'silentDisabled'} title="Done" onPress={saveChanges} />
       </EditProfileHeader>
       <Container style={{ flex: 1 }}>
         <ProfileImageWrapper>

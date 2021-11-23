@@ -1,56 +1,17 @@
 import React, { useState } from "react";
-import { Alert, Container, Canvas, Text, Button } from 'components';
+import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
-import { ScrollView } from 'react-native';
+import { ScrollView, Image } from 'react-native';
 
 // Import Icons
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
-
-// Import Images
-import zentBackground from 'assets/images/wallet/zent-bg.png';
-import zentLogo from 'assets/images/zentoken-Logo.png';
 
 import wallpaper1 from 'assets/images/wallpapers/wallpaper-1.png';
 import wallpaper2 from 'assets/images/wallpapers/wallpaper-2.png';
 import wallpaper3 from 'assets/images/wallpapers/wallpaper-3.png';
 import wallpaper4 from 'assets/images/wallpapers/wallpaper-4.png';
 
-// Styled Components
-
-/**
- * *********
- * Zent Coin
- * *********
- */
-const ZentWrapper = styled.ImageBackground`
-  overflow: hidden;
-  border-radius: ${props => props.theme.borderRadius.lg};
-  width: 100%;
-  height: 250px;
-  margin-top: ${props => props.theme.spacing.md};
-  margin-bottom: ${props => props.theme.spacing.md};
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-`
-
-const ZentLogo = styled.Image`
-  width: 100px;
-  height: 100px;
-`
-
-const ZentTokens = styled.Text`
-  font-size: ${props => props.theme.fontSize.h1};
-  color: ${props => props.theme.color.header};
-  font-weight: bold;
-  margin-top: ${props => props.theme.spacing.md};
-`
-
-const ZentValue = styled.Text`
-  font-size: ${props => props.theme.fontSize.xl};
-  color: ${props => props.theme.color.header};
-`
 
 /**
  * *********************************************
@@ -115,15 +76,6 @@ const WalletHistoryListThumbnail = styled.Image`
  * Components
  * **********
  */
-// ZentCoin Component
-function ZentCoin({ tokens, usd }) {
-  return <ZentWrapper source={zentBackground}>
-    <ZentLogo source={zentLogo} />
-    <ZentTokens>{tokens || 0} ZENT</ZentTokens>
-    <ZentValue>{usd || 0} USD</ZentValue>
-  </ZentWrapper>
-}
-
 // ReferFriend Component
 function ReferFriend({ setDisplay }) {
   // Invite Friend (React Native Share)
@@ -154,7 +106,8 @@ function ReferFriend({ setDisplay }) {
     </WalletInfoBody>
     <WalletInfoFooter>
       <Button title='Invite friends' block onPress={() => inviteFriend(`${user.fullname} is inviting you to meditate with him/her. \n\nJoin Here: https://zenbase.us`)} />
-      <Button title='Skip' variant='secondary' block style={{ marginTop: 5 }} onPress={() => setDisplay(false)} />
+      <Box h='10px' />
+      <Button title='Skip' variant='secondary' block onPress={() => setDisplay(false)} />
     </WalletInfoFooter>
   </WalletInfoWrapper>
 }
@@ -219,12 +172,14 @@ function History() {
 }
 
 // Wallet Component (Default)
-export default function Wallet() {
+export default function Wallet({ route, navigation }) {
   const [displayComponent, setDisplayComponent] = useState(true);
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-        <ZentCoin tokens={0.01} usd={0} />
+        <ZentTokenBanner tokens={0.01} usd={0} onPress={() => {
+          navigation.navigate('ZentDonation')
+        }}/>
         <Alert
           title='What is Zenbase Rewards?'
           body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.'
