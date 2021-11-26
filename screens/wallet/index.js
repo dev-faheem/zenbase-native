@@ -5,8 +5,13 @@ import styled from 'styled-components/native';
 import { ScrollView, Image, Animated } from 'react-native';
 import { BlurView } from 'expo-blur';
 
+import Constants from 'expo-constants';
+
 // Import Icons
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+
+// Import Images
+import zentBackground from 'assets/images/wallet/zent-bg.png';
 
 import wallpaper1 from 'assets/images/wallpapers/wallpaper-1.png';
 import wallpaper2 from 'assets/images/wallpapers/wallpaper-2.png';
@@ -81,6 +86,26 @@ const WalletHistoryListEmpty = styled.View`
   position: absolute;
   z-index: -1;
   left: ${(props) => props.theme.spacing.xxl};
+`
+
+/**
+ * *****************
+ * WalletPage Header
+ * *****************
+ */
+const HeaderWrapper = styled.View`
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: ${Constants.statusBarHeight}px;
+`
+
+const HeaderImage = styled.Image`
+  height: 30px;
+  width: 51px;
+  margin-bottom: ${props => props.theme.spacing.sm};
+  border-radius: 2px;
 `
 
 /**
@@ -219,15 +244,18 @@ function History({ ZentBanner }) {
       left: 0,
       zIndex: 1,
       opacity: scrollY.interpolate({
-        inputRange: [0, 150],
+        inputRange: [100, 150],
         outputRange: [0, 1]
       })
     }}>
       <BlurView intensity={999} style={{
         width: '100%',
-        height: 100,
+        height: Constants.statusBarHeight + 60,
       }} tint="dark">
-        
+          <HeaderWrapper>
+            <HeaderImage source={zentBackground} resizeMode='cover'/>
+            <Text style={{ marginBottom: 10 }}>{ZentBanner.props.tokens} Zent</Text>
+          </HeaderWrapper>
       </BlurView>
     </Animated.View>
   </>
@@ -242,7 +270,7 @@ function NoHistoryFound({ ZentBanner }) {
 
     let result = []
     for (let i = 1; i <= n; i++) {
-      result.push(<WalletHistoryListEmpty style={{ top: (initTop + paddintTop), height: height }} />)
+      result.push(<WalletHistoryListEmpty key={i} style={{ top: (initTop + paddintTop), height: height }} />)
       paddintTop += height + 15;
     }
 
@@ -265,7 +293,7 @@ function NoHistoryFound({ ZentBanner }) {
 // Wallet Component (Default)
 export default function Wallet({ route, navigation }) {
 
-  const ZentToken = <ZentTokenBanner tokens={0.01} usd={0} onPress={() => {
+  const ZentToken = <ZentTokenBanner tokens={20.13} usd={0} onPress={() => {
     navigation.navigate('ZentDonation')
   }} />;
 

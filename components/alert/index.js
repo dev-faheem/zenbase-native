@@ -5,7 +5,6 @@ import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-// Import Images
 import { useTheme } from "stores/theme";
 
 // Styled Components

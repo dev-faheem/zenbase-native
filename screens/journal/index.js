@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Alert, Container, Canvas, Text, Button, IOSList } from 'components';
-import { ScrollView, TextInput, TouchableHighlight, TouchableOpacity, View, Image } from 'react-native';
+import { Container, Canvas, Text } from 'components';
+import { ScrollView, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { useTheme } from "stores/theme";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import styled from 'styled-components/native';
@@ -16,9 +16,10 @@ import { Ionicons } from '@expo/vector-icons';
 const JournalHeader = styled.View`
     width: 100%;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    padding-left: ${props => props.theme.spacing.md}; 
+    padding-left: ${props => props.theme.spacing.md};
+    margin-bottom: ${props => props.theme.spacing.md};
 `
 
 const JournalList = styled.View`
@@ -113,7 +114,7 @@ export default function Journal({ route, navigation }) {
             </JournalHeader>
             <Container style={{ flex: 1 }}>
                 <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                    <Text fontSize='h2' fontWeight='bold' style={{ marginTop: 10, marginBottom: 18 }}>My Journal</Text>
+                    <Text fontSize='h2' fontWeight='bold' style={{ marginBottom: 18 }}>My Journal</Text>
                     {journals.length > 0 && <SwipeListView
                         closeOnRowOpen={true}
                         data={journals}

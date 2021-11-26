@@ -1,10 +1,13 @@
 // Import Dependencies
-import React, { useState } from "react";
-import { Alert, ScrollView, View, TouchableOpacity } from 'react-native';
+import React, { useState, useRef } from "react";
+import { ScrollView, Animated, TouchableOpacity } from 'react-native';
 import { Text, Container, Canvas, Button, IOSList, SongTile } from "components";
 import styled from "styled-components/native";
 import { useTheme } from 'stores/theme';
 import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+import Constants from 'expo-constants';
+
 
 // Styled Component
 const Header = styled.View`
@@ -14,7 +17,14 @@ const Header = styled.View`
     align-items: center; 
 `
 
-// Styled Component
+const BlurHeaderWrapper = styled.View`
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: ${Constants.statusBarHeight}px;
+`
+
 const SongListWrapper = styled.View`
   width: 100%;
   flex-direction: row;
@@ -41,17 +51,20 @@ const CustomButton = styled.TouchableOpacity`
 
 export default function FavoritesType({ route, navigation }) {
     const { theme } = useTheme();
-
     const { type } = route.params;
+    const scrollY = useRef(new Animated.Value(0)).current;
 
     const [isEdit, setIsEdit] = useState(false);
 
     return (
         <Canvas >
-            <ScrollView style={{ flex: 1 }}>
+            <Animated.ScrollView style={{ flex: 1 }}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
+                scrollEventThrottle={16}
+                showsVerticalScrollIndicator={false}>
                 <Header>
                     <TouchableOpacity onPress={() => {
-                        navigation.goBack(); 
+                        navigation.goBack();
                         setIsEdit(false)
                     }}>
                         <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
@@ -82,7 +95,30 @@ export default function FavoritesType({ route, navigation }) {
                         <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }} />
                     </SongListWrapper>
                 </Container>
-            </ScrollView>
+            </Animated.ScrollView>
+            <Animated.View style={{
+                position: 'absolute',
+                width: '100%',
+                top: 0,
+                left: 0,
+                zIndex: scrollY.interpolate({
+                    inputRange: [20, 50],
+                    outputRange: [-1, 1]
+                }),
+                opacity: scrollY.interpolate({
+                    inputRange: [20, 50],
+                    outputRange: [0, 1]
+                })
+            }}>
+                <BlurView intensity={999} style={{
+                    width: '100%',
+                    height: Constants.statusBarHeight + 30,
+                }} tint="dark">
+                    <BlurHeaderWrapper>
+                        <Text style={{ marginBottom: 15 }}>{type}</Text>
+                    </BlurHeaderWrapper>
+                </BlurView>
+            </Animated.View>
         </Canvas>
     );
 }
