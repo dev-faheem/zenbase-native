@@ -63,7 +63,9 @@ const WalletHistoryList = styled.View`
   border-radius: ${props => props.theme.borderRadius.lg};
 `
 
-const WalletHistoryListText = styled.View;
+const WalletHistoryListText = styled.View`
+  flex:1;
+`;
 
 const WalletHistoryListThumbnail = styled.Image`
   width: 78px;
@@ -130,39 +132,40 @@ function History({ ZentBanner }) {
     {/* Wallet History List */}
     <WalletHistoryList>
       <WalletHistoryListText>
-        <Text fontSize='lg'>Our Purpose Has Presence</Text>
-        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Damon</Text>
-        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>5 minutes • 0.01 ZENT</Text>
+        <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
+        <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Our Purpose Has Presence</Text>
+        <Text fontSize='md' numberOfLines={1}style={{ marginTop: 10 }} color='secondary'>Damon</Text>
       </WalletHistoryListText>
       <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
     </WalletHistoryList>
 
     <WalletHistoryList>
       <WalletHistoryListText>
-        <Text fontSize='lg'>Move Mountain</Text>
-        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Super Seeker</Text>
-        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>10 minutes • 0.02 ZENT</Text>
+        <Text fontSize='lg' numberOfLines={1}>10 minutes • 0.02 ZENT</Text>
+        <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Move Mountain</Text>
+        <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Super Seeker</Text>
       </WalletHistoryListText>
       <WalletHistoryListThumbnail source={wallpaper2} resizeMode='cover' />
     </WalletHistoryList>
 
     <WalletHistoryList>
       <WalletHistoryListText>
-        <Text fontSize='lg'>Let Go</Text>
-        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Freestyle</Text>
-        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>5 minutes • 0.01 ZENT</Text>
+        <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
+        <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Let Go</Text>
+        <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Freestyle</Text>
       </WalletHistoryListText>
       <WalletHistoryListThumbnail source={wallpaper3} resizeMode='cover' />
     </WalletHistoryList>
 
     <WalletHistoryList>
       <WalletHistoryListText>
-        <Text fontSize='lg'>Wisdom of The Ancients</Text>
-        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
-        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>15 minutes • 0.03 ZENT</Text>
+        <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
+        <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
+        <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
       </WalletHistoryListText>
       <WalletHistoryListThumbnail source={wallpaper4} resizeMode='cover' />
     </WalletHistoryList>
+
     {/* Wallet History List - End*/}
   </ScrollView>
 }
@@ -206,8 +209,8 @@ export default function Wallet({ route, navigation }) {
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-       {/* <History ZentBanner={ZentToken}/> */}
-       <NoHistoryFound ZentBanner={ZentToken}/>
+       <History ZentBanner={ZentToken}/>
+       {/* <NoHistoryFound ZentBanner={ZentToken}/> */}
       </Container>
     </Canvas>
   );
