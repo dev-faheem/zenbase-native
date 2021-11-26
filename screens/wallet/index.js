@@ -63,7 +63,7 @@ const WalletHistoryList = styled.View`
   border-radius: ${props => props.theme.borderRadius.lg};
 `
 
-const WalletHistoryListText = styled.View``
+const WalletHistoryListText = styled.View;
 
 const WalletHistoryListThumbnail = styled.Image`
   width: 78px;
@@ -71,13 +71,22 @@ const WalletHistoryListThumbnail = styled.Image`
   border-radius: ${props => props.theme.borderRadius.lg};
 `
 
+const WalletHistoryListEmpty = styled.View`
+  width: 100%;
+  background-color: ${props => props.theme.color.hud}B3;
+  border-radius: ${props => props.theme.borderRadius.lg};
+  position: absolute;
+  z-index: -1;
+  left: ${(props) => props.theme.spacing.xxl};
+` 
+
 /**
  * **********
  * Components
  * **********
  */
 // ReferFriend Component
-function ReferFriend({ setDisplay }) {
+function ReferFriend() {
   // Invite Friend (React Native Share)
   const inviteFriend = (message) => {
     ReactNativeShare(
@@ -107,14 +116,17 @@ function ReferFriend({ setDisplay }) {
     <WalletInfoFooter>
       <Button title='Invite friends' block onPress={() => inviteFriend(`${user.fullname} is inviting you to meditate with him/her. \n\nJoin Here: https://zenbase.us`)} />
       <Box h='10px' />
-      <Button title='Skip' variant='secondary' block onPress={() => setDisplay(false)} />
+      <Button title='Skip' variant='secondary' block onPress={() => { }} />
     </WalletInfoFooter>
   </WalletInfoWrapper>
 }
 
-// Histroy List
-function HistoryList() {
+// History Component
+function History({ ZentBanner }) {
   return <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
+    {ZentBanner}
+    <Text fontSize="18" fontWeight='600' style={{ marginTop: 10, marginBottom: 10, marginLeft: 5 }}>Your Activity</Text>
+    
     {/* Wallet History List */}
     <WalletHistoryList>
       <WalletHistoryListText>
@@ -151,41 +163,51 @@ function HistoryList() {
       </WalletHistoryListText>
       <WalletHistoryListThumbnail source={wallpaper4} resizeMode='cover' />
     </WalletHistoryList>
-
     {/* Wallet History List - End*/}
   </ScrollView>
 }
 
-// History Component
-function History() {
-  return <WalletInfoWrapper>
-    {/* <HistoryList /> */}
-    <WalletInfoBody>
-      <MaterialCommunityIcons name="clock-time-nine" size={40} color='white' style={{ marginBottom: 6 }} />
-      <Text fontSize='h2'>History</Text>
-      <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
-    </WalletInfoBody>
-    <WalletInfoFooter>
-      <Button title='Start earning' block />
-    </WalletInfoFooter>
-  </WalletInfoWrapper>
+// No History Found
+function NoHistoryFound({ ZentBanner }) {
+
+  const generateEmptyList = (height, n) => {
+    let initTop = 255;
+    let paddintTop = 0;
+
+    let result = []
+    for (let i = 1; i <= n; i++) {
+      result.push(<WalletHistoryListEmpty style={{ top: (initTop + paddintTop), height: height }}/>)
+      paddintTop += height + 15;
+    }
+
+    return result;
+  }
+
+  return <>
+    {ZentBanner}
+    {generateEmptyList(88, 10)}
+    <WalletInfoWrapper>
+      <WalletInfoBody>
+        <MaterialCommunityIcons name="clock-time-nine" size={40} color='white' style={{ marginBottom: 6 }} />
+        <Text fontSize='h2'>History</Text>
+        <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
+      </WalletInfoBody>
+    </WalletInfoWrapper>
+  </>
 }
 
 // Wallet Component (Default)
 export default function Wallet({ route, navigation }) {
-  const [displayComponent, setDisplayComponent] = useState(true);
+
+  const ZentToken = <ZentTokenBanner tokens={0.01} usd={0} onPress={() => {
+    navigation.navigate('ZentDonation')
+  }} />;
+
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-        <ZentTokenBanner tokens={0.01} usd={0} onPress={() => {
-          navigation.navigate('ZentDonation')
-        }}/>
-        <Alert
-          title='What is Zenbase Rewards?'
-          body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.'
-          style={{ marginTop: 5, marginBottom: 8 }}
-        />
-        {displayComponent ? <ReferFriend setDisplay={setDisplayComponent} /> : <History />}
+       {/* <History ZentBanner={ZentToken}/> */}
+       <NoHistoryFound ZentBanner={ZentToken}/>
       </Container>
     </Canvas>
   );
