@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
 import styled from 'styled-components/native';
-import { View, Platform, SafeAreaView, TextInput, KeyboardAvoidingView } from 'react-native';
+import { View, Platform, SafeAreaView, TextInput, KeyboardAvoidingView, Dimensions } from 'react-native';
 import { useTheme } from "stores/theme";
 import { BlurView } from 'expo-blur';
 
@@ -86,6 +86,7 @@ const BlurViewWrapper = styled.SafeAreaView`
     justify-content: flex-end;
     align-items: center;
     margin-bottom: ${props => props.theme.spacing.xxl};
+    padding-bottom: ${props => props.theme.spacing.xxl};
 `
 
 const Input = styled.TextInput`
@@ -130,33 +131,6 @@ export default function ZentDonation({ route, navigation }) {
 
     return (
         <>
-            {customDonation && <BlurView intensity={100} style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                zIndex: 2,
-                width: '100%',
-                height: '100%',
-                paddingLeft: 20,
-                paddingRight: 20
-            }} tint='dark'>
-                <KeyboardAvoidingView style={{ width: '100%', height: '100%' }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                    <BlurViewWrapper>
-                        <Input
-                            autoFocus={true}
-                            keyboardType='numeric' 
-                            onChangeText={(value) => setCustomDonationValue(value)}
-                            value={customDonationValue}
-                        />
-                        <Text style={{ marginBottom: 20 }}>ZENT</Text>
-                        <Button block title='Done' onPress={() => {
-                            selectDonationBox(3, +customDonationValue);
-                            setCustomDonationValue('');
-                            setCustomDonation(false);
-                        }} />
-                    </BlurViewWrapper>
-                </KeyboardAvoidingView>
-            </BlurView>}
             <Canvas>
                 <Header>
                     {isDonation && <Button variant='silent' title="Cancel" onPress={() => navigation.goBack()} />}
@@ -254,6 +228,33 @@ export default function ZentDonation({ route, navigation }) {
                     </DonationFooter>
                 </Container>
             </Canvas>
+            {customDonation && <BlurView intensity={200} style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                zIndex: 2,
+                width: '100%',
+                height: '100%',
+                paddingLeft: 20,
+                paddingRight: 20
+            }} tint='dark'>
+                <KeyboardAvoidingView style={{ width: '100%', height: '100%' }} behavior={Platform.OS === "ios" ? "padding" : "height"} >
+                    <BlurViewWrapper>
+                        <Input
+                            autoFocus={true}
+                            keyboardType='numeric' 
+                            onChangeText={(value) => setCustomDonationValue(value)}
+                            value={customDonationValue}
+                        />
+                        <Text style={{ marginBottom: 20 }}>ZENT</Text>
+                        <Button block title='Done' onPress={() => {
+                            selectDonationBox(3, +customDonationValue);
+                            setCustomDonationValue('');
+                            setCustomDonation(false);
+                        }} />
+                    </BlurViewWrapper>
+                </KeyboardAvoidingView>
+            </BlurView>}
         </>
     );
 }

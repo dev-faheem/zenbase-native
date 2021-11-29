@@ -1,6 +1,6 @@
 // Import Dependencies
 import React, { useState, useRef } from "react";
-import { Animated } from 'react-native';
+import { Animated, Platform} from 'react-native';
 import { Text, Container, Canvas, Button, IOSList, SongTile } from "components";
 import styled from "styled-components/native";
 import { BlurView } from 'expo-blur';
@@ -99,9 +99,10 @@ export default function Favorites({ route, navigation }) {
           outputRange: [0, 1]
         })
       }}>
-        <BlurView intensity={999} style={{
+        <BlurView intensity={150} style={{
           width: '100%',
-          height: Constants.statusBarHeight + 30,
+          height: (Platform.OS == 'ios' ? Constants.statusBarHeight: 15) + 30,
+          paddingBottom: (Platform.OS == 'android' ? 10: 0)
         }} tint="dark">
           <BlurHeaderWrapper>
             <Text style={{ marginBottom: 15}}>Liked Tracks</Text>

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
-import { ScrollView, Image, Animated } from 'react-native';
+import { ScrollView, Image, Animated, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 
 import Constants from 'expo-constants';
@@ -248,13 +248,14 @@ function History({ ZentBanner }) {
         outputRange: [0, 1]
       })
     }}>
-      <BlurView intensity={999} style={{
+      <BlurView intensity={150} style={{
         width: '100%',
-        height: Constants.statusBarHeight + 60,
+        height: (Platform.OS == 'ios' ? Constants.statusBarHeight: 15) + 60,
+        paddingBottom: (Platform.OS == 'android' ? 5: 0)
       }} tint="dark">
           <HeaderWrapper>
             <HeaderImage source={zentBackground} resizeMode='cover'/>
-            <Text style={{ marginBottom: 10 }}>{ZentBanner.props.tokens} Zent</Text>
+            <Text style={{ marginBottom: 15 }}>{ZentBanner.props.tokens} Zent</Text>
           </HeaderWrapper>
       </BlurView>
     </Animated.View>

@@ -4,6 +4,7 @@ import { Dimensions, Platform, View } from 'react-native';
 import { Text, Button } from "components";
 import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 
 // Styled Component
 /**
@@ -14,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 const ProfileHeaderWrapper = styled.ImageBackground`
   background-color: ${props => props.theme.color.hud};
   width: 100%;
-  height: 300px;
+  height: ${(Platform.OS == 'ios' ? Constants.statusBarHeight: 5) + 270}px;
 `
 
 const ProfileHeaderOverlay = styled.View`
@@ -37,7 +38,8 @@ const ProfileHeaderImage = styled.Image`
 const ProfileHeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() => Platform.OS == 'android' ? '25px': '55px'};
+  top: ${() => Platform.OS == 'android' ? '15px' : Constants.statusBarHeight + 5 + 'px'};
+  /* top: ${() => Platform.OS == 'android' ? '25px': '55px'}; */
   justify-content: flex-end;
   flex-direction: row;
   width: 100%;
@@ -62,7 +64,6 @@ const ProfileHeaderEditButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   margin-top: ${props => props.theme.spacing.lg};
-  margin-bottom: ${props => props.theme.spacing.lg};
   background-color: ${props => props.theme.color.primary};
   border-radius: ${props => props.theme.borderRadius.lg};
 `
@@ -83,12 +84,12 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
       <ProfileHeaderButtons>
 
         {editable ?
-          <Button variant="silent" title="Done" style={{ right: 0, top: -2}} onPress={() => {
+          <Button variant="silent" title="Done" style={{ right: 0, top: -5}} onPress={() => {
             navigation.goBack();
           }} />
         : 
           <>
-            <ProfileHeaderIconWrapper style={{ right: 30 }}>
+            <ProfileHeaderIconWrapper style={{ right: 28 }}>
               <Ionicons name="ios-add" size={24} color="white" style={{ marginLeft: 3 }} />
             </ProfileHeaderIconWrapper>
 
