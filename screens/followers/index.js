@@ -1,7 +1,7 @@
 // Import Dependencies
 import React from "react";
 import { Alert, ScrollView, View, Dimensions} from 'react-native';
-import { Text, Container, Canvas, Button, IOSList, SongTile } from "components";
+import { Text, Container, Canvas, Button, IOSList, SongTile, NavigationPadding } from "components";
 import styled from "styled-components/native";
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from 'stores/theme';
@@ -105,6 +105,8 @@ export default function Followers({ route, navigation }) {
                 <Text color="secondary">Alexis Morgan</Text>
               </UserWrapper>
             </UserListWrapper>
+
+            <NavigationPadding withSafeAreaInsets />
           </Container>
         </ScrollView>
       </View>

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
+import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box, NavigationPadding } from 'components';
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
 import { ScrollView, Image, Animated, Platform } from 'react-native';
@@ -235,6 +235,8 @@ function History({ ZentBanner }) {
         </WalletHistoryList>
 
         {/* Wallet History List - End*/}
+
+        <NavigationPadding padding={8}/>
       </Animated.ScrollView>
     </Container>
     <Animated.View style={{
@@ -288,6 +290,7 @@ function NoHistoryFound({ ZentBanner }) {
         <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
       </WalletInfoBody>
     </WalletInfoWrapper>
+    <NavigationPadding />
   </Container>
 }
 

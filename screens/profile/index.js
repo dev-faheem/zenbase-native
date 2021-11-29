@@ -1,7 +1,7 @@
 // Import Dependencies
 import React from "react";
 import { Alert, ScrollView, View } from 'react-native';
-import { Text, Container, Canvas, Button, IOSList, SongTile, Box } from "components";
+import { Text, Container, Canvas, Button, IOSList, SongTile, Box, NavigationPadding } from "components";
 import styled from "styled-components/native";
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from 'stores/theme';
@@ -72,6 +72,8 @@ export default function Profile({ route, navigation }) {
               <SongTile style={{marginBottom: 20}} inGrid mock/>
             </SongListWrapper>
           </Container>
+
+          <NavigationPadding withSafeAreaInsets /> 
         </ScrollView>
       </View>
     </View>

@@ -1,7 +1,7 @@
 // Import Dependencies
 import React, { useState, useRef } from "react";
 import { Animated, Platform} from 'react-native';
-import { Text, Container, Canvas, Button, IOSList, SongTile } from "components";
+import { Text, Container, Canvas, Button, IOSList, SongTile, NavigationPadding } from "components";
 import styled from "styled-components/native";
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
@@ -83,6 +83,7 @@ export default function Favorites({ route, navigation }) {
             <SongTile style={{ marginBottom: 20 }} inGrid mock removable={isEdit} onRemove={() => { }} />
           </SongListWrapper>
         </Container>
+        <NavigationPadding />
       </Animated.ScrollView>
 
       <Animated.View style={{
