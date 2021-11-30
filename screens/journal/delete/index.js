@@ -52,7 +52,7 @@ export default function DeleteJournal({ route, navigation }) {
 
                 <JournalType>
                     <Entypo name={`emoji-${journal.type}`} size={36} color={theme.color.white} />
-                    <Text style={{textTransform: 'capitalize', marginTop: 3}}>{journal.type}</Text>
+                    <Text style={{ marginTop: 8}}>October 20, 2021 at 1:54 PM</Text>
                 </JournalType>
             </Header>
             <Container style={{ flex: 1 }}>

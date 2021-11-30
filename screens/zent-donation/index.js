@@ -137,7 +137,9 @@ export default function ZentDonation({ route, navigation }) {
         setSelectedDonationBox(selectedDonationBox);
     }
     
-    const toggleUSDDonation = () => setUSDDonation(!USDDonation);
+    const toggleUSDDonation = () => {
+        setUSDDonation(!USDDonation);
+    }
     
     const donateZent = () => {
         // Donate Zen Tokens
@@ -226,7 +228,7 @@ export default function ZentDonation({ route, navigation }) {
                                 </CardBody>
                                 <CardFooter>
                                     <SwitchWrapper>
-                                        <Text>Make donation in USD</Text>
+                                        <Text numberOfLines={1}>Make donation in USD</Text>
                                         <Switch onValueChange={toggleUSDDonation} value={USDDonation}/>
                                     </SwitchWrapper>
                                     <Button title='Donate' variant={donationValue > 0 ? 'primary' : 'disabled'} block onPress={() => donationValue > 0 && donateZent()} />
