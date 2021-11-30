@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
 import styled from 'styled-components/native';
-import { View, Platform, SafeAreaView, TextInput, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { View, Platform, SafeAreaView, TextInput, KeyboardAvoidingView, Dimensions, Switch } from 'react-native';
 import { useTheme } from "stores/theme";
 import { BlurView } from 'expo-blur';
 
@@ -99,6 +99,18 @@ const Input = styled.TextInput`
     margin-bottom: ${props => props.theme.spacing.md};
 `
 
+const SwitchWrapper = styled.View`
+    height: 47px;
+    border-radius: ${props => props.theme.borderRadius.xl};
+    background-color: ${props => props.theme.color.hud};
+    margin-bottom: ${props => props.theme.spacing.lg};
+    padding-left: ${props => props.theme.spacing.md};
+    padding-right: ${props => props.theme.spacing.md};
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`
+
 
 // Zent Donation Component (Default)
 export default function ZentDonation({ route, navigation }) {
@@ -116,12 +128,17 @@ export default function ZentDonation({ route, navigation }) {
     const [customDonation, setCustomDonation] = useState(false);
     const [customDonationValue, setCustomDonationValue] = useState('');
 
+    const [USDDonation, setUSDDonation] = useState(false);
+    
+    
     // Functions
     const selectDonationBox = (selectedDonationBox, donationValue) => {
         setDonationValue(donationValue);
         setSelectedDonationBox(selectedDonationBox);
     }
-
+    
+    const toggleUSDDonation = () => setUSDDonation(!USDDonation);
+    
     const donateZent = () => {
         // Donate Zen Tokens
 
@@ -167,7 +184,7 @@ export default function ZentDonation({ route, navigation }) {
                                                 style={selectedDonationBox == 0 && { borderColor: theme.color.primary, backgroundColor: 'white' }}
                                                 onPress={() => { selectDonationBox(0, 0.5); }}
                                             >
-                                                <Text color={selectedDonationBox == 0 && 'primary'} fontWeight={selectedDonationBox == 0 && 'bold'}>0.5 ZENT</Text>
+                                                <Text color={selectedDonationBox == 0 && 'primary'} fontWeight={selectedDonationBox == 0 && 'bold'}>0.5 {USDDonation? 'USD': 'ZENT'}</Text>
                                             </DonationBox>
                                         </View>
 
@@ -176,7 +193,7 @@ export default function ZentDonation({ route, navigation }) {
                                                 style={selectedDonationBox == 1 && { borderColor: theme.color.primary, backgroundColor: 'white' }}
                                                 onPress={() => { selectDonationBox(1, 5); }}
                                             >
-                                                <Text color={selectedDonationBox == 1 && 'primary'} fontWeight={selectedDonationBox == 1 && 'bold'}>5 ZENT</Text>
+                                                <Text color={selectedDonationBox == 1 && 'primary'} fontWeight={selectedDonationBox == 1 && 'bold'}>5 {USDDonation? 'USD': 'ZENT'}</Text>
                                             </DonationBox>
                                         </View>
 
@@ -199,7 +216,7 @@ export default function ZentDonation({ route, navigation }) {
                                                 onPress={() => { setCustomDonation(true) }}
                                             >
                                                 <Text color={selectedDonationBox == 3 ? 'primary' : 'information'} fontWeight={selectedDonationBox == 3 && 'bold'} >
-                                                    {selectedDonationBox == 3 ? `${donationValue} ZENT` : `Enter custom amount...`}
+                                                    {selectedDonationBox == 3 ? `${donationValue} ${USDDonation? 'USD': 'ZENT'}` : `Enter custom amount...`}
                                                 </Text>
                                             </DonationBox>
                                         </View>
@@ -208,6 +225,10 @@ export default function ZentDonation({ route, navigation }) {
 
                                 </CardBody>
                                 <CardFooter>
+                                    <SwitchWrapper>
+                                        <Text>Make donation in USD</Text>
+                                        <Switch onValueChange={toggleUSDDonation} value={USDDonation}/>
+                                    </SwitchWrapper>
                                     <Button title='Donate' variant={donationValue > 0 ? 'primary' : 'disabled'} block onPress={() => donationValue > 0 && donateZent()} />
                                 </CardFooter>
                             </CardWrapper>
@@ -246,7 +267,7 @@ export default function ZentDonation({ route, navigation }) {
                             onChangeText={(value) => setCustomDonationValue(value)}
                             value={customDonationValue}
                         />
-                        <Text style={{ marginBottom: 20 }}>ZENT</Text>
+                        <Text style={{ marginBottom: 20 }}>{USDDonation? 'USD': 'ZENT'}</Text>
                         <Button block title='Done' onPress={() => {
                             selectDonationBox(3, +customDonationValue);
                             setCustomDonationValue('');
