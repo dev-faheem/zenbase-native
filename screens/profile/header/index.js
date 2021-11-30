@@ -6,6 +6,9 @@ import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 
+// Import Images
+import ZenbaseWhiteVector from 'assets/vectors/zenbase-white.png';
+
 // Styled Component
 /**
  * **************
@@ -68,6 +71,17 @@ const ProfileHeaderEditButton = styled.TouchableOpacity`
   border-radius: ${props => props.theme.borderRadius.lg};
 `
 
+const PlayTime = styled.View`
+  margin-top: ${props => props.theme.spacing.md};
+  flex-direction: row;
+`
+
+const ZenbaseWhiteImage = styled.Image`
+  width: 17px;
+  height: 17px;
+  margin-right: 5;
+`
+
 /**
  * **********
  * Components
@@ -89,14 +103,14 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
           }} />
         : 
           <>
-            <ProfileHeaderIconWrapper style={{ right: 28 }}>
+            {/* <ProfileHeaderIconWrapper style={{ right: 28 }}>
               <Ionicons name="ios-add" size={24} color="white" style={{ marginLeft: 3 }} />
-            </ProfileHeaderIconWrapper>
+            </ProfileHeaderIconWrapper> */}
 
             <ProfileHeaderIconWrapper style={{ right: 20 }} onPress={() => {
               navigation.navigate('Settings');
             }}>
-              <Ionicons name="settings-sharp" size={16} color="white" />
+              <Ionicons name="settings-sharp" style={{ marginLeft: 1}} size={16} color="white" />
             </ProfileHeaderIconWrapper>
           </>
         }
@@ -107,7 +121,10 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
         <ProfileHeaderImage source={imageSource} resizeMode='cover' />
         <Text color='secondary' fontSize='30' fontWeight='bold' style={{ marginTop: 8 }}>Ella Lopez</Text>
         <Text color='secondary' fontSize='xl' style={{ marginTop: 8 }}>@EllaLopez</Text>
-        <Text color='white' fontSize='lg' style={{ marginTop: 8 }}>https://zenbase.us/</Text>
+        <PlayTime>
+          <ZenbaseWhiteImage source={ZenbaseWhiteVector}/>
+          <Text color='white' fontSize='lg'>102 Hours</Text>
+        </PlayTime>
         {editable && <ProfileHeaderEditButton onPress={() => {
           // navigation.goBack();
           navigation.navigate('EditProfile');

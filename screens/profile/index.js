@@ -29,13 +29,13 @@ export default function Profile({ route, navigation }) {
         <ScrollView>
           <Container>
             <IOSList style={{ marginTop: 12, borderRadius: 10 }} notDefault transparent data={[
-              {
-                icon: <Ionicons name="ios-musical-note" size={24} color={theme.color.primary} />,
-                title: 'Sounds',
-                onPress: () => {
-                  navigation.navigate('Sounds');
-                }
-              },
+              // {
+              //   icon: <Ionicons name="ios-musical-note" size={24} color={theme.color.primary} />,
+              //   title: 'Sounds',
+              //   onPress: () => {
+              //     navigation.navigate('Sounds');
+              //   }
+              // },
               {
                 icon: <FontAwesome5 name="users" size={20} color={theme.color.primary} />,
                 title: 'Followers',
@@ -63,7 +63,7 @@ export default function Profile({ route, navigation }) {
               }
             ]} />
             
-            <Text fontSize="20" style={{ marginTop: 22, marginBottom: 22 }}>Listening To</Text>
+            <Text fontSize="20" style={{ marginTop: 22, marginBottom: 22 }}>Recently Played</Text>
 
             <SongListWrapper> 
               <SongTile style={{marginBottom: 20}} inGrid mock/>
