@@ -4,8 +4,8 @@ import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
 import { ScrollView, Image, Animated, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
-
 import Constants from 'expo-constants';
+import { NavigationPaddingInsetsWithSafeArea } from "components/navigation-padding";
 
 // Import Icons
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -17,6 +17,7 @@ import wallpaper1 from 'assets/images/wallpapers/wallpaper-1.png';
 import wallpaper2 from 'assets/images/wallpapers/wallpaper-2.png';
 import wallpaper3 from 'assets/images/wallpapers/wallpaper-3.png';
 import wallpaper4 from 'assets/images/wallpapers/wallpaper-4.png';
+import { useTheme } from "stores/theme";
 
 
 /**
@@ -151,6 +152,7 @@ function ReferFriend() {
 
 // History Component
 function History({ ZentBanner }) {
+  const { theme } = useTheme();
   const scrollY = useRef(new Animated.Value(0)).current;
   return <>
     <Container style={{ flex: 1 }}>
@@ -236,7 +238,7 @@ function History({ ZentBanner }) {
 
         {/* Wallet History List - End*/}
 
-        <NavigationPadding padding={8}/>
+        <NavigationPadding padding={90} />
       </Animated.ScrollView>
     </Container>
     <Animated.View style={{
@@ -250,17 +252,29 @@ function History({ ZentBanner }) {
         outputRange: [0, 1]
       })
     }}>
-      <BlurView intensity={150} style={{
+      <BlurView intensity={200} style={{
         width: '100%',
-        height: (Platform.OS == 'ios' ? Constants.statusBarHeight: 15) + 60,
-        paddingBottom: (Platform.OS == 'android' ? 5: 0)
+        height: (Platform.OS == 'ios' ? Constants.statusBarHeight : 15) + 60,
+        paddingBottom: (Platform.OS == 'android' ? 5 : 0)
       }} tint="dark">
-          <HeaderWrapper>
-            <HeaderImage source={zentBackground} resizeMode='cover'/>
-            <Text style={{ marginBottom: 15 }}>{ZentBanner.props.tokens} Zent</Text>
-          </HeaderWrapper>
+        <HeaderWrapper>
+          <HeaderImage source={zentBackground} resizeMode='cover' />
+          <Text style={{ marginBottom: 15 }}>{ZentBanner.props.tokens} Zent</Text>
+        </HeaderWrapper>
       </BlurView>
     </Animated.View>
+    <BlurView style={{
+      position: 'absolute',
+      bottom: NavigationPaddingInsetsWithSafeArea(),
+      left: 0,
+      padding: 20,
+      width: '100%',
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: theme.color.informationBackground
+    }} intensity={200} tint='dark'>
+      <Button title='Redeem' block variant='primary'/>
+    </BlurView>
   </>
 }
 
