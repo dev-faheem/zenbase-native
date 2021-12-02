@@ -91,7 +91,6 @@ export default function EditProfile({ route, navigation }) {
   const [isProfileUpdated, setIsProfileUpdated] = useState(false);
   const [fullname, setFullname] = useState('Ella Lopez');
   const [username, setUsername] = useState('ellalopez')
-  const [website, setWebsite] = useState('https://zenbase.us/')
 
   // Input Handler
   const updateInput = (setState, value) => {
@@ -191,22 +190,6 @@ export default function EditProfile({ route, navigation }) {
             />
           </InputGroup>
           {/* Username - End*/}
-
-          <HR />
-
-          {/* Website */}
-          <InputGroup>
-            <InputLabel>
-              <Text>Website</Text>
-            </InputLabel>
-            <Input
-              placeholder='optional'
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={(value) => updateInput(setWebsite, value)}
-              value={website}
-            />
-          </InputGroup>
-          {/* Website - End*/}
 
         </InputWrapper>
         <Text color='information' style={{ padding: 5, paddingTop: 10 }} fontSize='sm'>Your photo, name, and username will be visible in Zenbase and web search results.</Text>

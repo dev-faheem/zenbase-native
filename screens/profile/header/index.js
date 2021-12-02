@@ -4,6 +4,10 @@ import { Dimensions, Platform, View } from 'react-native';
 import { Text, Button } from "components";
 import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
+
+// Import Images
+import ZenbaseWhiteVector from 'assets/vectors/zenbase-white.png';
 
 // Styled Component
 /**
@@ -14,7 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 const ProfileHeaderWrapper = styled.ImageBackground`
   background-color: ${props => props.theme.color.hud};
   width: 100%;
-  height: 300px;
+  height: ${(Platform.OS == 'ios' ? Constants.statusBarHeight: 5) + 270}px;
 `
 
 const ProfileHeaderOverlay = styled.View`
@@ -37,7 +41,8 @@ const ProfileHeaderImage = styled.Image`
 const ProfileHeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() => Platform.OS == 'android' ? '25px': '55px'};
+  top: ${() => Platform.OS == 'android' ? '15px' : Constants.statusBarHeight + 5 + 'px'};
+  /* top: ${() => Platform.OS == 'android' ? '25px': '55px'}; */
   justify-content: flex-end;
   flex-direction: row;
   width: 100%;
@@ -62,9 +67,19 @@ const ProfileHeaderEditButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   margin-top: ${props => props.theme.spacing.lg};
-  margin-bottom: ${props => props.theme.spacing.lg};
   background-color: ${props => props.theme.color.primary};
   border-radius: ${props => props.theme.borderRadius.lg};
+`
+
+const PlayTime = styled.View`
+  margin-top: ${props => props.theme.spacing.md};
+  flex-direction: row;
+`
+
+const ZenbaseWhiteImage = styled.Image`
+  width: 17px;
+  height: 17px;
+  margin-right: 5;
 `
 
 /**
@@ -83,19 +98,19 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
       <ProfileHeaderButtons>
 
         {editable ?
-          <Button variant="silent" title="Done" style={{ right: 0, top: -2}} onPress={() => {
+          <Button variant="silent" title="Done" style={{ right: 0, top: -5}} onPress={() => {
             navigation.goBack();
           }} />
         : 
           <>
-            <ProfileHeaderIconWrapper style={{ right: 30 }}>
+            {/* <ProfileHeaderIconWrapper style={{ right: 28 }}>
               <Ionicons name="ios-add" size={24} color="white" style={{ marginLeft: 3 }} />
-            </ProfileHeaderIconWrapper>
+            </ProfileHeaderIconWrapper> */}
 
             <ProfileHeaderIconWrapper style={{ right: 20 }} onPress={() => {
               navigation.navigate('Settings');
             }}>
-              <Ionicons name="settings-sharp" size={16} color="white" />
+              <Ionicons name="settings-sharp" style={{ marginLeft: 1}} size={16} color="white" />
             </ProfileHeaderIconWrapper>
           </>
         }
@@ -106,7 +121,10 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
         <ProfileHeaderImage source={imageSource} resizeMode='cover' />
         <Text color='secondary' fontSize='30' fontWeight='bold' style={{ marginTop: 8 }}>Ella Lopez</Text>
         <Text color='secondary' fontSize='xl' style={{ marginTop: 8 }}>@EllaLopez</Text>
-        <Text color='white' fontSize='lg' style={{ marginTop: 8 }}>https://zenbase.us/</Text>
+        <PlayTime>
+          <ZenbaseWhiteImage source={ZenbaseWhiteVector}/>
+          <Text color='white' fontSize='lg'>102 Hours</Text>
+        </PlayTime>
         {editable && <ProfileHeaderEditButton onPress={() => {
           // navigation.goBack();
           navigation.navigate('EditProfile');

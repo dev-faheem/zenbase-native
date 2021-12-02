@@ -6,6 +6,7 @@ import styled from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from "stores/theme";
 import { useNavigation } from "@react-navigation/core";
+import Constants from 'expo-constants';
 
 // Styled Component
 /**
@@ -16,7 +17,7 @@ import { useNavigation } from "@react-navigation/core";
 const ProfileHeaderWrapper = styled.ImageBackground`
   background-color: ${props => props.theme.color.hud};
   width: 100%;
-  height: 130px;
+  height: ${(Platform.OS == 'ios' ? Constants.statusBarHeight: 5) + 80}px;
 `
 
 const ProfileHeaderOverlay = styled.View`
@@ -45,11 +46,11 @@ const ProfileHeaderImage = styled.Image`
 const ProfileHeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() => Platform.OS == 'android' ? '25px' : '60px'};
+  top: ${() => Platform.OS == 'android' ? '12px' : Constants.statusBarHeight + 10 + 'px'};
   justify-content: space-between;
   flex-direction: row;
+  align-items: center;
   width: 100%;
-  height: auto;
 `
 
 const ProfileHeaderIconWrapper = styled.TouchableOpacity`
@@ -88,7 +89,7 @@ export default function MiniProfileHeader({
                 <TouchableOpacity onPress={() => {
                     navigation.goBack();
                 }}>
-                    {backButton && <Ionicons name="ios-chevron-back" size={32} color={theme.color.primary} style={{ marginLeft: 10, top: -3 }} />}
+                    {backButton && <Ionicons name="ios-chevron-back" size={32} color={theme.color.primary} style={{ marginLeft: 10, top: -5 }} />}
                 </TouchableOpacity>
 
                 {/* Text Button */}

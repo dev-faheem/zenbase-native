@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
+import React, { useState, useRef } from "react";
+import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box, NavigationPadding } from 'components';
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
-import { ScrollView, Image } from 'react-native';
+import { ScrollView, Image, Animated, Platform } from 'react-native';
+import { BlurView } from 'expo-blur';
+import Constants from 'expo-constants';
+import { NavigationPaddingInsetsWithSafeArea } from "components/navigation-padding";
 
 // Import Icons
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+
+// Import Images
+import zentBackground from 'assets/images/wallet/zent-bg.png';
 
 import wallpaper1 from 'assets/images/wallpapers/wallpaper-1.png';
 import wallpaper2 from 'assets/images/wallpapers/wallpaper-2.png';
 import wallpaper3 from 'assets/images/wallpapers/wallpaper-3.png';
 import wallpaper4 from 'assets/images/wallpapers/wallpaper-4.png';
+import { useTheme } from "stores/theme";
 
 
 /**
@@ -63,12 +70,43 @@ const WalletHistoryList = styled.View`
   border-radius: ${props => props.theme.borderRadius.lg};
 `
 
-const WalletHistoryListText = styled.View``
+const WalletHistoryListText = styled.View`
+  flex:1;
+`;
 
 const WalletHistoryListThumbnail = styled.Image`
   width: 78px;
   height: 78px;
   border-radius: ${props => props.theme.borderRadius.lg};
+`
+
+const WalletHistoryListEmpty = styled.View`
+  width: 100%;
+  background-color: ${props => props.theme.color.hud}B3;
+  border-radius: ${props => props.theme.borderRadius.lg};
+  position: absolute;
+  z-index: -1;
+  left: ${(props) => props.theme.spacing.xxl};
+`
+
+/**
+ * *****************
+ * WalletPage Header
+ * *****************
+ */
+const HeaderWrapper = styled.View`
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: ${Constants.statusBarHeight}px;
+`
+
+const HeaderImage = styled.Image`
+  height: 30px;
+  width: 51px;
+  margin-bottom: ${props => props.theme.spacing.sm};
+  border-radius: 2px;
 `
 
 /**
@@ -77,7 +115,7 @@ const WalletHistoryListThumbnail = styled.Image`
  * **********
  */
 // ReferFriend Component
-function ReferFriend({ setDisplay }) {
+function ReferFriend() {
   // Invite Friend (React Native Share)
   const inviteFriend = (message) => {
     ReactNativeShare(
@@ -107,86 +145,180 @@ function ReferFriend({ setDisplay }) {
     <WalletInfoFooter>
       <Button title='Invite friends' block onPress={() => inviteFriend(`${user.fullname} is inviting you to meditate with him/her. \n\nJoin Here: https://zenbase.us`)} />
       <Box h='10px' />
-      <Button title='Skip' variant='secondary' block onPress={() => setDisplay(false)} />
+      <Button title='Skip' variant='secondary' block onPress={() => { }} />
     </WalletInfoFooter>
   </WalletInfoWrapper>
-}
-
-// Histroy List
-function HistoryList() {
-  return <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-    {/* Wallet History List */}
-    <WalletHistoryList>
-      <WalletHistoryListText>
-        <Text fontSize='lg'>Our Purpose Has Presence</Text>
-        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Damon</Text>
-        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>5 minutes • 0.01 ZENT</Text>
-      </WalletHistoryListText>
-      <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
-    </WalletHistoryList>
-
-    <WalletHistoryList>
-      <WalletHistoryListText>
-        <Text fontSize='lg'>Move Mountain</Text>
-        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Super Seeker</Text>
-        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>10 minutes • 0.02 ZENT</Text>
-      </WalletHistoryListText>
-      <WalletHistoryListThumbnail source={wallpaper2} resizeMode='cover' />
-    </WalletHistoryList>
-
-    <WalletHistoryList>
-      <WalletHistoryListText>
-        <Text fontSize='lg'>Let Go</Text>
-        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Freestyle</Text>
-        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>5 minutes • 0.01 ZENT</Text>
-      </WalletHistoryListText>
-      <WalletHistoryListThumbnail source={wallpaper3} resizeMode='cover' />
-    </WalletHistoryList>
-
-    <WalletHistoryList>
-      <WalletHistoryListText>
-        <Text fontSize='lg'>Wisdom of The Ancients</Text>
-        <Text fontSize='md' style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
-        <Text fontSize='md' style={{ marginTop: 10 }} color='primary'>15 minutes • 0.03 ZENT</Text>
-      </WalletHistoryListText>
-      <WalletHistoryListThumbnail source={wallpaper4} resizeMode='cover' />
-    </WalletHistoryList>
-
-    {/* Wallet History List - End*/}
-  </ScrollView>
 }
 
 // History Component
-function History() {
-  return <WalletInfoWrapper>
-    {/* <HistoryList /> */}
-    <WalletInfoBody>
-      <MaterialCommunityIcons name="clock-time-nine" size={40} color='white' style={{ marginBottom: 6 }} />
-      <Text fontSize='h2'>History</Text>
-      <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
-    </WalletInfoBody>
-    <WalletInfoFooter>
-      <Button title='Start earning' block />
-    </WalletInfoFooter>
-  </WalletInfoWrapper>
+function History({ ZentBanner }) {
+  const { theme } = useTheme();
+  const scrollY = useRef(new Animated.Value(0)).current;
+  return <>
+    <Container style={{ flex: 1 }}>
+      <Animated.ScrollView style={{ width: '100%' }}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}>
+        {ZentBanner}
+        <Text fontSize="18" fontWeight='600' style={{ marginTop: 10, marginBottom: 10, marginLeft: 5 }}>Your Activity</Text>
+
+        {/* Wallet History List */}
+        <WalletHistoryList>
+          <WalletHistoryListText>
+            <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Our Purpose Has Presence</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Damon</Text>
+          </WalletHistoryListText>
+          <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
+        </WalletHistoryList>
+
+        <WalletHistoryList>
+          <WalletHistoryListText>
+            <Text fontSize='lg' numberOfLines={1}>10 minutes • 0.02 ZENT</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Move Mountain</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Super Seeker</Text>
+          </WalletHistoryListText>
+          <WalletHistoryListThumbnail source={wallpaper2} resizeMode='cover' />
+        </WalletHistoryList>
+
+        <WalletHistoryList>
+          <WalletHistoryListText>
+            <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Let Go</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Freestyle</Text>
+          </WalletHistoryListText>
+          <WalletHistoryListThumbnail source={wallpaper3} resizeMode='cover' />
+        </WalletHistoryList>
+
+        <WalletHistoryList>
+          <WalletHistoryListText>
+            <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+          </WalletHistoryListText>
+          <WalletHistoryListThumbnail source={wallpaper4} resizeMode='cover' />
+        </WalletHistoryList>
+
+        <WalletHistoryList>
+          <WalletHistoryListText>
+            <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+          </WalletHistoryListText>
+          <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
+        </WalletHistoryList>
+
+        <WalletHistoryList>
+          <WalletHistoryListText>
+            <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+          </WalletHistoryListText>
+          <WalletHistoryListThumbnail source={wallpaper2} resizeMode='cover' />
+        </WalletHistoryList>
+
+        <WalletHistoryList>
+          <WalletHistoryListText>
+            <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+          </WalletHistoryListText>
+          <WalletHistoryListThumbnail source={wallpaper3} resizeMode='cover' />
+        </WalletHistoryList>
+
+        <WalletHistoryList>
+          <WalletHistoryListText>
+            <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+          </WalletHistoryListText>
+          <WalletHistoryListThumbnail source={wallpaper4} resizeMode='cover' />
+        </WalletHistoryList>
+
+        {/* Wallet History List - End*/}
+
+        <NavigationPadding padding={90} />
+      </Animated.ScrollView>
+    </Container>
+    <Animated.View style={{
+      position: 'absolute',
+      width: '100%',
+      top: 0,
+      left: 0,
+      zIndex: 1,
+      opacity: scrollY.interpolate({
+        inputRange: [100, 150],
+        outputRange: [0, 1]
+      })
+    }}>
+      <BlurView intensity={200} style={{
+        width: '100%',
+        height: (Platform.OS == 'ios' ? Constants.statusBarHeight : 15) + 60,
+        paddingBottom: (Platform.OS == 'android' ? 5 : 0)
+      }} tint="dark">
+        <HeaderWrapper>
+          <HeaderImage source={zentBackground} resizeMode='cover' />
+          <Text style={{ marginBottom: 15 }}>{ZentBanner.props.tokens} Zent</Text>
+        </HeaderWrapper>
+      </BlurView>
+    </Animated.View>
+    <BlurView style={{
+      position: 'absolute',
+      bottom: NavigationPaddingInsetsWithSafeArea(),
+      left: 0,
+      padding: 20,
+      width: '100%',
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: theme.color.informationBackground
+    }} intensity={200} tint='dark'>
+      <Button title='Redeem' block variant='primary'/>
+    </BlurView>
+  </>
+}
+
+// No History Found
+function NoHistoryFound({ ZentBanner }) {
+
+  const generateEmptyList = (height, n) => {
+    let initTop = 255;
+    let paddintTop = 0;
+
+    let result = []
+    for (let i = 1; i <= n; i++) {
+      result.push(<WalletHistoryListEmpty key={i} style={{ top: (initTop + paddintTop), height: height }} />)
+      paddintTop += height + 15;
+    }
+
+    return result;
+  }
+
+  return <Container style={{ flex: 1 }}>
+    {ZentBanner}
+    {generateEmptyList(88, 10)}
+    <WalletInfoWrapper>
+      <WalletInfoBody>
+        <MaterialCommunityIcons name="clock-time-nine" size={40} color='white' style={{ marginBottom: 6 }} />
+        <Text fontSize='h2'>History</Text>
+        <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
+      </WalletInfoBody>
+    </WalletInfoWrapper>
+    <NavigationPadding />
+  </Container>
 }
 
 // Wallet Component (Default)
 export default function Wallet({ route, navigation }) {
-  const [displayComponent, setDisplayComponent] = useState(true);
+
+  const ZentToken = <ZentTokenBanner tokens={20.13} usd={0} onPress={() => {
+    navigation.navigate('ZentDonation')
+  }} />;
+
   return (
     <Canvas>
-      <Container style={{ flex: 1 }}>
-        <ZentTokenBanner tokens={0.01} usd={0} onPress={() => {
-          navigation.navigate('ZentDonation')
-        }}/>
-        <Alert
-          title='What is Zenbase Rewards?'
-          body='Those who opt-in to Zenbase Rewards can interact with content and get paid ZENT tokens. You must spend at least 5 minutes listening to content to start earning ZENT tokens. If you do not want to receive ZENT tokens you may always choose to donate them.'
-          style={{ marginTop: 5, marginBottom: 8 }}
-        />
-        {displayComponent ? <ReferFriend setDisplay={setDisplayComponent} /> : <History />}
-      </Container>
+      <History ZentBanner={ZentToken} />
+      {/* <NoHistoryFound ZentBanner={ZentToken}/> */}
     </Canvas>
   );
 }
