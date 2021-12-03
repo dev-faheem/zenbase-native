@@ -59,8 +59,8 @@ const TermsAndPrivacyFlex = styled.View`
   justify-content: flex-start;
 `
 
-export default function Login() {
-  const navigation = useNavigation();
+export default function Login({ navigation }) {
+  
   const { login } = useAuth();
   const { theme } = useTheme();
 
@@ -127,7 +127,7 @@ export default function Login() {
       <FooterWrapper>
         <Container style={{ flex: 1 }}>
           <FooterFlex>
-            <Button variant='silent' fontSize='14' title='Create an account' style={{ marginTop: 8, marginBottom: 2 }} />
+            <Button onPress={() => navigation.navigate('Register')} variant='silent' fontSize='14' title='Create an account' style={{ marginTop: 8, marginBottom: 2 }} />
             <Button variant={isLoginEnabled ? 'primary' : 'disabled'} title='Sign in' block onPress={() => {
               if (isLoginEnabled) {
                 loginHandler();
