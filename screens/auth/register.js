@@ -91,7 +91,7 @@ export default function register({ navigation }) {
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-        <Text fontSize='30' fontWeight='bold' style={{ marginTop: 10 }}>Meditate, Earn, Repeat</Text>
+        <Text fontSize='34' fontWeight='bold' style={{ marginTop: 10 }}>Meditate, Earn, Repeat</Text>
         <ZenbaseLogo source={ZentbaseLogoPrimary} />
 
         <InputWrapper>
