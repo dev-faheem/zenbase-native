@@ -39,7 +39,7 @@ export default function ForgotPassword({ navigation }) {
 
   // States
   const [isNextEnabled, setIsLoginEnabled] = useState(false);
-  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState('+91978095123');
+  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState('');
 
   // Input Handler
   const updateInput = (setState, value) => {
