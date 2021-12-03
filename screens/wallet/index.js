@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
-import { NavigationPadding, NavigationPaddingInsetsWithSafeArea } from "components/navigation-padding";
+import NavigationPadding, { NavigationPaddingInsetsWithSafeArea } from "components/navigation-padding";
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
 import { ScrollView, Image, Animated, Platform } from 'react-native';
