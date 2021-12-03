@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Text, Container, Canvas, Button } from "components";
-import { useNavigation } from "@react-navigation/core";
 import { StackActions, CommonActions } from "@react-navigation/native";
 import styled from 'styled-components/native';
 import { useAuth } from "stores/auth";
+import { useTheme } from "stores/theme";
+import { TouchableOpacity } from "react-native";
 
 // Import Images
 import ZentbaseLogoPrimary from 'assets/images/zenbase-full-primary-logo.png';
-import { useTheme } from "stores/theme";
-import { TouchableOpacity } from "react-native";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -64,6 +63,7 @@ export default function Login({ navigation }) {
   const { login } = useAuth();
   const { theme } = useTheme();
 
+  const passwordInput = useRef();
 
   // States
   const [isLoginEnabled, setIsLoginEnabled] = useState(false);
@@ -107,10 +107,12 @@ export default function Login({ navigation }) {
 
         <InputWrapper>
           <Input
+            autoCapitalize='none'
             placeholder='Phone number or email'
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
             value={phoneNumberOrEmail}
+            onSubmitEditing={() => passwordInput.current.focus()}
           />
 
           <Input
@@ -119,9 +121,10 @@ export default function Login({ navigation }) {
             onChangeText={(value) => updateInput(setPassword, value)}
             secureTextEntry={true}
             value={password}
+            ref={passwordInput}
           />
 
-          <Button variant='silent' fontSize='14' title='Forgot Password?' style={{ marginTop: 8 }} />
+          <Button onPress={() => navigation.navigate('ForgotPassword')} variant='silent' fontSize='14' title='Forgot Password?' style={{ marginTop: 8 }} />
         </InputWrapper>
       </Container>
       <FooterWrapper>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Text, Container, Canvas, Button, Box } from "components";
 import { useNavigation } from "@react-navigation/core";
 import { StackActions, CommonActions } from "@react-navigation/native";
@@ -62,6 +62,7 @@ const TermsAndPrivacyFlex = styled.View`
 export default function register({ navigation }) {
   const { theme } = useTheme();
 
+  const passwordInput = useRef();
 
   // States
   const [isRegisterEnabled, setIsLoginEnabled] = useState(false);
@@ -96,10 +97,12 @@ export default function register({ navigation }) {
 
         <InputWrapper>
           <Input
+            autoCapitalize='none'
             placeholder='Phone number or email'
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
             value={phoneNumberOrEmail}
+            onSubmitEditing={() => passwordInput.current.focus()}
           />
 
           <Input
@@ -108,6 +111,7 @@ export default function register({ navigation }) {
             onChangeText={(value) => updateInput(setPassword, value)}
             secureTextEntry={true}
             value={password}
+            ref={passwordInput}
           />
 
           <Button onPress={() => navigation.goBack()} variant='silent' fontSize='14' title='Already have an account' style={{ marginTop: 8 }} />
