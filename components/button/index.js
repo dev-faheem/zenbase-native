@@ -60,7 +60,7 @@ const ButtonWrapper = styled.View`
 `;
 
 const TextWrapper = styled(Text)`
-  font-size: 16px;
+  font-size: ${props => props.fontSize ? props.fontSize+'px' : '16px' };
   color: ${(props) =>
     props.variant
       ? props.theme.color[variants[props.variant]?.color] ||

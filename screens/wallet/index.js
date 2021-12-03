@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
-import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box, NavigationPadding } from 'components';
+import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
+import { NavigationPadding, NavigationPaddingInsetsWithSafeArea } from "components/navigation-padding";
 import { ReactNativeShare } from 'helpers';
 import styled from 'styled-components/native';
 import { ScrollView, Image, Animated, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
-import { NavigationPaddingInsetsWithSafeArea } from "components/navigation-padding";
 
 // Import Icons
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
