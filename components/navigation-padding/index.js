@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from 'components';
+import Box from 'components/box';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const NavigationPaddingInsets = () => 50;

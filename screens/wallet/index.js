@@ -1,14 +1,12 @@
 import React, { useState, useRef } from "react";
-import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box } from 'components';
-import NavigationPadding, { NavigationPaddingInsetsWithSafeArea } from "components/navigation-padding";
-import { ReactNativeShare } from 'helpers';
+import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box, NavigationPadding, NavigationPaddingInsetsWithSafeArea } from 'components';
 import styled from 'styled-components/native';
 import { ScrollView, Image, Animated, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
 
 // Import Icons
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
@@ -114,42 +112,6 @@ const HeaderImage = styled.Image`
  * Components
  * **********
  */
-// ReferFriend Component
-function ReferFriend() {
-  // Invite Friend (React Native Share)
-  const inviteFriend = (message) => {
-    ReactNativeShare(
-      message,
-      () => {
-        // Shared
-      },
-      () => {
-        // Dismissed
-      },
-      (err) => {
-        // Error
-      }
-    );
-  }
-
-  const user = {
-    fullname: 'Rupinder Singh'
-  }
-
-  return <WalletInfoWrapper>
-    <WalletInfoBody>
-      <FontAwesome name='user-circle-o' size={34} style={{ marginBottom: 12 }} color='white' />
-      <Text fontSize='h2'>Refer a Friend</Text>
-      <Text fontSize='md' style={{ marginTop: 5 }}>Invite your circle and earn 2x faster.</Text>
-    </WalletInfoBody>
-    <WalletInfoFooter>
-      <Button title='Invite friends' block onPress={() => inviteFriend(`${user.fullname} is inviting you to meditate with him/her. \n\nJoin Here: https://zenbase.us`)} />
-      <Box h='10px' />
-      <Button title='Skip' variant='secondary' block onPress={() => { }} />
-    </WalletInfoFooter>
-  </WalletInfoWrapper>
-}
-
 // History Component
 function History({ ZentBanner }) {
   const { theme } = useTheme();

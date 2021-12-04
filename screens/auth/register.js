@@ -74,9 +74,9 @@ export default function register({ navigation }) {
     setState(value);
   }
 
-  // Login Handler
+  // Register Handler
   const registerHandler = () => {
-    
+    navigation.navigate('SignupBonus');
   }
 
   useEffect(() => {
@@ -120,7 +120,7 @@ export default function register({ navigation }) {
       <FooterWrapper>
         <Container style={{ flex: 1 }}>
           <FooterFlex>
-            <Box h={60} />
+            <Box h='60px' />
             <Button variant={isRegisterEnabled ? 'primary' : 'disabled'} title='Continue' block onPress={() => {
               if (isRegisterEnabled) {
                 registerHandler();

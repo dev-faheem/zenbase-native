@@ -27,6 +27,8 @@ import DonationThanks from "screens/zent-donation/donation-thanks";
 import FavoritesType from "screens/favorites/favorites-type";
 import ForgotPassword from "screens/auth/forgot-password";
 import OneTimePassword from "screens/auth/otp";
+import SignupBonus from "screens/signup-bonus";
+import ReferFriends from "screens/refer-friends";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -78,6 +80,8 @@ export default function Navigation() {
           <Stack.Screen name="Journal" component={Journal} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name="OTP" component={OneTimePassword} />
+          <Stack.Screen name="SignupBonus" component={SignupBonus} />
+          <Stack.Screen name="ReferFriends" component={ReferFriends} />
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>

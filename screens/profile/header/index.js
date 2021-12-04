@@ -79,7 +79,7 @@ const PlayTime = styled.View`
 const ZenbaseWhiteImage = styled.Image`
   width: 17px;
   height: 17px;
-  margin-right: 5;
+  margin-right: 5px;
 `
 
 /**
