@@ -20,7 +20,7 @@ const BackgroundImage = styled.ImageBackground`
     height: 100%;
 `
 
-const WalletInfoWrapper = styled.View`
+const InfoWrapper = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
@@ -28,14 +28,14 @@ const WalletInfoWrapper = styled.View`
   align-items: center;
 `
 
-const WalletInfoBody = styled.View`
+const InfoBody = styled.View`
   flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `
 
-const WalletInfoFooter = styled.View`
+const InfoFooter = styled.View`
   width: 100%;
   flex-direction: column;
   padding-bottom: ${props => props.theme.spacing.lg};
@@ -46,8 +46,6 @@ const Header = styled.View`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-top: ${props => props.theme.spacing.sm};
-    margin-bottom: ${props => props.theme.spacing.sm};
     margin-left: ${props => props.theme.spacing.sm};
 `
 
@@ -72,16 +70,16 @@ export default function SignupBonus({ route, navigation }) {
                 </Header>
                 <Container style={{ flex: 1 }}>
                     <ZentTokenBanner tokens={0.01} usd={0.00} />
-                    <WalletInfoWrapper>
-                        <WalletInfoBody>
+                    <InfoWrapper>
+                        <InfoBody>
                             <Ionicons name='gift' size={34} style={{ marginBottom: 12 }} color='white' />
-                            <Text fontSize='h2'>You’ve received 0.01 ZENT</Text>
+                            <Text fontSize='h2' fontWeight='bold'>You’ve received 0.01 ZENT</Text>
                             <Text fontSize='md' style={{ marginTop: 5 }}>Thanks for creating an account!</Text>
-                        </WalletInfoBody>
-                        <WalletInfoFooter>
-                            <Button title='Claim to Wallet' block onPress={() => { navigation.navigate('ReferFriends')}} />
-                        </WalletInfoFooter>
-                    </WalletInfoWrapper>
+                        </InfoBody>
+                        <InfoFooter>
+                            <Button title='Claim to ' block onPress={() => { navigation.navigate('ReferFriends')}} />
+                        </InfoFooter>
+                    </InfoWrapper>
                 </Container>
             </BackgroundImage>
         </Canvas>

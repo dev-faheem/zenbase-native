@@ -71,7 +71,7 @@ export default function Settings({ route, navigation }) {
                 icon: <Image source={AdVector} style={{ marginRight: 3, width: 23, height: 23 }} resizeMode='center' />,
                 title: 'Zenbase Ads',
                 onPress: () => {
-
+                  navigation.navigate('ZenbaseAds', { isForLogin: false });
                 }
               },
               {

@@ -2,6 +2,8 @@ const dark = {
   color: {
     background: "#000000",
     primary: "#8B57FF",
+    primaryDark: "#6B26FF",
+    primaryDarker: "#5200AC",
     black: "#000000",
     white: "#ffffff",
     red: '#FD3B30',

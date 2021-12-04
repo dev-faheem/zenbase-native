@@ -44,11 +44,6 @@ const WalletInfoFooter = styled.View`
   padding-bottom: ${props => props.theme.spacing.lg};
 `
 
-const WalletInfoLogo = styled.Image`
-    width: 30px;
-    height: 30px;
-    margin-bottom: ${props => props.theme.spacing.md};
-`
 
 /**
  * *******************
@@ -264,7 +259,7 @@ function NoHistoryFound({ ZentBanner }) {
     <WalletInfoWrapper>
       <WalletInfoBody>
         <MaterialCommunityIcons name="clock-time-nine" size={40} color='white' style={{ marginBottom: 6 }} />
-        <Text fontSize='h2'>History</Text>
+        <Text fontSize='h2' fontWeight='bold'>History</Text>
         <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
       </WalletInfoBody>
     </WalletInfoWrapper>

@@ -29,6 +29,7 @@ import ForgotPassword from "screens/auth/forgot-password";
 import OneTimePassword from "screens/auth/otp";
 import SignupBonus from "screens/signup-bonus";
 import ReferFriends from "screens/refer-friends";
+import ZenbaseAds from "screens/zenbase-ads";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -82,6 +83,7 @@ export default function Navigation() {
           <Stack.Screen name="OTP" component={OneTimePassword} />
           <Stack.Screen name="SignupBonus" component={SignupBonus} />
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
+          
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
@@ -90,6 +92,7 @@ export default function Navigation() {
           <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
           <Stack.Screen name="ZentDonation" component={ZentDonation} />
           <Stack.Screen name="DonationThanks" component={DonationThanks} />
+          <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
         </Stack.Group>
         
       </Stack.Navigator>
