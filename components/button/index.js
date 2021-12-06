@@ -12,6 +12,14 @@ const variants = {
     background: "primary",
     color: "white",
   },
+  primaryDark: {
+    background: "primaryDark",
+    color: "white",
+  },
+  primaryDarker: {
+    background: "primaryDarker",
+    color: "white",
+  },
   secondary: {
     background: "hud",
     color: "white",
@@ -39,7 +47,15 @@ const variants = {
 };
 
 const TouchableOpacityWrapper = styled.TouchableOpacity`
-  width: ${(props) => (props.block ? "100%" : "auto")};
+  ${props => {
+    if (props.block) {
+      return `width: 100%;`;
+    } else if (props.width) {
+      return `width: ${props.width}px;`;
+    } else {
+      return `width: auto;`;
+    }
+  }}
 `;
 
 const ButtonWrapper = styled.View`
@@ -49,9 +65,17 @@ const ButtonWrapper = styled.View`
       props.theme.color.primary
       : props.theme.color.primary};
 
-  width: ${(props) => (props.block ? "100%" : "auto")};
+  ${props => {
+    if (props.block) {
+      return `width: 100%;`;
+    } else if (props.width) {
+      return `width: ${props.width}px;`;
+    } else {
+      return `width: auto;`;
+    }
+  }}
   height: 42px;
-  padding-horizontal: ${(props) => props.theme.spacing.xxl};
+  padding-horizontal: ${(props) => (props.horizontalPadding ? props.horizontalPadding + 'px' : props.theme.spacing.xxl)};
   border-radius: ${(props) => props.theme.borderRadius.md};
   display: flex;
   justify-content: center;
@@ -60,7 +84,7 @@ const ButtonWrapper = styled.View`
 `;
 
 const TextWrapper = styled(Text)`
-  font-size: 16px;
+  font-size: ${props => props.fontSize ? props.fontSize + 'px' : '16px'};
   color: ${(props) =>
     props.variant
       ? props.theme.color[variants[props.variant]?.color] ||

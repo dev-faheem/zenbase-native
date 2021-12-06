@@ -55,9 +55,9 @@ const ZentValue = styled.Text`
 export default function ZentTokenBanner({ tokens, usd, onPress = null }) {
     const Banner = (
       <ZentWrapper source={zentBackground}>
-      {onPress && <ZentExpandIconWrapper>
+      {/* {onPress && <ZentExpandIconWrapper>
         <Image source={expandVector} style={{ width: 16, height: 16 }} />
-      </ZentExpandIconWrapper>}
+      </ZentExpandIconWrapper>} */}
       <ZentLogo source={zentLogo} />
       <ZentTokens>{tokens || 0} ZENT</ZentTokens>
       <ZentValue>{usd || 0} USD</ZentValue>

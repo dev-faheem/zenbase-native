@@ -1,14 +1,12 @@
 import React, { useState, useRef } from "react";
-import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box, NavigationPadding } from 'components';
-import { ReactNativeShare } from 'helpers';
+import { Alert, Container, Canvas, Text, Button, ZentTokenBanner, Box, NavigationPadding, NavigationPaddingInsetsWithSafeArea } from 'components';
 import styled from 'styled-components/native';
 import { ScrollView, Image, Animated, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
-import { NavigationPaddingInsetsWithSafeArea } from "components/navigation-padding";
 
 // Import Icons
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
@@ -46,11 +44,6 @@ const WalletInfoFooter = styled.View`
   padding-bottom: ${props => props.theme.spacing.lg};
 `
 
-const WalletInfoLogo = styled.Image`
-    width: 30px;
-    height: 30px;
-    margin-bottom: ${props => props.theme.spacing.md};
-`
 
 /**
  * *******************
@@ -72,6 +65,8 @@ const WalletHistoryList = styled.View`
 
 const WalletHistoryListText = styled.View`
   flex:1;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const WalletHistoryListThumbnail = styled.Image`
@@ -114,42 +109,6 @@ const HeaderImage = styled.Image`
  * Components
  * **********
  */
-// ReferFriend Component
-function ReferFriend() {
-  // Invite Friend (React Native Share)
-  const inviteFriend = (message) => {
-    ReactNativeShare(
-      message,
-      () => {
-        // Shared
-      },
-      () => {
-        // Dismissed
-      },
-      (err) => {
-        // Error
-      }
-    );
-  }
-
-  const user = {
-    fullname: 'Rupinder Singh'
-  }
-
-  return <WalletInfoWrapper>
-    <WalletInfoBody>
-      <FontAwesome name='user-circle-o' size={34} style={{ marginBottom: 12 }} color='white' />
-      <Text fontSize='h2'>Refer a Friend</Text>
-      <Text fontSize='md' style={{ marginTop: 5 }}>Invite your circle and earn 2x faster.</Text>
-    </WalletInfoBody>
-    <WalletInfoFooter>
-      <Button title='Invite friends' block onPress={() => inviteFriend(`${user.fullname} is inviting you to meditate with him/her. \n\nJoin Here: https://zenbase.us`)} />
-      <Box h='10px' />
-      <Button title='Skip' variant='secondary' block onPress={() => { }} />
-    </WalletInfoFooter>
-  </WalletInfoWrapper>
-}
-
 // History Component
 function History({ ZentBanner }) {
   const { theme } = useTheme();
@@ -168,7 +127,7 @@ function History({ ZentBanner }) {
           <WalletHistoryListText>
             <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
             <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Our Purpose Has Presence</Text>
-            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Damon</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Damon</Text>
           </WalletHistoryListText>
           <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
         </WalletHistoryList>
@@ -177,7 +136,7 @@ function History({ ZentBanner }) {
           <WalletHistoryListText>
             <Text fontSize='lg' numberOfLines={1}>10 minutes • 0.02 ZENT</Text>
             <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Move Mountain</Text>
-            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Super Seeker</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Super Seeker</Text>
           </WalletHistoryListText>
           <WalletHistoryListThumbnail source={wallpaper2} resizeMode='cover' />
         </WalletHistoryList>
@@ -186,7 +145,7 @@ function History({ ZentBanner }) {
           <WalletHistoryListText>
             <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
             <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Let Go</Text>
-            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Freestyle</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Freestyle</Text>
           </WalletHistoryListText>
           <WalletHistoryListThumbnail source={wallpaper3} resizeMode='cover' />
         </WalletHistoryList>
@@ -195,7 +154,7 @@ function History({ ZentBanner }) {
           <WalletHistoryListText>
             <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
             <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
-            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
           </WalletHistoryListText>
           <WalletHistoryListThumbnail source={wallpaper4} resizeMode='cover' />
         </WalletHistoryList>
@@ -204,7 +163,7 @@ function History({ ZentBanner }) {
           <WalletHistoryListText>
             <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
             <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
-            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
           </WalletHistoryListText>
           <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
         </WalletHistoryList>
@@ -213,7 +172,7 @@ function History({ ZentBanner }) {
           <WalletHistoryListText>
             <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
             <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
-            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
           </WalletHistoryListText>
           <WalletHistoryListThumbnail source={wallpaper2} resizeMode='cover' />
         </WalletHistoryList>
@@ -222,7 +181,7 @@ function History({ ZentBanner }) {
           <WalletHistoryListText>
             <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
             <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
-            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
           </WalletHistoryListText>
           <WalletHistoryListThumbnail source={wallpaper3} resizeMode='cover' />
         </WalletHistoryList>
@@ -231,7 +190,7 @@ function History({ ZentBanner }) {
           <WalletHistoryListText>
             <Text fontSize='lg' numberOfLines={1}>15 minutes • 0.03 ZENT</Text>
             <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Wisdom of The Ancients</Text>
-            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 10 }} color='secondary'>Master Chadd</Text>
+            <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Master Chadd</Text>
           </WalletHistoryListText>
           <WalletHistoryListThumbnail source={wallpaper4} resizeMode='cover' />
         </WalletHistoryList>
@@ -300,7 +259,7 @@ function NoHistoryFound({ ZentBanner }) {
     <WalletInfoWrapper>
       <WalletInfoBody>
         <MaterialCommunityIcons name="clock-time-nine" size={40} color='white' style={{ marginBottom: 6 }} />
-        <Text fontSize='h2'>History</Text>
+        <Text fontSize='h2' fontWeight='bold'>History</Text>
         <Text fontSize='md' style={{ marginTop: 5 }}>Your activity and earning history will appear here.</Text>
       </WalletInfoBody>
     </WalletInfoWrapper>
