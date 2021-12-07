@@ -97,16 +97,14 @@ export default function register({ navigation }) {
         username,
         password,
       });
-      login(data);
       axios.interceptors.request.use((config) => {
         config.headers.authorization = data?.token;
         return config;
       });
+      login(data);
       navigation.navigate("SignupBonus");
     } catch (error) {
-      if (error?.response?.data?.error) {
-        alert(error?.response?.data?.error);
-      }
+      axios.handleError(error);
       console.error(error);
     }
     setLoading(false);
