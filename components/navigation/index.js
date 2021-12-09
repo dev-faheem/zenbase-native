@@ -30,6 +30,7 @@ import OneTimePassword from "screens/auth/otp";
 import SignupBonus from "screens/signup-bonus";
 import ReferFriends from "screens/refer-friends";
 import ZenbaseAds from "screens/zenbase-ads";
+import LoginRewards from "screens/auth/rewards";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -69,7 +70,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="LoginRewards"
         screenOptions={{
           headerShown: false,
         }}
@@ -93,6 +94,8 @@ export default function Navigation() {
           <Stack.Screen name="ZentDonation" component={ZentDonation} />
           <Stack.Screen name="DonationThanks" component={DonationThanks} />
           <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
+
+          <Stack.Screen name="LoginRewards" component={LoginRewards} />
         </Stack.Group>
         
       </Stack.Navigator>
