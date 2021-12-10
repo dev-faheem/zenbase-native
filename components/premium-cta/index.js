@@ -43,9 +43,28 @@ const FooterWrapper = styled.ImageBackground`
     overflow: hidden;
     border-bottom-left-radius: ${props => props.theme.borderRadius.lg};
     border-bottom-right-radius: ${props => props.theme.borderRadius.lg};
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: ${props => props.theme.spacing.md};
+    padding-right: ${props => props.theme.spacing.md};
 `
 
-export default function PremiumCTA({ navigation }) {
+const GetButton = styled.TouchableOpacity`
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: ${props => props.theme.spacing.md};
+  padding-right: ${props => props.theme.spacing.md};
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: ${props => props.theme.spacing.md};
+  margin-bottom: ${props => props.theme.spacing.md};
+  background-color: ${props => props.theme.color.white};
+  border-radius: ${props => props.theme.borderRadius.lg};
+`
+
+export default function PremiumCTA({ navigation, onPress }) {
 
     return <CTAWrapper source={CTABackground}>
         <PaddingWrapper>
@@ -57,7 +76,10 @@ export default function PremiumCTA({ navigation }) {
 
         </PaddingWrapper>
         <FooterWrapper source={PremiumCTAFooterImage}>
-            
+            <Text>$3.99 per month / 42 ZENT</Text>
+            {onPress && <GetButton onPress={onPress}>
+                <Text color='primary' fontSize='md' fontWeight='bold'>GET</Text>
+            </GetButton>}
         </FooterWrapper>
     </CTAWrapper>
 }

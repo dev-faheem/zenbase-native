@@ -16,7 +16,7 @@ const FooterFlex = styled.View`
   align-items: center;
 `
 
-export default function LoginRewards({ navigation }) {
+export default function RegisterRewards({ navigation }) {
 
   const { theme } = useTheme();
 
