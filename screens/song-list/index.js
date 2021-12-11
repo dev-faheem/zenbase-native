@@ -47,9 +47,8 @@ const ListImage = styled.Image`
 `;
 
 export default function SongList({ route, navigation }) {
+  const { title = "Explore", songs } = route.params;
   const scrollY = useRef(new Animated.Value(0)).current;
-
-  const [isEdit, setIsEdit] = useState(false);
 
   return (
     <Canvas>
@@ -62,25 +61,15 @@ export default function SongList({ route, navigation }) {
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
-        <Header>
-          <Button
-            variant={"silent"}
-            title={isEdit ? "Done" : "Edit"}
-            onPress={() => setIsEdit(!isEdit)}
-          />
-        </Header>
         <Container style={{ flex: 1 }}>
           <Text fontWeight="bold" fontSize="h2">
-            Song List
+            {title}
           </Text>
 
           <SongListWrapper style={{ marginTop: 20 }}>
-            <SongTile style={{ marginBottom: 20 }} inGrid mock />
-            <SongTile style={{ marginBottom: 20 }} inGrid mock />
-            <SongTile style={{ marginBottom: 20 }} inGrid mock />
-            <SongTile style={{ marginBottom: 20 }} inGrid mock />
-            <SongTile style={{ marginBottom: 20 }} inGrid mock />
-            <SongTile style={{ marginBottom: 20 }} inGrid mock />
+            {songs.map((song) => (
+              <SongTile style={{ marginBottom: 20 }} inGrid song={song} />
+            ))}
           </SongListWrapper>
         </Container>
         <NavigationPadding />
@@ -113,7 +102,7 @@ export default function SongList({ route, navigation }) {
           tint="dark"
         >
           <BlurHeaderWrapper>
-            <Text style={{ marginBottom: 15 }}>Liked Tracks</Text>
+            <Text style={{ marginBottom: 15 }}>{title}</Text>
           </BlurHeaderWrapper>
         </BlurView>
       </Animated.View>

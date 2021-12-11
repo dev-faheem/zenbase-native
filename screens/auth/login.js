@@ -78,24 +78,28 @@ export default function Login({ navigation }) {
 
   // Login Handler
   const loginHandler = async () => {
-    const {
-      data: { data },
-    } = await axios.post("/auth/login", {
-      username: phoneNumberOrEmail,
-      password,
-    });
-    axios.interceptors.request.use((config) => {
-      config.headers.authorization = data?.token;
-      return config;
-    });
-    login(data);
+    try {
+      const {
+        data: { data },
+      } = await axios.post("/auth/login", {
+        username: phoneNumberOrEmail,
+        password,
+      });
+      axios.interceptors.request.use((config) => {
+        config.headers.authorization = data?.token;
+        return config;
+      });
+      login(data);
 
-    // Reset Stack Navigation
-    navigation.dispatch(
-      CommonActions.reset({
-        routes: [{ name: "App" }],
-      })
-    );
+      // Reset Stack Navigation
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: "App" }],
+        })
+      );
+    } catch (e) {
+      axios.handleError(e);
+    }
   };
 
   useEffect(() => {

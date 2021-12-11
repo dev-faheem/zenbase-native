@@ -78,7 +78,6 @@ export default function SongTile({
           ? onRemove
           : () => {
               alert("Play song " + song?._id);
-              console.log({ song });
             }
       }
     >
