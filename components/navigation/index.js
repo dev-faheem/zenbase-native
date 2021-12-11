@@ -32,6 +32,7 @@ import ReferFriends from "screens/refer-friends";
 import ZenbaseAds from "screens/zenbase-ads";
 import RegisterRewards from "screens/auth/register-rewards";
 import PremiumTrial from "screens/auth/premium-trial";
+import PremiumTrailEnded from "screens/home/premium-trail-ended";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -71,7 +72,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="PremiumTrial"
+        initialRouteName="PremiumTrailEnded"
         screenOptions={{
           headerShown: false,
         }}
@@ -96,8 +97,10 @@ export default function Navigation() {
           <Stack.Screen name="DonationThanks" component={DonationThanks} />
           <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
 
+          {/* CTAs */}
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
           <Stack.Screen name="PremiumTrial" component={PremiumTrial} />
+          <Stack.Screen name="PremiumTrailEnded" component={PremiumTrailEnded} />
         </Stack.Group>
         
       </Stack.Navigator>
