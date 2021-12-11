@@ -61,7 +61,7 @@ export default function DonationThanks({ route, navigation }) {
                 <CardBody>
                     <ZenbaseLogo source={ZenbaseFullLogo} resizeMode='center' />
                     <Ionicons name="heart" size={48} color='white' style={{ marginTop: 60 }} />
-                    <Text fontSize='xl' fontWeight='500' style={{ marginTop: 20, textAlign: 'center' }} color='rgba(247,248,250,0.9)'>Thank you for your donation!</Text>
+                    <Text fontSize='xl' fontWeight='500' style={{ marginTop: 20, textAlign: 'center' }} color='header90'>Thank you for your donation!</Text>
                 </CardBody>
                 <CardFooter>
                     <Button title='Done' variant='white' block onPress={() => { 

@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, Container, Canvas, Button, Box, PremiumCTA } from "components";
+import React, { useState } from "react";
+import { Text, Container, Canvas, Button, Box, PremiumCTA, RewardsCTA } from "components";
 import styled from 'styled-components/native';
 import { useTheme } from "stores/theme";
 import { SafeAreaView, TouchableOpacity, StatusBar } from "react-native";
@@ -17,15 +17,16 @@ const BackgroundImage = styled.ImageBackground`
 
 const FooterWrapper = styled.View`
   width: 100%;
-  height: 120px;
+  height: 190px;
 `
 
 const FooterFlex = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
+  margin-bottom: ${props => props.theme.spacing.lg};
 `
 
 const HeaderWrapper = styled.View`
@@ -55,31 +56,42 @@ const HeaderImage = styled.Image`
   border-radius: 2px;
 `
 
-export default function PremiumTrailEnded({ navigation }) {
+export default function WalletRewards({ navigation }) {
+
+    const [isRedeemButtonEnabled, setIsRedeemButtonEnabled] = useState(false);
+
+
+    // Redeem Handler (This will only work if `isRedeemButtonEnabled` is true)
+    const redeem = () => {
+        
+    }
+
 
     return (
         <BackgroundImage source={BlurImage}>
             <StatusBar barStyle="light-content" />
-            {/* <HeaderButtons>
+            <HeaderButtons>
                 <TouchableOpacity onPress={() => {}}>
                     <Text fontWeight='600'>Done</Text>
                 </TouchableOpacity>
-            </HeaderButtons> */}
+            </HeaderButtons>
             <SafeAreaView style={{ flex: 1 }}>
                 <Container style={{ flex: 1 }}>
                     <HeaderWrapper>
                         <HeaderImage source={ZentBackground} resizeMode='cover' />
                         <Text style={{ marginBottom: 15 }}>0.01 Zent</Text>
                     </HeaderWrapper>
-                    <Text fontSize='22' style={{ marginBottom: 25 }} fontWeight='600' color='header90'>Your trail of Zenbase Premium has ended.</Text>
-                    <PremiumCTA onPress={() => { }} />
+                    <RewardsCTA />
                 </Container>
                 <FooterWrapper>
                     <Container style={{ flex: 1 }}>
                         <FooterFlex>
-                            <TouchableOpacity onPress={() => { }}>
-                                <Text style={{ marginTop: 20, marginBottom: 5 }}>Maybe later</Text>
-                            </TouchableOpacity>
+                            <Button style={{ marginTop: 5, marginBottom: 5 }} title='Redeem 1 month (42 ZENT)' variant={isRedeemButtonEnabled ? 'secondary': 'disabled'} block onPress={() => { 
+                                if (isRedeemButtonEnabled) {
+                                    redeem();
+                                }
+                            }} />
+                            <Button style={{ marginTop: 3, marginBottom: 3 }} title='Zenbase Premium' block onPress={() => { }} />
                         </FooterFlex>
                     </Container>
                 </FooterWrapper>

@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, Container, Canvas, Button, Box, PremiumCTA } from "components";
+import React, { useState } from "react";
+import { Text, Container, Canvas, Button, Box, PremiumCTA, RewardsCTA } from "components";
 import styled from 'styled-components/native';
 import { useTheme } from "stores/theme";
 import { SafeAreaView, TouchableOpacity, StatusBar } from "react-native";
@@ -17,15 +17,16 @@ const BackgroundImage = styled.ImageBackground`
 
 const FooterWrapper = styled.View`
   width: 100%;
-  height: 120px;
+  height: 140px;
 `
 
 const FooterFlex = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
+  margin-bottom: ${props => props.theme.spacing.lg};
 `
 
 const HeaderWrapper = styled.View`
@@ -55,7 +56,14 @@ const HeaderImage = styled.Image`
   border-radius: 2px;
 `
 
-export default function PremiumTrailEnded({ navigation }) {
+export default function CancelPremium({ navigation }) {
+
+    const [isCanceled, setIsCanceled] = useState(false);
+
+    const cancelSubscription = () => {
+        setIsCanceled(true);
+    }
+
 
     return (
         <BackgroundImage source={BlurImage}>
@@ -71,15 +79,20 @@ export default function PremiumTrailEnded({ navigation }) {
                         <HeaderImage source={ZentBackground} resizeMode='cover' />
                         <Text style={{ marginBottom: 15 }}>0.01 Zent</Text>
                     </HeaderWrapper>
-                    <Text fontSize='22' style={{ marginBottom: 25 }} fontWeight='600' color='header90'>Your trail of Zenbase Premium has ended.</Text>
-                    <PremiumCTA onPress={() => { }} />
+                    <Text fontSize='22' style={{ marginBottom: 25, width: '100%', textAlign: 'center' }} fontWeight='600' color='header90'>{isCanceled ? 'Your subscription has been canceled' : 'Are you sure you want to cancel?'}</Text>
+                    <PremiumCTA />
                 </Container>
                 <FooterWrapper>
                     <Container style={{ flex: 1 }}>
                         <FooterFlex>
-                            <TouchableOpacity onPress={() => { }}>
-                                <Text style={{ marginTop: 20, marginBottom: 5 }}>Maybe later</Text>
-                            </TouchableOpacity>
+                            {isCanceled ?
+                                <Button style={{ marginTop: 3, marginBottom: 3 }} title='Done' variant='secondary' block onPress={() => { }} />
+                                :
+                                <>
+                                    <Button style={{ marginTop: 5, marginBottom: 5 }} title='No, keep my subscription' block onPress={() => { }} />
+                                    <Button style={{ marginTop: 3, marginBottom: 3 }} title='Yes, I want to cancel' variant='secondary' block onPress={cancelSubscription} />
+                                </>
+                            }
                         </FooterFlex>
                     </Container>
                 </FooterWrapper>

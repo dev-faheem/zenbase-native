@@ -33,6 +33,11 @@ import ZenbaseAds from "screens/zenbase-ads";
 import RegisterRewards from "screens/auth/register-rewards";
 import PremiumTrial from "screens/auth/premium-trial";
 import PremiumTrailEnded from "screens/home/premium-trail-ended";
+import WalletRewards from "screens/wallet/wallet-rewards";
+import WalletPremium from "screens/wallet/wallet-premium";
+import CancelPremium from "screens/profile/cancel-premium";
+import PremiumUpgrade1 from "screens/play/premium-upgrade-1";
+import PremiumUpgrade2 from "screens/play/premium-upgrade-2";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -72,7 +77,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="PremiumTrailEnded"
+        initialRouteName="PremiumUpgrade2"
         screenOptions={{
           headerShown: false,
         }}
@@ -101,6 +106,11 @@ export default function Navigation() {
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
           <Stack.Screen name="PremiumTrial" component={PremiumTrial} />
           <Stack.Screen name="PremiumTrailEnded" component={PremiumTrailEnded} />
+          <Stack.Screen name="WalletRewards" component={WalletRewards} />
+          <Stack.Screen name="WalletPremium" component={WalletPremium} />
+          <Stack.Screen name="CancelPremium" component={CancelPremium} />
+          <Stack.Screen name="PremiumUpgrade1" component={PremiumUpgrade1} />
+          <Stack.Screen name="PremiumUpgrade2" component={PremiumUpgrade2} />
         </Stack.Group>
         
       </Stack.Navigator>

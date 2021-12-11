@@ -55,7 +55,7 @@ const HeaderImage = styled.Image`
   border-radius: 2px;
 `
 
-export default function PremiumTrailEnded({ navigation }) {
+export default function PremiumUpgrade1({ navigation }) {
 
     return (
         <BackgroundImage source={BlurImage}>
@@ -71,7 +71,7 @@ export default function PremiumTrailEnded({ navigation }) {
                         <HeaderImage source={ZentBackground} resizeMode='cover' />
                         <Text style={{ marginBottom: 15 }}>0.01 Zent</Text>
                     </HeaderWrapper>
-                    <Text fontSize='22' style={{ marginBottom: 25 }} fontWeight='600' color='header90'>Your trail of Zenbase Premium has ended.</Text>
+                    <Text fontSize='22' style={{ marginBottom: 25 }} fontWeight='600' color='header90'>Upgrade to Zenbase Premium to fast forward, rewind and save your place.</Text>
                     <PremiumCTA onPress={() => { }} />
                 </Container>
                 <FooterWrapper>

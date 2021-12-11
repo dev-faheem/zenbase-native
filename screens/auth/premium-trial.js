@@ -21,8 +21,9 @@ const FooterFlex = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
+  margin-bottom: ${props => props.theme.spacing.lg};
 `
 
 export default function PremiumTrial({ navigation }) {
@@ -38,7 +39,7 @@ export default function PremiumTrial({ navigation }) {
         <FooterWrapper>
           <Container style={{ flex: 1 }}>
             <FooterFlex>
-              <Text style={{ marginTop: 55, marginBottom: 5, width: '100%' }}>You will not be charged after your trial expires.</Text>
+              <Text style={{ marginBottom: 5, width: '100%' }}>You will not be charged after your trial expires.</Text>
               <Button style={{ marginTop: 3, marginBottom: 3 }} title='Start exploring' block onPress={() => { }} />
             </FooterFlex>
           </Container>

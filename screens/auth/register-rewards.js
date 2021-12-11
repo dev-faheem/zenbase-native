@@ -5,14 +5,14 @@ import { useTheme } from "stores/theme";
 
 const FooterWrapper = styled.View`
   width: 100%;
-  height: 190px;
+  height: 200px;
 `
 
 const FooterFlex = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
 `
 
