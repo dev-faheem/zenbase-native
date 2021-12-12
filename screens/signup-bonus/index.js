@@ -68,58 +68,31 @@ export default function SignupBonus({ route, navigation }) {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   }, []);
 
+
   return (
-    <Canvas>
-      <BackgroundImage source={ConfettiImage} resizeMode="cover">
-        <ConfettiCannon
-          count={100}
-          fallSpeed={2000}
-          origin={{ x: windowWidth / 2, y: windowHeight - 100 }}
-          fadeOut
-        />
-        <Header>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Ionicons
-              name="ios-chevron-back"
-              size={30}
-              color={theme.color.primary}
-            />
-          </TouchableOpacity>
-        </Header>
-        <Container style={{ flex: 1 }}>
-          <ZentTokenBanner tokens={0.01} usd={0.0} />
-          <InfoWrapper>
-            <InfoBody>
-              <Ionicons
-                name="gift"
-                size={34}
-                style={{ marginBottom: 12 }}
-                color="white"
-              />
-              <Text fontSize="h2" fontWeight="bold">
-                You’ve received 0.01 ZENT
-              </Text>
-              <Text fontSize="md" style={{ marginTop: 5 }}>
-                Thanks for creating an account{user?.name && `, ${user?.name}`}!
-              </Text>
-            </InfoBody>
-            <InfoFooter>
-              <Button
-                title="Claim token"
-                block
-                onPress={() => {
-                  giveToken(1, "registeration bonus");
-                  navigation.navigate("ReferFriends");
-                }}
-              />
-            </InfoFooter>
-          </InfoWrapper>
-        </Container>
-      </BackgroundImage>
-    </Canvas>
+      <Canvas>
+          <BackgroundImage source={ConfettiImage} resizeMode='cover'>
+              <ConfettiCannon count={100} fallSpeed={2000} origin={{ x: windowWidth/2, y: windowHeight - 100 }} fadeOut />
+              <Header>
+                  <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+                      <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
+                  </TouchableOpacity>
+              </Header>
+              <Container style={{ flex: 1 }}>
+                  <ZentTokenBanner tokens={0.01} usd={0.00} />
+                  <InfoWrapper>
+                      <InfoBody>
+                          <Ionicons name='gift' size={34} style={{ marginBottom: 12 }} color='white' />
+                          <Text fontSize='h2' fontWeight='bold'>You’ve received 0.01 ZENT</Text>
+                          <Text fontSize='md' style={{ marginTop: 5 }}>Thanks for creating an account!</Text>
+                      </InfoBody>
+                      <InfoFooter>
+                          <Button title='Claim to wallet' block onPress={() => { navigation.navigate('ReferFriends')}} />
+                      </InfoFooter>
+                  </InfoWrapper>
+              </Container>
+          </BackgroundImage>
+      </Canvas>
   );
+
 }

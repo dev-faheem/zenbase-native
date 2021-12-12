@@ -14,6 +14,7 @@ const dark = {
     navbar: "rgba(18,19,20, 0.8)",
     suggestions: "#88898D",
     header: "rgba(247,248,250,0.6)",
+    header90: "rgba(247,248,250,0.9)",
     transparent: "rgba(0,0,0,0)", 
   },
   fontSize: {

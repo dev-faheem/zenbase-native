@@ -16,4 +16,6 @@ export { default as TabBar } from "components/tab-bar";
 export { default as Explorables } from "components/explorables";
 export { default as IOSList } from "components/ios-list";
 export { default as ZentTokenBanner } from "components/zent-token-banner";
+export { default as RewardsCTA } from "components/rewards-cta";
+export { default as PremiumCTA } from "components/premium-cta";
 export { default as NavigationPadding, NavigationPaddingInsets, NavigationPaddingInsetsWithSafeArea  } from "components/navigation-padding";

@@ -11,11 +11,11 @@ const expandBoundsStyle = {
   width: "100%",
 };
 
-export default function Canvas({ children }) {
-  return (
-    <BackdropView style={expandBoundsStyle}>
+export default function Canvas({ children, style ={} }) {
+  return ( 
+    <BackdropView style={[expandBoundsStyle, style ]}>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView style={expandBoundsStyle}>{children}</SafeAreaView>
+      <SafeAreaView style={[expandBoundsStyle, style]}>{children}</SafeAreaView>
     </BackdropView>
   );
 }
