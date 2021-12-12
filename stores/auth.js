@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "services/axios";
 
 const AuthContext = createContext();
 
@@ -27,8 +28,28 @@ export const AuthProvider = ({ children }) => {
     // Remove user from async storage
   };
 
+  const giveToken = async (amount, reason) => {
+    if (!isLoggedIn) return;
+    try {
+      await axios.put("/auth/transaction", { amount, reason });
+    } catch (e) {
+      axios.handleError(e);
+    }
+  };
+
+  const updateUser = async (field, value) => {
+    if (!isLoggedIn) return;
+    try {
+      await axios.patch("/auth/" + field, { value });
+    } catch (e) {
+      axios.handleError(e);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isLoggedIn, login, logout, giveToken, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -30,6 +30,7 @@ import OneTimePassword from "screens/auth/otp";
 import SignupBonus from "screens/signup-bonus";
 import ReferFriends from "screens/refer-friends";
 import ZenbaseAds from "screens/zenbase-ads";
+import SongList from "screens/song-list";
 import RegisterRewards from "screens/auth/register-rewards";
 import PremiumTrial from "screens/auth/premium-trial";
 import PremiumTrailEnded from "screens/home/premium-trail-ended";
@@ -61,6 +62,7 @@ export function HomeStack() {
       backBehavior="history"
     >
       <Tabs.Screen name="Home" component={Home} />
+      <Tabs.Screen name="SongList" component={SongList} />
       <Tabs.Screen name="Search" component={Search} />
       <Tabs.Screen name="Wallet" component={Wallet} />
       <Tabs.Screen name="Favorites" component={Favorites} />
@@ -91,10 +93,9 @@ export default function Navigation() {
           <Stack.Screen name="OTP" component={OneTimePassword} />
           <Stack.Screen name="SignupBonus" component={SignupBonus} />
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
-          
         </Stack.Group>
 
-        <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
+        <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
@@ -112,7 +113,6 @@ export default function Navigation() {
           <Stack.Screen name="PremiumUpgrade1" component={PremiumUpgrade1} />
           <Stack.Screen name="PremiumUpgrade2" component={PremiumUpgrade2} />
         </Stack.Group>
-        
       </Stack.Navigator>
     </NavigationContainer>
   );

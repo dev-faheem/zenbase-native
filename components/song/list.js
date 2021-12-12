@@ -6,6 +6,7 @@ import { useMock } from "services/mock";
 import SongTile from "components/song/tile";
 import styled from "styled-components/native";
 import Divider from "components/divider";
+import { useNavigation } from "@react-navigation/core";
 
 const TitleContainer = styled.View`
   display: flex;
@@ -24,6 +25,7 @@ export default function SongList({
   mock = false,
   showDivider = true,
 }) {
+  const navigation = useNavigation();
   songs = useMock("songs", songs, mock);
 
   return (
@@ -33,7 +35,11 @@ export default function SongList({
           {title}
         </Text>
 
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SongList", { songs, title });
+          }}
+        >
           <Text fontSize="md" color="primary">
             See All
           </Text>
@@ -42,7 +48,7 @@ export default function SongList({
 
       <FlatList
         horizontal
-        data={songs}
+        data={songs.slice(0, 10)}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <Box mr={index === songs.length - 1 ? 0 : "10px"}>
