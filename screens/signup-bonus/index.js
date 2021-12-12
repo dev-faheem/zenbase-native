@@ -77,7 +77,7 @@ export default function SignupBonus({ route, navigation }) {
                             <Text fontSize='md' style={{ marginTop: 5 }}>Thanks for creating an account!</Text>
                         </InfoBody>
                         <InfoFooter>
-                            <Button title='Claim to ' block onPress={() => { navigation.navigate('ReferFriends')}} />
+                            <Button title='Claim to wallet' block onPress={() => { navigation.navigate('ReferFriends')}} />
                         </InfoFooter>
                     </InfoWrapper>
                 </Container>
