@@ -79,7 +79,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="PremiumUpgrade2"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false,
         }}
@@ -106,7 +106,10 @@ export default function Navigation() {
           {/* CTAs */}
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
           <Stack.Screen name="PremiumTrial" component={PremiumTrial} />
-          <Stack.Screen name="PremiumTrailEnded" component={PremiumTrailEnded} />
+          <Stack.Screen
+            name="PremiumTrailEnded"
+            component={PremiumTrailEnded}
+          />
           <Stack.Screen name="WalletRewards" component={WalletRewards} />
           <Stack.Screen name="WalletPremium" component={WalletPremium} />
           <Stack.Screen name="CancelPremium" component={CancelPremium} />
