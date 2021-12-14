@@ -7,8 +7,9 @@ import {
   SongList,
   CategoryList,
   Explorables,
+  NavigationPadding
 } from "components";
-import { ScrollView, Animated } from "react-native";
+import { ScrollView, Animated, TouchableOpacity } from "react-native";
 import useSearch from "queries/useSearch";
 import useCategories from "queries/useCategories";
 import Constants from 'expo-constants';
@@ -16,7 +17,10 @@ import { useTheme } from "stores/theme";
 import Divider from "components/divider";
 import styled from "styled-components/native";
 import { BlurView } from 'expo-blur';
+import { Ionicons } from '@expo/vector-icons';
 
+// Import Images
+import zentBackground from 'assets/images/wallet/zent-bg.png';
 
 const PremiumTextWrapper = styled.View`
   width: 100%;
@@ -30,6 +34,32 @@ const BlurHeaderWrapper = styled.View`
   justify-content: center;
   align-items: center;
   margin-top: ${Constants.statusBarHeight}px;
+`
+
+const ListWrapper = styled.View`
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+`
+
+const ListContentWrapper = styled.View`
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: ${props => props.theme.spacing.lg};
+`
+
+const VAlignCenter = styled.View`
+    padding-top: ${props => props.theme.spacing.md};
+    padding-bottom: ${props => props.theme.spacing.sm};
+    flex-direction: column;
+    justify-content: center;
+`
+
+const ZentImage = styled.Image`
+  height: 30px;
+  width: 51px;
+  border-radius: 2px;
 `
 
 export default function Home() {
@@ -60,9 +90,27 @@ export default function Home() {
           <Text fontSize="h2" fontWeight="bold">
             Explore
           </Text>
+
           <Explorables />
 
-          <Divider style={{ marginBottom: 20 }} />
+          <TouchableOpacity onPress={() => {}}>
+            <ListWrapper>
+              <VAlignCenter style={{ marginLeft: 5 }}>
+                <ZentImage source={zentBackground} />
+              </VAlignCenter>
+              <ListContentWrapper>
+                <VAlignCenter>
+                  <Text color='white'>0.02 ZENT</Text>
+                  <Text color='secondary' fontSize={12} style={{ marginTop: 2}}>Earning 10% more with Zenbase Premium</Text>
+                </VAlignCenter>
+                <VAlignCenter style={{ paddingRight: 5 }}>
+                  <Ionicons name="ios-chevron-forward" size={24} color={theme.color.information} />
+                </VAlignCenter>
+              </ListContentWrapper>
+            </ListWrapper>
+          </TouchableOpacity>
+          
+          <Divider style={{ marginTop: 5, marginBottom: 20 }} />
 
           <CategoryList categories={categories} />
           <SongList
@@ -88,6 +136,7 @@ export default function Home() {
           <Box mt="20px"></Box>
         </Container>
 
+        <NavigationPadding padding={50} />
 
       </Animated.ScrollView>
       <Animated.View style={{
