@@ -47,6 +47,7 @@ export default function SongList({
       </TitleContainer>
 
       <FlatList
+        showsHorizontalScrollIndicator={false}
         horizontal
         data={songs.slice(0, 10)}
         keyExtractor={(item) => item._id}

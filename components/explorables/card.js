@@ -1,4 +1,5 @@
 import React from "react";
+import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 
 const CardWrapper = styled.View`
@@ -8,7 +9,7 @@ const CardWrapper = styled.View`
 
 const CardImage = styled.Image`
   border-radius: 5px;
-  width: 368px;
+  width: ${Dimensions.get('window').width * 0.85}px;
   height: 225px;
 `;
 

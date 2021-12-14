@@ -15,12 +15,12 @@ const cards = [
   {
     name: "Start Here",
     description: "Tune in to our Introductory Course for beginners.",
-    image: CardImage1,
+    image: CardImage5,
   },
   {
     name: "Daily Meditation",
     description: "Start your day the best possible way.",
-    image: CardImage2,
+    image: CardImage4,
   },
   {
     name: "Morning Gratitude",
@@ -30,17 +30,17 @@ const cards = [
   {
     name: "Deep Sleep",
     description: "Catch some quality zzz’s.",
-    image: CardImage4,
+    image: CardImage2,
   },
   {
     name: "Guided Meditation",
     description: "Learn from a master of meditation.",
-    image: CardImage5,
+    image: CardImage1,
   },
 ];
 
 const BackdropImage = styled.Image`
-  height: 340px;
+  height: 390px;
   position: absolute;
   z-index: -1000;
 `;
@@ -48,7 +48,7 @@ const BackdropImage = styled.Image`
 const BackdropOverlay = styled.Image`
   position: absolute;
   width: 200%;
-  top: 280px;
+  top: 330px;
   left: 0px;
   height: 60px;
   z-index: -900;
