@@ -75,6 +75,7 @@ export default function Explorables() {
       <FlatList
         horizontal
         data={cards}
+        showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item }) => (

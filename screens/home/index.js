@@ -9,7 +9,7 @@ import {
   Explorables,
   NavigationPadding
 } from "components";
-import { ScrollView, Animated, TouchableOpacity } from "react-native";
+import { ScrollView, Animated, TouchableOpacity, StatusBar } from "react-native";
 import useSearch from "queries/useSearch";
 import useCategories from "queries/useCategories";
 import Constants from 'expo-constants';
@@ -75,6 +75,7 @@ export default function Home() {
 
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <Animated.ScrollView style={{ backgroundColor: theme.color.background }}
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
         scrollEventThrottle={16}

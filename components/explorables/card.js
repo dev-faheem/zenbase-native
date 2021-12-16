@@ -9,7 +9,7 @@ const CardWrapper = styled.View`
 
 const CardImage = styled.Image`
   border-radius: 5px;
-  width: ${Dimensions.get('window').width * 0.85}px;
+  width: ${Dimensions.get('window').width * 0.82}px;
   height: 225px;
 `;
 
