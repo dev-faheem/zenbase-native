@@ -171,7 +171,9 @@ export default function Search() {
                   </SongContent>
 
                   <IconWrapper>
-                    <Feather name="more-horizontal" size={24} color={theme.color.white} />
+                    <TouchableOpacity onPress={() => { }}>
+                      <Feather name="more-horizontal" size={24} color={theme.color.white} />
+                    </TouchableOpacity>
                   </IconWrapper>
                 </SongContentWrapper>
               </SongList>
