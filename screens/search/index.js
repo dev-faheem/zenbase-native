@@ -149,7 +149,7 @@ export default function Search() {
                   </SongContent>
 
                   <IconWrapper>
-                    <Ionicons name="ios-chevron-forward" size={24} color={theme.color.white} />
+                    <Ionicons name="ios-chevron-forward" size={24} color={theme.color.secondary} />
                   </IconWrapper>
                 </SongContentWrapper>
               </SongList>
