@@ -133,7 +133,7 @@ export default function Search() {
                   </SongContent>
 
                   <IconWrapper>
-                    <TouchableOpacity onPress={() => {}}>
+                    <TouchableOpacity onPress={() => { }}>
                       <Feather name="more-horizontal" size={24} color={theme.color.white} />
                     </TouchableOpacity>
                   </IconWrapper>
@@ -149,13 +149,11 @@ export default function Search() {
                   </SongContent>
 
                   <IconWrapper>
-                    <TouchableOpacity onPress={() => {}}>
-                      <Ionicons name="ios-chevron-forward" size={24} color={theme.color.white} />
-                    </TouchableOpacity>
+                    <Ionicons name="ios-chevron-forward" size={24} color={theme.color.white} />
                   </IconWrapper>
                 </SongContentWrapper>
               </SongList>
-              
+
 
             </SongListWrapper>
 
@@ -166,7 +164,7 @@ export default function Search() {
                 <SongImage source={SongImg} />
 
                 {/* set width to 88% if it is last list wrapper */}
-                <SongContentWrapper style={{ borderTopWidth: 0.5, width: '85%'}}>
+                <SongContentWrapper style={{ borderTopWidth: 0.5, width: '85%' }}>
                   <SongContent>
                     <Text>Prime Time</Text>
                     <Text fontSize='sm' color="secondary">Song • Aware</Text>
@@ -177,7 +175,7 @@ export default function Search() {
                   </IconWrapper>
                 </SongContentWrapper>
               </SongList>
-              
+
 
             </SongListWrapper>
           </ScrollView>
