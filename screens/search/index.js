@@ -6,6 +6,7 @@ import {
   CategoryGrid,
   SongListing,
   Box,
+  NavigationPadding
 } from "components";
 import styled from "styled-components/native";
 import useSearch from "queries/useSearch";
@@ -56,7 +57,7 @@ const ArtistImage = styled.Image`
   width: 40px;
   height: 40px;
   margin-right: 10px;
-  border-radius: 50px;
+  border-radius: 100px;
 `;
 
 const SongContentWrapper = styled.View`
@@ -84,7 +85,21 @@ const IconWrapper = styled.View`
   justify-content: center;
 `
 
-export default function Search() {
+const SearchBarWrapper = styled.TouchableOpacity`
+  width: 100%;
+  height: 30px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: ${props => props.theme.borderRadius.lg};
+  background-color: ${props => props.theme.color.hud};
+  margin-top: ${props => props.theme.spacing.sm};
+  margin-bottom: ${props => props.theme.spacing.sm};
+  padding-left: ${props => props.theme.spacing.sm};
+  padding-right: ${props => props.theme.spacing.sm};
+`
+
+export default function Search({ navigation }) {
 
   const { theme } = useTheme();
 
@@ -104,25 +119,33 @@ export default function Search() {
           <Text fontSize="h2" fontWeight="bold">
             Search
           </Text>
-          <SearchInput
+
+          <SearchBarWrapper onPress={() => navigation.navigate('SearchModal')}>
+            <Ionicons name="search" size={15} color={theme.color.secondary} />
+            <Text color='secondary' fontSize="sm" style={{ marginLeft: 5 }}>Artists, Sounds, Friends, and More</Text>
+          </SearchBarWrapper>
+
+          {/* <SearchInput
             placeholder="Artists, Sounds, Friends, and More"
             placeholderTextColor="rgba(143, 144, 148, 1)"
             value={search}
             onChangeText={(value) => setSearch(value)}
-          />
+          /> */}
 
 
-          <Text fontSize="sm" color="secondary" style={{ marginTop: 5, marginBottom: 5 }}>
+          <Text fontSize="sm" color="secondary" fontWeight="600" style={{ marginTop: 5, marginBottom: 5 }}>
             RECENT
           </Text>
 
+          {/* Horizontal Scrollable Song Lists */}
           <ScrollView
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
             style={{ width: '100%' }}
             horizontal={true}>
-            <SongListWrapper >
 
+            {/* Page 1 */}
+            <SongListWrapper >
               <SongList onPress={() => { }}>
                 <SongImage source={SongImg} />
                 <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
@@ -153,17 +176,14 @@ export default function Search() {
                   </IconWrapper>
                 </SongContentWrapper>
               </SongList>
-
-
             </SongListWrapper>
 
-            {/* Last Wrapper */}
+            {/* Last Page */}
             <SongListWrapper >
-
               <SongList>
                 <SongImage source={SongImg} />
 
-                {/* set width to 88% if it is last list wrapper */}
+                {/* set width to 88% if it is last page */}
                 <SongContentWrapper style={{ borderTopWidth: 0.5, width: '85%' }}>
                   <SongContent>
                     <Text>Prime Time</Text>
@@ -188,8 +208,6 @@ export default function Search() {
             </Text>
           )}
 
-          {/* <SongListing song={item} index={index} />; */}
-
           <FlatList
             data={searchQuery?.data?.results}
             keyExtractor={(item) => item._id}
@@ -201,6 +219,8 @@ export default function Search() {
 
           <CategoryGrid categories={categoriesQuery.data} />
         </Container>
+
+        <NavigationPadding padding={50} />
       </ScrollView>
     </Canvas>
   );
