@@ -6,7 +6,7 @@ import CardImage3 from "assets/images/explorable/card-3.png";
 import CardImage4 from "assets/images/explorable/card-4.png";
 import CardImage5 from "assets/images/explorable/card-5.png";
 import ExplorableLinearGradient from "assets/images/explorable-gradient.png";
-import { FlatList, Animated } from "react-native";
+import { FlatList, Animated, Dimensions } from "react-native";
 import Box from "components/box";
 import Text from "components/text";
 import styled from "styled-components/native";
@@ -77,7 +77,7 @@ function BackgroundLoader(props) {
 
   return <Animated.Image onLoad={onLoad} {...props} style={[
     { opacity: opacity }, props.style
-  ]}/>
+  ]} />
 }
 
 export default function Explorables() {
@@ -98,19 +98,19 @@ export default function Explorables() {
         height: 390,
         position: 'absolute',
         zIndex: -1000,
-      }}/>
+      }} />
       <BackdropOverlay source={ExplorableLinearGradient} />
 
       <FlatList
         horizontal
         data={cards}
+        snapToInterval={Dimensions.get('window').width * 0.82 + 10}
+        decelerationRate='fast'
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item }) => (
-          <Box mr={10}>
-            <ExplorableCard {...item} />
-          </Box>
+          <ExplorableCard {...item} />
         )}
       />
     </>

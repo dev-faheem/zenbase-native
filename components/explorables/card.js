@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 const CardWrapper = styled.View`
   margin-top: 20px;
   margin-bottom: 50px;
+  margin-right: 10px;
 `;
 
 const CardImage = styled.Image`
