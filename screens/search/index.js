@@ -6,14 +6,15 @@ import {
   CategoryGrid,
   SongListing,
   Box,
-  NavigationPadding
+  NavigationPadding,
+  ContextMenu
 } from "components";
 import styled from "styled-components/native";
 import useSearch from "queries/useSearch";
 import { FlatList, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import useCategories from "queries/useCategories";
 
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
 
 
@@ -21,6 +22,8 @@ import { useTheme } from "stores/theme";
 import SongImg from 'assets/images/song.png';
 import ArtistImg from 'assets/images/artist.png';
 
+
+const windowsHeight = Dimensions.get("window").height;
 
 // Styled Components
 const SearchInput = styled.TextInput`
@@ -107,6 +110,36 @@ export default function Search({ navigation }) {
   const searchQuery = useSearch();
   const categoriesQuery = useCategories();
 
+  // Context Menu Config
+  let contextMenuHeight = 0;
+  const [contextMenuConfig, setContextMenuConfig] = useState({
+    display: false,
+    top: 0,
+    left: 0
+  });
+
+  const openContextMenu = event => {
+    contextMenuConfig.display = true;
+    contextMenuConfig.top = event.nativeEvent.pageY + 15;
+    contextMenuConfig.left = event.nativeEvent.pageX - 190;
+
+
+    if (windowsHeight - contextMenuConfig.top < contextMenuHeight + 20) {
+      contextMenuConfig.top -= contextMenuHeight;
+      contextMenuConfig.left -= 30;
+    }
+
+    setContextMenuConfig({ ...contextMenuConfig });
+  }
+
+  const closeContextMenu = event => {
+    contextMenuConfig.display = false;
+    contextMenuConfig.top = 0;
+    contextMenuConfig.left = 0;
+
+    setContextMenuConfig({ ...contextMenuConfig });
+  }
+
   useEffect(() => {
     if (search?.trim() !== "") searchQuery.mutate({ search });
   }, [search]);
@@ -156,7 +189,7 @@ export default function Search({ navigation }) {
                   </SongContent>
 
                   <IconWrapper>
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={openContextMenu}>
                       <Feather name="more-horizontal" size={24} color={theme.color.white} />
                     </TouchableOpacity>
                   </IconWrapper>
@@ -191,7 +224,7 @@ export default function Search({ navigation }) {
                   </SongContent>
 
                   <IconWrapper>
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={openContextMenu}>
                       <Feather name="more-horizontal" size={24} color={theme.color.white} />
                     </TouchableOpacity>
                   </IconWrapper>
@@ -222,6 +255,46 @@ export default function Search({ navigation }) {
 
         <NavigationPadding padding={50} />
       </ScrollView>
+
+      <ContextMenu
+        display={contextMenuConfig.display}
+        top={contextMenuConfig.top}
+        left={contextMenuConfig.left}
+        closeHandler={closeContextMenu}
+        onLayout={({ height }) => {
+          contextMenuHeight = height;
+        }}
+        menuList={[
+          {
+            title: 'Delete from Library',
+            color: 'primary',
+            icon: <Ionicons name="ios-trash-outline" size={16} color={theme.color.primary} />,
+            onPress: () => { }
+          },
+          {
+            title: 'Add to Library',
+            icon: <Ionicons name="heart-outline" size={16} color='white' />,
+            onPress: () => { }
+          },
+          {
+            divider: true
+          },
+          {
+            title: 'Play Next',
+            icon: <MaterialCommunityIcons name="page-last" size={16} color='white' />,
+            onPress: () => { }
+          },
+          {
+            title: 'Play Last',
+            icon: <MaterialCommunityIcons name="page-first" size={16} color='white' />,
+            onPress: () => { }
+          },
+          {
+            title: 'Share Song...',
+            icon: <Ionicons name="ios-share-outline" size={16} color='white' />,
+            onPress: () => { }
+          },
+        ]} />
     </Canvas>
   );
 }
