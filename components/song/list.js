@@ -1,12 +1,13 @@
 import React from "react";
 import Box from "components/box";
 import Text from "components/text";
-import { FlatList, TouchableOpacity } from "react-native";
+import { FlatList, TouchableOpacity, Platform } from "react-native";
 import { useMock } from "services/mock";
 import SongTile from "components/song/tile";
 import styled from "styled-components/native";
 import Divider from "components/divider";
 import { useNavigation } from "@react-navigation/core";
+import Constants from 'expo-constants';
 
 const TitleContainer = styled.View`
   display: flex;
@@ -47,6 +48,7 @@ export default function SongList({
       </TitleContainer>
 
       <FlatList
+        showsHorizontalScrollIndicator={false}
         horizontal
         data={songs.slice(0, 10)}
         keyExtractor={(item) => item._id}

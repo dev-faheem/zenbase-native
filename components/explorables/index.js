@@ -6,7 +6,7 @@ import CardImage3 from "assets/images/explorable/card-3.png";
 import CardImage4 from "assets/images/explorable/card-4.png";
 import CardImage5 from "assets/images/explorable/card-5.png";
 import ExplorableLinearGradient from "assets/images/explorable-gradient.png";
-import { FlatList } from "react-native";
+import { FlatList, Animated, Dimensions } from "react-native";
 import Box from "components/box";
 import Text from "components/text";
 import styled from "styled-components/native";
@@ -15,12 +15,12 @@ const cards = [
   {
     name: "Start Here",
     description: "Tune in to our Introductory Course for beginners.",
-    image: CardImage1,
+    image: CardImage5,
   },
   {
     name: "Daily Meditation",
     description: "Start your day the best possible way.",
-    image: CardImage2,
+    image: CardImage4,
   },
   {
     name: "Morning Gratitude",
@@ -30,17 +30,17 @@ const cards = [
   {
     name: "Deep Sleep",
     description: "Catch some quality zzz’s.",
-    image: CardImage4,
+    image: CardImage2,
   },
   {
     name: "Guided Meditation",
     description: "Learn from a master of meditation.",
-    image: CardImage5,
+    image: CardImage1,
   },
 ];
 
 const BackdropImage = styled.Image`
-  height: 340px;
+  height: 390px;
   position: absolute;
   z-index: -1000;
 `;
@@ -48,12 +48,37 @@ const BackdropImage = styled.Image`
 const BackdropOverlay = styled.Image`
   position: absolute;
   width: 200%;
-  top: 280px;
+  top: 330px;
   left: 0px;
   height: 60px;
   z-index: -900;
   resize-mode: stretch;
 `;
+
+
+function BackgroundLoader(props) {
+
+  const opacity = useRef(new Animated.Value(0)).current
+
+  const onLoad = () => {
+    Animated.sequence([
+      Animated.timing(opacity, {
+        toValue: 0.2,
+        duration: 0,
+        useNativeDriver: true
+      }),
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 700,
+        useNativeDriver: true
+      })
+    ]).start()
+  }
+
+  return <Animated.Image onLoad={onLoad} {...props} style={[
+    { opacity: opacity }, props.style
+  ]} />
+}
 
 export default function Explorables() {
   const [currentBackdrop, setCurrentBackdrop] = useState(CardImage1);
@@ -69,18 +94,23 @@ export default function Explorables() {
 
   return (
     <>
-      <BackdropImage source={currentBackdrop} blurRadius={20} />
+      <BackgroundLoader source={currentBackdrop} blurRadius={20} style={{
+        height: 390,
+        position: 'absolute',
+        zIndex: -1000,
+      }} />
       <BackdropOverlay source={ExplorableLinearGradient} />
 
       <FlatList
         horizontal
         data={cards}
+        snapToInterval={Dimensions.get('window').width * 0.82 + 10}
+        decelerationRate='fast'
+        showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item }) => (
-          <Box mr={10}>
-            <ExplorableCard {...item} />
-          </Box>
+          <ExplorableCard {...item} />
         )}
       />
     </>

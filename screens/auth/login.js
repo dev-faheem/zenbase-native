@@ -112,7 +112,6 @@ export default function Login({ navigation }) {
 
   return (
     <Canvas>
-      <ScrollView>
         <Container style={{ flex: 1 }}>
           <Text fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
             Meditate, Earn, Repeat
@@ -128,7 +127,13 @@ export default function Login({ navigation }) {
                 updateInput(setPhoneNumberOrEmail, value)
               }
               value={phoneNumberOrEmail}
-              onSubmitEditing={() => passwordInput.current.focus()}
+              onSubmitEditing={() => {
+                if (phoneNumberOrEmail != '' && password != '') {
+                  loginHandler();
+                } else {
+                  passwordInput.current.focus()
+                }
+              }}
             />
 
             <Input
@@ -197,7 +202,6 @@ export default function Login({ navigation }) {
             </FooterFlex>
           </Container>
         </FooterWrapper>
-      </ScrollView>
     </Canvas>
   );
 }

@@ -1,14 +1,16 @@
 import React from "react";
+import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 
 const CardWrapper = styled.View`
   margin-top: 20px;
   margin-bottom: 50px;
+  margin-right: 10px;
 `;
 
 const CardImage = styled.Image`
   border-radius: 5px;
-  width: 368px;
+  width: ${Dimensions.get('window').width * 0.82}px;
   height: 225px;
 `;
 

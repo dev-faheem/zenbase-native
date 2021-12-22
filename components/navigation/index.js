@@ -39,6 +39,7 @@ import WalletPremium from "screens/wallet/wallet-premium";
 import CancelPremium from "screens/profile/cancel-premium";
 import PremiumUpgrade1 from "screens/play/premium-upgrade-1";
 import PremiumUpgrade2 from "screens/play/premium-upgrade-2";
+import SearchModal from "screens/search/modal";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -102,6 +103,7 @@ export default function Navigation() {
           <Stack.Screen name="ZentDonation" component={ZentDonation} />
           <Stack.Screen name="DonationThanks" component={DonationThanks} />
           <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
+          <Stack.Screen name="SearchModal" component={SearchModal} />
 
           {/* CTAs */}
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
