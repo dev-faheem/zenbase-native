@@ -4,6 +4,7 @@ import { useMock } from "services/mock";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { TouchableWithoutFeedback } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 
 const SongTileView = styled.View``;
 
@@ -70,6 +71,7 @@ export default function SongTile({
   mock = false,
 }) {
   song = useMock("song", song, mock);
+  const navigation = useNavigation();
 
   return (
     <TouchableWithoutFeedback
@@ -77,7 +79,7 @@ export default function SongTile({
         removable
           ? onRemove
           : () => {
-              alert("Play song " + song?._id);
+              navigation.navigate("Play", { _id: song?._id });
             }
       }
     >

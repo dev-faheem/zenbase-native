@@ -39,6 +39,7 @@ import WalletPremium from "screens/wallet/wallet-premium";
 import CancelPremium from "screens/profile/cancel-premium";
 import PremiumUpgrade1 from "screens/play/premium-upgrade-1";
 import PremiumUpgrade2 from "screens/play/premium-upgrade-2";
+import Play from "screens/play";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -70,6 +71,7 @@ export function HomeStack() {
       <Tabs.Screen name="Profile" component={Profile} />
       <Tabs.Screen name="Followers" component={Followers} />
       <Tabs.Screen name="Sounds" component={Sounds} />
+      <Tabs.Screen name="Play" component={Play} />
     </Tabs.Navigator>
   );
 }
