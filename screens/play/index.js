@@ -26,7 +26,7 @@ const ScreenContainer = styled.View`
   padding-right: 22px;
   flex: 1;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 const ZenCounter = styled.View``;
