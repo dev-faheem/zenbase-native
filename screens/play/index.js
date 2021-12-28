@@ -26,7 +26,7 @@ const ScreenContainer = styled.View`
   padding-right: 22px;
   flex: 1;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 const ZenCounter = styled.View``;
@@ -196,7 +196,7 @@ export default function Play() {
               </SongTimingWrapper>
             </View>
 
-            <SongControls>
+            <SongControls style={{ position: 'relative', top: -7}}>
               <SongControlsButton>
                 <FontAwesome5 name="backward" size={24} color="white" />
               </SongControlsButton>
@@ -260,7 +260,7 @@ export default function Play() {
               <Ionicons name="ios-volume-high" color='#FFFFFF4B' size={25} />
             </VolumnSliderWrapper>
 
-            <SongControls>
+            <SongControls style={{ marginBottom: 20, marginTop: 10}}>
               <OptionButton style={{ backgroundColor: 'white' }}>
                 <Ionicons name="ios-close" size={18} style={{ marginLeft: .5, marginTop: .5 }} />
               </OptionButton>
