@@ -119,7 +119,7 @@ const SongTimingWrapper = styled.View`
 
 let audio = new Audio.Sound();
 
-export default function Play() {
+export default function Play({ navigation }) {
   const route = useRoute();
   const { _id } = route.params;
 
@@ -296,7 +296,9 @@ export default function Play() {
               <OptionButton>
                 <Ionicons name="heart" size={17} color="white" style={{ marginLeft: .5, marginTop: 1 }} />
               </OptionButton>
-              <OptionButton>
+              <OptionButton onPress={() => {
+                navigation.navigate('AddJournal');
+              }}>
                 <ZenbaseAddImage source={ZenbaseAddIcon} resizeMode='contain' style={{ marginLeft: .5, marginBottom: 2 }} />
               </OptionButton>
               <OptionButton onPress={openContextMenu}>

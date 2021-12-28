@@ -41,6 +41,7 @@ import PremiumUpgrade1 from 'screens/play/premium-upgrade-1';
 import PremiumUpgrade2 from 'screens/play/premium-upgrade-2';
 import SearchModal from 'screens/search/modal';
 import Play from 'screens/play';
+import AddJournal from 'screens/journal/add';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -107,6 +108,7 @@ export default function Navigation() {
           <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
           <Stack.Screen name="SearchModal" component={SearchModal} />
           <Stack.Screen name="Play" component={Play} />
+          <Stack.Screen name="AddJournal" component={AddJournal} />
           
           {/* CTAs */}
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
