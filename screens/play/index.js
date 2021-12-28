@@ -139,7 +139,7 @@ export default function Play() {
   });
 
   const openContextMenu = event => {
-    contextMenuConfig.display = true;
+    contextMenuConfig.display = !contextMenuConfig.display;
     contextMenuConfig.top = event.nativeEvent.pageY - contextMenuHeight - 10;
     contextMenuConfig.left = event.nativeEvent.pageX - 150;
 
