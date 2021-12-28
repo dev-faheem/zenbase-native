@@ -19,13 +19,14 @@ import { Audio } from 'expo-av';
 
 // Import Images
 import ZenbaseAddIcon from 'assets/vectors/zenbase-white-add.png';
+import ZentokenIcon from 'assets/images/zentoken-logo-border.png';
 
 const ScreenContainer = styled.View`
   padding-left: 22px;
   padding-right: 22px;
   flex: 1;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 const ZenCounter = styled.View``;
@@ -42,20 +43,21 @@ const SongBackdrop = styled.Image`
 `;
 
 const SongArtworkContainer = styled.View`
-  margin-top: 64px;
+  margin-top: 40px;
   margin-bottom: 27px;
   flex-direction: row;
   justify-content: center;
 `;
 const SongArtwork = styled.Image`
-  width: ${Math.floor(Dimensions.get('window').width * 0.95) - 44}px;
-  height: ${Math.floor(Dimensions.get('window').width * 0.95) - 44}px;
+  width: ${Math.floor(Dimensions.get('window').width - 44)}px;
+  height: ${Math.floor(Dimensions.get('window').width - 44)}px;
   border-radius: 10px;
 `;
 const SongTitle = styled.Text`
   font-size: 22px;
   color: white;
   font-weight: bold;
+  
 `;
 const SongArtist = styled.Text`
   font-size: 22px;
@@ -94,6 +96,24 @@ const ZenbaseAddImage = styled.Image`
   width: 18px;
   height: 18px;
 `;
+
+const ZentEarningWrapper = styled.View`
+  padding-top: 30px; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`
+
+const ZentokenImage = styled.Image`
+  width: 30px;
+  height: 30px;
+`
+
+const SongTimingWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
 
 let audio = new Audio.Sound();
 
@@ -137,6 +157,12 @@ export default function Play() {
             blurRadius={100}
             style={{ opacity: 0.7 }}
           />
+
+          <ZentEarningWrapper>
+            <ZentokenImage source={ZentokenIcon} style={{ marginRight: 8 }} />
+            <Text fontWeight='600'>5:25 • 0.01 ZENT earned</Text>
+          </ZentEarningWrapper>
+
           <SongArtworkContainer>
             <Shadow distance={50} radius={10}>
               <SongArtwork
@@ -156,14 +182,19 @@ export default function Play() {
             </View>
 
             {/* Playback Slider / Seekbar */}
-            <Slider
-
-              minimumValue={0}
-              value={position}
-              maximumValue={duration}
-              minimumTrackTintColor="#FFFFFF5A"
-              maximumTrackTintColor="#FFFFFF1E"
-            />
+            <View>
+              <Slider
+                minimumValue={0}
+                value={position}
+                maximumValue={duration}
+                minimumTrackTintColor="#FFFFFF5A"
+                maximumTrackTintColor="#FFFFFF1E"
+              />
+              <SongTimingWrapper>
+                <Text style={{ color: '#FFFFFF5A' }}>0:00</Text>
+                <Text style={{ color: '#FFFFFF5A' }}>20:00</Text>
+              </SongTimingWrapper>
+            </View>
 
             <SongControls>
               <SongControlsButton>
