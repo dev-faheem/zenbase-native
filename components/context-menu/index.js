@@ -34,7 +34,7 @@ const ContextMenuList = styled.TouchableOpacity`
 const ContextMenuDivider = styled.View`
   height: 5px;
   width: 100%;
-  background-color: #121314;
+  background-color: #1213145C;
 `
 
 export default function ContextMenu({ display, closeHandler, top = 0, left = 0, menuList = [], onLayout }) {
@@ -43,7 +43,9 @@ export default function ContextMenu({ display, closeHandler, top = 0, left = 0, 
             display ? { opacity: 1, zIndex: 1 } : { opacity: 0, zIndex: -1 },
         ]}>
             <ContextMenuView style={[{ top, left }]} onLayout={(event) => {
-                onLayout(event.nativeEvent.layout)
+                if (onLayout) {
+                    onLayout(event.nativeEvent.layout)
+                }
             }}>
                 <BlurView intensity={200} tint="dark" >
                     {menuList.map((item, index) => {

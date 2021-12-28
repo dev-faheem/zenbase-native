@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, Container, Canvas, NavigationPadding } from 'components';
+import { Text, Container, Canvas, ContextMenu } from 'components';
 import { useRoute } from '@react-navigation/core';
 import styled from 'styled-components';
 import axios from 'services/axios';
 import { useLoader } from 'stores/loader';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, Image, View } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import Slider from '@react-native-community/slider';
 import {
@@ -20,6 +20,8 @@ import { Audio } from 'expo-av';
 // Import Images
 import ZenbaseAddIcon from 'assets/vectors/zenbase-white-add.png';
 import ZentokenIcon from 'assets/images/zentoken-logo-border.png';
+
+const windowsHeight = Dimensions.get("window").height;
 
 const ScreenContainer = styled.View`
   padding-left: 22px;
@@ -128,6 +130,30 @@ export default function Play() {
   const [duration, setDuration] = useState(1);
   const { setLoading, renderLoader } = useLoader();
 
+  // Context Menu Config
+  let contextMenuHeight = 145;
+  const [contextMenuConfig, setContextMenuConfig] = useState({
+    display: false,
+    top: 0,
+    left: 0
+  });
+
+  const openContextMenu = event => {
+    contextMenuConfig.display = true;
+    contextMenuConfig.top = event.nativeEvent.pageY - contextMenuHeight - 10;
+    contextMenuConfig.left = event.nativeEvent.pageX - 150;
+
+    setContextMenuConfig({ ...contextMenuConfig });
+  }
+
+  const closeContextMenu = event => {
+    contextMenuConfig.display = false;
+    contextMenuConfig.top = 0;
+    contextMenuConfig.left = 0;
+
+    setContextMenuConfig({ ...contextMenuConfig });
+  }
+
   useEffect(() => {
     fetchSong(_id);
   }, [_id]);
@@ -196,7 +222,7 @@ export default function Play() {
               </SongTimingWrapper>
             </View>
 
-            <SongControls style={{ position: 'relative', top: -7}}>
+            <SongControls style={{ position: 'relative', top: -7 }}>
               <SongControlsButton>
                 <FontAwesome5 name="backward" size={24} color="white" />
               </SongControlsButton>
@@ -260,7 +286,7 @@ export default function Play() {
               <Ionicons name="ios-volume-high" color='#FFFFFF4B' size={25} />
             </VolumnSliderWrapper>
 
-            <SongControls style={{ marginBottom: 20, marginTop: 10}}>
+            <SongControls style={{ marginBottom: 20, marginTop: 10 }}>
               <OptionButton style={{ backgroundColor: 'white' }}>
                 <Ionicons name="ios-close" size={18} style={{ marginLeft: .5, marginTop: .5 }} />
               </OptionButton>
@@ -273,13 +299,49 @@ export default function Play() {
               <OptionButton>
                 <ZenbaseAddImage source={ZenbaseAddIcon} resizeMode='contain' style={{ marginLeft: .5, marginBottom: 2 }} />
               </OptionButton>
-              <OptionButton>
+              <OptionButton onPress={openContextMenu}>
                 <Feather name="more-horizontal" size={18} color="white" />
               </OptionButton>
             </SongControls>
           </ScreenContainer>
         </>
       )}
+
+      <ContextMenu
+        display={contextMenuConfig.display}
+        top={contextMenuConfig.top}
+        left={contextMenuConfig.left}
+        closeHandler={closeContextMenu}
+        
+        menuList={[
+          // {
+          //   title: 'Delete from Library',
+          //   icon: <Ionicons name="ios-trash-outline" size={16} color='white' />,
+          //   onPress: () => { }
+          // },
+          {
+            title: 'Add to Library',
+            icon: <Ionicons name="heart-outline" size={16} color='white' />,
+            onPress: () => { }
+          },
+          {
+            divider: true
+          },
+          {
+            title: 'Listen with Friends',
+            icon: (
+              <View style={{ width: 16, height: 16, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 100, borderWidth: 1, borderColor: 'white'}}>
+                <Image source={ZenbaseAddIcon} resizeMode='contain' style={{ width: 10, height: 10}} />
+              </View>
+            ),
+            onPress: () => { }
+          },
+          {
+            title: 'Share Song...',
+            icon: <Ionicons name="ios-share-outline" size={16} color='white' />,
+            onPress: () => { }
+          },
+        ]} />
     </Canvas>
   );
 }
