@@ -72,7 +72,6 @@ export function HomeStack() {
       <Tabs.Screen name="Profile" component={Profile} />
       <Tabs.Screen name="Followers" component={Followers} />
       <Tabs.Screen name="Sounds" component={Sounds} />
-      <Tabs.Screen name="Play" component={Play} />
     </Tabs.Navigator>
   );
 }
@@ -96,6 +95,7 @@ export default function Navigation() {
           <Stack.Screen name="OTP" component={OneTimePassword} />
           <Stack.Screen name="SignupBonus" component={SignupBonus} />
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
+          
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
@@ -106,7 +106,8 @@ export default function Navigation() {
           <Stack.Screen name="DonationThanks" component={DonationThanks} />
           <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
           <Stack.Screen name="SearchModal" component={SearchModal} />
-
+          <Stack.Screen name="Play" component={Play} />
+          
           {/* CTAs */}
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
           <Stack.Screen name="PremiumTrial" component={PremiumTrial} />

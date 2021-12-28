@@ -4,7 +4,7 @@ import { useRoute } from '@react-navigation/core';
 import styled from 'styled-components';
 import axios from 'services/axios';
 import { useLoader } from 'stores/loader';
-import { Dimensions } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import Slider from '@react-native-community/slider';
 import {
@@ -16,9 +16,16 @@ import {
 } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 
-const ScreenContainer = styled.ScrollView`
+
+// Import Images
+import ZenbaseAddIcon from 'assets/vectors/zenbase-white-add.png';
+
+const ScreenContainer = styled.View`
   padding-left: 22px;
   padding-right: 22px;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 
 const ZenCounter = styled.View``;
@@ -35,13 +42,14 @@ const SongBackdrop = styled.Image`
 `;
 
 const SongArtworkContainer = styled.View`
-  margin-left: 22px;
   margin-top: 64px;
   margin-bottom: 27px;
+  flex-direction: row;
+  justify-content: center;
 `;
 const SongArtwork = styled.Image`
-  width: ${Math.floor(Dimensions.get('window').width) - 22 - 22}px;
-  height: ${Math.floor(Dimensions.get('window').width) - 22 - 22}px;
+  width: ${Math.floor(Dimensions.get('window').width * 0.95) - 44}px;
+  height: ${Math.floor(Dimensions.get('window').width * 0.95) - 44}px;
   border-radius: 10px;
 `;
 const SongTitle = styled.Text`
@@ -61,7 +69,31 @@ const SongControls = styled.View`
   align-items: center;
   justify-content: space-around;
 `;
+
 const SongControlsButton = styled.TouchableOpacity``;
+
+
+const VolumnSliderWrapper = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+`
+
+const OptionButton = styled.TouchableOpacity`
+  flex-direction: row;
+  justify-content: center; 
+  align-items: center;
+  border-radius: 100px;
+  width: 30px; 
+  height: 30px;
+  background-color: rgba(247, 248, 250, 0.3);
+`;
+
+const ZenbaseAddImage = styled.Image`
+  width: 18px;
+  height: 18px;
+`;
 
 let audio = new Audio.Sound();
 
@@ -102,7 +134,8 @@ export default function Play() {
         <>
           <SongBackdrop
             source={{ uri: song.artwork?.replace('https', 'http') }}
-            blurRadius={40}
+            blurRadius={100}
+            style={{ opacity: 0.7 }}
           />
           <SongArtworkContainer>
             <Shadow distance={50} radius={10}>
@@ -117,16 +150,19 @@ export default function Play() {
             </Shadow>
           </SongArtworkContainer>
           <ScreenContainer>
-            <SongTitle>{song.name || 'Song Name'}</SongTitle>
-            <SongArtist>{song.artist?.name || 'Artist Name'}</SongArtist>
+            <View>
+              <SongTitle>{song.name || 'Song Name'}</SongTitle>
+              <SongArtist>{song.artist?.name || 'Artist Name'}</SongArtist>
+            </View>
 
             {/* Playback Slider / Seekbar */}
             <Slider
+
               minimumValue={0}
               value={position}
               maximumValue={duration}
-              minimumTrackTintColor="#FFFFFF"
-              maximumTrackTintColor="#000000"
+              minimumTrackTintColor="#FFFFFF5A"
+              maximumTrackTintColor="#FFFFFF1E"
             />
 
             <SongControls>
@@ -137,7 +173,7 @@ export default function Play() {
               {isPlaying ? (
                 <SongControlsButton
                   onPress={async () => {
-                    return;
+                    // return;
                     setIsPlaying(false);
                     await audio.stopAsync();
                   }}
@@ -169,45 +205,47 @@ export default function Play() {
             </SongControls>
 
             {/* Volume Slider */}
-            <Slider
-              thumbSize={{
-                width: 8,
-                height: 8,
-              }}
-              minimumValue={0}
-              maximumValue={1}
-              minimumTrackTintColor="#FFFFFF"
-              maximumTrackTintColor="#000000"
-              value={volume}
-              onValueChange={async (_volume) => {
-                await audio.setVolumeAsync(_volume);
-                setVolume(_volume);
-              }}
-            />
+            <VolumnSliderWrapper>
+              <Ionicons name="ios-volume-off" color='#FFFFFF4B' size={25} />
+              <Slider
+                style={{
+                  width: '86%',
+                  marginRight: 5
+                }}
+                thumbSize={{
+                  width: 8,
+                  height: 8,
+                }}
+                minimumValue={0}
+                maximumValue={1}
+                minimumTrackTintColor="#FFFFFF5A"
+                maximumTrackTintColor="#FFFFFF1E"
+                value={volume}
+                onValueChange={async (_volume) => {
+                  await audio.setVolumeAsync(_volume);
+                  setVolume(_volume);
+                }}
+              />
+              <Ionicons name="ios-volume-high" color='#FFFFFF4B' size={25} />
+            </VolumnSliderWrapper>
 
             <SongControls>
-              <SongControlsButton>
-                <Ionicons name="ios-close-circle" size={24} color="white" />
-              </SongControlsButton>
-              <SongControlsButton>
-                <Ionicons name="heart-circle-sharp" size={24} color="white" />
-              </SongControlsButton>
-              <SongControlsButton>
-                <MaterialCommunityIcons
-                  name="meditation"
-                  size={24}
-                  color="white"
-                />
-              </SongControlsButton>
-              <SongControlsButton>
-                <Feather name="more-horizontal" size={24} color="white" />
-              </SongControlsButton>
+              <OptionButton style={{ backgroundColor: 'white' }}>
+                <Ionicons name="ios-close" size={18} style={{ marginLeft: .5, marginTop: .5 }} />
+              </OptionButton>
+              <OptionButton>
+                <Ionicons name="heart" size={17} color="white" style={{ marginLeft: .5, marginTop: 1 }} />
+              </OptionButton>
+              <OptionButton>
+                <ZenbaseAddImage source={ZenbaseAddIcon} resizeMode='contain' style={{ marginLeft: .5, marginBottom: 2 }} />
+              </OptionButton>
+              <OptionButton>
+                <Feather name="more-horizontal" size={18} color="white" />
+              </OptionButton>
             </SongControls>
           </ScreenContainer>
         </>
       )}
-
-      <NavigationPadding />
     </Canvas>
   );
 }
