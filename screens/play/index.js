@@ -264,6 +264,9 @@ export default function Play() {
               <OptionButton style={{ backgroundColor: 'white' }}>
                 <Ionicons name="ios-close" size={18} style={{ marginLeft: .5, marginTop: .5 }} />
               </OptionButton>
+              {/* <OptionButton style={{ backgroundColor: 'white'}}>
+                <Ionicons name="heart" size={17} style={{ marginLeft: .5, marginTop: 1 }} />
+              </OptionButton> */}
               <OptionButton>
                 <Ionicons name="heart" size={17} color="white" style={{ marginLeft: .5, marginTop: 1 }} />
               </OptionButton>
