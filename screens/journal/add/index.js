@@ -40,7 +40,7 @@ const SongTile = styled.Image`
 
 const SongTimeWrapper = styled.Text`
     position: absolute;
-    top: 10;
+    top: 10px;
     width: 100%;
     text-align: right;
     color: white;
@@ -67,13 +67,18 @@ const Emoji = styled.TouchableOpacity`
     align-items: center;
 `
 
+const FotterWrapper = styled.View`
+    width: 100%;
+    flex: 1;
+`
+
 // Add Journal Component (Default)
 export default function AddJournal({ route, navigation }) {
 
     const [emotion, setEmotion] = useState(null);
 
-    return <BlurView intensity={200} tint="dark" style={{ width: '100%', height: '100%' }}>
-        <SafeAreaView>
+    return <BlurView intensity={200} tint="dark" style={{ width: '100%', height: '100%'}}>
+        <SafeAreaView style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ marginLeft: 10 }}>
                 <Ionicons name="ios-chevron-back" size={30} color='white' />
             </TouchableOpacity>
@@ -125,9 +130,9 @@ export default function AddJournal({ route, navigation }) {
                         <Entypo name={`emoji-sad`} size={36} color='rgba(254,254,254, 0.9)' />
                     </Emoji>
                 </EmojiWrapper>
-
-
             </Container>
+
+            <FotterWrapper></FotterWrapper>
         </SafeAreaView>
     </BlurView>
 }
