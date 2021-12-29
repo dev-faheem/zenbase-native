@@ -67,7 +67,7 @@ const Emoji = styled.TouchableOpacity`
     align-items: center;
 `
 
-const FotterWrapper = styled.View`
+const FooterWrapper = styled.View`
     width: 100%;
     flex: 1;
 `
@@ -132,7 +132,7 @@ export default function AddJournal({ route, navigation }) {
                 </EmojiWrapper>
             </Container>
 
-            <FotterWrapper></FotterWrapper>
+            <FooterWrapper></FooterWrapper>
         </SafeAreaView>
     </BlurView>
 }
