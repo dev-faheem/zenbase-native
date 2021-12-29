@@ -213,12 +213,12 @@ export default function Play({ navigation }) {
                 minimumValue={0}
                 value={position}
                 maximumValue={duration}
-                minimumTrackTintColor="#FFFFFF5A"
-                maximumTrackTintColor="#FFFFFF1E"
+                minimumTrackTintColor="rgba(255, 255, 255, 0.6)"
+                maximumTrackTintColor="rgba(255, 255, 255, 0.1)"
               />
               <SongTimingWrapper>
-                <Text style={{ color: '#FFFFFF5A' }}>0:00</Text>
-                <Text style={{ color: '#FFFFFF5A' }}>20:00</Text>
+                <Text style={{ color: 'rgba(255, 255, 255, 0.35)' }}>0:00</Text>
+                <Text style={{ color: 'rgba(255, 255, 255, 0.35)' }}>20:00</Text>
               </SongTimingWrapper>
             </View>
 
@@ -263,7 +263,7 @@ export default function Play({ navigation }) {
 
             {/* Volume Slider */}
             <VolumnSliderWrapper>
-              <Ionicons name="ios-volume-off" color='#FFFFFF4B' size={25} />
+              <Ionicons name="ios-volume-off" color='rgba(255, 255, 255, 0.7)' size={25} />
               <Slider
                 style={{
                   width: '86%',
@@ -275,15 +275,15 @@ export default function Play({ navigation }) {
                 }}
                 minimumValue={0}
                 maximumValue={1}
-                minimumTrackTintColor="#FFFFFF5A"
-                maximumTrackTintColor="#FFFFFF1E"
+                minimumTrackTintColor="rgba(255, 255, 255, 0.6)"
+                maximumTrackTintColor="rgba(255, 255, 255, 0.1)"
                 value={volume}
                 onValueChange={async (_volume) => {
                   await audio.setVolumeAsync(_volume);
                   setVolume(_volume);
                 }}
               />
-              <Ionicons name="ios-volume-high" color='#FFFFFF4B' size={25} />
+              <Ionicons name="ios-volume-high" color='rgba(255, 255, 255, 0.7)' size={25} />
             </VolumnSliderWrapper>
 
             <SongControls style={{ marginBottom: 20, marginTop: 10 }}>
