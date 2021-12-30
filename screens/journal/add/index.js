@@ -130,7 +130,7 @@ export default function AddJournal({ route, navigation }) {
             <View>
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
-                    style={{ width: '100%', marginTop: 50 }}
+                    style={{ width: '100%', marginTop: 20, marginBottom: 20 }}
                     horizontal={true}
                 >
                     <Box w={`${Dimensions.get('window').width * 0.30}px`} />
@@ -146,7 +146,7 @@ export default function AddJournal({ route, navigation }) {
             </View>
             <Container>
                 <Text fontSize="22" fontWeight='600' style={{
-                    marginTop: 25,
+                    marginTop: 5,
                     width: '100%',
                     textAlign: 'center',
                     color: 'rgba(247,248,250, 0.9)',
@@ -180,11 +180,11 @@ export default function AddJournal({ route, navigation }) {
 
             <FooterWrapper>
                 <FooterBody>
-                    <Text fontSize='xl' fontWeight='bold'>My Journal</Text>
+                    <Text fontSize='xl' fontWeight='bold' style={{ marginBottom: 8 }}>My Journal</Text>
                     <JournalText>
                         <Text numberOfLines={10} style={{ color: 'rgba(247, 248, 250, 0.9)' }} numberOfLines={100}>Write how you’re feeling here...</Text>
                     </JournalText>
-                    <Text fontSize='md' style={{ color: 'rgba(255, 255, 255, 0.9)', marginBottom: 8 }}>You can access all of your journal entries from your profile at any time.</Text>
+                    <Text fontSize='md' style={{ color: 'rgba(255, 255, 255, 0.9)', marginTop: 5, marginBottom: 18 }}>You can access all of your journal entries from your profile at any time.</Text>
                 </FooterBody>
                 <FooterButtons>
                     <SubmitButton>
