@@ -43,6 +43,8 @@ import SearchModal from 'screens/search/modal';
 import Play from 'screens/play';
 import AddJournal from 'screens/journal/add';
 import ClaimToWallet from 'screens/play/claim-to-wallet';
+import EnableNotification from 'screens/play/enable-notification';
+import TotalEarnings from 'screens/play/total-earnings';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -83,7 +85,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="ClaimToWallet"
+        initialRouteName="TotalEarnings"
         screenOptions={{
           headerShown: false,
         }}
@@ -99,6 +101,8 @@ export default function Navigation() {
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
           
           <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} /> 
+          <Stack.Screen name="EnableNotification" component={EnableNotification} /> 
+          <Stack.Screen name="TotalEarnings" component={TotalEarnings} /> 
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>

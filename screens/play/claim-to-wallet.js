@@ -99,7 +99,7 @@ export default function ClaimToWallet({ route, navigation }) {
         <ConfettiCannon count={100} fallSpeed={2000} origin={{ x: windowWidth / 2, y: windowHeight - 100 }} fadeOut />
         <Container>
           <ZentTokenBanner tokens={0.01} usd={0.00} />
-          
+
           <ScrollView showsHorizontalScrollIndicator={false}
             style={{ width: '100%', paddingTop: 5, paddingBottom: 5, borderTopWidth: 1, borderBottomWidth: 1, borderColor: 'rgba(172, 178, 155, 0.5)' }}
             snapToInterval={Dimensions.get('window').width * 0.84 + 8}
@@ -108,27 +108,27 @@ export default function ClaimToWallet({ route, navigation }) {
 
             <WalletHistoryList>
               <WalletHistoryListText>
-                <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
-                <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Our Purpose Has Presence</Text>
+                <Text fontSize='lg' numberOfLines={1} color='primary'>5 minutes • 0.01 ZENT</Text>
+                <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} >Our Purpose Has Presence</Text>
                 <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Damon</Text>
               </WalletHistoryListText>
               <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
             </WalletHistoryList>
 
-            
-            <WalletHistoryList style={{ width: windowWidth * 0.865}}>
+
+            <WalletHistoryList style={{ width: windowWidth * 0.865 }}>
               <WalletHistoryListText>
-                <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
-                <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Our Purpose Has Presence</Text>
+                <Text fontSize='lg' numberOfLines={1} color='primary'>5 minutes • 0.01 ZENT</Text>
+                <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} >Our Purpose Has Presence</Text>
                 <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Damon</Text>
               </WalletHistoryListText>
               <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
             </WalletHistoryList>
 
-            <WalletHistoryList style={{ width: windowWidth * 0.865}}>
+            <WalletHistoryList style={{ width: windowWidth * 0.865 }}>
               <WalletHistoryListText>
-                <Text fontSize='lg' numberOfLines={1}>5 minutes • 0.01 ZENT</Text>
-                <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='primary'>Our Purpose Has Presence</Text>
+                <Text fontSize='lg' numberOfLines={1} color='primary'>5 minutes • 0.01 ZENT</Text>
+                <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} >Our Purpose Has Presence</Text>
                 <Text fontSize='md' numberOfLines={1} style={{ marginTop: 2 }} color='secondary'>Damon</Text>
               </WalletHistoryListText>
               <WalletHistoryListThumbnail source={wallpaper1} resizeMode='cover' />
