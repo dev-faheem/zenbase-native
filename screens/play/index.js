@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, Container, Canvas, ContextMenu } from 'components';
+import { Text, Container, Canvas, ContextMenu, Button } from 'components';
 import { useRoute } from '@react-navigation/core';
 import styled from 'styled-components';
 import axios from 'services/axios';
 import { useLoader } from 'stores/loader';
-import { Dimensions, Image, View } from 'react-native';
+import { Dimensions, Image, Animated, TouchableOpacity, View } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import Slider from '@react-native-community/slider';
 import {
@@ -21,6 +21,7 @@ import { Audio } from 'expo-av';
 import ZenbaseAddIcon from 'assets/vectors/zenbase-white-add.png';
 import ZentokenIcon from 'assets/images/zentoken-logo-border.png';
 
+const windowsWidth = Dimensions.get("window").width;
 const windowsHeight = Dimensions.get("window").height;
 
 const ScreenContainer = styled.View`
@@ -117,11 +118,58 @@ const SongTimingWrapper = styled.View`
   align-items: center;
 `
 
+const FooterWrapper = styled.View`
+    padding-left: ${(props) => props.theme.spacing.xxl};
+    padding-right: ${(props) => props.theme.spacing.xxl};
+    width: 100%;
+    flex: 1;
+`
+
+const FooterBody = styled.View`
+    flex: 2;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+
+const FooterButtons = styled.View`
+    flex: 0.9;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+`
+
+const ContinueButton = styled.TouchableOpacity`
+    width: 100%;
+    height: 42px;
+    background-color: rgba(223, 224, 226, .35);
+    border-radius: ${props => props.theme.borderRadius.xl};
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-width: .4px;
+    border-color: rgba(247, 248, 250, .9);
+    position: relative;
+`
+
+const ContinueButtonProgressBar = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 50%;
+  height: 42px;
+  background-color: white;
+  border-radius: ${props => props.theme.borderRadius.xl};
+`
+
 let audio = new Audio.Sound();
 
 export default function Play({ navigation }) {
   const route = useRoute();
   const { _id } = route.params;
+
+  const progressBarWidth = useRef(new Animated.Value(0)).current
 
   const [song, setSong] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -129,6 +177,15 @@ export default function Play({ navigation }) {
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(1);
   const { setLoading, renderLoader } = useLoader();
+
+  // Function to Init continue button animation
+  const startProgressBarAnimation = () => {
+    Animated.timing(progressBarWidth, {
+      toValue: windowsWidth - 40,
+      duration: 3000,
+      useNativeDriver: false
+    }).start()
+  }
 
   // Context Menu Config
   let contextMenuHeight = 145;
@@ -201,7 +258,47 @@ export default function Play({ navigation }) {
               />
             </Shadow>
           </SongArtworkContainer>
-          <ScreenContainer>
+
+           {/**
+           * ****************************
+           * Continue to listen Animation 
+           * ****************************
+           * 
+           * startProgressBarAnimation() is used to start the animation
+           */}
+          {false && <FooterWrapper>
+            <FooterBody>
+              <Text fontSize='20' fontWeight='bold' style={{ color: 'rgba(247, 248, 250, 0.9)' }}>Are you still listening to</Text>
+              <Text fontSize='20' fontWeight='bold' style={{ color: 'rgba(247, 248, 250, 0.9)' }}>“Primordial Energy”?</Text>
+            </FooterBody>
+            <FooterButtons>
+              <ContinueButton onPress={() => { }}>
+                <Animated.View style={[
+                  { width: progressBarWidth },
+                  {
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    zIndex: 1,
+                    height: 42,
+                    backgroundColor: 'white',
+                    borderRadius: 12
+                  }
+                ]} />
+                <Text fontSize='16' color='black' style={{ position: 'relative', zIndex: 2 }}>Continue listening</Text>
+              </ContinueButton>
+              <TouchableOpacity onPress={() => { }}>
+                <Text>Exit</Text>
+              </TouchableOpacity>
+            </FooterButtons>
+          </FooterWrapper>}
+
+          {/**
+           * *************
+           * Song Controls
+           * *************
+           */}
+          {true && <ScreenContainer>
             <View>
               <SongTitle>{song.name || 'Song Name'}</SongTitle>
               <SongArtist>{song.artist?.name || 'Artist Name'}</SongArtist>
@@ -305,7 +402,7 @@ export default function Play({ navigation }) {
                 <Feather name="more-horizontal" size={18} color="white" />
               </OptionButton>
             </SongControls>
-          </ScreenContainer>
+          </ScreenContainer>}
         </>
       )}
 
@@ -314,7 +411,7 @@ export default function Play({ navigation }) {
         top={contextMenuConfig.top}
         left={contextMenuConfig.left}
         closeHandler={closeContextMenu}
-        
+
         menuList={[
           // {
           //   title: 'Delete from Library',
@@ -332,8 +429,8 @@ export default function Play({ navigation }) {
           {
             title: 'Listen with Friends',
             icon: (
-              <View style={{ width: 16, height: 16, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 100, borderWidth: 1, borderColor: 'white'}}>
-                <Image source={ZenbaseAddIcon} resizeMode='contain' style={{ width: 10, height: 10}} />
+              <View style={{ width: 16, height: 16, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 100, borderWidth: 1, borderColor: 'white' }}>
+                <Image source={ZenbaseAddIcon} resizeMode='contain' style={{ width: 10, height: 10 }} />
               </View>
             ),
             onPress: () => { }
