@@ -169,7 +169,7 @@ export default function Play({ navigation }) {
   const route = useRoute();
   const { _id } = route.params;
 
-  const progressBarWidth = useRef(new Animated.Value(0)).current
+  const progressBarWidth = useRef(new Animated.Value(windowsWidth - 40)).current
 
   const [song, setSong] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -180,11 +180,18 @@ export default function Play({ navigation }) {
 
   // Function to Init continue button animation
   const startProgressBarAnimation = () => {
-    Animated.timing(progressBarWidth, {
-      toValue: windowsWidth - 40,
-      duration: 3000,
-      useNativeDriver: false
-    }).start()
+    Animated.sequence([
+      Animated.timing(progressBarWidth, {
+        toValue: windowsWidth - 40,
+        duration: 0,
+        useNativeDriver: false
+      }),
+      Animated.timing(progressBarWidth, {
+        toValue: 0,
+        duration: 3000,
+        useNativeDriver: false
+      })
+    ]).start()
   }
 
   // Context Menu Config
