@@ -42,6 +42,7 @@ import PremiumUpgrade2 from 'screens/play/premium-upgrade-2';
 import SearchModal from 'screens/search/modal';
 import Play from 'screens/play';
 import AddJournal from 'screens/journal/add';
+import ClaimToWallet from 'screens/play/claim-to-wallet';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -82,7 +83,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="ClaimToWallet"
         screenOptions={{
           headerShown: false,
         }}
@@ -97,6 +98,7 @@ export default function Navigation() {
           <Stack.Screen name="SignupBonus" component={SignupBonus} />
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
           
+          <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} /> 
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
