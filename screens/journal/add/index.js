@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Box, Container, Text } from 'components';
 import styled from 'styled-components/native';
 
 import { BlurView } from 'expo-blur';
-import { SafeAreaView, ScrollView, TouchableOpacity, Dimensions, TouchableWithoutFeedback, View } from "react-native";
+import { SafeAreaView, ScrollView, TouchableOpacity, Dimensions, TouchableWithoutFeedback, View, KeyboardAvoidingView } from "react-native";
 
 // Import Icons
 import { Ionicons, Entypo } from '@expo/vector-icons';
@@ -116,11 +116,61 @@ const JournalText = styled.TouchableOpacity`
     background-color: rgba(255, 255, 255, 0.4);
 `
 
+const BlurViewHeader = styled.View`
+    width: 100%;
+    flex-direction: row-reverse;
+    align-items: center;
+`
+
+const TextAreaWrapper = styled.View`
+    flex: 1;
+    margin-top: ${props => props.theme.spacing.lg};
+    margin-bottom: ${props => props.theme.spacing.md};
+    margin-left: ${props => props.theme.spacing.xxl};
+    margin-right: ${props => props.theme.spacing.xxl};
+    padding: ${props => props.theme.spacing.lg};
+    border-radius: ${props => props.theme.borderRadius.xl};
+    background-color: rgba(255, 255, 255, 0.4);
+`
+
+const JournalTitleInput = styled.TextInput`
+    color: #F7F8FA;
+    font-size: ${props => props.theme.fontSize.h2};
+    width: 100%;
+    font-weight: bold;
+`
+
+const JournalDescriptionInput = styled.TextInput`
+    color: #F7F8FA;
+    width: 100%;
+    flex: 1;
+`
+
 
 // Add Journal Component (Default)
 export default function AddJournal({ route, navigation }) {
 
+    const journalDescriptionInput = useRef();
+
     const [emotion, setEmotion] = useState(null);
+    const [journalTitle, setJournalTitle] = useState('');
+    const [journalDescription, setJournalDescription] = useState('');
+
+    const [isTextInputView, setIsTextInputView] = useState(false);
+
+    const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+
+    useEffect(() => {
+        if (emotion == null || `${journalTitle}`.trim() == '' || `${journalDescription}`.trim() == '') {
+            setIsSubmitEnabled(false);
+        } else {
+            setIsSubmitEnabled(true);
+        }
+    }, [emotion, journalTitle, journalDescription])
+
+    const onSubmit = () => {
+        alert('Submitted!!');
+    }
 
     return <BlurView intensity={200} tint="dark" style={{ width: '100%', height: '100%' }}>
         <SafeAreaView style={{ flex: 1 }}>
@@ -181,15 +231,21 @@ export default function AddJournal({ route, navigation }) {
             <FooterWrapper>
                 <FooterBody>
                     <Text fontSize='xl' fontWeight='bold' style={{ marginBottom: 8 }}>My Journal</Text>
-                    <JournalText>
-                        <Text numberOfLines={10} style={{ color: 'rgba(247, 248, 250, 0.9)' }} numberOfLines={100}>Write how you’re feeling here...</Text>
+                    <JournalText onPress={() => setIsTextInputView(true)}>
+                        <Text numberOfLines={10} style={{ color: 'rgba(247, 248, 250, 0.9)' }} numberOfLines={100}>{`${journalDescription}`.trim() || 'Write how you’re feeling here...'}</Text>
                     </JournalText>
                     <Text fontSize='md' style={{ color: 'rgba(255, 255, 255, 0.9)', marginTop: 5, marginBottom: 18 }}>You can access all of your journal entries from your profile at any time.</Text>
                 </FooterBody>
                 <FooterButtons>
-                    <SubmitButton>
+                    <SubmitButton style={[
+                        (isSubmitEnabled && { backgroundColor: '#fff' })
+                    ]} onPress={() => {
+                        if (isSubmitEnabled) {
+                            onSubmit();
+                        }
+                    }}>
                         <Text fontWeight='600' fontSize='lg' style={[
-                            { color: 'rgba(0,0,0,0.6)' }
+                            { color: isSubmitEnabled ? '#000' :'rgba(0,0,0,0.6)' },
                         ]}>Submit</Text>
                     </SubmitButton>
 
@@ -199,5 +255,57 @@ export default function AddJournal({ route, navigation }) {
                 </FooterButtons>
             </FooterWrapper>
         </SafeAreaView>
+
+        {/* Journal Text Inputs */}
+        {isTextInputView && <BlurView style={[
+            {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%'
+            }
+        ]} intensity={200} tint="dark">
+            <KeyboardAvoidingView style={{ width: '100%', height: '100%' }} behavior={'padding'} >
+                <SafeAreaView style={{ flex: 1 }}>
+                    <Container>
+                        <BlurViewHeader>
+                            <TouchableOpacity onPress={() => {
+                                setIsTextInputView(false);
+                            }}>
+                                <Text style={{ marginTop: 5 }}>Done</Text>
+                            </TouchableOpacity>
+                        </BlurViewHeader>
+                    </Container>
+                    <TextAreaWrapper>
+                        <JournalTitleInput 
+                            autoFocus={true}
+                            selectionColor='rgba(255,255,255,0.5)'
+                            placeholderTextColor='#F7F8FA'
+                            placeholder='Title'
+                            onChangeText={setJournalTitle}
+                            value={journalTitle}
+                            onSubmitEditing={() => {
+                                journalDescriptionInput.current.focus()  
+                            }}
+                        />
+
+                        <JournalDescriptionInput 
+                            selectionColor='rgba(255,255,255,0.5)'
+                            placeholderTextColor='#F7F8FA'
+                            placeholder='Write how you’re feeling here...'
+                            multiline={true}
+                            onChangeText={setJournalDescription}
+                            value={journalDescription}
+                            ref={journalDescriptionInput}
+                            
+                        />
+                    </TextAreaWrapper>
+                    <Container>
+                        <Text style={{ color: 'rgba(247, 248, 250, 0.8)', marginTop: 5, marginBottom: 20 }}>You can access all of your journal entries from your profile at any time.</Text>
+                    </Container>
+                </SafeAreaView>
+            </KeyboardAvoidingView>
+        </BlurView>}
     </BlurView>
 }

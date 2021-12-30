@@ -128,9 +128,7 @@ export default function Login({ navigation }) {
               }
               value={phoneNumberOrEmail}
               onSubmitEditing={() => {
-                if (phoneNumberOrEmail != '' && password != '') {
-                  loginHandler();
-                } else {
+                if (!(phoneNumberOrEmail != '' && password != '')) {
                   passwordInput.current.focus()
                 }
               }}
