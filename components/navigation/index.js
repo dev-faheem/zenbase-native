@@ -85,7 +85,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="TotalEarnings"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false,
         }}
