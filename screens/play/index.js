@@ -188,7 +188,7 @@ export default function Play({ navigation }) {
       }),
       Animated.timing(progressBarWidth, {
         toValue: 0,
-        duration: 3000,
+        duration: 20000,
         useNativeDriver: false
       })
     ]).start()
