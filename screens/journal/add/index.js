@@ -3,7 +3,7 @@ import { Box, Container, Text } from 'components';
 import styled from 'styled-components/native';
 
 import { BlurView } from 'expo-blur';
-import { SafeAreaView, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { SafeAreaView, ScrollView, TouchableOpacity, Dimensions, TouchableWithoutFeedback} from "react-native";
 
 // Import Icons
 import { Ionicons, Entypo } from '@expo/vector-icons';
@@ -68,16 +68,61 @@ const Emoji = styled.TouchableOpacity`
 `
 
 const FooterWrapper = styled.View`
+    padding-left: ${(props) => props.theme.spacing.xxl};
+    padding-right: ${(props) => props.theme.spacing.xxl};
     width: 100%;
     flex: 1;
 `
+
+const FooterBody = styled.View`
+    flex: 2;
+`
+
+const FooterButtons = styled.View`
+    flex: 0.9;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+`
+
+const SubmitButton = styled.TouchableOpacity`
+    width: 100%;
+    height: 42px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: ${props => props.theme.borderRadius.md};
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
+
+const SkipButton = styled.TouchableOpacity`
+    width: 100%;
+    height: 42px;
+    background-color: rgba(223, 224, 226, .35);
+    border-radius: ${props => props.theme.borderRadius.md};
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-width: .4px;
+    border-color: rgba(247, 248, 250, .9);
+`
+
+const JournalText = styled.TouchableOpacity`
+    flex: 1;
+    margin-top: ${props => props.theme.spacing.md};
+    margin-bottom: ${props => props.theme.spacing.md};
+    padding: ${props => props.theme.spacing.lg};
+    border-radius: ${props => props.theme.borderRadius.xl};
+    background-color: rgba(255, 255, 255, 0.4);
+`
+
 
 // Add Journal Component (Default)
 export default function AddJournal({ route, navigation }) {
 
     const [emotion, setEmotion] = useState(null);
 
-    return <BlurView intensity={200} tint="dark" style={{ width: '100%', height: '100%'}}>
+    return <BlurView intensity={200} tint="dark" style={{ width: '100%', height: '100%' }}>
         <SafeAreaView style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ marginLeft: 10 }}>
                 <Ionicons name="ios-chevron-back" size={30} color='white' />
@@ -132,7 +177,26 @@ export default function AddJournal({ route, navigation }) {
                 </EmojiWrapper>
             </Container>
 
-            <FooterWrapper></FooterWrapper>
+            <FooterWrapper>
+                <FooterBody>
+                    <Text fontSize='xl' fontWeight='bold'>My Journal</Text>
+                    <JournalText>
+                        <Text numberOfLines={10} style={{ color: 'rgba(247, 248, 250, 0.9)'}} numberOfLines={100}>Write how you’re feeling here...</Text>
+                    </JournalText>
+                    <Text fontSize='md' style={{ color: 'rgba(255, 255, 255, 0.9)', marginBottom: 8 }}>You can access all of your journal entries from your profile at any time.</Text>
+                </FooterBody>
+                <FooterButtons>
+                    <SubmitButton>
+                        <Text fontWeight='600' fontSize='lg' style={[
+                            {color: 'rgba(0,0,0,0.6)'}
+                        ]}>Submit</Text>
+                    </SubmitButton>
+
+                    <SkipButton>
+                        <Text fontWeight='600' fontSize='lg'>Skip check-in</Text>
+                    </SkipButton>
+                </FooterButtons>
+            </FooterWrapper>
         </SafeAreaView>
     </BlurView>
 }
