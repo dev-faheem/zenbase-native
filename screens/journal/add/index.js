@@ -3,7 +3,7 @@ import { Box, Container, Text } from 'components';
 import styled from 'styled-components/native';
 
 import { BlurView } from 'expo-blur';
-import { SafeAreaView, ScrollView, TouchableOpacity, Dimensions, TouchableWithoutFeedback} from "react-native";
+import { SafeAreaView, ScrollView, TouchableOpacity, Dimensions, TouchableWithoutFeedback, View } from "react-native";
 
 // Import Icons
 import { Ionicons, Entypo } from '@expo/vector-icons';
@@ -127,13 +127,13 @@ export default function AddJournal({ route, navigation }) {
             <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ marginLeft: 10 }}>
                 <Ionicons name="ios-chevron-back" size={30} color='white' />
             </TouchableOpacity>
-            <Container>
+            <View>
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     style={{ width: '100%', marginTop: 50 }}
                     horizontal={true}
                 >
-                    <Box w={`${Dimensions.get('window').width * 0.23}px`} />
+                    <Box w={`${Dimensions.get('window').width * 0.30}px`} />
                     <SongTileWrapper>
                         <SongTile source={SongImage} />
                         <SongTimeWrapper>20 min</SongTimeWrapper>
@@ -143,7 +143,8 @@ export default function AddJournal({ route, navigation }) {
                         <SongTimeWrapper>20 min</SongTimeWrapper>
                     </SongTileWrapper>
                 </ScrollView>
-
+            </View>
+            <Container>
                 <Text fontSize="22" fontWeight='600' style={{
                     marginTop: 25,
                     width: '100%',
@@ -181,14 +182,14 @@ export default function AddJournal({ route, navigation }) {
                 <FooterBody>
                     <Text fontSize='xl' fontWeight='bold'>My Journal</Text>
                     <JournalText>
-                        <Text numberOfLines={10} style={{ color: 'rgba(247, 248, 250, 0.9)'}} numberOfLines={100}>Write how you’re feeling here...</Text>
+                        <Text numberOfLines={10} style={{ color: 'rgba(247, 248, 250, 0.9)' }} numberOfLines={100}>Write how you’re feeling here...</Text>
                     </JournalText>
                     <Text fontSize='md' style={{ color: 'rgba(255, 255, 255, 0.9)', marginBottom: 8 }}>You can access all of your journal entries from your profile at any time.</Text>
                 </FooterBody>
                 <FooterButtons>
                     <SubmitButton>
                         <Text fontWeight='600' fontSize='lg' style={[
-                            {color: 'rgba(0,0,0,0.6)'}
+                            { color: 'rgba(0,0,0,0.6)' }
                         ]}>Submit</Text>
                     </SubmitButton>
 
