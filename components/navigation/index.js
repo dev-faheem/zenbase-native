@@ -41,6 +41,10 @@ import PremiumUpgrade1 from 'screens/play/premium-upgrade-1';
 import PremiumUpgrade2 from 'screens/play/premium-upgrade-2';
 import SearchModal from 'screens/search/modal';
 import Play from 'screens/play';
+import AddJournal from 'screens/journal/add';
+import ClaimToWallet from 'screens/play/claim-to-wallet';
+import EnableNotification from 'screens/play/enable-notification';
+import TotalEarnings from 'screens/play/total-earnings';
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -72,7 +76,6 @@ export function HomeStack() {
       <Tabs.Screen name="Profile" component={Profile} />
       <Tabs.Screen name="Followers" component={Followers} />
       <Tabs.Screen name="Sounds" component={Sounds} />
-      <Tabs.Screen name="Play" component={Play} />
     </Tabs.Navigator>
   );
 }
@@ -96,6 +99,10 @@ export default function Navigation() {
           <Stack.Screen name="OTP" component={OneTimePassword} />
           <Stack.Screen name="SignupBonus" component={SignupBonus} />
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
+          
+          <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} /> 
+          <Stack.Screen name="EnableNotification" component={EnableNotification} /> 
+          <Stack.Screen name="TotalEarnings" component={TotalEarnings} /> 
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
@@ -106,7 +113,9 @@ export default function Navigation() {
           <Stack.Screen name="DonationThanks" component={DonationThanks} />
           <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
           <Stack.Screen name="SearchModal" component={SearchModal} />
-
+          <Stack.Screen name="Play" component={Play} />
+          <Stack.Screen name="AddJournal" component={AddJournal} />
+          
           {/* CTAs */}
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
           <Stack.Screen name="PremiumTrial" component={PremiumTrial} />
