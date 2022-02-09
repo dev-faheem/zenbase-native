@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   Container,
@@ -7,23 +7,29 @@ import {
   SongListing,
   Box,
   NavigationPadding,
-  ContextMenu
-} from "components";
-import styled from "styled-components/native";
-import useSearch from "queries/useSearch";
-import { FlatList, ScrollView, Dimensions, TouchableOpacity } from "react-native";
-import useCategories from "queries/useCategories";
+  ContextMenu,
+} from 'components';
+import styled from 'styled-components/native';
+import useSearch from 'queries/useSearch';
+import {
+  FlatList,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import useCategories from 'queries/useCategories';
 
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useTheme } from "stores/theme";
-
+import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTheme } from 'stores/theme';
 
 // Import Images
 import SongImg from 'assets/images/song.png';
 import ArtistImg from 'assets/images/artist.png';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'services/axios';
 
-
-const windowsHeight = Dimensions.get("window").height;
+const windowsHeight = Dimensions.get('window').height;
 
 // Styled Components
 const SearchInput = styled.TextInput`
@@ -39,15 +45,15 @@ const SearchInput = styled.TextInput`
 
 const SongListWrapper = styled.View`
   width: ${Dimensions.get('window').width * 0.89}px;
-  padding-top: ${props => props.theme.spacing.md};
-  padding-bottom: ${props => props.theme.spacing.md};
-`
+  padding-top: ${(props) => props.theme.spacing.md};
+  padding-bottom: ${(props) => props.theme.spacing.md};
+`;
 
 const SongList = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`
+`;
 
 const SongImage = styled.Image`
   width: 40px;
@@ -70,23 +76,23 @@ const SongContentWrapper = styled.View`
   justify-content: space-between;
   border-top-color: rgba(172, 178, 155, 0.5);
   border-top-width: 0px;
-  
+
   border-bottom-color: rgba(172, 178, 155, 0.5);
   border-bottom-width: 0.5px;
-`
+`;
 
 const SongContent = styled.View`
   flex: 1;
   flex-direction: column;
   justify-content: center;
-  padding-left: ${props => props.theme.spacing.sm};
-`
+  padding-left: ${(props) => props.theme.spacing.sm};
+`;
 
 const IconWrapper = styled.View`
   height: 100%;
   flex-direction: column;
   justify-content: center;
-`
+`;
 
 const SearchBarWrapper = styled.TouchableOpacity`
   width: 100%;
@@ -94,19 +100,18 @@ const SearchBarWrapper = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  border-radius: ${props => props.theme.borderRadius.lg};
-  background-color: ${props => props.theme.color.hud};
-  margin-top: ${props => props.theme.spacing.sm};
-  margin-bottom: ${props => props.theme.spacing.sm};
-  padding-left: ${props => props.theme.spacing.sm};
-  padding-right: ${props => props.theme.spacing.sm};
-`
+  border-radius: ${(props) => props.theme.borderRadius.lg};
+  background-color: ${(props) => props.theme.color.hud};
+  margin-top: ${(props) => props.theme.spacing.sm};
+  margin-bottom: ${(props) => props.theme.spacing.sm};
+  padding-left: ${(props) => props.theme.spacing.sm};
+  padding-right: ${(props) => props.theme.spacing.sm};
+`;
 
 export default function Search({ navigation }) {
-
   const { theme } = useTheme();
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const searchQuery = useSearch();
   const categoriesQuery = useCategories();
 
@@ -115,14 +120,13 @@ export default function Search({ navigation }) {
   const [contextMenuConfig, setContextMenuConfig] = useState({
     display: false,
     top: 0,
-    left: 0
+    left: 0,
   });
 
-  const openContextMenu = event => {
+  const openContextMenu = (event) => {
     contextMenuConfig.display = true;
     contextMenuConfig.top = event.nativeEvent.pageY + 15;
     contextMenuConfig.left = event.nativeEvent.pageX - 190;
-
 
     if (windowsHeight - contextMenuConfig.top < contextMenuHeight + 20) {
       contextMenuConfig.top -= contextMenuHeight;
@@ -130,19 +134,46 @@ export default function Search({ navigation }) {
     }
 
     setContextMenuConfig({ ...contextMenuConfig });
-  }
+  };
 
-  const closeContextMenu = event => {
+  const closeContextMenu = (event) => {
     contextMenuConfig.display = false;
     contextMenuConfig.top = 0;
     contextMenuConfig.left = 0;
 
     setContextMenuConfig({ ...contextMenuConfig });
-  }
+  };
 
   useEffect(() => {
-    if (search?.trim() !== "") searchQuery.mutate({ search });
+    if (search?.trim() !== '') searchQuery.mutate({ search });
   }, [search]);
+
+  const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
+
+  useEffect(() => {
+    fetchRecentlyPlayedSongs();
+  }, []);
+
+  function spliceIntoChunks(arr, chunkSize) {
+    const res = [];
+    while (arr.length > 0) {
+      const chunk = arr.splice(0, chunkSize);
+      res.push(chunk);
+    }
+    return res;
+  }
+
+  const fetchRecentlyPlayedSongs = async () => {
+    try {
+      let recents = JSON.parse(await AsyncStorage.getItem('recents'));
+      if (!recents) return;
+      const { data } = await axios.get('/songs/ids?ids=' + recents.join(','));
+      let recentSongs = spliceIntoChunks(data.data.results, 2);
+      setRecentlyPlayedSongs(recentSongs);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Canvas>
@@ -155,7 +186,9 @@ export default function Search({ navigation }) {
 
           <SearchBarWrapper onPress={() => navigation.navigate('SearchModal')}>
             <Ionicons name="search" size={15} color={theme.color.secondary} />
-            <Text color='secondary' fontSize="sm" style={{ marginLeft: 5 }}>Artists, Sounds, Friends, and More</Text>
+            <Text color="secondary" fontSize="sm" style={{ marginLeft: 5 }}>
+              Artists, Sounds, Friends, and More
+            </Text>
           </SearchBarWrapper>
 
           {/* <SearchInput
@@ -165,75 +198,65 @@ export default function Search({ navigation }) {
             onChangeText={(value) => setSearch(value)}
           /> */}
 
+          <>
+            {recentlyPlayedSongs.length > 0 && (
+              <Text
+                fontSize="sm"
+                color="secondary"
+                fontWeight="600"
+                style={{ marginTop: 5, marginBottom: 5 }}
+              >
+                RECENT
+              </Text>
+            )}
 
-          <Text fontSize="sm" color="secondary" fontWeight="600" style={{ marginTop: 5, marginBottom: 5 }}>
-            RECENT
-          </Text>
+            {/* Horizontal Scrollable Song Lists */}
+            <ScrollView
+              pagingEnabled={true}
+              showsHorizontalScrollIndicator={false}
+              style={{ width: '100%' }}
+              horizontal={true}
+            >
+              {/* Page 1 */}
 
-          {/* Horizontal Scrollable Song Lists */}
-          <ScrollView
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-            style={{ width: '100%' }}
-            horizontal={true}>
+              {recentlyPlayedSongs.map((wrapper) => (
+                <SongListWrapper>
+                  {wrapper.map((song) => (
+                    <SongList
+                      onPress={() => {
+                        navigation.navigate('Play', { _id: song?._id });
+                      }}
+                    >
+                      <SongImage source={{ uri: song?.artwork }} />
+                      <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
+                        <SongContent>
+                          <Text>{song?.name}</Text>
+                          <Text fontSize="sm" color="secondary">
+                            Song •{' '}
+                            {song.artist
+                              ?.map((artist) => artist.name)
+                              .join(', ')}
+                          </Text>
+                        </SongContent>
 
-            {/* Page 1 */}
-            <SongListWrapper >
-              <SongList onPress={() => { }}>
-                <SongImage source={SongImg} />
-                <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
+                        <IconWrapper>
+                          <TouchableOpacity onPress={openContextMenu}>
+                            <Feather
+                              name="more-horizontal"
+                              size={24}
+                              color={theme.color.white}
+                            />
+                          </TouchableOpacity>
+                        </IconWrapper>
+                      </SongContentWrapper>
+                    </SongList>
+                  ))}
+                </SongListWrapper>
+              ))}
 
-                  <SongContent>
-                    <Text>Prime Time</Text>
-                    <Text fontSize='sm' color="secondary">Song • Aware</Text>
-                  </SongContent>
-
-                  <IconWrapper>
-                    <TouchableOpacity onPress={openContextMenu}>
-                      <Feather name="more-horizontal" size={24} color={theme.color.white} />
-                    </TouchableOpacity>
-                  </IconWrapper>
-                </SongContentWrapper>
-              </SongList>
-
-              <SongList onPress={() => { }}>
-                <ArtistImage source={ArtistImg} />
-                <SongContentWrapper>
-                  <SongContent>
-                    <Text>Karunesh</Text>
-                    <Text fontSize='sm' color="secondary">Artist</Text>
-                  </SongContent>
-
-                  <IconWrapper>
-                    <Ionicons name="ios-chevron-forward" size={24} color={theme.color.secondary} />
-                  </IconWrapper>
-                </SongContentWrapper>
-              </SongList>
-            </SongListWrapper>
-
-            {/* Last Page */}
-            <SongListWrapper >
-              <SongList>
-                <SongImage source={SongImg} />
-
-                {/* set width to 88% if it is last page */}
-                <SongContentWrapper style={{ borderTopWidth: 0.5, width: '85%' }}>
-                  <SongContent>
-                    <Text>Prime Time</Text>
-                    <Text fontSize='sm' color="secondary">Song • Aware</Text>
-                  </SongContent>
-
-                  <IconWrapper>
-                    <TouchableOpacity onPress={openContextMenu}>
-                      <Feather name="more-horizontal" size={24} color={theme.color.white} />
-                    </TouchableOpacity>
-                  </IconWrapper>
-                </SongContentWrapper>
-              </SongList>
-
-
-            </SongListWrapper>
-          </ScrollView>
+              {/* For more pages add SongListWrapper and SongList inside it */}
+            </ScrollView>
+          </>
 
           {searchQuery?.data?.results?.length > 0 && (
             <Text fontSize="xs" color="secondary">
@@ -247,7 +270,7 @@ export default function Search({ navigation }) {
             renderItem={({ item, index }) => {
               return <SongListing song={item} index={index} />;
             }}
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           />
 
           <CategoryGrid categories={categoriesQuery.data} />
@@ -268,33 +291,52 @@ export default function Search({ navigation }) {
           {
             title: 'Delete from Library',
             color: 'primary',
-            icon: <Ionicons name="ios-trash-outline" size={16} color={theme.color.primary} />,
-            onPress: () => { }
+            icon: (
+              <Ionicons
+                name="ios-trash-outline"
+                size={16}
+                color={theme.color.primary}
+              />
+            ),
+            onPress: () => {},
           },
           {
             title: 'Add to Library',
-            icon: <Ionicons name="heart-outline" size={16} color='white' />,
-            onPress: () => { }
+            icon: <Ionicons name="heart-outline" size={16} color="white" />,
+            onPress: () => {},
           },
           {
-            divider: true
+            divider: true,
           },
           {
             title: 'Play Next',
-            icon: <MaterialCommunityIcons name="page-last" size={16} color='white' />,
-            onPress: () => { }
+            icon: (
+              <MaterialCommunityIcons
+                name="page-last"
+                size={16}
+                color="white"
+              />
+            ),
+            onPress: () => {},
           },
           {
             title: 'Play Last',
-            icon: <MaterialCommunityIcons name="page-first" size={16} color='white' />,
-            onPress: () => { }
+            icon: (
+              <MaterialCommunityIcons
+                name="page-first"
+                size={16}
+                color="white"
+              />
+            ),
+            onPress: () => {},
           },
           {
             title: 'Share Song...',
-            icon: <Ionicons name="ios-share-outline" size={16} color='white' />,
-            onPress: () => { }
+            icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
+            onPress: () => {},
           },
-        ]} />
+        ]}
+      />
     </Canvas>
   );
 }

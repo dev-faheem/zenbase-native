@@ -1,53 +1,53 @@
-import React from "react";
-import Text from "components/text";
-import styled from "styled-components/native";
-import Icon from "components/icon";
+import React from 'react';
+import Text from 'components/text';
+import styled from 'styled-components/native';
+import Icon from 'components/icon';
 
 const variants = {
   white: {
     background: 'white',
-    color: 'black'
+    color: 'black',
   },
   primary: {
-    background: "primary",
-    color: "white",
+    background: 'primary',
+    color: 'white',
   },
   primaryDark: {
-    background: "primaryDark",
-    color: "white",
+    background: 'primaryDark',
+    color: 'white',
   },
   primaryDarker: {
-    background: "primaryDarker",
-    color: "white",
+    background: 'primaryDarker',
+    color: 'white',
   },
   secondary: {
-    background: "hud",
-    color: "white",
+    background: 'hud',
+    color: 'white',
   },
   disabled: {
-    background: "hud",
-    color: "informationBackground",
+    background: 'hud',
+    color: 'informationBackground',
   },
   information: {
-    background: "informationBackground",
-    color: "information",
+    background: 'informationBackground',
+    color: 'information',
   },
   danger: {
     background: 'red',
-    color: 'white'
+    color: 'white',
   },
   silent: {
-    background: "transparent",
-    color: "primary",
+    background: 'transparent',
+    color: 'primary',
   },
   silentDisabled: {
-    background: "transparent",
-    color: "informationBackground",
+    background: 'transparent',
+    color: 'informationBackground',
   },
 };
 
 const TouchableOpacityWrapper = styled.TouchableOpacity`
-  ${props => {
+  ${(props) => {
     if (props.block) {
       return `width: 100%;`;
     } else if (props.width) {
@@ -62,10 +62,10 @@ const ButtonWrapper = styled.View`
   background: ${(props) =>
     props.variant
       ? props.theme.color[variants[props.variant]?.background] ||
-      props.theme.color.primary
+        props.theme.color.primary
       : props.theme.color.primary};
 
-  ${props => {
+  ${(props) => {
     if (props.block) {
       return `width: 100%;`;
     } else if (props.width) {
@@ -75,20 +75,24 @@ const ButtonWrapper = styled.View`
     }
   }}
   height: 42px;
-  padding-horizontal: ${(props) => (props.horizontalPadding ? props.horizontalPadding + 'px' : props.theme.spacing.xxl)};
+  padding-horizontal: ${(props) =>
+    props.horizontalPadding
+      ? props.horizontalPadding + 'px'
+      : props.theme.spacing.xxl};
   border-radius: ${(props) => props.theme.borderRadius.md};
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  z-index: 0;
 `;
 
 const TextWrapper = styled(Text)`
-  font-size: ${props => props.fontSize ? props.fontSize + 'px' : '16px'};
+  font-size: ${(props) => (props.fontSize ? props.fontSize + 'px' : '16px')};
   color: ${(props) =>
     props.variant
       ? props.theme.color[variants[props.variant]?.color] ||
-      props.theme.color.white
+        props.theme.color.white
       : props.theme.color.white};
   font-weight: 500;
 `;
@@ -103,7 +107,7 @@ export default function Button({
     <TouchableOpacityWrapper {...props}>
       <ButtonWrapper {...props}>
         {icon && <Icon variant={icon} {...iconProps} />}
-        <TextWrapper {...props}>{title || "Button"}</TextWrapper>
+        <TextWrapper {...props}>{title || 'Button'}</TextWrapper>
       </ButtonWrapper>
     </TouchableOpacityWrapper>
   );

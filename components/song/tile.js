@@ -1,10 +1,10 @@
-import React from "react";
-import { Dimensions } from "react-native";
-import { useMock } from "services/mock";
-import { Ionicons } from "@expo/vector-icons";
-import styled from "styled-components/native";
-import { TouchableWithoutFeedback } from "react-native";
-import { useNavigation } from "@react-navigation/core";
+import React from 'react';
+import { Dimensions } from 'react-native';
+import { useMock } from 'services/mock';
+import { Ionicons } from '@expo/vector-icons';
+import styled from 'styled-components/native';
+import { TouchableWithoutFeedback } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 const SongTileView = styled.View``;
 
@@ -12,7 +12,7 @@ const SongArtwork = styled.Image`
   position: relative;
   ${(props) => {
     if (props.inGrid) {
-      const size = (Dimensions.get("window").width - 40) * 0.5 - 10;
+      const size = (Dimensions.get('window').width - 40) * 0.5 - 10;
       if (size < 180) {
         return `
           width: ${size}px;
@@ -70,7 +70,7 @@ export default function SongTile({
   inGrid,
   mock = false,
 }) {
-  song = useMock("song", song, mock);
+  song = useMock('song', song, mock);
   const navigation = useNavigation();
 
   return (
@@ -79,7 +79,7 @@ export default function SongTile({
         removable
           ? onRemove
           : () => {
-              navigation.navigate("Play", { _id: song?._id });
+              navigation.navigate('Play', { _id: song?._id });
             }
       }
     >
@@ -88,7 +88,7 @@ export default function SongTile({
           source={
             mock
               ? song.artwork
-              : { uri: song.artwork?.replace("https", "http") }
+              : { uri: song.artwork?.replace('https', 'http') }
           }
           inGrid={inGrid || null}
         />
@@ -104,7 +104,9 @@ export default function SongTile({
         )}
         <SongLength>{song.length}</SongLength>
         <SongName>{song.name}</SongName>
-        <SongArtistName>{song.artist?.name}</SongArtistName>
+        <SongArtistName>
+          {song.artist?.map((artist) => artist.name)?.join(', ')}
+        </SongArtistName>
       </SongTileView>
     </TouchableWithoutFeedback>
   );
