@@ -1,6 +1,6 @@
-import React from "react";
-import { Dimensions } from "react-native";
-import styled from "styled-components/native";
+import React from 'react';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
 
 const CardWrapper = styled.View`
   margin-top: 20px;

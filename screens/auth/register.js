@@ -1,17 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Text, Container, Canvas, Button, Box } from "components";
-import { useNavigation } from "@react-navigation/core";
-import { StackActions, CommonActions } from "@react-navigation/native";
-import styled from "styled-components/native";
-import { useAuth } from "stores/auth";
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, Container, Canvas, Button, Box } from 'components';
+import { useNavigation } from '@react-navigation/core';
+import { StackActions, CommonActions } from '@react-navigation/native';
+import styled from 'styled-components/native';
+import { useAuth } from 'stores/auth';
+import DropDownPicker from 'react-native-dropdown-picker';
+DropDownPicker.setTheme('DARK');
 
 // Import Images
-import ZentbaseLogoPrimary from "assets/images/zenbase-full-primary-logo.png";
-import { useTheme } from "stores/theme";
-import { ScrollView, TouchableOpacity } from "react-native";
-import Loader from "components/loader";
-import { useLoader } from "stores/loader";
-import axios from "services/axios";
+import ZentbaseLogoPrimary from 'assets/images/zenbase-full-primary-logo.png';
+import { useTheme } from 'stores/theme';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import Loader from 'components/loader';
+import { useLoader } from 'stores/loader';
+import axios from 'services/axios';
+import { Picker, PickerIOS } from '@react-native-picker/picker';
+import Country from 'country-state-city/dist/lib/country';
+import State from 'country-state-city/dist/lib/state';
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -61,6 +66,43 @@ const TermsAndPrivacyFlex = styled.View`
   justify-content: flex-start;
 `;
 
+const dropdownProps = {
+  itemProps: {
+    style: {
+      backgroundColor: '#1B1C1E',
+      // height: 45,
+      paddingHorizontal: 10,
+      paddingVertical: 10,
+    },
+    activeOpacity: 1,
+  },
+  style: {
+    backgroundColor: '#1B1C1E',
+    height: 45,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  containerStyle: {
+    zIndex: 10,
+  },
+  textStyle: {
+    color: '#8F9094',
+  },
+  labelStyle: {
+    color: 'white',
+  },
+  disabledStyle: {
+    color: 'white',
+  },
+
+  dropDownContainerStyle: {
+    height: 100,
+    zIndex: 10000000,
+  },
+  zIndex: 100000,
+  zIndexInverse: 100000,
+};
+
 export default function register({ navigation }) {
   const { theme } = useTheme();
 
@@ -70,11 +112,28 @@ export default function register({ navigation }) {
 
   // States
   const [isRegisterEnabled, setIsRegisterEnabled] = useState(false);
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  // const [country, setCountry] = useState('');
+  // const [state, setState] = useState('');
+
+  const [openCountry, setOpenCountry] = useState(false);
+  const [valueCountry, setValueCountry] = useState(null);
+  const [countries, setCountries] = useState(
+    Country.getAllCountries().map((country) => {
+      return {
+        label: country.name,
+        value: country.isoCode,
+      };
+    })
+  );
+
+  const [openState, setOpenState] = useState(false);
+  const [valueState, setValueState] = useState(null);
+  const [states, setStates] = useState([]);
 
   const { login } = useAuth();
 
@@ -90,19 +149,21 @@ export default function register({ navigation }) {
     try {
       const {
         data: { data },
-      } = await axios.post("/auth/register", {
-        name,
+      } = await axios.post('/auth/register', {
+        // name,
+        // phone: phoneNumber,
+        // username,
         email,
-        phone: phoneNumber,
-        username,
         password,
+        country: valueCountry,
+        state: valueState,
       });
       axios.interceptors.request.use((config) => {
         config.headers.authorization = data?.token;
         return config;
       });
       login(data);
-      navigation.navigate("SignupBonus");
+      navigation.navigate('SignupBonus');
     } catch (error) {
       axios.handleError(error);
       console.error(error);
@@ -111,7 +172,7 @@ export default function register({ navigation }) {
   };
 
   useEffect(() => {
-    if (email.trim() == "" || password == "") {
+    if (email.trim() == '' || password == '') {
       setIsRegisterEnabled(false);
     } else {
       setIsRegisterEnabled(true);
@@ -121,7 +182,7 @@ export default function register({ navigation }) {
   return (
     <Canvas>
       {renderLoader()}
-      <ScrollView>
+      <ScrollView scrollEnabled={false}>
         <Container style={{ flex: 1 }}>
           <Text fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
             Meditate, Earn, Repeat
@@ -131,31 +192,7 @@ export default function register({ navigation }) {
           <InputWrapper>
             <Input
               autoCapitalize="none"
-              placeholder="Name"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={setName}
-              value={name}
-              // onSubmitEditing={() => passwordInput.current.focus()}
-            />
-            <Input
-              autoCapitalize="none"
-              placeholder="Username"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={setUsername}
-              value={username}
-              // onSubmitEditing={() => passwordInput.current.focus()}
-            />
-            <Input
-              autoCapitalize="none"
-              placeholder="Phone Number"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={setPhoneNumber}
-              value={phoneNumber}
-              // onSubmitEditing={() => passwordInput.current.focus()}
-            />
-            <Input
-              autoCapitalize="none"
-              placeholder="Email"
+              placeholder="Phone number or Email"
               placeholderTextColor={theme.color.secondary}
               onChangeText={(value) => updateInput(setEmail, value)}
               value={email}
@@ -171,6 +208,60 @@ export default function register({ navigation }) {
               ref={passwordInput}
             />
 
+            <DropDownPicker
+              open={openCountry}
+              value={valueCountry}
+              items={countries}
+              setOpen={setOpenCountry}
+              setValue={(value) => {
+                setValueCountry(value);
+                setStates(
+                  State.getStatesOfCountry(value()).map((state) => {
+                    return {
+                      label: state.name,
+                      value: state.isoCode,
+                    };
+                  })
+                );
+              }}
+              setItems={setCountries}
+              placeholder="Country"
+              {...dropdownProps}
+            />
+
+            {openCountry && <View style={{ height: 100 }} />}
+
+            <DropDownPicker
+              open={openState}
+              value={valueState}
+              items={states}
+              setOpen={setOpenState}
+              setValue={setValueState}
+              setItems={setStates}
+              placeholder="State/Province"
+              {...dropdownProps}
+            />
+
+            {openState && <View style={{ height: 100 }} />}
+
+            {/* <Input
+              autoCapitalize="none"
+              placeholder="Country"
+              placeholderTextColor={theme.color.secondary}
+              onChangeText={(value) => updateInput(setEmail, value)}
+              value={email}
+              onSubmitEditing={() => passwordInput.current.focus()}
+            />
+
+            <Input
+              autoCapitalize="none"
+              placeholder="State"
+              placeholderTextColor={theme.color.secondary}
+              onChangeText={(value) => updateInput(setEmail, value)}
+              value={email}
+              onSubmitEditing={() => passwordInput.current.focus()}
+            /> */}
+
             <Button
               onPress={() => navigation.goBack()}
               variant="silent"
@@ -185,7 +276,7 @@ export default function register({ navigation }) {
             <FooterFlex>
               <Box h="60px" />
               <Button
-                variant={isRegisterEnabled ? "primary" : "disabled"}
+                variant={isRegisterEnabled ? 'primary' : 'disabled'}
                 title="Continue"
                 block
                 onPress={() => {
@@ -200,7 +291,7 @@ export default function register({ navigation }) {
                   <TouchableOpacity>
                     <Text
                       fontWeight="bold"
-                      style={{ textDecorationLine: "underline" }}
+                      style={{ textDecorationLine: 'underline' }}
                     >
                       Terms of use
                     </Text>
@@ -212,7 +303,7 @@ export default function register({ navigation }) {
                   <TouchableOpacity>
                     <Text
                       fontWeight="bold"
-                      style={{ textDecorationLine: "underline" }}
+                      style={{ textDecorationLine: 'underline' }}
                     >
                       Privacy Policy
                     </Text>
