@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 
 // Import Icons
 import {  FontAwesome } from '@expo/vector-icons';
+import { useAuth } from "stores/auth";
 
 
 // Styled Component
@@ -32,12 +33,15 @@ const InfoFooter = styled.View`
 
 // ReferFriend (Default)
 export default function ReferFriends({ route, navigation }) {
+
+    const { user } = useAuth();
+
     // Invite Friend (React Native Share)
     const inviteFriend = (message) => {
         ReactNativeShare(
             message,
             () => {
-                // Shared
+                navigation.navigate('ZenbaseAds', { isForLogin: true })
             },
             () => {
                 // Dismissed
@@ -46,10 +50,6 @@ export default function ReferFriends({ route, navigation }) {
                 // Error
             }
         );
-    }
-
-    const user = {
-        fullname: 'Ella Loppez'
     }
     return (
         <Canvas>
@@ -62,7 +62,7 @@ export default function ReferFriends({ route, navigation }) {
                         <Text fontSize='md' style={{ marginTop: 5 }}>Listen with your circle and earn more.</Text>
                     </InfoBody>
                     <InfoFooter>
-                        <Button title='Invite friends' block onPress={() => inviteFriend(`${user.fullname} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`)} />
+                        <Button title='Invite friends' block onPress={() => inviteFriend(`${user?.name} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`)} />
                         <Box h='10px' />
                         <Button title='Skip' variant='secondary' block onPress={() => { navigation.navigate('ZenbaseAds', { isForLogin: true }) }} />
                     </InfoFooter>
