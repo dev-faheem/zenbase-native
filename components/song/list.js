@@ -50,7 +50,7 @@ export default function SongList({
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={songs.slice(0, 10)}
+        data={songs.slice(0, 5)}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <Box mr={index === songs.length - 1 ? 0 : "10px"}>

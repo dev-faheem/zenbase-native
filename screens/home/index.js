@@ -23,11 +23,13 @@ import Divider from 'components/divider';
 import styled from 'styled-components/native';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from 'stores/auth';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'services/axios';
 
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
-import { useNavigation } from '@react-navigation/native';
-import { useAuth } from 'stores/auth';
+
 
 const PremiumTextWrapper = styled.View`
   width: 100%;
@@ -78,8 +80,42 @@ export default function Home() {
   const navigation = useNavigation();
   const { user } = useAuth();
 
+  const [under10MinSongs, setUnder10MinSongs] = useState([]);
+  const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
+  const [chillSongs, setChillSongs] = useState([]);
+
+  const fetchSongsUnder10Min = async () => {
+    try {
+      const { data } = await axios.get('/songs/duration/600');
+      setUnder10MinSongs(data.data.results);
+    } catch(e) {
+      axios.handleError(e);
+    } 
+  }
+
+  const fetchGuidedMeditation = async () => {
+    try {
+      const { data } = await axios.get('/songs/category-name/guided meditation');
+      setGuidedMeditationSongs(data.data.results);
+    } catch (e) {
+      axios.handleError(e);
+    }
+  }
+
+  const fetchChill = async () => {
+    try {
+      const { data } = await axios.get('/songs/category-name/chill');
+      setChillSongs(data.data.results);
+    } catch (e) {
+      axios.handleError(e);
+    }
+  }
+
   useEffect(() => {
     bestNewSounds.mutate({ sort: '-createdAt' });
+    fetchSongsUnder10Min();
+    fetchGuidedMeditation();
+    fetchChill();
   }, []);
 
   return (
@@ -148,17 +184,17 @@ export default function Home() {
 
           <SongList
             title="Under 10 Minutes"
-            songs={bestNewSounds?.data?.results || []}
+            songs={under10MinSongs}
           />
 
           <SongList
-            title="Guided Meditations"
-            songs={bestNewSounds?.data?.results || []}
+            title="Guided Meditation"
+            songs={guidedMeditationSongs}
           />
 
           <SongList
             title="Chill"
-            songs={bestNewSounds?.data?.results || []}
+            songs={chillSongs}
             showDivider={false}
           />
           <Box mt="20px"></Box>

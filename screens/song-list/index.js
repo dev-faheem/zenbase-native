@@ -73,9 +73,8 @@ export default function SongList({ route, navigation }) {
       </Header>
       <Canvas>
         <ScrollView
-          style={{ flex: 1 }}
+          style={{ flex: 1, paddingTop: 10}}
           showsVerticalScrollIndicator={false}
-          style={{ paddingTop: 10 }}
         >
           <Container style={{ flex: 1 }}>
             <SongListWrapper style={{ marginTop: 20 }}>
