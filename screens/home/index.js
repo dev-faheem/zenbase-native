@@ -29,7 +29,7 @@ import axios from 'services/axios';
 
 // Import Images
 import zentBackground from 'assets/images/wallet/zent-bg.png';
-
+import ActivelyListing from 'components/actively-listening';
 
 const PremiumTextWrapper = styled.View`
   width: 100%;
@@ -88,19 +88,21 @@ export default function Home() {
     try {
       const { data } = await axios.get('/songs/duration/600');
       setUnder10MinSongs(data.data.results);
-    } catch(e) {
+    } catch (e) {
       axios.handleError(e);
-    } 
-  }
+    }
+  };
 
   const fetchGuidedMeditation = async () => {
     try {
-      const { data } = await axios.get('/songs/category-name/guided meditation');
+      const { data } = await axios.get(
+        '/songs/category-name/guided meditation'
+      );
       setGuidedMeditationSongs(data.data.results);
     } catch (e) {
       axios.handleError(e);
     }
-  }
+  };
 
   const fetchChill = async () => {
     try {
@@ -109,7 +111,7 @@ export default function Home() {
     } catch (e) {
       axios.handleError(e);
     }
-  }
+  };
 
   useEffect(() => {
     bestNewSounds.mutate({ sort: '-createdAt' });
@@ -140,6 +142,7 @@ export default function Home() {
           <Text fontSize="h2" fontWeight="bold">
             Explore
           </Text>
+          <ActivelyListing />
 
           <Explorables />
 
@@ -182,21 +185,11 @@ export default function Home() {
             songs={bestNewSounds?.data?.results || []}
           />
 
-          <SongList
-            title="Under 10 Minutes"
-            songs={under10MinSongs}
-          />
+          <SongList title="Under 10 Minutes" songs={under10MinSongs} />
 
-          <SongList
-            title="Guided Meditation"
-            songs={guidedMeditationSongs}
-          />
+          <SongList title="Guided Meditation" songs={guidedMeditationSongs} />
 
-          <SongList
-            title="Chill"
-            songs={chillSongs}
-            showDivider={false}
-          />
+          <SongList title="Chill" songs={chillSongs} showDivider={false} />
           <Box mt="20px"></Box>
         </Container>
 
