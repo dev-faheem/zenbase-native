@@ -166,6 +166,7 @@ export default function SearchModal({ navigation }) {
   const { theme } = useTheme();
 
   const [songs, setSongs] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [song, setSong] = useState();
   const { user, updateUser } = useAuth();
 
@@ -210,8 +211,23 @@ export default function SearchModal({ navigation }) {
     setSongs(data.data.results);
   };
 
+  const fetchArtists = async () => {
+    const { data } = await axios.get('/admin/users/search-artist', {
+      params: {
+        q: search,
+      },
+    });
+    setArtists(data.data);
+  };
+
   useEffect(() => {
-    if (search != '') fetchSongs();
+    if (search.trim() != '') {
+      fetchSongs();
+      fetchArtists();
+    } else {
+      setSongs([]);
+      setArtists([]);
+    }
   }, [search]);
 
   const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
@@ -307,7 +323,7 @@ export default function SearchModal({ navigation }) {
 
           <HeadingWrapper>
             <Text fontSize="xl" fontWeight="600">
-              {search == '' && recentlyPlayedSongs.length > 0 ? 'Recent' : songs.length > 0 ? 'Top Matches' : ''}
+              {search == '' && recentlyPlayedSongs.length > 0 ? 'Recent' : songs.length > 0 || artists.length > 0 ? 'Top Matches' : ''}
             </Text>
             {(search == '' && recentlyPlayedSongs.length > 0) && (
               <TouchableOpacity onPress={async () => {
@@ -326,6 +342,27 @@ export default function SearchModal({ navigation }) {
           </HeadingWrapper>
 
           <SongListWrapper>
+            {artists.map((artist) => (
+              <SongList onPress={() => {}}>
+                <ArtistImage source={ArtistImg} />
+                <SongContentWrapper>
+                  <SongContent>
+                    <Text>{artist?.name}</Text>
+                    <Text fontSize="sm" color="secondary">
+                      Artist
+                    </Text>
+                  </SongContent>
+
+                  <IconWrapper>
+                    <Ionicons
+                      name="ios-chevron-forward"
+                      size={24}
+                      color={theme.color.secondary}
+                    />
+                  </IconWrapper>
+                </SongContentWrapper>
+              </SongList>
+            ))}
             {songs.map((song) => (
               <SongList
                 onPress={() => {
