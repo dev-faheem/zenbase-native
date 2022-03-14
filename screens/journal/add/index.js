@@ -157,13 +157,14 @@ const JournalDescriptionInput = styled.TextInput`
 `;
 
 // Add Journal Component (Default)
-export default function AddJournal({ route, navigation }) {
+export default function AddJournal({ navigation }) {
   const journalDescriptionInput = useRef();
-  const { song } = useRoute().params;
+  const { song, zentokens } = useRoute().params;
 
   const [emotion, setEmotion] = useState(null);
   const [journalTitle, setJournalTitle] = useState('');
   const [journalDescription, setJournalDescription] = useState('');
+  const [zentValue, setZentValue] = useState(zentokens || 0);
 
   const [isTextInputView, setIsTextInputView] = useState(false);
 
@@ -190,6 +191,7 @@ export default function AddJournal({ route, navigation }) {
         description: journalDescription,
         emotion,
         song: song._id,
+        zentValue,
         created: new Date(),
       },
       ...(user.journal || []),

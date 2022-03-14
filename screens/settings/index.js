@@ -64,7 +64,7 @@ export default function Settings({ route }) {
     ReactNativeShare(
       message,
       () => {
-        navigation.navigate('ZenbaseAds', { isForLogin: true });
+        // Success
       },
       () => {
         // Dismissed

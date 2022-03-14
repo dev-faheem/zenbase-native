@@ -29,6 +29,7 @@ import ZenbaseAddIcon from 'assets/vectors/zenbase-white-add.png';
 import ZentokenIcon from 'assets/images/zentoken-logo-border.png';
 import { playAds } from 'services/playAds';
 import { useAuth } from 'stores/auth';
+import ReactNativeShare from 'helpers/react-native-share';
 
 const CONTINUE_LISTENING = 60 * 60; //seconds
 
@@ -637,12 +638,38 @@ export default function Play({ navigation }) {
                 />
               </View>
             ),
-            onPress: () => {},
+            onPress: () => {
+              ReactNativeShare(
+                `${user?.name} is inviting you to meditate with him.\n\nJoin here: www.zenbase.us`,
+                () => {
+                  // Success
+                },
+                () => {
+                  // Dismissed
+                },
+                (err) => {
+                  // Error
+                }
+              );
+            },
           },
           {
             title: 'Share Song...',
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
-            onPress: () => {},
+            onPress: () => {
+              ReactNativeShare(
+                `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+                () => {
+                  // Success
+                },
+                () => {
+                  // Dismissed
+                },
+                (err) => {
+                  // Error
+                }
+              );
+            },
           },
         ]}
       />
