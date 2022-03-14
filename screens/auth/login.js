@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Text, Container, Canvas, Button } from "components";
-import { StackActions, CommonActions } from "@react-navigation/native";
-import styled from "styled-components/native";
-import { useAuth } from "stores/auth";
-import { useTheme } from "stores/theme";
-import { ScrollView, TouchableOpacity } from "react-native";
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, Container, Canvas, Button } from 'components';
+import { StackActions, CommonActions } from '@react-navigation/native';
+import styled from 'styled-components/native';
+import { useAuth } from 'stores/auth';
+import { useTheme } from 'stores/theme';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
 // Import Images
-import ZentbaseLogoPrimary from "assets/images/zenbase-full-primary-logo.png";
-import { useLoader } from "stores/loader";
-import axios from "services/axios";
+import ZentbaseLogoPrimary from 'assets/images/zenbase-full-primary-logo.png';
+import { useLoader } from 'stores/loader';
+import axios from 'services/axios';
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -60,15 +60,15 @@ const TermsAndPrivacyFlex = styled.View`
 `;
 
 export default function Login({ navigation }) {
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
   const { theme } = useTheme();
 
   const passwordInput = useRef();
 
   // States
   const [isLoginEnabled, setIsLoginEnabled] = useState(false);
-  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { setLoading } = useLoader();
 
   // Input Handler
@@ -81,7 +81,7 @@ export default function Login({ navigation }) {
     try {
       const {
         data: { data },
-      } = await axios.post("/auth/login", {
+      } = await axios.post('/auth/login', {
         username: phoneNumberOrEmail,
         password,
       });
@@ -94,7 +94,7 @@ export default function Login({ navigation }) {
       // Reset Stack Navigation
       navigation.dispatch(
         CommonActions.reset({
-          routes: [{ name: "App" }],
+          routes: [{ name: 'App' }],
         })
       );
     } catch (e) {
@@ -103,7 +103,7 @@ export default function Login({ navigation }) {
   };
 
   useEffect(() => {
-    if (phoneNumberOrEmail.trim() == "" || password == "") {
+    if (phoneNumberOrEmail.trim() == '' || password == '') {
       setIsLoginEnabled(false);
     } else {
       setIsLoginEnabled(true);
@@ -112,94 +112,92 @@ export default function Login({ navigation }) {
 
   return (
     <Canvas>
-        <Container style={{ flex: 1 }}>
-          <Text fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
-            Meditate, Earn, Repeat
-          </Text>
-          <ZenbaseLogo source={ZentbaseLogoPrimary} />
+      <Container style={{ flex: 1 }}>
+        <Text fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
+          Meditate, Earn, Repeat
+        </Text>
+        <ZenbaseLogo source={ZentbaseLogoPrimary} />
 
-          <InputWrapper>
-            <Input
-              autoCapitalize="none"
-              placeholder="Phone number or email"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={(value) =>
-                updateInput(setPhoneNumberOrEmail, value)
+        <InputWrapper>
+          <Input
+            autoCapitalize="none"
+            placeholder="Phone number or email"
+            placeholderTextColor={theme.color.secondary}
+            onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
+            value={phoneNumberOrEmail}
+            onSubmitEditing={() => {
+              if (!(phoneNumberOrEmail != '' && password != '')) {
+                passwordInput.current.focus();
               }
-              value={phoneNumberOrEmail}
-              onSubmitEditing={() => {
-                if (!(phoneNumberOrEmail != '' && password != '')) {
-                  passwordInput.current.focus()
+            }}
+          />
+
+          <Input
+            placeholder="Password"
+            placeholderTextColor={theme.color.secondary}
+            onChangeText={(value) => updateInput(setPassword, value)}
+            secureTextEntry={true}
+            value={password}
+            ref={passwordInput}
+          />
+
+          <Button
+            onPress={() => navigation.navigate('ForgotPassword')}
+            variant="silent"
+            fontSize="14"
+            title="Forgot Password?"
+            style={{ marginTop: 8 }}
+          />
+        </InputWrapper>
+      </Container>
+      <FooterWrapper>
+        <Container style={{ flex: 1 }}>
+          <FooterFlex>
+            <Button
+              onPress={() => navigation.navigate('Register')}
+              variant="silent"
+              fontSize="14"
+              title="Create an account"
+              style={{ marginTop: 8, marginBottom: 2 }}
+            />
+            <Button
+              variant={isLoginEnabled ? 'primary' : 'disabled'}
+              title="Sign in"
+              block
+              onPress={() => {
+                if (isLoginEnabled) {
+                  loginHandler();
                 }
               }}
             />
+            <TermsAndPrivacyWrapper>
+              <TermsAndPrivacyFlex>
+                <Text>By signing in you accept our </Text>
+                <TouchableOpacity>
+                  <Text
+                    fontWeight="bold"
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    Terms of use
+                  </Text>
+                </TouchableOpacity>
+              </TermsAndPrivacyFlex>
 
-            <Input
-              placeholder="Password"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={(value) => updateInput(setPassword, value)}
-              secureTextEntry={true}
-              value={password}
-              ref={passwordInput}
-            />
-
-            <Button
-              onPress={() => navigation.navigate("ForgotPassword")}
-              variant="silent"
-              fontSize="14"
-              title="Forgot Password?"
-              style={{ marginTop: 8 }}
-            />
-          </InputWrapper>
+              <TermsAndPrivacyFlex style={{ marginTop: 2 }}>
+                <Text>and </Text>
+                <TouchableOpacity>
+                  <Text
+                    fontWeight="bold"
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    Privacy Policy
+                  </Text>
+                </TouchableOpacity>
+              </TermsAndPrivacyFlex>
+            </TermsAndPrivacyWrapper>
+          </FooterFlex>
         </Container>
-        <FooterWrapper>
-          <Container style={{ flex: 1 }}>
-            <FooterFlex>
-              <Button
-                onPress={() => navigation.navigate("Register")}
-                variant="silent"
-                fontSize="14"
-                title="Create an account"
-                style={{ marginTop: 8, marginBottom: 2 }}
-              />
-              <Button
-                variant={isLoginEnabled ? "primary" : "disabled"}
-                title="Sign in"
-                block
-                onPress={() => {
-                  if (isLoginEnabled) {
-                    loginHandler();
-                  }
-                }}
-              />
-              <TermsAndPrivacyWrapper>
-                <TermsAndPrivacyFlex>
-                  <Text>By signing in you accept our </Text>
-                  <TouchableOpacity>
-                    <Text
-                      fontWeight="bold"
-                      style={{ textDecorationLine: "underline" }}
-                    >
-                      Terms of use
-                    </Text>
-                  </TouchableOpacity>
-                </TermsAndPrivacyFlex>
-
-                <TermsAndPrivacyFlex style={{ marginTop: 2 }}>
-                  <Text>and </Text>
-                  <TouchableOpacity>
-                    <Text
-                      fontWeight="bold"
-                      style={{ textDecorationLine: "underline" }}
-                    >
-                      Privacy Policy
-                    </Text>
-                  </TouchableOpacity>
-                </TermsAndPrivacyFlex>
-              </TermsAndPrivacyWrapper>
-            </FooterFlex>
-          </Container>
-        </FooterWrapper>
+      </FooterWrapper>
     </Canvas>
   );
 }

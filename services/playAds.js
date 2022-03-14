@@ -6,6 +6,7 @@ export const playAds = async (
   onAdPlayed = () => {},
   onFinalAdPlayed = () => {}
 ) => {
+  return;
   try {
     let played = 1;
     await AdMobInterstitial.setAdUnitID(GOOGLE_ADMOB_ADUNIT);

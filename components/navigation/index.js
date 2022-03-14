@@ -65,7 +65,7 @@ export function HomeStack() {
       initialRouteName="Home"
       screenOptions={{ headerShown: false }}
       tabBar={(props) => <TabBar {...props} />}
-      backBehavior="history"
+      // backBehavior="history"
     >
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="SongList" component={SongList} />
@@ -82,6 +82,7 @@ export function HomeStack() {
 
 // Navigation Component (Default)
 export default function Navigation() {
+  const { isLoggedIn } = useAuth();
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -91,8 +92,8 @@ export default function Navigation() {
         }}
       >
         <Stack.Group>
-          <Stack.Screen name="App" component={HomeStack} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="App" component={HomeStack} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Journal" component={Journal} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />

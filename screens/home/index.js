@@ -71,13 +71,12 @@ const ZentImage = styled.Image`
   border-radius: 2px;
 `;
 
-export default function Home() {
+export default function Home({ navigation, route }) {
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const bestNewSounds = useSearch();
   const { data: categories } = useCategories();
   const { theme } = useTheme();
-  const navigation = useNavigation();
   const { user } = useAuth();
 
   const [under10MinSongs, setUnder10MinSongs] = useState([]);
@@ -119,6 +118,13 @@ export default function Home() {
     fetchGuidedMeditation();
     fetchChill();
   }, []);
+
+  if (route.params?.performLogout === true) {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
+  }
 
   return (
     <>
