@@ -238,6 +238,7 @@ export default function SearchModal({ navigation }) {
           <SearchBarWrapper>
             <Ionicons name="search" size={15} color={theme.color.secondary} />
             <SearchInput
+              autoFocus={true}
               selectionColor={theme.color.primary}
               placeholder="Artists, Sounds, Friends, and More"
               placeholderTextColor="rgba(143, 144, 148, 1)"
@@ -306,10 +307,17 @@ export default function SearchModal({ navigation }) {
 
           <HeadingWrapper>
             <Text fontSize="xl" fontWeight="600">
-              {search == '' ? 'Recent' : songs.length > 0 ? 'Top Matches' : ''}
+              {search == '' && recentlyPlayedSongs.length > 0 ? 'Recent' : songs.length > 0 ? 'Top Matches' : ''}
             </Text>
-            {search == '' && (
-              <TouchableOpacity>
+            {(search == '' && recentlyPlayedSongs.length > 0) && (
+              <TouchableOpacity onPress={async () => {
+                try {
+                  await AsyncStorage.removeItem('recents');
+                  setRecentlyPlayedSongs([]);
+                } catch (e) {
+                  console.log(e);
+                }
+              }}>
                 <Text fontSize="md" color="primary">
                   Clear
                 </Text>
