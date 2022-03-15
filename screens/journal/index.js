@@ -175,9 +175,18 @@ export default function Journal({ route, navigation }) {
                             {data.item.date} {data.item.description}
                           </Text>
                         </View>
-                        {/* <View style={{ width: '25%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <Text numberOfLines={1} color='primary'>{data.item.zentValue} Zent</Text>
-                                        </View> */}
+                        <View
+                          style={{
+                            width: '25%',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Text numberOfLines={1} color="primary">
+                            {data.item.zentValue || '0'} Zent
+                          </Text>
+                        </View>
                       </JournalListContent>
                     </JournalList>
                   </TouchableHighlight>

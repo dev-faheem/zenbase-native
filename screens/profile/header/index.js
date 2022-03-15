@@ -97,12 +97,18 @@ export default function ProfileHeader({
   route,
   navigation,
 }) {
-  const imageSource =
+  let imageSource =
     typeof profilePicture == 'string'
       ? { uri: profilePicture }
       : profilePicture;
 
   const { user } = useAuth();
+
+  if (user.image) {
+    imageSource = { uri: user.image };
+  }
+
+  console.log({ user });
 
   return (
     <ProfileHeaderWrapper
@@ -159,7 +165,7 @@ export default function ProfileHeader({
           <PlayTime>
             <ZenbaseWhiteImage source={ZenbaseWhiteVector} />
             <Text color="white" fontSize="lg">
-              0 Hours
+              {user?.hours || 0} Hour{user?.hours != 1 && 's'}
             </Text>
           </PlayTime>
           {editable && (

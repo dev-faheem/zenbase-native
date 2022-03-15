@@ -29,6 +29,9 @@ import ZenbaseAddIcon from 'assets/vectors/zenbase-white-add.png';
 import ZentokenIcon from 'assets/images/zentoken-logo-border.png';
 import { playAds } from 'services/playAds';
 import { useAuth } from 'stores/auth';
+import ReactNativeShare from 'helpers/react-native-share';
+
+const CONTINUE_LISTENING = 60 * 60; //seconds
 
 const windowsWidth = Dimensions.get('window').width;
 const windowsHeight = Dimensions.get('window').height;
@@ -202,21 +205,30 @@ export default function Play({ navigation }) {
   const [duration, setDuration] = useState(1);
   const [adBonus, setAdBonus] = useState(0);
   const { setLoading, renderLoader } = useLoader();
+  const [continueListening, setContinueListening] = useState(false);
+  const clickContinueListeningRef = useRef(false);
 
   // Function to Init continue button animation
   const startProgressBarAnimation = () => {
-    Animated.sequence([
-      Animated.timing(progressBarWidth, {
-        toValue: windowsWidth - 40,
-        duration: 0,
-        useNativeDriver: false,
-      }),
-      Animated.timing(progressBarWidth, {
-        toValue: 0,
-        duration: 20000,
-        useNativeDriver: false,
-      }),
-    ]).start();
+    setContinueListening(true);
+    progressBarWidth.setValue(windowsWidth - 40);
+    clickContinueListeningRef.current = false;
+
+    Animated.timing(progressBarWidth, {
+      toValue: 0,
+      duration: 20000,
+      useNativeDriver: false,
+      isInteraction: true,
+    }).start(() => {
+      animationFinished();
+    });
+  };
+  const animationFinished = () => {
+    if (clickContinueListeningRef.current !== true) {
+      navigation.navigate('Home');
+    } else {
+      clickContinueListeningRef.current = false;
+    }
   };
 
   // Context Menu Config
@@ -251,6 +263,16 @@ export default function Play({ navigation }) {
         setAdBonus(adBonus + 1);
       }
     );
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      startProgressBarAnimation();
+    }, CONTINUE_LISTENING * 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {
@@ -348,7 +370,7 @@ export default function Play({ navigation }) {
            *
            * startProgressBarAnimation() is used to start the animation
            */}
-          {false && (
+          {continueListening && (
             <FooterWrapper>
               <FooterBody>
                 <Text
@@ -363,11 +385,16 @@ export default function Play({ navigation }) {
                   fontWeight="bold"
                   style={{ color: 'rgba(247, 248, 250, 0.9)' }}
                 >
-                  “Primordial Energy”?
+                  "{song?.name}"?
                 </Text>
               </FooterBody>
               <FooterButtons>
-                <ContinueButton onPress={() => {}}>
+                <ContinueButton
+                  onPress={() => {
+                    setContinueListening(false);
+                    clickContinueListeningRef.current = true;
+                  }}
+                >
                   <Animated.View
                     style={[
                       { width: progressBarWidth },
@@ -390,7 +417,11 @@ export default function Play({ navigation }) {
                     Continue listening
                   </Text>
                 </ContinueButton>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.goBack();
+                  }}
+                >
                   <Text>Exit</Text>
                 </TouchableOpacity>
               </FooterButtons>
@@ -402,7 +433,7 @@ export default function Play({ navigation }) {
            * Song Controls
            * *************
            */}
-          {true && (
+          {!continueListening && (
             <ScreenContainer>
               <View>
                 <SongTitle>{song?.name || 'Song Name'}</SongTitle>
@@ -607,12 +638,38 @@ export default function Play({ navigation }) {
                 />
               </View>
             ),
-            onPress: () => {},
+            onPress: () => {
+              ReactNativeShare(
+                `${user?.name} is inviting you to meditate with him.\n\nJoin here: www.zenbase.us`,
+                () => {
+                  // Success
+                },
+                () => {
+                  // Dismissed
+                },
+                (err) => {
+                  // Error
+                }
+              );
+            },
           },
           {
             title: 'Share Song...',
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
-            onPress: () => {},
+            onPress: () => {
+              ReactNativeShare(
+                `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+                () => {
+                  // Success
+                },
+                () => {
+                  // Dismissed
+                },
+                (err) => {
+                  // Error
+                }
+              );
+            },
           },
         ]}
       />

@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   const giveToken = async (amount, reason) => {
     if (!isLoggedIn) return;
     try {
-      await axios.put('/auth/transaction', { amount, reason });
+      // Refactor to new Transactions Systems
     } catch (e) {
       axios.handleError(e);
     }
@@ -47,9 +47,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUserLocal = (field, value) => {
+    setUser({ ...user, [field]: value });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, isLoggedIn, login, logout, giveToken, updateUser }}
+      value={{
+        user,
+        isLoggedIn,
+        login,
+        logout,
+        giveToken,
+        updateUser,
+        updateUserLocal,
+      }}
     >
       {children}
     </AuthContext.Provider>

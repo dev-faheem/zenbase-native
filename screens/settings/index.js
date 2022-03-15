@@ -25,6 +25,7 @@ import ProfileHeader from 'screens/profile/header';
 import { useAuth } from 'stores/auth';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react/cjs/react.development';
+import ReactNativeShare from 'helpers/react-native-share';
 
 // Styled Component
 const SwitchWrapper = styled.View`
@@ -40,17 +41,39 @@ const SwitchWrapper = styled.View`
   align-items: center;
 `;
 
-export default function Settings({ route, navigation }) {
+export default function Settings({ route }) {
   const { theme } = useTheme();
-
+  const navigation = useNavigation();
+  const { user, updateUser } = useAuth();
   // States
-  const [autoRenew, setAutoRenew] = useState(false);
+  const [autoRenew, setAutoRenew] = useState(
+    user?.renewZenbasePremiumAutomatically || false
+  );
 
   const toggleAutoRenew = () => {
     setAutoRenew(!autoRenew);
   };
 
-  const { logout } = useAuth();
+  useEffect(() => {
+    if (user?.renewZenbasePremiumAutomatically != autoRenew) {
+      updateUser('renewZenbasePremiumAutomatically', autoRenew);
+    }
+  }, [autoRenew]);
+
+  const inviteFriend = (message) => {
+    ReactNativeShare(
+      message,
+      () => {
+        // Success
+      },
+      () => {
+        // Dismissed
+      },
+      (err) => {
+        // Error
+      }
+    );
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -83,7 +106,10 @@ export default function Settings({ route, navigation }) {
                     />
                   ),
                   title: 'Invite Friends',
-                  onPress: () => {},
+                  onPress: () =>
+                    inviteFriend(
+                      `${user?.name} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`
+                    ),
                 },
                 {
                   icon: (
@@ -142,10 +168,11 @@ export default function Settings({ route, navigation }) {
                       />
                     </View>
                   ),
-                  title: 'Sign out',
+                  title: 'Sign Out',
                   onPress: () => {
-                    logout();
-                    navigation.navigate('Login');
+                    navigation.navigate('Home', {
+                      performLogout: true,
+                    });
                   },
                 },
               ]}

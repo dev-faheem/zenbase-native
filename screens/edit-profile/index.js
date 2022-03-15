@@ -11,6 +11,7 @@ import profileImage from 'assets/images/artist.png';
 // Import Icons
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from 'stores/auth';
+import axios from 'services/axios';
 
 // Styled Component
 const EditProfileHeader = styled.View`
@@ -88,12 +89,12 @@ export default function EditProfile({ route, navigation }) {
   // Profile Image
   const [image, setImage] = useState(null);
 
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   // States
   const [isProfileUpdated, setIsProfileUpdated] = useState(false);
   const [fullname, setFullname] = useState(user?.name);
-  const [username, setUsername] = useState('ellalopez');
+  const [username, setUsername] = useState(user?.username);
 
   // Input Handler
   const updateInput = (setState, value) => {
@@ -123,13 +124,16 @@ export default function EditProfile({ route, navigation }) {
         setImage(result.uri);
 
         // Form Data to Save Photo
-        let body = new FormData();
-        body.append('profilePicture', {
+        let formData = new FormData();
+        formData.append('image', {
           uri: result.uri,
           name: 'image.jpg',
           type: 'image/jpeg',
         });
-
+        const {
+          data: { data: imageURL },
+        } = await axios.patch('/auth/profile-image', formData);
+        updateUserLocal('image', imageURL);
         if (!isProfileUpdated) {
           setIsProfileUpdated(true);
         }
@@ -140,9 +144,20 @@ export default function EditProfile({ route, navigation }) {
   };
 
   // Save Changes
-  const saveChanges = () => {
+  const saveChanges = async () => {
     if (isProfileUpdated) {
       // Logic to save profile changes
+      if (user?.name != fullname) {
+        updateUser('name', fullname);
+      }
+
+      try {
+        if (user?.username != username) {
+          updateUser('username', username);
+        }
+      } catch (e) {
+        alert('Username already exists.');
+      }
 
       // Close Edit Profile Model after updating profile
       navigation.goBack();

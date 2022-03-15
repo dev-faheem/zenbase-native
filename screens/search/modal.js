@@ -27,6 +27,7 @@ import axios from 'services/axios';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useAuth } from 'stores/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ReactNativeShare from 'helpers/react-native-share';
 
 const windowsWidth = Dimensions.get('window').width;
 const windowsHeight = Dimensions.get('window').height;
@@ -512,7 +513,20 @@ export default function SearchModal({ navigation }) {
           {
             title: 'Share Song...',
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
-            onPress: () => {},
+            onPress: () => {
+              ReactNativeShare(
+                `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+                () => {
+                  // Success
+                },
+                () => {
+                  // Dismissed
+                },
+                (err) => {
+                  // Error
+                }
+              );
+            },
           },
         ]}
       />
