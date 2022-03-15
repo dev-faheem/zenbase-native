@@ -345,7 +345,7 @@ export default function SearchModal({ navigation }) {
           <SongListWrapper>
             {artists.map((artist) => (
               <SongList onPress={() => {}}>
-                <ArtistImage source={ArtistImg} />
+                <ArtistImage source={artist.image ? {uri: artist.image } : ArtistImg} />
                 <SongContentWrapper>
                   <SongContent>
                     <Text>{artist?.name}</Text>
