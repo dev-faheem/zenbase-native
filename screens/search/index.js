@@ -171,7 +171,9 @@ export default function Search({ navigation }) {
   const fetchRecentlyPlayedSongs = async () => {
     try {
       let recents = JSON.parse(await AsyncStorage.getItem('recents'));
-      if (!recents) return;
+      if (!recents) {
+        return setRecentlyPlayedSongs([])
+      } 
       const { data } = await axios.get('/songs/ids?ids=' + recents.join(','));
       let recentSongs = spliceIntoChunks(data.data.results, 4);
       setRecentlyPlayedSongs(recentSongs);
