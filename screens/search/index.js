@@ -18,16 +18,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import useCategories from 'queries/useCategories';
-
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from 'stores/theme';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'services/axios';
 
 // Import Images
 import SongImg from 'assets/images/song.png';
 import ArtistImg from 'assets/images/artist.png';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'services/axios';
 
 const windowsHeight = Dimensions.get('window').height;
 
@@ -149,6 +148,12 @@ export default function Search({ navigation }) {
   }, [search]);
 
   const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchRecentlyPlayedSongs();
+    }, [])
+  );
 
   useEffect(() => {
     fetchRecentlyPlayedSongs();

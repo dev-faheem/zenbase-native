@@ -65,7 +65,7 @@ export function HomeStack() {
       initialRouteName="Home"
       screenOptions={{ headerShown: false }}
       tabBar={(props) => <TabBar {...props} />}
-      // backBehavior="history"
+      backBehavior="history"
     >
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="SongList" component={SongList} />
