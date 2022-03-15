@@ -89,7 +89,7 @@ export default function EditProfile({ route, navigation }) {
   // Profile Image
   const [image, setImage] = useState(null);
 
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, updateUserLocal } = useAuth();
 
   // States
   const [isProfileUpdated, setIsProfileUpdated] = useState(false);
@@ -134,9 +134,7 @@ export default function EditProfile({ route, navigation }) {
           data: { data: imageURL },
         } = await axios.patch('/auth/profile-image', formData);
         updateUserLocal('image', imageURL);
-        if (!isProfileUpdated) {
-          setIsProfileUpdated(true);
-        }
+        setIsProfileUpdated(true);
       }
     } catch (err) {
       // Error Handling

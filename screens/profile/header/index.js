@@ -172,7 +172,7 @@ export default function ProfileHeader({
             <ProfileHeaderEditButton
               onPress={() => {
                 // navigation.goBack();
-                navigation.navigate('EditProfile');
+                navigation.navigate('EditProfile', {profilePicture: imageSource});
               }}
             >
               <Text color="white" fontSize="md">
