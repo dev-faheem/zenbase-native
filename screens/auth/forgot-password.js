@@ -3,6 +3,7 @@ import { Text, Container, Canvas, Button } from "components";
 import styled from 'styled-components/native';
 import { useTheme } from "stores/theme";
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'services/axios';
 
 
 // Styled Component
@@ -46,16 +47,24 @@ export default function ForgotPassword({ navigation }) {
     setState(value);
   }
 
-  const forgotPassword = () => {
-
-    let type = 'phoneNumber'; // or email
-    if (/[a-zA-Z]/g.test(phoneNumberOrEmail)) {
-      type = 'email'
+  const forgotPassword = async () => {
+    try {
+      let type = 'phoneNumber'; // or email
+      if (/[a-zA-Z]/g.test(phoneNumberOrEmail)) {
+        type = 'email'
+      }
+  
+      const value = phoneNumberOrEmail;
+      
+      const { data } =  await axios.post('/auth/generate-otp', {
+        username: phoneNumberOrEmail,
+      });
+  
+      navigation.navigate('OTP', { type, value, userId: data.data.userId });
+    } catch(e) {
+      axios.handleError(e);
     }
 
-    const value = phoneNumberOrEmail;
-
-    navigation.navigate('OTP', { type, value });
   }
 
 
