@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import axios from 'services/axios';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "services/axios";
+import Transactions from "stores/transactions";
 
 const AuthContext = createContext();
 
@@ -40,7 +41,7 @@ export const AuthProvider = ({ children }) => {
   const updateUser = async (field, value) => {
     if (!isLoggedIn) return;
     try {
-      await axios.patch('/auth/' + field, { value });
+      await axios.patch("/auth/" + field, { value });
       setUser({ ...user, [field]: value });
     } catch (e) {
       axios.handleError(e);
@@ -61,6 +62,7 @@ export const AuthProvider = ({ children }) => {
         giveToken,
         updateUser,
         updateUserLocal,
+        transactions: Transactions(user),
       }}
     >
       {children}

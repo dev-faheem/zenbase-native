@@ -84,7 +84,7 @@ const Header = styled.View`
 // ZenbaseAds (Default)
 export default function ZenbaseAds({ route, navigation }) {
   const { theme } = useTheme();
-  const { updateUser } = useAuth();
+  const { user, updateUser } = useAuth();
   const { isForLogin } = route.params;
 
   const selectAdsAmount = (amount = 2) => {
@@ -151,28 +151,31 @@ export default function ZenbaseAds({ route, navigation }) {
             </AdsOptions>
           </InfoBody>
           <InfoFooter>
-            <Text
-              color="information"
-              fontSize="sm"
-              style={{ marginBottom: 10 }}
-            >
-              You’re using Zenbase Premium! You can opt-out of Ads.
-            </Text>
-            {isForLogin ? (
+            {user.isPremium && (
+              <>
+                <Text
+                  color="information"
+                  fontSize="sm"
+                  style={{ marginBottom: 10 }}
+                >
+                  You’re using Zenbase Premium! You can opt-out of Ads.
+                </Text>
+                <Button
+                  title="No Ads"
+                  variant="secondary"
+                  block
+                  onPress={() => selectAdsAmount(2)}
+                />
+              </>
+            )}
+            {isForLogin && !user.isPremium ? (
               <Button
                 title="Set up later"
                 variant="secondary"
                 block
                 onPress={() => selectAdsAmount(2)}
               />
-            ) : (
-              <Button
-                title="No Ads"
-                variant="secondary"
-                block
-                onPress={() => selectAdsAmount(2)}
-              />
-            )}
+            ) : null}
           </InfoFooter>
         </InfoWrapper>
       </Container>
