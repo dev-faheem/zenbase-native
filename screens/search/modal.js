@@ -167,6 +167,7 @@ export default function SearchModal({ navigation }) {
   const { theme } = useTheme();
 
   const [songs, setSongs] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [song, setSong] = useState();
   const { user, updateUser } = useAuth();
 
@@ -211,8 +212,23 @@ export default function SearchModal({ navigation }) {
     setSongs(data.data.results);
   };
 
+  const fetchArtists = async () => {
+    const { data } = await axios.get('/admin/users/search-artist', {
+      params: {
+        q: search,
+      },
+    });
+    setArtists(data.data);
+  };
+
   useEffect(() => {
-    if (search != '') fetchSongs();
+    if (search.trim() != '') {
+      fetchSongs();
+      fetchArtists();
+    } else {
+      setSongs([]);
+      setArtists([]);
+    }
   }, [search]);
 
   const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
@@ -239,6 +255,7 @@ export default function SearchModal({ navigation }) {
           <SearchBarWrapper>
             <Ionicons name="search" size={15} color={theme.color.secondary} />
             <SearchInput
+              autoFocus={true}
               selectionColor={theme.color.primary}
               placeholder="Artists, Sounds, Friends, and More"
               placeholderTextColor="rgba(143, 144, 148, 1)"
@@ -307,10 +324,17 @@ export default function SearchModal({ navigation }) {
 
           <HeadingWrapper>
             <Text fontSize="xl" fontWeight="600">
-              {search == '' ? 'Recent' : songs.length > 0 ? 'Top Matches' : ''}
+              {search == '' && recentlyPlayedSongs.length > 0 ? 'Recent' : songs.length > 0 || artists.length > 0 ? 'Top Matches' : ''}
             </Text>
-            {search == '' && (
-              <TouchableOpacity>
+            {(search == '' && recentlyPlayedSongs.length > 0) && (
+              <TouchableOpacity onPress={async () => {
+                try {
+                  await AsyncStorage.removeItem('recents');
+                  setRecentlyPlayedSongs([]);
+                } catch (e) {
+                  console.log(e);
+                }
+              }}>
                 <Text fontSize="md" color="primary">
                   Clear
                 </Text>
@@ -319,6 +343,27 @@ export default function SearchModal({ navigation }) {
           </HeadingWrapper>
 
           <SongListWrapper>
+            {artists.map((artist) => (
+              <SongList onPress={() => {}}>
+                <ArtistImage source={artist.image ? {uri: artist.image } : ArtistImg} />
+                <SongContentWrapper>
+                  <SongContent>
+                    <Text>{artist?.name}</Text>
+                    <Text fontSize="sm" color="secondary">
+                      Artist
+                    </Text>
+                  </SongContent>
+
+                  <IconWrapper>
+                    <Ionicons
+                      name="ios-chevron-forward"
+                      size={24}
+                      color={theme.color.secondary}
+                    />
+                  </IconWrapper>
+                </SongContentWrapper>
+              </SongList>
+            ))}
             {songs.map((song) => (
               <SongList
                 onPress={() => {

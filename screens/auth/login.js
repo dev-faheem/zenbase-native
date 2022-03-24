@@ -5,11 +5,12 @@ import styled from 'styled-components/native';
 import { useAuth } from 'stores/auth';
 import { useTheme } from 'stores/theme';
 import { ScrollView, TouchableOpacity } from 'react-native';
+import axios from 'services/axios';
+import SplashScreen from 'screens/splash-screen';
 
 // Import Images
 import ZentbaseLogoPrimary from 'assets/images/zenbase-full-primary-logo.png';
 import { useLoader } from 'stores/loader';
-import axios from 'services/axios';
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -66,6 +67,7 @@ export default function Login({ navigation }) {
   const passwordInput = useRef();
 
   // States
+  const [isAppReady, setIsAppReady] = useState(false);
   const [isLoginEnabled, setIsLoginEnabled] = useState(false);
   const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -109,6 +111,16 @@ export default function Login({ navigation }) {
       setIsLoginEnabled(true);
     }
   }, [phoneNumberOrEmail, password]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsAppReady(true);
+    }, 3000)
+  }, []);
+
+  if (!isAppReady) {
+    return <SplashScreen />
+  }
 
   return (
     <Canvas>

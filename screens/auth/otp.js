@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import { useTheme } from "stores/theme";
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAvoidingView } from 'react-native'
+import axios from 'services/axios';
 
 
 // Styled Component
@@ -45,7 +46,7 @@ export default function OneTimePassword({ route, navigation }) {
   const { theme } = useTheme();
 
   // Params
-  const { type, value } = route.params;
+  const { type, value, userId } = route.params;
 
 
   // Refs
@@ -69,6 +70,21 @@ export default function OneTimePassword({ route, navigation }) {
       setIsNextEnabled(false);
     }
   }, otp)
+
+  const validateOTP = async () => {
+    try {
+      const {data } = await axios.post('/auth/validate-otp', {
+        otp: otp.join(''), userId
+      });
+
+      alert(data.data.msg);
+
+      navigation.goBack();
+      navigation.goBack();
+    } catch(e) {
+      axios.handleError(e);
+    }
+  }
 
 
 
@@ -229,7 +245,7 @@ export default function OneTimePassword({ route, navigation }) {
                 navigation.goBack();
                 navigation.goBack();
               }} variant='silent' fontSize='14' title='Go back log in' style={{ marginTop: 8, marginBottom: 2 }} />
-              <Button variant={isNextEnabled ? 'primary' : 'disabled'} title='Next' block onPress={() => { }} />
+              <Button variant={isNextEnabled ? 'primary' : 'disabled'} title='Next' block onPress={validateOTP} />
             </FooterFlex>
           </Container>
         </FooterWrapper>
