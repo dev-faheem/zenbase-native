@@ -32,7 +32,7 @@ import { useAuth } from "stores/auth";
 import ReactNativeShare from "helpers/react-native-share";
 
 const GIVEAWAY_TOKEN_AFTER_SECONDS = 10; // seconds
-const CONTINUE_LISTENING = 60 * 60; //seconds
+const CONTINUE_LISTENING = 30; //seconds
 
 const windowsWidth = Dimensions.get("window").width;
 const windowsHeight = Dimensions.get("window").height;
@@ -286,7 +286,6 @@ export default function Play({ navigation }) {
   // Token Counter
   const secondsRef = useRef(0);
   const tokenInterval = useRef(null);
-  console.log({ secondsWorth });
   const startTokenTimer = () => {
     const intervalId = setInterval(() => {
       secondsRef.current++;

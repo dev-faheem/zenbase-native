@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Text, Container, Canvas, Button } from 'components';
-import { StackActions, CommonActions } from '@react-navigation/native';
-import styled from 'styled-components/native';
-import { useAuth } from 'stores/auth';
-import { useTheme } from 'stores/theme';
-import { ScrollView, TouchableOpacity } from 'react-native';
-import axios from 'services/axios';
-import SplashScreen from 'screens/splash-screen';
+import React, { useState, useEffect, useRef } from "react";
+import { Text, Container, Canvas, Button } from "components";
+import { StackActions, CommonActions } from "@react-navigation/native";
+import styled from "styled-components/native";
+import { useAuth } from "stores/auth";
+import { useTheme } from "stores/theme";
+import { ScrollView, TouchableOpacity } from "react-native";
+import axios from "services/axios";
+import SplashScreen from "screens/splash-screen";
 
 // Import Images
-import ZentbaseLogoPrimary from 'assets/images/zenbase-full-primary-logo.png';
-import { useLoader } from 'stores/loader';
+import ZentbaseLogoPrimary from "assets/images/zenbase-full-primary-logo.png";
+import { useLoader } from "stores/loader";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -69,8 +69,8 @@ export default function Login({ navigation }) {
   // States
   const [isAppReady, setIsAppReady] = useState(false);
   const [isLoginEnabled, setIsLoginEnabled] = useState(false);
-  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { setLoading } = useLoader();
 
   // Input Handler
@@ -83,7 +83,7 @@ export default function Login({ navigation }) {
     try {
       const {
         data: { data },
-      } = await axios.post('/auth/login', {
+      } = await axios.post("/auth/login", {
         username: phoneNumberOrEmail,
         password,
       });
@@ -96,7 +96,7 @@ export default function Login({ navigation }) {
       // Reset Stack Navigation
       navigation.dispatch(
         CommonActions.reset({
-          routes: [{ name: 'App' }],
+          routes: [{ name: "App" }],
         })
       );
     } catch (e) {
@@ -105,7 +105,7 @@ export default function Login({ navigation }) {
   };
 
   useEffect(() => {
-    if (phoneNumberOrEmail.trim() == '' || password == '') {
+    if (phoneNumberOrEmail.trim() == "" || password == "") {
       setIsLoginEnabled(false);
     } else {
       setIsLoginEnabled(true);
@@ -115,11 +115,11 @@ export default function Login({ navigation }) {
   useEffect(() => {
     setTimeout(() => {
       setIsAppReady(true);
-    }, 3000)
+    }, 3000);
   }, []);
 
   if (!isAppReady) {
-    return <SplashScreen />
+    return <SplashScreen />;
   }
 
   return (
@@ -138,7 +138,7 @@ export default function Login({ navigation }) {
             onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
             value={phoneNumberOrEmail}
             onSubmitEditing={() => {
-              if (!(phoneNumberOrEmail != '' && password != '')) {
+              if (!(phoneNumberOrEmail != "" && password != "")) {
                 passwordInput.current.focus();
               }
             }}
@@ -154,7 +154,7 @@ export default function Login({ navigation }) {
           />
 
           <Button
-            onPress={() => navigation.navigate('ForgotPassword')}
+            onPress={() => navigation.navigate("ForgotPassword")}
             variant="silent"
             fontSize="14"
             title="Forgot Password?"
@@ -166,14 +166,14 @@ export default function Login({ navigation }) {
         <Container style={{ flex: 1 }}>
           <FooterFlex>
             <Button
-              onPress={() => navigation.navigate('Register')}
+              onPress={() => navigation.navigate("Register")}
               variant="silent"
               fontSize="14"
               title="Create an account"
               style={{ marginTop: 8, marginBottom: 2 }}
             />
             <Button
-              variant={isLoginEnabled ? 'primary' : 'disabled'}
+              variant={isLoginEnabled ? "primary" : "disabled"}
               title="Sign in"
               block
               onPress={() => {
@@ -188,7 +188,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity>
                   <Text
                     fontWeight="bold"
-                    style={{ textDecorationLine: 'underline' }}
+                    style={{ textDecorationLine: "underline" }}
                   >
                     Terms of use
                   </Text>
@@ -200,7 +200,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity>
                   <Text
                     fontWeight="bold"
-                    style={{ textDecorationLine: 'underline' }}
+                    style={{ textDecorationLine: "underline" }}
                   >
                     Privacy Policy
                   </Text>
