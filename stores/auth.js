@@ -11,11 +11,18 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [secondsWorth, setSecondsWorth] = useState(0.000001);
 
   useEffect(() => {
     // Check async storage if user was logged in previously
     // If user exists, then load the user into global state
+    fetchLatestTokenWorth();
   }, []);
+
+  const fetchLatestTokenWorth = async () => {
+    const { data } = await axios.get("/transactions/currency");
+    setSecondsWorth(data.data.secondWorth);
+  };
 
   const login = (_user) => {
     setUser(_user);
@@ -63,6 +70,7 @@ export const AuthProvider = ({ children }) => {
         updateUser,
         updateUserLocal,
         transactions: Transactions(user),
+        secondsWorth,
       }}
     >
       {children}

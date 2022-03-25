@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { Container, Canvas, Text } from 'components';
+import React, { useState } from "react";
+import { Container, Canvas, Text } from "components";
 import {
   ScrollView,
   TouchableHighlight,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { useTheme } from 'stores/theme';
-import { SwipeListView } from 'react-native-swipe-list-view';
-import styled from 'styled-components/native';
+} from "react-native";
+import { useTheme } from "stores/theme";
+import { SwipeListView } from "react-native-swipe-list-view";
+import styled from "styled-components/native";
 
 // Import Images
-import SongImage from 'assets/images/song.png';
-import ZenbaseVectorGrey from 'assets/vectors/zenbase-grey.png';
+import SongImage from "assets/images/song.png";
+import ZenbaseVectorGrey from "assets/vectors/zenbase-grey.png";
 
 // Import Icons
-import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from 'stores/auth';
-import { useIsFocused } from '@react-navigation/native';
+import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "stores/auth";
+import { useIsFocused } from "@react-navigation/native";
 
 // Styled Component
 const JournalHeader = styled.View`
@@ -88,7 +88,7 @@ export default function Journal({ route, navigation }) {
         }`,
         description: item.description,
         type: item.emotion,
-        zentValue: 0,
+        zentValue: item.zentValue,
         item,
       };
     })
@@ -98,7 +98,7 @@ export default function Journal({ route, navigation }) {
   const deleteJournal = (journal, journalIndex) => {
     // Delete Logic...
     user.journal.splice(journalIndex, 1);
-    updateUser('journal', [...user.journal]);
+    updateUser("journal", [...user.journal]);
 
     // Remove Journal from the `journals` list
     journals.splice(journalIndex, 1);
@@ -122,7 +122,7 @@ export default function Journal({ route, navigation }) {
       </JournalHeader>
       <Container style={{ flex: 1 }}>
         <ScrollView
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           showsVerticalScrollIndicator={false}
         >
           <Text fontSize="h2" fontWeight="bold" style={{ marginBottom: 18 }}>
@@ -152,7 +152,15 @@ export default function Journal({ route, navigation }) {
                 }
 
                 return (
-                  <TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {
+                      navigation.navigate("DeleteJournal", {
+                        journal: data.item,
+                        index: data.index,
+                        deleteFunction: deleteJournal,
+                      });
+                    }}
+                  >
                     <JournalList style={listStyle}>
                       <JournalListImg source={SongImage} resizeMode="cover" />
                       <JournalListContent
@@ -162,7 +170,7 @@ export default function Journal({ route, navigation }) {
                             : null
                         }
                       >
-                        <View style={{ width: '75%' }}>
+                        <View style={{ width: "65%" }}>
                           <Text numberOfLines={1} style={{ marginTop: 4 }}>
                             {data.item.title}
                           </Text>
@@ -177,14 +185,15 @@ export default function Journal({ route, navigation }) {
                         </View>
                         <View
                           style={{
-                            width: '25%',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
+                            width: "35%",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
                         >
                           <Text numberOfLines={1} color="primary">
-                            {data.item.zentValue || '0'} Zent
+                            {Number(data.item.zentValue).toPrecision(3) || "0"}{" "}
+                            ZENT
                           </Text>
                         </View>
                       </JournalListContent>
@@ -213,11 +222,7 @@ export default function Journal({ route, navigation }) {
                   <JournalDeleteWrapper
                     onPress={() => {
                       rowMap[data.index].closeRow();
-                      navigation.navigate('DeleteJournal', {
-                        journal: data.item,
-                        index: data.index,
-                        deleteFunction: deleteJournal,
-                      });
+                      deleteJournal(data, data.index);
                     }}
                   >
                     <JournalDeleteButton style={deleteButtonStyle}>
@@ -241,37 +246,43 @@ export default function Journal({ route, navigation }) {
             />
           )}
 
-          <TouchableOpacity>
-            <JournalList style={{ borderRadius: 10, paddingBottom: 3 }}>
-              <JournalListImg source={ZenbaseVectorGrey} resizeMode="cover" />
-              <JournalListContent style={{ borderBottomWidth: 0 }}>
-                <View style={{ width: '88%' }}>
-                  <Text
-                    color="information"
-                    style={{ marginTop: 6, lineHeight: 18 }}
-                    fontSize="13"
+          {!user.isPremium && (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("JournalUpgradeToZenbase");
+              }}
+            >
+              <JournalList style={{ borderRadius: 10, paddingBottom: 3 }}>
+                <JournalListImg source={ZenbaseVectorGrey} resizeMode="cover" />
+                <JournalListContent style={{ borderBottomWidth: 0 }}>
+                  <View style={{ width: "88%" }}>
+                    <Text
+                      color="information"
+                      style={{ marginTop: 6, lineHeight: 18 }}
+                      fontSize="13"
+                    >
+                      Earn and save all of your journal entries with Zenbase
+                      Premium.
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "12%",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    Earn and save all of your journal entries with Zenbase
-                    Premium.
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    width: '12%',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Ionicons
-                    name="ios-chevron-forward"
-                    size={20}
-                    color={theme.color.information}
-                  />
-                </View>
-              </JournalListContent>
-            </JournalList>
-          </TouchableOpacity>
+                    <Ionicons
+                      name="ios-chevron-forward"
+                      size={20}
+                      color={theme.color.information}
+                    />
+                  </View>
+                </JournalListContent>
+              </JournalList>
+            </TouchableOpacity>
+          )}
         </ScrollView>
       </Container>
     </Canvas>

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Text, Container, Canvas, ContextMenu, Button } from 'components';
-import { useRoute } from '@react-navigation/core';
-import styled from 'styled-components';
-import axios from 'services/axios';
-import { useLoader } from 'stores/loader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useRef, useState } from "react";
+import { Text, Container, Canvas, ContextMenu, Button } from "components";
+import { useRoute } from "@react-navigation/core";
+import styled from "styled-components";
+import axios from "services/axios";
+import { useLoader } from "stores/loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   Dimensions,
@@ -12,29 +12,30 @@ import {
   Animated,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { Shadow } from 'react-native-shadow-2';
-import Slider from '@react-native-community/slider';
+} from "react-native";
+import { Shadow } from "react-native-shadow-2";
+import Slider from "@react-native-community/slider";
 import {
   FontAwesome5,
   Foundation,
   Ionicons,
   MaterialCommunityIcons,
   Feather,
-} from '@expo/vector-icons';
-import { Audio } from 'expo-av';
+} from "@expo/vector-icons";
+import { Audio } from "expo-av";
 
 // Import Images
-import ZenbaseAddIcon from 'assets/vectors/zenbase-white-add.png';
-import ZentokenIcon from 'assets/images/zentoken-logo-border.png';
-import { playAds } from 'services/playAds';
-import { useAuth } from 'stores/auth';
-import ReactNativeShare from 'helpers/react-native-share';
+import ZenbaseAddIcon from "assets/vectors/zenbase-white-add.png";
+import ZentokenIcon from "assets/images/zentoken-logo-border.png";
+import { playAds } from "services/playAds";
+import { useAuth } from "stores/auth";
+import ReactNativeShare from "helpers/react-native-share";
 
+const GIVEAWAY_TOKEN_AFTER_SECONDS = 10; // seconds
 const CONTINUE_LISTENING = 60 * 60; //seconds
 
-const windowsWidth = Dimensions.get('window').width;
-const windowsHeight = Dimensions.get('window').height;
+const windowsWidth = Dimensions.get("window").width;
+const windowsHeight = Dimensions.get("window").height;
 
 const ScreenContainer = styled.View`
   padding-left: 22px;
@@ -64,8 +65,8 @@ const SongArtworkContainer = styled.View`
   justify-content: center;
 `;
 const SongArtwork = styled.Image`
-  width: ${Math.floor(Dimensions.get('window').width - 44)}px;
-  height: ${Math.floor(Dimensions.get('window').width - 44)}px;
+  width: ${Math.floor(Dimensions.get("window").width - 44)}px;
+  height: ${Math.floor(Dimensions.get("window").width - 44)}px;
   border-radius: 10px;
 `;
 const SongTitle = styled.Text`
@@ -184,15 +185,17 @@ function renderMsToTiming(ms) {
   let hours = Math.floor(minutes / 60);
   if (hours > 0) {
     minutes = minutes % 60;
-    return `${hours}:${minutes}:${seconds}`;
+    return `0${hours}:${minutes}:${seconds}`;
   }
-  return `${minutes}:${seconds}`;
+  let zeroFixMinutes = minutes >= 10 ? "" : "0";
+  let zeroFixSeconds = seconds >= 10 ? "" : "0";
+  return `${zeroFixMinutes}${minutes}:${zeroFixSeconds}${seconds}`;
 }
 
 export default function Play({ navigation }) {
   const route = useRoute();
   const { _id } = route.params;
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, secondsWorth } = useAuth();
 
   const progressBarWidth = useRef(
     new Animated.Value(windowsWidth - 40)
@@ -207,6 +210,7 @@ export default function Play({ navigation }) {
   const { setLoading, renderLoader } = useLoader();
   const [continueListening, setContinueListening] = useState(false);
   const clickContinueListeningRef = useRef(false);
+  const [zentokens, setZentokens] = useState(0);
 
   // Function to Init continue button animation
   const startProgressBarAnimation = () => {
@@ -225,7 +229,7 @@ export default function Play({ navigation }) {
   };
   const animationFinished = () => {
     if (clickContinueListeningRef.current !== true) {
-      navigation.navigate('Home');
+      navigation.navigate("Home");
     } else {
       clickContinueListeningRef.current = false;
     }
@@ -255,16 +259,20 @@ export default function Play({ navigation }) {
     setContextMenuConfig({ ...contextMenuConfig });
   };
 
+  //
   useEffect(() => {
     playAds(
       user.ads || 0,
       () => {},
       () => {
-        setAdBonus(adBonus + 1);
+        // setAdBonus(adBonus + 1);
+        // Giveaway 30 seconds worth of token on an ad play
+        setZentokens(zentoken + 30 * secondsWorth);
       }
     );
   }, []);
 
+  // Continue Listening
   useEffect(() => {
     const interval = setInterval(() => {
       startProgressBarAnimation();
@@ -275,6 +283,28 @@ export default function Play({ navigation }) {
     };
   }, []);
 
+  // Token Counter
+  const secondsRef = useRef(0);
+  const tokenInterval = useRef(null);
+  console.log({ secondsWorth });
+  const startTokenTimer = () => {
+    const intervalId = setInterval(() => {
+      secondsRef.current++;
+
+      if (secondsRef.current > GIVEAWAY_TOKEN_AFTER_SECONDS) {
+        setZentokens((oldZentoken) => {
+          return oldZentoken + secondsWorth;
+        });
+      }
+    }, 1000);
+    tokenInterval.current = intervalId;
+  };
+
+  const stopTokenTimer = () => {
+    clearInterval(tokenInterval.current);
+  };
+
+  // Fetch and Add To Recents
   useEffect(() => {
     fetchSong(_id);
     addToRecents(_id);
@@ -297,7 +327,7 @@ export default function Play({ navigation }) {
 
   const addToRecents = async (id) => {
     try {
-      let recents = JSON.parse(await AsyncStorage.getItem('recents'));
+      let recents = JSON.parse(await AsyncStorage.getItem("recents"));
       if (!recents) {
         recents = [id];
       } else {
@@ -307,7 +337,7 @@ export default function Play({ navigation }) {
       if (recents.length > 5) {
         recents.pop();
       }
-      await AsyncStorage.setItem('recents', JSON.stringify(recents));
+      await AsyncStorage.setItem("recents", JSON.stringify(recents));
     } catch (e) {
       console.error(e);
     }
@@ -316,14 +346,14 @@ export default function Play({ navigation }) {
   const toggleLikedTrack = () => {
     if (isSongLiked()) {
       updateUser(
-        'likedSongs',
+        "likedSongs",
         user.likedSongs.filter((_) => {
           if (_ == song?._id) return false;
           return true;
         })
       );
     } else {
-      updateUser('likedSongs', [...user.likedSongs, song?._id]);
+      updateUser("likedSongs", [...user.likedSongs, song?._id]);
     }
   };
 
@@ -337,7 +367,7 @@ export default function Play({ navigation }) {
       {song && (
         <>
           <SongBackdrop
-            source={{ uri: song?.artwork?.replace('https', 'http') }}
+            source={{ uri: song?.artwork?.replace("https", "http") }}
             blurRadius={100}
             style={{ opacity: 0.7 }}
           />
@@ -345,17 +375,17 @@ export default function Play({ navigation }) {
           <ZentEarningWrapper>
             <ZentokenImage source={ZentokenIcon} style={{ marginRight: 8 }} />
             <Text fontWeight="600">
-              {renderMsToTiming(position) || '0:0'} •{' '}
-              {position * 0.000001 + adBonus} ZENT earned
+              {renderMsToTiming(position) || "00:00"} •{" "}
+              {Number(zentokens).toPrecision(4)} ZENT earned
             </Text>
           </ZentEarningWrapper>
 
           <SongArtworkContainer>
             <Shadow distance={50} radius={10}>
               <SongArtwork
-                source={{ uri: song?.artwork?.replace('https', 'http') }}
+                source={{ uri: song?.artwork?.replace("https", "http") }}
                 style={{
-                  shadowColor: 'black',
+                  shadowColor: "black",
                   shadowOffset: { height: 2 },
                   shadowOpacity: 1,
                 }}
@@ -376,14 +406,14 @@ export default function Play({ navigation }) {
                 <Text
                   fontSize="20"
                   fontWeight="bold"
-                  style={{ color: 'rgba(247, 248, 250, 0.9)' }}
+                  style={{ color: "rgba(247, 248, 250, 0.9)" }}
                 >
                   Are you still listening to
                 </Text>
                 <Text
                   fontSize="20"
                   fontWeight="bold"
-                  style={{ color: 'rgba(247, 248, 250, 0.9)' }}
+                  style={{ color: "rgba(247, 248, 250, 0.9)" }}
                 >
                   "{song?.name}"?
                 </Text>
@@ -399,12 +429,12 @@ export default function Play({ navigation }) {
                     style={[
                       { width: progressBarWidth },
                       {
-                        position: 'absolute',
+                        position: "absolute",
                         top: 0,
                         left: 0,
                         zIndex: 1,
                         height: 42,
-                        backgroundColor: 'white',
+                        backgroundColor: "white",
                         borderRadius: 12,
                       },
                     ]}
@@ -412,7 +442,7 @@ export default function Play({ navigation }) {
                   <Text
                     fontSize="16"
                     color="black"
-                    style={{ position: 'relative', zIndex: 2 }}
+                    style={{ position: "relative", zIndex: 2 }}
                   >
                     Continue listening
                   </Text>
@@ -436,13 +466,13 @@ export default function Play({ navigation }) {
           {!continueListening && (
             <ScreenContainer>
               <View>
-                <SongTitle>{song?.name || 'Song Name'}</SongTitle>
+                <SongTitle>{song?.name || "Song Name"}</SongTitle>
                 <SongArtist>
                   {song?.artist
                     ?.map((artist) => {
-                      return artist?.name || 'Unknown Artist';
+                      return artist?.name || "Unknown Artist";
                     })
-                    .join(', ') || 'Unknown Artists'}
+                    .join(", ") || "Unknown Artists"}
                 </SongArtist>
               </View>
 
@@ -456,42 +486,45 @@ export default function Play({ navigation }) {
                   maximumTrackTintColor="rgba(255, 255, 255, 0.1)"
                 />
                 <SongTimingWrapper>
-                  <Text style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
-                    {renderMsToTiming(position) || '0:0'}
+                  <Text style={{ color: "rgba(255, 255, 255, 0.35)" }}>
+                    {renderMsToTiming(position) || "00:00"}
                   </Text>
-                  <Text style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
-                    {renderMsToTiming(duration) || '0:0'}
+                  <Text style={{ color: "rgba(255, 255, 255, 0.35)" }}>
+                    {renderMsToTiming(duration) || "00:00"}
                   </Text>
                 </SongTimingWrapper>
               </View>
 
-              <SongControls style={{ position: 'relative', top: -7 }}>
+              <SongControls style={{ position: "relative", top: -7 }}>
                 <SongControlsButton>
                   <FontAwesome5 name="backward" size={24} color="white" />
                 </SongControlsButton>
 
                 {isPlaying ? (
+                  // Pause Button
                   <SongControlsButton
                     onPress={async () => {
                       // return;
                       setIsPlaying(false);
                       await audio.stopAsync();
+                      stopTokenTimer();
                     }}
                   >
                     <Foundation name="pause" size={48} color="white" />
                   </SongControlsButton>
                 ) : (
+                  // Play Button
                   <SongControlsButton
                     onPress={async () => {
                       await audio.unloadAsync();
                       await audio.loadAsync({ uri: song?.source });
                       await audio.playAsync({ uri: song?.source });
 
+                      startTokenTimer();
                       audio.setOnPlaybackStatusUpdate((status) => {
                         setDuration(status.durationMillis);
                         setPosition(status.positionMillis);
                       });
-
                       setIsPlaying(true);
                     }}
                   >
@@ -513,7 +546,7 @@ export default function Play({ navigation }) {
                 />
                 <Slider
                   style={{
-                    width: '86%',
+                    width: "86%",
                     marginRight: 5,
                   }}
                   thumbSize={{
@@ -539,7 +572,7 @@ export default function Play({ navigation }) {
 
               <SongControls style={{ marginBottom: 20, marginTop: 10 }}>
                 <OptionButton
-                  style={{ backgroundColor: 'white' }}
+                  style={{ backgroundColor: "white" }}
                   onPress={() => {
                     navigation.goBack();
                   }}
@@ -559,15 +592,15 @@ export default function Play({ navigation }) {
                   }}
                   style={{
                     backgroundColor: isSongLiked()
-                      ? 'white'
-                      : 'rgba(247, 248, 250, 0.3)',
+                      ? "white"
+                      : "rgba(247, 248, 250, 0.3)",
                   }}
                 >
                   <Ionicons
                     name="heart"
                     size={17}
                     {...{
-                      color: isSongLiked() ? 'black' : 'white',
+                      color: isSongLiked() ? "black" : "white",
                     }}
                     style={{
                       marginLeft: 0.5,
@@ -577,7 +610,7 @@ export default function Play({ navigation }) {
                 </OptionButton>
                 <OptionButton
                   onPress={() => {
-                    navigation.navigate('AddJournal', { song });
+                    navigation.navigate("AddJournal", { song, zentokens });
                   }}
                 >
                   <ZenbaseAddImage
@@ -607,7 +640,7 @@ export default function Play({ navigation }) {
           //   onPress: () => { }
           // },
           {
-            title: isSongLiked() ? 'Remove from Library' : 'Add to Library',
+            title: isSongLiked() ? "Remove from Library" : "Add to Library",
             icon: <Ionicons name="heart-outline" size={16} color="white" />,
             onPress: () => {
               toggleLikedTrack();
@@ -617,18 +650,18 @@ export default function Play({ navigation }) {
             divider: true,
           },
           {
-            title: 'Listen with Friends',
+            title: "Listen with Friends",
             icon: (
               <View
                 style={{
                   width: 16,
                   height: 16,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
                   borderRadius: 100,
                   borderWidth: 1,
-                  borderColor: 'white',
+                  borderColor: "white",
                 }}
               >
                 <Image
@@ -654,7 +687,7 @@ export default function Play({ navigation }) {
             },
           },
           {
-            title: 'Share Song...',
+            title: "Share Song...",
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
             onPress: () => {
               ReactNativeShare(

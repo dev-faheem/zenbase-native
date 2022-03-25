@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Container,
@@ -8,27 +8,27 @@ import {
   Box,
   NavigationPadding,
   ContextMenu,
-} from 'components';
-import styled from 'styled-components/native';
-import useSearch from 'queries/useSearch';
+} from "components";
+import styled from "styled-components/native";
+import useSearch from "queries/useSearch";
 import {
   FlatList,
   ScrollView,
   Dimensions,
   TouchableOpacity,
-} from 'react-native';
-import useCategories from 'queries/useCategories';
-import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useTheme } from 'stores/theme';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'services/axios';
+} from "react-native";
+import useCategories from "queries/useCategories";
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTheme } from "stores/theme";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "services/axios";
 
 // Import Images
-import SongImg from 'assets/images/song.png';
-import ArtistImg from 'assets/images/artist.png';
+import ReactNativeShare from "helpers/react-native-share";
+import { useAuth } from "stores/auth";
 
-const windowsHeight = Dimensions.get('window').height;
+const windowsHeight = Dimensions.get("window").height;
 
 // Styled Components
 const SearchInput = styled.TextInput`
@@ -43,7 +43,7 @@ const SearchInput = styled.TextInput`
 `;
 
 const SongListWrapper = styled.View`
-  width: ${Dimensions.get('window').width * 0.89}px;
+  width: ${Dimensions.get("window").width * 0.89}px;
   padding-top: ${(props) => props.theme.spacing.md};
   padding-bottom: ${(props) => props.theme.spacing.md};
 `;
@@ -109,10 +109,12 @@ const SearchBarWrapper = styled.TouchableOpacity`
 
 export default function Search({ navigation }) {
   const { theme } = useTheme();
+  const { user } = useAuth();
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const searchQuery = useSearch();
   const categoriesQuery = useCategories();
+  const [contextMenuSong, setContextMenuSong] = useState();
 
   // Context Menu Config
   let contextMenuHeight = 0;
@@ -144,7 +146,7 @@ export default function Search({ navigation }) {
   };
 
   useEffect(() => {
-    if (search?.trim() !== '') searchQuery.mutate({ search });
+    if (search?.trim() !== "") searchQuery.mutate({ search });
   }, [search]);
 
   const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
@@ -170,11 +172,11 @@ export default function Search({ navigation }) {
 
   const fetchRecentlyPlayedSongs = async () => {
     try {
-      let recents = JSON.parse(await AsyncStorage.getItem('recents'));
+      let recents = JSON.parse(await AsyncStorage.getItem("recents"));
       if (!recents) {
-        return setRecentlyPlayedSongs([])
-      } 
-      const { data } = await axios.get('/songs/ids?ids=' + recents.join(','));
+        return setRecentlyPlayedSongs([]);
+      }
+      const { data } = await axios.get("/songs/ids?ids=" + recents.join(","));
       let recentSongs = spliceIntoChunks(data.data.results, 4);
       setRecentlyPlayedSongs(recentSongs);
     } catch (e) {
@@ -191,7 +193,7 @@ export default function Search({ navigation }) {
             Search
           </Text>
 
-          <SearchBarWrapper onPress={() => navigation.navigate('SearchModal')}>
+          <SearchBarWrapper onPress={() => navigation.navigate("SearchModal")}>
             <Ionicons name="search" size={15} color={theme.color.secondary} />
             <Text color="secondary" fontSize="sm" style={{ marginLeft: 5 }}>
               Artists, Sounds, Friends, and More
@@ -221,7 +223,7 @@ export default function Search({ navigation }) {
             <ScrollView
               pagingEnabled={true}
               showsHorizontalScrollIndicator={false}
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               horizontal={true}
             >
               {/* Page 1 */}
@@ -231,23 +233,35 @@ export default function Search({ navigation }) {
                   {wrapper.map((song) => (
                     <SongList
                       onPress={() => {
-                        navigation.navigate('Play', { _id: song?._id });
+                        navigation.navigate("Play", { _id: song?._id });
                       }}
                     >
                       <SongImage source={{ uri: song?.artwork }} />
-                      <SongContentWrapper style={[{ borderTopWidth: 0.5 }, (recentlyPlayedSongs.length - 1 == index) && { width: '85%' }]}>
+                      <SongContentWrapper
+                        style={[
+                          { borderTopWidth: 0.5 },
+                          recentlyPlayedSongs.length - 1 == index && {
+                            width: "85%",
+                          },
+                        ]}
+                      >
                         <SongContent>
                           <Text>{song?.name}</Text>
                           <Text fontSize="sm" color="secondary">
-                            Song •{' '}
+                            Song •{" "}
                             {song.artist
                               ?.map((artist) => artist.name)
-                              .join(', ')}
+                              .join(", ")}
                           </Text>
                         </SongContent>
 
                         <IconWrapper>
-                          <TouchableOpacity onPress={openContextMenu}>
+                          <TouchableOpacity
+                            onPress={(event) => {
+                              openContextMenu(event);
+                              setContextMenuSong(song);
+                            }}
+                          >
                             <Feather
                               name="more-horizontal"
                               size={24}
@@ -277,7 +291,7 @@ export default function Search({ navigation }) {
             renderItem={({ item, index }) => {
               return <SongListing song={item} index={index} />;
             }}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           />
 
           <CategoryGrid categories={categoriesQuery.data} />
@@ -296,8 +310,8 @@ export default function Search({ navigation }) {
         }}
         menuList={[
           {
-            title: 'Delete from Library',
-            color: 'primary',
+            title: "Delete from Library",
+            color: "primary",
             icon: (
               <Ionicons
                 name="ios-trash-outline"
@@ -308,7 +322,7 @@ export default function Search({ navigation }) {
             onPress: () => {},
           },
           {
-            title: 'Add to Library',
+            title: "Add to Library",
             icon: <Ionicons name="heart-outline" size={16} color="white" />,
             onPress: () => {},
           },
@@ -316,7 +330,7 @@ export default function Search({ navigation }) {
             divider: true,
           },
           {
-            title: 'Play Next',
+            title: "Play Next",
             icon: (
               <MaterialCommunityIcons
                 name="page-last"
@@ -327,7 +341,7 @@ export default function Search({ navigation }) {
             onPress: () => {},
           },
           {
-            title: 'Play Last',
+            title: "Play Last",
             icon: (
               <MaterialCommunityIcons
                 name="page-first"
@@ -338,9 +352,24 @@ export default function Search({ navigation }) {
             onPress: () => {},
           },
           {
-            title: 'Share Song...',
+            title: "Share Song...",
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
-            onPress: () => {},
+            onPress: () => {
+              ReactNativeShare(
+                `${user?.name} is inviting you to listen the "${
+                  contextMenuSong?.name || "tunes"
+                }"! Meditate with ${user?.name} only on Zenbase.`,
+                () => {
+                  // Success
+                },
+                () => {
+                  // Dismissed
+                },
+                (err) => {
+                  // Error
+                }
+              );
+            },
           },
         ]}
       />

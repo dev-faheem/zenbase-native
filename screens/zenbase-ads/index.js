@@ -18,9 +18,7 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 // Import Images
 import AdVector from "assets/vectors/ad-white.png";
 import AdInformationImage from "assets/images/zenbase-ads-info.png";
-import axios from "services/axios";
 import { useAuth } from "stores/auth";
-import { useNavigation } from "@react-navigation/core";
 
 // Styled Component
 const AdInfoWrapper = styled.View`
@@ -169,12 +167,21 @@ export default function ZenbaseAds({ route, navigation }) {
               </>
             )}
             {isForLogin && !user.isPremium ? (
-              <Button
-                title="Set up later"
-                variant="secondary"
-                block
-                onPress={() => selectAdsAmount(2)}
-              />
+              <>
+                <Text
+                  color="information"
+                  fontSize="sm"
+                  style={{ marginBottom: 10 }}
+                >
+                  Get rid of Ads with Zenbase Premium.
+                </Text>
+                <Button
+                  title="Set up Later"
+                  variant="secondary"
+                  block
+                  onPress={() => selectAdsAmount(2)}
+                />
+              </>
             ) : null}
           </InfoFooter>
         </InfoWrapper>
