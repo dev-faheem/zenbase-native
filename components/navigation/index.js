@@ -46,6 +46,7 @@ import ClaimToWallet from "screens/play/claim-to-wallet";
 import EnableNotification from "screens/play/enable-notification";
 import TotalEarnings from "screens/play/total-earnings";
 import JournalUpgradeToZenbase from "screens/journal/upgrade-to-zenbase";
+import ChangePassword from "screens/auth/change-password";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -87,13 +88,14 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="ChangePassword"
         screenOptions={{
           headerShown: false,
         }}
       >
         <Stack.Group>
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="App" component={HomeStack} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Journal" component={Journal} />
