@@ -1,16 +1,16 @@
-import React from 'react';
-import Text from 'components/text';
-import Box from 'components/box';
-import styled from 'styled-components/native';
+import React from "react";
+import Text from "components/text";
+import Box from "components/box";
+import styled from "styled-components/native";
 
 // Import Images
-import CTABackground from 'assets/images/cta/bg.png';
-import PremiumCTAImage from 'assets/images/cta/premium.png';
-import PremiumCTAFooterImage from 'assets/images/cta/premium-footer-bg.png';
-import { ApplePayButton, useApplePay } from '@stripe/stripe-react-native';
-import { Alert } from 'react-native';
-import axios from 'services/axios';
-import { useAuth } from 'stores/auth';
+import CTABackground from "assets/images/cta/bg.png";
+import PremiumCTAImage from "assets/images/cta/premium.png";
+import PremiumCTAFooterImage from "assets/images/cta/premium-footer-bg.png";
+import { useApplePay } from "@stripe/stripe-react-native";
+import { Alert } from "react-native";
+import axios from "services/axios";
+import { useAuth } from "stores/auth";
 
 // Styled Component
 const CTAWrapper = styled.ImageBackground`
@@ -76,11 +76,11 @@ export default function PremiumCTA({ navigation, onPress }) {
 
   const onPressGet = async () => {
     try {
-      const { error } = await presentApplePay({
-        cartItems: [{ label: 'Zenbase Premium', amount: '3.99' }],
-        country: 'US',
-        currency: 'USD',
-        requiredBillingContactFields: ['phoneNumber', 'name', 'emailAddress'],
+      const { error, paymentMethod } = await presentApplePay({
+        cartItems: [{ label: "Zenbase Premium", amount: "3.99" }],
+        country: "US",
+        currency: "USD",
+        requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
       });
 
       if (error) {
@@ -91,7 +91,7 @@ export default function PremiumCTA({ navigation, onPress }) {
 
       // Fetch Client Secret from Server
 
-      const response = await axios.post('/stripe');
+      const response = await axios.post("/stripe");
 
       const clientSecret = response.data.data.clientSecret;
 
@@ -106,7 +106,7 @@ export default function PremiumCTA({ navigation, onPress }) {
       }
 
       // Payment Success
-      await updateUser('transactions', [
+      await updateUser("transactions", [
         ...user.transactions,
         {
           reason: label,
@@ -114,16 +114,16 @@ export default function PremiumCTA({ navigation, onPress }) {
           amount: 3.99,
         },
       ]);
-      await updateUser('isPremium', true);
+      await updateUser("isPremium", true);
 
       const endDate = new Date();
       endDate.setDate(endDate.getDate() + 30);
-      await updateUser('subscriptionEnds', endDate);
+      await updateUser("subscriptionEnds", endDate);
 
       // Apply Zenbase Premium
     } catch (e) {
       console.log({ applePayError: e });
-      Alert.alert('Payment was not successful');
+      Alert.alert("Payment was not successful");
     }
   };
 
