@@ -60,7 +60,8 @@ const TermsAndPrivacyFlex = styled.View`
   justify-content: flex-start;
 `;
 
-export default function ChangePassword({ navigation }) {
+export default function ChangePassword({route, navigation }) {
+  const { changePasswordToken } = route.params;
   const { login, logout } = useAuth();
   const { theme } = useTheme();
 
@@ -79,27 +80,20 @@ export default function ChangePassword({ navigation }) {
     setState(value);
   };
 
-  // Login Handler
-  const loginHandler = async () => {
+  // Change Password Handler
+  const changePasswordHandler = async () => {
     try {
       const {
         data: { data },
-      } = await axios.post("/auth/login", {
-        // username: newPassword,
-        // password,
+      } = await axios.post("/auth/change-password", {
+        newPassword,
+        changePasswordToken
       });
-      axios.interceptors.request.use((config) => {
-        config.headers.authorization = data?.token;
-        return config;
-      });
-      login(data);
-
-      // Reset Stack Navigation
-      navigation.dispatch(
-        CommonActions.reset({
-          routes: [{ name: "App" }],
-        })
-      );
+      
+      alert(data.msg);
+      navigation.goBack();
+      navigation.goBack();
+      navigation.goBack();
     } catch (e) {
       axios.handleError(e);
     }
@@ -159,7 +153,11 @@ export default function ChangePassword({ navigation }) {
         <Container style={{ flex: 1 }}>
           <FooterFlex>
             <Button
-              onPress={() => navigation.navigate("Register")}
+              onPress={() => {
+                navigation.goBack();
+                navigation.goBack();
+                navigation.goBack();
+              }}
               variant="silent"
               fontSize="14"
               title="Back to login"
@@ -171,7 +169,7 @@ export default function ChangePassword({ navigation }) {
               block
               onPress={() => {
                 if (isChangePasswordEnable) {
-                  loginHandler();
+                  changePasswordHandler();
                 }
               }}
             />

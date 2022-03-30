@@ -73,14 +73,11 @@ export default function OneTimePassword({ route, navigation }) {
 
   const validateOTP = async () => {
     try {
-      const {data } = await axios.post('/auth/validate-otp', {
+      const { data } = await axios.post('/auth/validate-otp', {
         otp: otp.join(''), userId
       });
 
-      alert(data.data.msg);
-
-      navigation.goBack();
-      navigation.goBack();
+      navigation.navigate("ChangePassword", { changePasswordToken: data.data.changePasswordToken });
     } catch(e) {
       axios.handleError(e);
     }
