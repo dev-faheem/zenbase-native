@@ -168,12 +168,12 @@ export default function SearchModal({ navigation }) {
 
   const [songs, setSongs] = useState([]);
   const [artists, setArtists] = useState([]);
-  const [song, setSong] = useState();
   const { user, updateUser } = useAuth();
 
+  const [contextMenuSong, setContextMenuSong] = useState();
+  
   // Context Menu Config
   let contextMenuHeight = 0;
-
   const [contextMenuConfig, setContextMenuConfig] = useState({
     display: false,
     top: 0,
@@ -191,7 +191,7 @@ export default function SearchModal({ navigation }) {
     }
 
     setContextMenuConfig({ ...contextMenuConfig });
-    setSong(song);
+    setContextMenuSong(song);
   };
 
   const closeContextMenu = (event) => {
@@ -200,7 +200,25 @@ export default function SearchModal({ navigation }) {
     contextMenuConfig.left = 0;
 
     setContextMenuConfig({ ...contextMenuConfig });
-    setSong();
+    setContextMenuSong();
+  };
+
+  const isSongLiked = () => {
+    return user.likedSongs?.includes(contextMenuSong?._id);
+  };
+
+  const toggleLikedTrack = () => {
+    if (isSongLiked()) {
+      updateUser(
+        "likedSongs",
+        user.likedSongs.filter((_) => {
+          if (_ == contextMenuSong?._id) return false;
+          return true;
+        })
+      );
+    } else {
+      updateUser("likedSongs", [...user.likedSongs, contextMenuSong?._id]);
+    }
   };
 
   const fetchSongs = async () => {
@@ -463,7 +481,7 @@ export default function SearchModal({ navigation }) {
           contextMenuHeight = height;
         }}
         menuList={[
-          {
+          (isSongLiked() ? {
             title: 'Delete from Library',
             color: 'primary',
             icon: (
@@ -474,17 +492,15 @@ export default function SearchModal({ navigation }) {
               />
             ),
             onPress: () => {
-              updateUser(
-                'likedSongs',
-                user.likedSongs.filter((_) => _ == song._id)
-              );
+             toggleLikedTrack();
             },
-          },
-          {
+          } : {
             title: 'Add to Library',
             icon: <Ionicons name="heart-outline" size={16} color="white" />,
-            onPress: () => {},
-          },
+            onPress: () => {
+              toggleLikedTrack();
+            },
+          }),
           {
             divider: true,
           },
@@ -515,7 +531,7 @@ export default function SearchModal({ navigation }) {
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
             onPress: () => {
               ReactNativeShare(
-                `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+                `${user?.name} is inviting you to listen the "${contextMenuSong?.name}"! Meditate with ${user?.name} only on Zenbase.`,
                 () => {
                   // Success
                 },

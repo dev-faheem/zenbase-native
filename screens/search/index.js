@@ -109,7 +109,7 @@ const SearchBarWrapper = styled.TouchableOpacity`
 
 export default function Search({ navigation }) {
   const { theme } = useTheme();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const [search, setSearch] = useState("");
   const searchQuery = useSearch();
@@ -124,7 +124,7 @@ export default function Search({ navigation }) {
     left: 0,
   });
 
-  const openContextMenu = (event) => {
+  const openContextMenu = (event, song) => {
     contextMenuConfig.display = true;
     contextMenuConfig.top = event.nativeEvent.pageY + 15;
     contextMenuConfig.left = event.nativeEvent.pageX - 190;
@@ -135,6 +135,7 @@ export default function Search({ navigation }) {
     }
 
     setContextMenuConfig({ ...contextMenuConfig });
+    setContextMenuSong(song);
   };
 
   const closeContextMenu = (event) => {
@@ -143,6 +144,7 @@ export default function Search({ navigation }) {
     contextMenuConfig.left = 0;
 
     setContextMenuConfig({ ...contextMenuConfig });
+    setContextMenuSong();
   };
 
   useEffect(() => {
@@ -181,6 +183,24 @@ export default function Search({ navigation }) {
       setRecentlyPlayedSongs(recentSongs);
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const isSongLiked = () => {
+    return user.likedSongs?.includes(contextMenuSong?._id);
+  };
+
+  const toggleLikedTrack = () => {
+    if (isSongLiked()) {
+      updateUser(
+        "likedSongs",
+        user.likedSongs.filter((_) => {
+          if (_ == contextMenuSong?._id) return false;
+          return true;
+        })
+      );
+    } else {
+      updateUser("likedSongs", [...user.likedSongs, contextMenuSong?._id]);
     }
   };
 
@@ -257,10 +277,7 @@ export default function Search({ navigation }) {
 
                         <IconWrapper>
                           <TouchableOpacity
-                            onPress={(event) => {
-                              openContextMenu(event);
-                              setContextMenuSong(song);
-                            }}
+                            onPress={(event) => openContextMenu(event, song)}
                           >
                             <Feather
                               name="more-horizontal"
@@ -309,7 +326,7 @@ export default function Search({ navigation }) {
           contextMenuHeight = height;
         }}
         menuList={[
-          {
+          (isSongLiked() ? {
             title: "Delete from Library",
             color: "primary",
             icon: (
@@ -319,37 +336,18 @@ export default function Search({ navigation }) {
                 color={theme.color.primary}
               />
             ),
-            onPress: () => {},
-          },
-          {
+            onPress: () => {
+              toggleLikedTrack();
+            },
+          }: {
             title: "Add to Library",
             icon: <Ionicons name="heart-outline" size={16} color="white" />,
-            onPress: () => {},
-          },
+            onPress: () => {
+              toggleLikedTrack();
+            },
+          }),
           {
             divider: true,
-          },
-          {
-            title: "Play Next",
-            icon: (
-              <MaterialCommunityIcons
-                name="page-last"
-                size={16}
-                color="white"
-              />
-            ),
-            onPress: () => {},
-          },
-          {
-            title: "Play Last",
-            icon: (
-              <MaterialCommunityIcons
-                name="page-first"
-                size={16}
-                color="white"
-              />
-            ),
-            onPress: () => {},
           },
           {
             title: "Share Song...",
