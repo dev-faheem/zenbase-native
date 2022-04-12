@@ -3,6 +3,7 @@ import { queryClient } from 'services/query';
 import { AuthProvider } from 'stores/auth';
 import { ThemeProvider } from 'stores/theme';
 import { QueryClientProvider } from 'react-query';
+import { SongQueueProvider } from 'stores/song-queue';
 import Navigation from 'components/navigation';
 import { LoaderProvider } from 'stores/loader';
 import { StripeProvider } from '@stripe/stripe-react-native';
@@ -16,11 +17,13 @@ export default function App() {
     >
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <LoaderProvider>
-              <Navigation />
-            </LoaderProvider>
-          </AuthProvider>
+          <SongQueueProvider>
+            <AuthProvider>
+              <LoaderProvider>
+                <Navigation />
+              </LoaderProvider>
+            </AuthProvider>
+          </SongQueueProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </StripeProvider>
