@@ -126,11 +126,11 @@ export default function Favorites({ route, navigation }) {
                   icon: <ListImage source={{ uri: category.artwork }} />,
                   title: category.name,
                   onPress: () => {
-                    navigation.navigate('FavoritesType', {
-                      type: category.name,
-                      category,
-                      _id: category._id,
-                    });
+                    // navigation.navigate('FavoritesType', {
+                    //   type: category.name,
+                    //   category,
+                    //   _id: category._id,
+                    // });
                   },
                 };
               })}
@@ -143,6 +143,7 @@ export default function Favorites({ route, navigation }) {
                 <SongTile
                   style={{ marginBottom: 20 }}
                   inGrid
+                  queue={songs}
                   removable={isEdit}
                   onRemove={() => {
                     updateUser(
