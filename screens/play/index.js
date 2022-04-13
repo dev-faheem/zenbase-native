@@ -31,8 +31,8 @@ import { playAds } from "services/playAds";
 import { useAuth } from "stores/auth";
 import ReactNativeShare from "helpers/react-native-share";
 
-const GIVEAWAY_TOKEN_AFTER_SECONDS = 10; // seconds
-const CONTINUE_LISTENING = 30; //seconds
+const GIVEAWAY_TOKEN_AFTER_SECONDS = 5; // seconds
+const CONTINUE_LISTENING = 60 * 60 * 1; //seconds
 
 const windowsWidth = Dimensions.get("window").width;
 const windowsHeight = Dimensions.get("window").height;
@@ -303,6 +303,24 @@ export default function Play({ navigation }) {
     clearInterval(tokenInterval.current);
   };
 
+  const transactTokens = async () => {
+    if (zentokens <= 0) return;
+    try {
+      await axios.post("/transactions", {
+        amount: zentokens,
+        appreciatedFor: secondsWorth,
+        type: "SONG_MINING",
+        remarks: "",
+        meta: {
+          songs: _id,
+        },
+      });
+      setZentokens(0);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // Fetch and Add To Recents
   useEffect(() => {
     fetchSong(_id);
@@ -358,6 +376,33 @@ export default function Play({ navigation }) {
 
   const isSongLiked = () => {
     return user.likedSongs?.includes(song?._id);
+  };
+
+  const onPressClose = async () => {
+    await onPressPause();
+    await transactTokens();
+    navigation.goBack();
+  };
+
+  const onPressPause = async () => {
+    setIsPlaying(false);
+    await audio.stopAsync();
+    stopTokenTimer();
+  };
+
+  const onSlidingComplete = async (value) => {
+    if (user.isPremium) {
+      try {
+        await audio.setPositionAsync(value, {
+          toleranceMillisAfter: value - 1000,
+          toleranceMillisBefore: value + 1000,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      navigation.push("PremiumUpgrade1");
+    }
   };
 
   return (
@@ -483,6 +528,7 @@ export default function Play({ navigation }) {
                   maximumValue={duration}
                   minimumTrackTintColor="rgba(255, 255, 255, 0.6)"
                   maximumTrackTintColor="rgba(255, 255, 255, 0.1)"
+                  onSlidingComplete={onSlidingComplete}
                 />
                 <SongTimingWrapper>
                   <Text style={{ color: "rgba(255, 255, 255, 0.35)" }}>
@@ -501,14 +547,7 @@ export default function Play({ navigation }) {
 
                 {isPlaying ? (
                   // Pause Button
-                  <SongControlsButton
-                    onPress={async () => {
-                      // return;
-                      setIsPlaying(false);
-                      await audio.stopAsync();
-                      stopTokenTimer();
-                    }}
-                  >
+                  <SongControlsButton onPress={onPressPause}>
                     <Foundation name="pause" size={48} color="white" />
                   </SongControlsButton>
                 ) : (
@@ -572,9 +611,7 @@ export default function Play({ navigation }) {
               <SongControls style={{ marginBottom: 20, marginTop: 10 }}>
                 <OptionButton
                   style={{ backgroundColor: "white" }}
-                  onPress={() => {
-                    navigation.goBack();
-                  }}
+                  onPress={onPressClose}
                 >
                   <Ionicons
                     name="ios-close"
