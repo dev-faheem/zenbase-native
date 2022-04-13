@@ -28,6 +28,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useAuth } from 'stores/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReactNativeShare from 'helpers/react-native-share';
+import { useSongQueue } from 'stores/song-queue';
 
 const windowsWidth = Dimensions.get('window').width;
 const windowsHeight = Dimensions.get('window').height;
@@ -166,6 +167,7 @@ export default function SearchModal({ navigation }) {
   const [search, setSearch] = useState('');
   const { theme } = useTheme();
 
+  const { updateSongQueue } = useSongQueue();
   const [songs, setSongs] = useState([]);
   const [artists, setArtists] = useState([]);
   const { user, updateUser } = useAuth();
@@ -258,7 +260,9 @@ export default function SearchModal({ navigation }) {
   const fetchRecentlyPlayedSongs = async () => {
     try {
       let recents = JSON.parse(await AsyncStorage.getItem('recents'));
-      if (!recents) return;
+      if (!recents) {
+        return setRecentlyPlayedSongs([]);
+      }
       const { data } = await axios.get('/songs/ids?ids=' + recents.join(','));
       setRecentlyPlayedSongs(data.data.results);
     } catch (e) {
@@ -385,6 +389,7 @@ export default function SearchModal({ navigation }) {
             {songs.map((song) => (
               <SongList
                 onPress={() => {
+                  updateSongQueue(song._id, songs.map(song => song._id));
                   navigation.navigate('Play', { _id: song._id });
                 }}
               >
@@ -419,6 +424,7 @@ export default function SearchModal({ navigation }) {
               recentlyPlayedSongs.map((song) => (
                 <SongList
                   onPress={() => {
+                    updateSongQueue(song._id, recentlyPlayedSongs.map(song => song._id));
                     navigation.navigate('Play', { _id: song._id });
                   }}
                 >

@@ -30,6 +30,7 @@ import ZentokenIcon from "assets/images/zentoken-logo-border.png";
 import { playAds } from "services/playAds";
 import { useAuth } from "stores/auth";
 import ReactNativeShare from "helpers/react-native-share";
+import { useSongQueue } from "stores/song-queue";
 
 const GIVEAWAY_TOKEN_AFTER_SECONDS = 10; // seconds
 const CONTINUE_LISTENING = 30; //seconds
@@ -196,6 +197,8 @@ export default function Play({ navigation }) {
   const route = useRoute();
   const { _id } = route.params;
   const { user, updateUser, secondsWorth } = useAuth();
+
+  const { songQueue, resetSongQueue, queueMetaData } = useSongQueue();
 
   const progressBarWidth = useRef(
     new Animated.Value(windowsWidth - 40)
@@ -496,7 +499,7 @@ export default function Play({ navigation }) {
 
               <SongControls style={{ position: "relative", top: -7 }}>
                 <SongControlsButton>
-                  <FontAwesome5 name="backward" size={24} color="white" />
+                  <FontAwesome5 name="backward" size={24} color={queueMetaData.previousIndex >= 0 ? "white": "rgba(255, 255, 255, 0.35)"} />
                 </SongControlsButton>
 
                 {isPlaying ? (
@@ -532,7 +535,7 @@ export default function Play({ navigation }) {
                 )}
 
                 <SongControlsButton>
-                  <FontAwesome5 name="forward" size={24} color="white" />
+                  <FontAwesome5 name="forward" size={24}  color={queueMetaData.nextIndex >= 0 ? "white": "rgba(255, 255, 255, 0.35)"} />
                 </SongControlsButton>
               </SongControls>
 
@@ -574,6 +577,7 @@ export default function Play({ navigation }) {
                   style={{ backgroundColor: "white" }}
                   onPress={() => {
                     navigation.goBack();
+                    resetSongQueue();
                   }}
                 >
                   <Ionicons

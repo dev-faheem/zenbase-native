@@ -25,7 +25,7 @@ export const SongQueueProvider = ({ children }) => {
 
         // Update Control Configuration according to current song in the queue
         const currentSongIndex = queue.indexOf(currentSong);
-        if (queue.length > 1 && currentSongIndex >= 0) {
+        if (currentSongIndex >= 0) {
             setQueueMetaData({
                 nextIndex: (currentSongIndex == queue.length - 1) ? -1 : currentSongIndex + 1,
                 previousIndex: currentSongIndex - 1, 

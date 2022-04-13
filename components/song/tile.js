@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import { TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import { useSongQueue } from 'stores/song-queue';
 
 const SongTileView = styled.View``;
 
@@ -68,10 +69,13 @@ export default function SongTile({
   removable,
   onRemove,
   inGrid,
+  queue = [],
   mock = false,
 }) {
   song = useMock('song', song, mock);
   const navigation = useNavigation();
+
+  const { updateSongQueue } = useSongQueue();
 
   return (
     <TouchableWithoutFeedback
@@ -80,6 +84,7 @@ export default function SongTile({
           ? onRemove
           : () => {
               navigation.navigate('Play', { _id: song?._id });
+              updateSongQueue(song?._id, queue.map(v => v?._id));
             }
       }
     >

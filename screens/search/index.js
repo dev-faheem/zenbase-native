@@ -27,6 +27,7 @@ import axios from "services/axios";
 // Import Images
 import ReactNativeShare from "helpers/react-native-share";
 import { useAuth } from "stores/auth";
+import { useSongQueue } from "stores/song-queue";
 
 const windowsHeight = Dimensions.get("window").height;
 
@@ -111,10 +112,12 @@ export default function Search({ navigation }) {
   const { theme } = useTheme();
   const { user, updateUser } = useAuth();
 
+  const { updateSongQueue } = useSongQueue();
   const [search, setSearch] = useState("");
   const searchQuery = useSearch();
   const categoriesQuery = useCategories();
   const [contextMenuSong, setContextMenuSong] = useState();
+  const [songQueue, setSongQueue] = useState([]);
 
   // Context Menu Config
   let contextMenuHeight = 0;
@@ -179,6 +182,7 @@ export default function Search({ navigation }) {
         return setRecentlyPlayedSongs([]);
       }
       const { data } = await axios.get("/songs/ids?ids=" + recents.join(","));
+      setSongQueue(data.data.results.map(song => song?._id));
       let recentSongs = spliceIntoChunks(data.data.results, 4);
       setRecentlyPlayedSongs(recentSongs);
     } catch (e) {
@@ -253,6 +257,7 @@ export default function Search({ navigation }) {
                   {wrapper.map((song) => (
                     <SongList
                       onPress={() => {
+                        updateSongQueue(song?._id, songQueue);
                         navigation.navigate("Play", { _id: song?._id });
                       }}
                     >
@@ -296,7 +301,7 @@ export default function Search({ navigation }) {
             </ScrollView>
           </>
 
-          {searchQuery?.data?.results?.length > 0 && (
+          {/* {searchQuery?.data?.results?.length > 0 && (
             <Text fontSize="xs" color="secondary">
               RECENT
             </Text>
@@ -309,7 +314,7 @@ export default function Search({ navigation }) {
               return <SongListing song={item} index={index} />;
             }}
             style={{ width: "100%" }}
-          />
+          /> */}
 
           <CategoryGrid categories={categoriesQuery.data} />
         </Container>
