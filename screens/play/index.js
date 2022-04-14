@@ -195,10 +195,13 @@ function renderMsToTiming(ms) {
 
 export default function Play({ navigation }) {
   const route = useRoute();
-  const { _id } = route.params;
+  const { _id: songId } = route.params;
+
+  const [_id, setSongId] = useState(songId);
+  
   const { user, updateUser, secondsWorth } = useAuth();
 
-  const { songQueue, resetSongQueue, queueMetaData } = useSongQueue();
+  const { songQueue, resetSongQueue, queueMetaData, updateSongQueue } = useSongQueue();
 
   const progressBarWidth = useRef(
     new Animated.Value(windowsWidth - 40)
@@ -498,7 +501,12 @@ export default function Play({ navigation }) {
               </View>
 
               <SongControls style={{ position: "relative", top: -7 }}>
-                <SongControlsButton>
+                <SongControlsButton onPress={() => {
+                  if (queueMetaData.previousIndex) {
+                    updateSongQueue(songQueue[queueMetaData.previousIndex]);
+                    setSongId(songQueue[queueMetaData.previousIndex])
+                  }
+                }}>
                   <FontAwesome5 name="backward" size={24} color={queueMetaData.previousIndex >= 0 ? "white": "rgba(255, 255, 255, 0.35)"} />
                 </SongControlsButton>
 
@@ -534,7 +542,12 @@ export default function Play({ navigation }) {
                   </SongControlsButton>
                 )}
 
-                <SongControlsButton>
+                <SongControlsButton onPress={() => {
+                  if (queueMetaData.nextIndex) {
+                    updateSongQueue(songQueue[queueMetaData.nextIndex]);
+                    setSongId(songQueue[queueMetaData.nextIndex])
+                  }
+                }}>
                   <FontAwesome5 name="forward" size={24}  color={queueMetaData.nextIndex >= 0 ? "white": "rgba(255, 255, 255, 0.35)"} />
                 </SongControlsButton>
               </SongControls>
