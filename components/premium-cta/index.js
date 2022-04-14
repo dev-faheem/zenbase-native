@@ -119,8 +119,6 @@ export default function PremiumCTA({ navigation, onPress }) {
       const endDate = new Date();
       endDate.setDate(endDate.getDate() + 30);
       await updateUser("subscriptionEnds", endDate);
-
-      // Apply Zenbase Premium
     } catch (e) {
       console.log({ applePayError: e });
       Alert.alert("Payment was not successful");

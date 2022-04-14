@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { queryClient } from "services/query";
 import { AuthProvider } from "stores/auth";
 import { ThemeProvider } from "stores/theme";
@@ -6,13 +6,13 @@ import { QueryClientProvider } from "react-query";
 import Navigation from "components/navigation";
 import { LoaderProvider } from "stores/loader";
 import { StripeProvider } from "@stripe/stripe-react-native";
-import { STRIPE_KEY, STRIPE_MERCHANT_ID } from "@env";
+import config from "./config";
 
 export default function App() {
   return (
     <StripeProvider
-      publishableKey={STRIPE_KEY}
-      merchantIdentifier={STRIPE_MERCHANT_ID}
+      publishableKey={config.STRIPE_KEY}
+      merchantIdentifier={config.STRIPE_MERCHANT_ID}
     >
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>

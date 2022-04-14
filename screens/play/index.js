@@ -379,8 +379,12 @@ export default function Play({ navigation }) {
   };
 
   const onPressClose = async () => {
-    await onPressPause();
-    await transactTokens();
+    try {
+      await onPressPause();
+      await transactTokens();
+    } catch (e) {
+      console.error(e);
+    }
     navigation.goBack();
   };
 
