@@ -5,7 +5,7 @@ const axios = Axios;
 
 axios.defaults.baseURL = API_URL;
 
-console.log(`API- ${API_URL}`);
+console.log(`API= ${API_URL}`);
 
 axios.handleError = (error) => {
   if (error?.response?.data?.error) {

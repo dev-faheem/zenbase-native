@@ -30,6 +30,7 @@ import ZentokenIcon from "assets/images/zentoken-logo-border.png";
 import { playAds } from "services/playAds";
 import { useAuth } from "stores/auth";
 import ReactNativeShare from "helpers/react-native-share";
+import { useSongQueue } from "stores/song-queue";
 
 const GIVEAWAY_TOKEN_AFTER_SECONDS = 10; // seconds
 const CONTINUE_LISTENING = 30; //seconds
@@ -194,8 +195,13 @@ function renderMsToTiming(ms) {
 
 export default function Play({ navigation }) {
   const route = useRoute();
-  const { _id } = route.params;
+  const { _id: songId } = route.params;
+
+  const [_id, setSongId] = useState(songId);
+  
   const { user, updateUser, secondsWorth } = useAuth();
+
+  const { songQueue, resetSongQueue, queueMetaData, updateSongQueue } = useSongQueue();
 
   const progressBarWidth = useRef(
     new Animated.Value(windowsWidth - 40)
@@ -495,8 +501,13 @@ export default function Play({ navigation }) {
               </View>
 
               <SongControls style={{ position: "relative", top: -7 }}>
-                <SongControlsButton>
-                  <FontAwesome5 name="backward" size={24} color="white" />
+                <SongControlsButton onPress={() => {
+                  if (queueMetaData.previousIndex > 0) {
+                    updateSongQueue(songQueue[queueMetaData.previousIndex]);
+                    setSongId(songQueue[queueMetaData.previousIndex])
+                  }
+                }}>
+                  <FontAwesome5 name="backward" size={24} color={queueMetaData.previousIndex >= 0 ? "white": "rgba(255, 255, 255, 0.35)"} />
                 </SongControlsButton>
 
                 {isPlaying ? (
@@ -531,8 +542,13 @@ export default function Play({ navigation }) {
                   </SongControlsButton>
                 )}
 
-                <SongControlsButton>
-                  <FontAwesome5 name="forward" size={24} color="white" />
+                <SongControlsButton onPress={() => {
+                  if (queueMetaData.nextIndex > 0) {
+                    updateSongQueue(songQueue[queueMetaData.nextIndex]);
+                    setSongId(songQueue[queueMetaData.nextIndex])
+                  }
+                }}>
+                  <FontAwesome5 name="forward" size={24}  color={queueMetaData.nextIndex >= 0 ? "white": "rgba(255, 255, 255, 0.35)"} />
                 </SongControlsButton>
               </SongControls>
 
@@ -574,6 +590,7 @@ export default function Play({ navigation }) {
                   style={{ backgroundColor: "white" }}
                   onPress={() => {
                     navigation.goBack();
+                    resetSongQueue();
                   }}
                 >
                   <Ionicons
