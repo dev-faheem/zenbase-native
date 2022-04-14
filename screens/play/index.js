@@ -502,7 +502,7 @@ export default function Play({ navigation }) {
 
               <SongControls style={{ position: "relative", top: -7 }}>
                 <SongControlsButton onPress={() => {
-                  if (queueMetaData.previousIndex) {
+                  if (queueMetaData.previousIndex > 0) {
                     updateSongQueue(songQueue[queueMetaData.previousIndex]);
                     setSongId(songQueue[queueMetaData.previousIndex])
                   }
@@ -543,7 +543,7 @@ export default function Play({ navigation }) {
                 )}
 
                 <SongControlsButton onPress={() => {
-                  if (queueMetaData.nextIndex) {
+                  if (queueMetaData.nextIndex > 0) {
                     updateSongQueue(songQueue[queueMetaData.nextIndex]);
                     setSongId(songQueue[queueMetaData.nextIndex])
                   }
