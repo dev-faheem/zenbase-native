@@ -28,6 +28,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useAuth } from 'stores/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReactNativeShare from 'helpers/react-native-share';
+import { useSongQueue } from 'stores/song-queue';
 
 const windowsWidth = Dimensions.get('window').width;
 const windowsHeight = Dimensions.get('window').height;
@@ -166,14 +167,15 @@ export default function SearchModal({ navigation }) {
   const [search, setSearch] = useState('');
   const { theme } = useTheme();
 
+  const { updateSongQueue } = useSongQueue();
   const [songs, setSongs] = useState([]);
   const [artists, setArtists] = useState([]);
-  const [song, setSong] = useState();
   const { user, updateUser } = useAuth();
 
+  const [contextMenuSong, setContextMenuSong] = useState();
+  
   // Context Menu Config
   let contextMenuHeight = 0;
-
   const [contextMenuConfig, setContextMenuConfig] = useState({
     display: false,
     top: 0,
@@ -191,7 +193,7 @@ export default function SearchModal({ navigation }) {
     }
 
     setContextMenuConfig({ ...contextMenuConfig });
-    setSong(song);
+    setContextMenuSong(song);
   };
 
   const closeContextMenu = (event) => {
@@ -200,7 +202,25 @@ export default function SearchModal({ navigation }) {
     contextMenuConfig.left = 0;
 
     setContextMenuConfig({ ...contextMenuConfig });
-    setSong();
+    setContextMenuSong();
+  };
+
+  const isSongLiked = () => {
+    return user.likedSongs?.includes(contextMenuSong?._id);
+  };
+
+  const toggleLikedTrack = () => {
+    if (isSongLiked()) {
+      updateUser(
+        "likedSongs",
+        user.likedSongs.filter((_) => {
+          if (_ == contextMenuSong?._id) return false;
+          return true;
+        })
+      );
+    } else {
+      updateUser("likedSongs", [...user.likedSongs, contextMenuSong?._id]);
+    }
   };
 
   const fetchSongs = async () => {
@@ -240,7 +260,9 @@ export default function SearchModal({ navigation }) {
   const fetchRecentlyPlayedSongs = async () => {
     try {
       let recents = JSON.parse(await AsyncStorage.getItem('recents'));
-      if (!recents) return;
+      if (!recents) {
+        return setRecentlyPlayedSongs([]);
+      }
       const { data } = await axios.get('/songs/ids?ids=' + recents.join(','));
       setRecentlyPlayedSongs(data.data.results);
     } catch (e) {
@@ -367,6 +389,7 @@ export default function SearchModal({ navigation }) {
             {songs.map((song) => (
               <SongList
                 onPress={() => {
+                  updateSongQueue(song._id, songs.map(song => song._id));
                   navigation.navigate('Play', { _id: song._id });
                 }}
               >
@@ -401,6 +424,7 @@ export default function SearchModal({ navigation }) {
               recentlyPlayedSongs.map((song) => (
                 <SongList
                   onPress={() => {
+                    updateSongQueue(song._id, recentlyPlayedSongs.map(song => song._id));
                     navigation.navigate('Play', { _id: song._id });
                   }}
                 >
@@ -463,7 +487,7 @@ export default function SearchModal({ navigation }) {
           contextMenuHeight = height;
         }}
         menuList={[
-          {
+          (isSongLiked() ? {
             title: 'Delete from Library',
             color: 'primary',
             icon: (
@@ -474,17 +498,15 @@ export default function SearchModal({ navigation }) {
               />
             ),
             onPress: () => {
-              updateUser(
-                'likedSongs',
-                user.likedSongs.filter((_) => _ == song._id)
-              );
+             toggleLikedTrack();
             },
-          },
-          {
+          } : {
             title: 'Add to Library',
             icon: <Ionicons name="heart-outline" size={16} color="white" />,
-            onPress: () => {},
-          },
+            onPress: () => {
+              toggleLikedTrack();
+            },
+          }),
           {
             divider: true,
           },
@@ -515,7 +537,7 @@ export default function SearchModal({ navigation }) {
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
             onPress: () => {
               ReactNativeShare(
-                `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+                `${user?.name} is inviting you to listen the "${contextMenuSong?.name}"! Meditate with ${user?.name} only on Zenbase.`,
                 () => {
                   // Success
                 },

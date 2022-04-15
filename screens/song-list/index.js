@@ -79,7 +79,7 @@ export default function SongList({ route, navigation }) {
           <Container style={{ flex: 1 }}>
             <SongListWrapper style={{ marginTop: 20 }}>
               {songs.map((song) => (
-                <SongTile style={{ marginBottom: 20 }} inGrid song={song} />
+                <SongTile style={{ marginBottom: 20 }} inGrid song={song} queue={songs}/>
               ))}
             </SongListWrapper>
           </Container>

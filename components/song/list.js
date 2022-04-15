@@ -54,7 +54,7 @@ export default function SongList({
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <Box mr={index === songs.length - 1 ? 0 : "10px"}>
-            <SongTile key={index} song={item} />
+            <SongTile key={index} song={item} queue={songs}/>
           </Box>
         )}
       />

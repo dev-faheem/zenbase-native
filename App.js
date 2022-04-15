@@ -7,6 +7,7 @@ import Navigation from "components/navigation";
 import { LoaderProvider } from "stores/loader";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import config from "./config";
+import { SongQueueProvider } from "stores/song-queue";
 
 export default function App() {
   return (
@@ -16,11 +17,13 @@ export default function App() {
     >
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <LoaderProvider>
-              <Navigation />
-            </LoaderProvider>
-          </AuthProvider>
+          <SongQueueProvider>
+            <AuthProvider>
+              <LoaderProvider>
+                <Navigation />
+              </LoaderProvider>
+            </AuthProvider>
+          </SongQueueProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </StripeProvider>

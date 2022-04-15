@@ -26,6 +26,7 @@ import { useAuth } from 'stores/auth';
 import { useEffect } from 'react/cjs/react.development';
 import axios from 'services/axios';
 import { useFocusEffect } from '@react-navigation/native';
+import { useSongQueue } from 'stores/song-queue';
 
 // Styled Component
 const SongListWrapper = styled.View`
@@ -40,14 +41,24 @@ export default function Profile({ route, navigation }) {
   const { user } = useAuth();
   const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchRecentlyPlayedSongs();
+    }, [])
+  );
+
   useEffect(() => {
     fetchRecentlyPlayedSongs();
   }, []);
 
+  
+
   const fetchRecentlyPlayedSongs = async () => {
     try {
       let recents = JSON.parse(await AsyncStorage.getItem('recents'));
-      if (!recents) return;
+      if (!recents) {
+        return setRecentlyPlayedSongs([]);
+      }
       const { data } = await axios.get('/songs/ids?ids=' + recents.join(','));
       setRecentlyPlayedSongs(data.data.results);
     } catch (e) {
@@ -132,7 +143,7 @@ export default function Profile({ route, navigation }) {
 
             <SongListWrapper>
               {recentlyPlayedSongs.map((song) => (
-                <SongTile style={{ marginBottom: 20 }} inGrid song={song} />
+                <SongTile style={{ marginBottom: 20 }} inGrid song={song} queue={recentlyPlayedSongs} />
               ))}
             </SongListWrapper>
           </Container>
