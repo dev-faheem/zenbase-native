@@ -100,25 +100,18 @@ export default function PremiumCTA({ navigation, onPress }) {
       );
 
       if (confirmError) {
-        console.log({ applePayError: confirmError });
+        console.log({ applePayConfirmError: confirmError });
         Alert.alert(confirmError.message);
         return;
       }
 
       // Payment Success
-      await updateUser("transactions", [
-        ...user.transactions,
-        {
-          reason: label,
-          pending: false,
-          amount: 3.99,
-        },
-      ]);
-      await updateUser("isPremium", true);
-
-      const endDate = new Date();
-      endDate.setDate(endDate.getDate() + 30);
-      await updateUser("subscriptionEnds", endDate);
+      await axios.post("/payments", {
+        amount: 399,
+        reason: "PREMIUM",
+        valid: true,
+        premium: true,
+      });
     } catch (e) {
       console.log({ applePayError: e });
       Alert.alert("Payment was not successful");

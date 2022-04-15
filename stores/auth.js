@@ -12,6 +12,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [secondsWorth, setSecondsWorth] = useState(0.000001);
+  const [transactions, setTransactions] = useState([]);
+  const [walletAmount, setWalletAmount] = useState();
 
   useEffect(() => {
     // Check async storage if user was logged in previously
@@ -19,9 +21,21 @@ export const AuthProvider = ({ children }) => {
     fetchLatestTokenWorth();
   }, []);
 
+  useEffect(() => {
+    if (user != null) {
+      fetchTransactions();
+    }
+  }, [user]);
+
   const fetchLatestTokenWorth = async () => {
     const { data } = await axios.get("/transactions/currency");
     setSecondsWorth(data.data.secondWorth);
+  };
+
+  const fetchTransactions = async () => {
+    const { data } = await axios.get("/transactions");
+    setTransactions(data.data.transactions);
+    setWalletAmount(data.data.amount);
   };
 
   const login = (_user) => {
@@ -71,6 +85,9 @@ export const AuthProvider = ({ children }) => {
         updateUserLocal,
         transactions: Transactions(user),
         secondsWorth,
+        walletAmount,
+        zenTransactions: transactions,
+        fetchTransactions,
       }}
     >
       {children}

@@ -31,7 +31,7 @@ import { playAds } from "services/playAds";
 import { useAuth } from "stores/auth";
 import ReactNativeShare from "helpers/react-native-share";
 
-const GIVEAWAY_TOKEN_AFTER_SECONDS = 5; // seconds
+const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
 const CONTINUE_LISTENING = 60 * 60 * 1; //seconds
 
 const windowsWidth = Dimensions.get("window").width;
@@ -292,7 +292,11 @@ export default function Play({ navigation }) {
 
       if (secondsRef.current > GIVEAWAY_TOKEN_AFTER_SECONDS) {
         setZentokens((oldZentoken) => {
-          return oldZentoken + secondsWorth;
+          return (
+            oldZentoken +
+            secondsWorth +
+            (user.isPremium ? secondsWorth * 0.1 : 0) // 10% more for premium users
+          );
         });
       }
     }, 1000);

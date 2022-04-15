@@ -1,14 +1,15 @@
-import React from 'react';
-import { Text, Container, Canvas, Button, Box, PremiumCTA } from 'components';
-import styled from 'styled-components/native';
-import { useTheme } from 'stores/theme';
-import { SafeAreaView, TouchableOpacity, StatusBar, Alert } from 'react-native';
-import Constants from 'expo-constants';
+import React from "react";
+import { Text, Container, Canvas, Button, Box, PremiumCTA } from "components";
+import styled from "styled-components/native";
+import { useTheme } from "stores/theme";
+import { SafeAreaView, TouchableOpacity, StatusBar, Alert } from "react-native";
+import Constants from "expo-constants";
 
 // Import Images
-import BlurImage from 'assets/images/cta/blur.png';
-import ZentBackground from 'assets/images/wallet/zent-bg.png';
-import { ApplePayButton, useApplePay } from '@stripe/stripe-react-native';
+import BlurImage from "assets/images/cta/blur.png";
+import ZentBackground from "assets/images/wallet/zent-bg.png";
+import { ApplePayButton, useApplePay } from "@stripe/stripe-react-native";
+import { useAuth } from "stores/auth";
 
 const BackgroundImage = styled.ImageBackground`
   width: 100%;
@@ -42,7 +43,7 @@ const HeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
   top: ${() =>
-    Platform.OS == 'android' ? '12px' : Constants.statusBarHeight + 10 + 'px'};
+    Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 10 + "px"};
   right: ${(props) => props.theme.spacing.lg};
   justify-content: flex-end;
   flex-direction: row;
@@ -59,6 +60,7 @@ const HeaderImage = styled.Image`
 
 export default function PremiumTrailEnded({ navigation }) {
   const { isApplePaySupported } = useApplePay();
+  const { walletAmount } = useAuth();
 
   return (
     <BackgroundImage source={BlurImage}>
@@ -72,7 +74,9 @@ export default function PremiumTrailEnded({ navigation }) {
         <Container style={{ flex: 1 }}>
           <HeaderWrapper>
             <HeaderImage source={ZentBackground} resizeMode="cover" />
-            <Text style={{ marginBottom: 15 }}>0.01 Zent</Text>
+            <Text style={{ marginBottom: 15 }}>
+              {Number(walletAmount).toPrecision(6)} Zent
+            </Text>
           </HeaderWrapper>
           <Text
             fontSize="22"
@@ -80,7 +84,7 @@ export default function PremiumTrailEnded({ navigation }) {
             fontWeight="600"
             color="header90"
           >
-            Your trail of Zenbase Premium has ended.
+            Your trial of Zenbase Premium has ended.
           </Text>
           <PremiumCTA onPress={() => {}} />
         </Container>
