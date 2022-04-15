@@ -1,6 +1,6 @@
 // Import Dependencies
-import React, { useState, useRef } from 'react';
-import { Animated, Platform } from 'react-native';
+import React, { useState, useRef, useEffect } from "react";
+import { Animated, Platform } from "react-native";
 import {
   Text,
   Container,
@@ -9,19 +9,18 @@ import {
   IOSList,
   SongTile,
   NavigationPadding,
-} from 'components';
-import styled from 'styled-components/native';
-import { BlurView } from 'expo-blur';
-import Constants from 'expo-constants';
+} from "components";
+import styled from "styled-components/native";
+import { BlurView } from "expo-blur";
+import Constants from "expo-constants";
 
 // Import Images
-import MeditateImage from 'assets/images/favorites/meditate.png';
-import ChillImage from 'assets/images/favorites/chill.png';
-import axios from 'services/axios';
-import { useEffect } from 'react/cjs/react.development';
-import { useIsFocused } from '@react-navigation/native';
-import { useAuth } from 'stores/auth';
-import useCategories from 'queries/useCategories';
+import MeditateImage from "assets/images/favorites/meditate.png";
+import ChillImage from "assets/images/favorites/chill.png";
+import axios from "services/axios";
+import { useIsFocused } from "@react-navigation/native";
+import { useAuth } from "stores/auth";
+import useCategories from "queries/useCategories";
 
 // Styled Component
 const Header = styled.View`
@@ -67,7 +66,7 @@ export default function Favorites({ route, navigation }) {
   const { user, updateUser } = useAuth();
 
   const fetchSongs = async () => {
-    const { data } = await axios.get('/songs/liked');
+    const { data } = await axios.get("/songs/liked");
     setSongs(data.data.results);
   };
 
@@ -90,7 +89,6 @@ export default function Favorites({ route, navigation }) {
         return categories.find((category) => category._id == categoryId);
       }
     );
-    console.log({ filteredCategories });
     setLikedCategories(filteredCategories);
   }, [songs, categories]);
 
@@ -107,8 +105,8 @@ export default function Favorites({ route, navigation }) {
       >
         <Header>
           <Button
-            variant={'silent'}
-            title={isEdit ? 'Done' : 'Edit'}
+            variant={"silent"}
+            title={isEdit ? "Done" : "Edit"}
             onPress={() => setIsEdit(!isEdit)}
           />
         </Header>
@@ -147,7 +145,7 @@ export default function Favorites({ route, navigation }) {
                   removable={isEdit}
                   onRemove={() => {
                     updateUser(
-                      'likedSongs',
+                      "likedSongs",
                       user?.likedSongs.filter((_) => {
                         if (song._id == _) return false;
                         return true;
@@ -166,8 +164,8 @@ export default function Favorites({ route, navigation }) {
 
       <Animated.View
         style={{
-          position: 'absolute',
-          width: '100%',
+          position: "absolute",
+          width: "100%",
           top: 0,
           left: 0,
           zIndex: scrollY.interpolate({
@@ -183,10 +181,10 @@ export default function Favorites({ route, navigation }) {
         <BlurView
           intensity={150}
           style={{
-            width: '100%',
+            width: "100%",
             height:
-              (Platform.OS == 'ios' ? Constants.statusBarHeight : 15) + 30,
-            paddingBottom: Platform.OS == 'android' ? 10 : 0,
+              (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 30,
+            paddingBottom: Platform.OS == "android" ? 10 : 0,
           }}
           tint="dark"
         >

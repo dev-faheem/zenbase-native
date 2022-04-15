@@ -1,7 +1,7 @@
 // Import Dependencies
-import React, { useState } from 'react';
-import { Alert, ScrollView, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from "react";
+import { Alert, ScrollView, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   Text,
@@ -12,21 +12,20 @@ import {
   SongTile,
   Box,
   NavigationPadding,
-} from 'components';
-import styled from 'styled-components/native';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
-import { useTheme } from 'stores/theme';
+} from "components";
+import styled from "styled-components/native";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { useTheme } from "stores/theme";
 
 // Import Images
-import profileImage from 'assets/images/artist.png';
+import profileImage from "assets/images/artist.png";
 
 // Import Profile Header
-import ProfileHeader from 'screens/profile/header';
-import { useAuth } from 'stores/auth';
-import { useEffect } from 'react/cjs/react.development';
-import axios from 'services/axios';
-import { useFocusEffect } from '@react-navigation/native';
-import { useSongQueue } from 'stores/song-queue';
+import ProfileHeader from "screens/profile/header";
+import { useAuth } from "stores/auth";
+import axios from "services/axios";
+import { useFocusEffect } from "@react-navigation/native";
+import { useSongQueue } from "stores/song-queue";
 
 // Styled Component
 const SongListWrapper = styled.View`
@@ -51,15 +50,13 @@ export default function Profile({ route, navigation }) {
     fetchRecentlyPlayedSongs();
   }, []);
 
-  
-
   const fetchRecentlyPlayedSongs = async () => {
     try {
-      let recents = JSON.parse(await AsyncStorage.getItem('recents'));
+      let recents = JSON.parse(await AsyncStorage.getItem("recents"));
       if (!recents) {
         return setRecentlyPlayedSongs([]);
       }
-      const { data } = await axios.get('/songs/ids?ids=' + recents.join(','));
+      const { data } = await axios.get("/songs/ids?ids=" + recents.join(","));
       setRecentlyPlayedSongs(data.data.results);
     } catch (e) {
       console.error(e);
@@ -127,9 +124,9 @@ export default function Profile({ route, navigation }) {
                       color={theme.color.primary}
                     />
                   ),
-                  title: 'My Journal',
+                  title: "My Journal",
                   onPress: () => {
-                    navigation.navigate('Journal');
+                    navigation.navigate("Journal");
                   },
                 },
               ]}
@@ -143,7 +140,12 @@ export default function Profile({ route, navigation }) {
 
             <SongListWrapper>
               {recentlyPlayedSongs.map((song) => (
-                <SongTile style={{ marginBottom: 20 }} inGrid song={song} queue={recentlyPlayedSongs} />
+                <SongTile
+                  style={{ marginBottom: 20 }}
+                  inGrid
+                  song={song}
+                  queue={recentlyPlayedSongs}
+                />
               ))}
             </SongListWrapper>
           </Container>

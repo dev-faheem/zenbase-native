@@ -1,7 +1,7 @@
 export default {
-  API_URL: "http://localhost:4000/",
-  GOOGLE_ADMOB_ADUNIT: "ca-app-pub-4200832613869197/3421213604",
+  API_URL: "http://3.123.230.25:4000/",
+  GOOGLE_ADMOB_ADUNIT: "ca-app-pub-2423909336067009~3903897471",
   STRIPE_KEY:
-    "pk_test_51HdwMHGKszRJohTIAcQ6JpMHz0Ojm0Kgwx8uyEHwk4mZQFFjrHqTYDNiMdotqBV9IYnq6kGc8ThOQ0Nu8J0DD8Yt00BIffLlok",
+    "pk_live_51KBv53KKBDWbGUnY8YFKcBbDoZfW4HLgm8zctS3c7fHkMImvWpFyICPFWofPVD09IachL5L0IBmdu58TjlYYBzex00KPykfkLI",
   STRIPE_MERCHANT_ID: "us.zenbase.merchant",
 };
