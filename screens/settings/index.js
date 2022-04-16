@@ -1,6 +1,6 @@
 // Import Dependencies
-import React, { useState } from 'react';
-import { Alert, ScrollView, View, Image, Switch } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { Alert, ScrollView, View, Image, Switch } from "react-native";
 import {
   Text,
   Container,
@@ -9,23 +9,22 @@ import {
   IOSList,
   SongTile,
   Box,
-} from 'components';
-import styled from 'styled-components/native';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
-import { useTheme } from 'stores/theme';
+} from "components";
+import styled from "styled-components/native";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { useTheme } from "stores/theme";
 
 // Import Images
-import ZenbaseVector from 'assets/vectors/zenbase.png';
-import AdVector from 'assets/vectors/Ad.png';
-import ZentTokenVector from 'assets/vectors/zen-token.png';
-import profileImage from 'assets/images/artist.png';
+import ZenbaseVector from "assets/vectors/zenbase.png";
+import AdVector from "assets/vectors/Ad.png";
+import ZentTokenVector from "assets/vectors/zen-token.png";
+import profileImage from "assets/images/artist.png";
 
 // Import Profile Header
-import ProfileHeader from 'screens/profile/header';
-import { useAuth } from 'stores/auth';
-import { CommonActions, useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react/cjs/react.development';
-import ReactNativeShare from 'helpers/react-native-share';
+import ProfileHeader from "screens/profile/header";
+import { useAuth } from "stores/auth";
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import ReactNativeShare from "helpers/react-native-share";
 
 // Styled Component
 const SwitchWrapper = styled.View`
@@ -56,7 +55,7 @@ export default function Settings({ route }) {
 
   useEffect(() => {
     if (user?.renewZenbasePremiumAutomatically != autoRenew) {
-      updateUser('renewZenbasePremiumAutomatically', autoRenew);
+      updateUser("renewZenbasePremiumAutomatically", autoRenew);
     }
   }, [autoRenew]);
 
@@ -105,7 +104,7 @@ export default function Settings({ route }) {
                       style={{ marginLeft: 2 }}
                     />
                   ),
-                  title: 'Invite Friends',
+                  title: "Invite Friends",
                   onPress: () =>
                     inviteFriend(
                       `${user?.name} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`
@@ -119,7 +118,7 @@ export default function Settings({ route }) {
                       resizeMode="center"
                     />
                   ),
-                  title: 'Zenbase Premium',
+                  title: "Zenbase Premium",
                   onPress: () => {},
                 },
                 {
@@ -130,9 +129,9 @@ export default function Settings({ route }) {
                       resizeMode="center"
                     />
                   ),
-                  title: 'Zenbase Ads',
+                  title: "Zenbase Ads",
                   onPress: () => {
-                    navigation.navigate('ZenbaseAds', { isForLogin: false });
+                    navigation.navigate("ZenbaseAds", { isForLogin: false });
                   },
                 },
                 {
@@ -143,7 +142,7 @@ export default function Settings({ route }) {
                       resizeMode="cover"
                     />
                   ),
-                  title: 'Zenbase Rewards',
+                  title: "Zenbase Rewards",
                   onPress: () => {},
                 },
                 {
@@ -155,9 +154,9 @@ export default function Settings({ route }) {
                         height: 21,
                         borderRadius: 50,
                         backgroundColor: theme.color.primary,
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start',
-                        alignItems: 'center',
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
                       }}
                     >
                       <Ionicons
@@ -168,9 +167,9 @@ export default function Settings({ route }) {
                       />
                     </View>
                   ),
-                  title: 'Sign Out',
+                  title: "Sign Out",
                   onPress: () => {
-                    navigation.navigate('Home', {
+                    navigation.navigate("Home", {
                       performLogout: true,
                     });
                   },

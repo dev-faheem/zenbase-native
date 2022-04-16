@@ -4,7 +4,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "production": "expo start --no-dev --minify"
   },
   "dependencies": {
     "@miblanchard/react-native-slider": "^2.1.0",
