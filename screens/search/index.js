@@ -271,8 +271,8 @@ export default function Search({ navigation }) {
                         ]}
                       >
                         <SongContent>
-                          <Text>{song?.name}</Text>
-                          <Text fontSize="sm" color="secondary">
+                          <Text numberOfLines={1}>{song?.name}</Text>
+                          <Text numberOfLines={1} fontSize="sm" color="secondary">
                             Song •{" "}
                             {song.artist
                               ?.map((artist) => artist.name)
@@ -280,7 +280,7 @@ export default function Search({ navigation }) {
                           </Text>
                         </SongContent>
 
-                        <IconWrapper>
+                        <IconWrapper style={{ paddingLeft: 5}}>
                           <TouchableOpacity
                             onPress={(event) => openContextMenu(event, song)}
                           >

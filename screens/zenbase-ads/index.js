@@ -8,7 +8,7 @@ import {
   Box,
 } from "components";
 import styled from "styled-components/native";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Dimensions } from "react-native";
 import { useTheme } from "stores/theme";
 import { CommonActions } from "@react-navigation/native";
 
@@ -19,6 +19,8 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import AdVector from "assets/vectors/ad-white.png";
 import AdInformationImage from "assets/images/zenbase-ads-info.png";
 import { useAuth } from "stores/auth";
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 // Styled Component
 const AdInfoWrapper = styled.View`
@@ -118,7 +120,7 @@ export default function ZenbaseAds({ route, navigation }) {
         </AdInfoWrapper>
         <InfoWrapper>
           <InfoBody>
-            <InfoLogo source={AdVector} resizeMode="center" />
+            <InfoLogo source={AdVector} resizeMode="contain" />
             <Text fontSize="h2" fontWeight="bold">
               More Ads, More Earnings
             </Text>
@@ -127,21 +129,45 @@ export default function ZenbaseAds({ route, navigation }) {
             </Text>
             <AdsOptions>
               <Button
+                titleProps={{
+                  numberOfLines:1, 
+                  adjustsFontSizeToFit: true,
+                  style: {
+                    paddingLeft: 10,
+                    paddingRight: 10
+                  }
+                }}
                 horizontalPadding="0"
-                width="113"
+                width={SCREEN_WIDTH/3.6}
                 title="Less (1)"
                 onPress={() => selectAdsAmount(1)}
               />
               <Button
+                titleProps={{
+                  numberOfLines:1, 
+                  adjustsFontSizeToFit: true,
+                  style: {
+                    paddingLeft: 10,
+                    paddingRight: 10
+                  }
+                }}
                 horizontalPadding="0"
-                width="113"
+                width={SCREEN_WIDTH/3.6}
                 title="Moderate (2)"
                 variant="primaryDark"
                 onPress={() => selectAdsAmount(2)}
               />
               <Button
+                titleProps={{
+                  numberOfLines:1, 
+                  adjustsFontSizeToFit: true,
+                  style: {
+                    paddingLeft: 10,
+                    paddingRight: 10
+                  }
+                }}
                 horizontalPadding="0"
-                width="113"
+                width={SCREEN_WIDTH/3.6}
                 title="Max (3)"
                 variant="primaryDarker"
                 onPress={() => selectAdsAmount(3)}

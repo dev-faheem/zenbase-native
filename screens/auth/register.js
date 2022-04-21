@@ -68,13 +68,13 @@ const TermsAndPrivacyFlex = styled.View`
 
 const dropdownProps = {
   itemProps: {
-    style: {
-      backgroundColor: '#1B1C1E',
-      // height: 45,
-      paddingHorizontal: 10,
-      paddingVertical: 10,
-    },
-    activeOpacity: 1,
+    // style: {
+    //   backgroundColor: '#1B1C1E',
+    //   // height: 45,
+    //   paddingHorizontal: 10,
+    //   paddingVertical: 10,
+    // },
+    // activeOpacity: 1,
   },
   style: {
     backgroundColor: '#1B1C1E',
@@ -96,8 +96,9 @@ const dropdownProps = {
   },
 
   dropDownContainerStyle: {
-    height: 100,
+    height: 120,
     zIndex: 10000000,
+    backgroundColor: '#1B1C1E',
   },
   zIndex: 100000,
   zIndexInverse: 100000,
@@ -123,12 +124,15 @@ export default function register({ navigation }) {
   const [openCountry, setOpenCountry] = useState(false);
   const [valueCountry, setValueCountry] = useState(null);
   const [countries, setCountries] = useState(
-    Country.getAllCountries().map((country) => {
+    [{
+      label: Country.getCountryByCode('US').name,
+      value: Country.getCountryByCode('US').isoCode,
+    },...(Country.getAllCountries().map((country) => {
       return {
         label: country.name,
         value: country.isoCode,
       };
-    })
+    }).filter(obj => obj.value != 'US'))]
   );
 
   const [openState, setOpenState] = useState(false);
@@ -183,7 +187,7 @@ export default function register({ navigation }) {
     <Canvas>
       {renderLoader()}
       <Container style={{ flex: 1 }}>
-        <Text fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
+        <Text numberOfLines={1} adjustsFontSizeToFit fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
           Meditate, Earn, Repeat
         </Text>
         <ZenbaseLogo source={ZentbaseLogoPrimary} />

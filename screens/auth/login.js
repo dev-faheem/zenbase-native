@@ -125,7 +125,7 @@ export default function Login({ navigation }) {
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-        <Text fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
+        <Text numberOfLines={1} adjustsFontSizeToFit fontSize='34' fontWeight="bold" style={{ marginTop: 10 }}>
           Meditate, Earn, Repeat
         </Text>
         <ZenbaseLogo source={ZentbaseLogoPrimary} />
