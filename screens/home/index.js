@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   Text,
   Container,
@@ -24,7 +24,7 @@ import styled from "styled-components/native";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "stores/auth";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "services/axios";
 
 // Import Images
@@ -77,7 +77,7 @@ export default function Home({ navigation, route }) {
   const bestNewSounds = useSearch();
   const { data: categories } = useCategories();
   const { theme } = useTheme();
-  const { user, walletAmount, logout } = useAuth();
+  const { user, walletAmount, logout, fetchTransactions } = useAuth();
 
   const [under10MinSongs, setUnder10MinSongs] = useState([]);
   const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
@@ -118,6 +118,12 @@ export default function Home({ navigation, route }) {
     fetchGuidedMeditation();
     fetchChill();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransactions();
+    }, [])
+  );
 
   if (route.params?.performLogout === true) {
     logout();

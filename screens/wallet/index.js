@@ -29,6 +29,7 @@ import zentBackground from "assets/images/wallet/zent-bg.png";
 import { useTheme } from "stores/theme";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "stores/auth";
+import { useCallback } from "react";
 
 /**
  * *********************************************
@@ -115,6 +116,12 @@ const HeaderImage = styled.Image`
   border-radius: 2px;
 `;
 
+const transactionListenDuration = (transaction) => {
+  const seconds = Number(transaction.amount / transaction.appreciatedFor) || 1;
+  const minutes = Math.ceil(seconds / 60);
+  return `${minutes} min`;
+};
+
 /**
  * **********
  * Components
@@ -154,7 +161,7 @@ function History({ ZentBanner }) {
               <WalletHistoryList>
                 <WalletHistoryListText>
                   <Text fontSize="lg" numberOfLines={1}>
-                    {Math.floor(transaction.meta?.duration / 60)} minutes •{" "}
+                    {transactionListenDuration(transaction)} •{" "}
                     {Number(transaction.amount).toPrecision(6)} ZENT
                   </Text>
                   <Text
@@ -304,9 +311,11 @@ export default function Wallet({ route, navigation }) {
     />
   );
 
-  useFocusEffect(() => {
-    fetchTransactions();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransactions();
+    }, [])
+  );
 
   return (
     <Canvas>
