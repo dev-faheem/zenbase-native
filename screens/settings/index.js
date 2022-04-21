@@ -115,7 +115,7 @@ export default function Settings({ route }) {
                     <Image
                       source={ZenbaseVector}
                       style={{ marginRight: 3, width: 23, height: 23 }}
-                      resizeMode="center"
+                      resizeMode="contain"
                     />
                   ),
                   title: "Zenbase Premium",
@@ -126,7 +126,7 @@ export default function Settings({ route }) {
                     <Image
                       source={AdVector}
                       style={{ marginRight: 3, width: 23, height: 23 }}
-                      resizeMode="center"
+                      resizeMode="contain"
                     />
                   ),
                   title: "Zenbase Ads",

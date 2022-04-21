@@ -396,8 +396,8 @@ export default function SearchModal({ navigation }) {
                 <SongImage source={{ uri: song?.artwork }} />
                 <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
                   <SongContent>
-                    <Text>{song?.name}</Text>
-                    <Text fontSize="sm" color="secondary">
+                    <Text numberOfLines={1}>{song?.name}</Text>
+                    <Text numberOfLines={1} fontSize="sm" color="secondary">
                       Song •{' '}
                       {song.artist
                         .map((artist) => artist?.name || 'Unknown Artist')
@@ -405,7 +405,7 @@ export default function SearchModal({ navigation }) {
                     </Text>
                   </SongContent>
 
-                  <IconWrapper>
+                  <IconWrapper style={{ paddingLeft: 5}}>
                     <TouchableOpacity
                       onPress={(event) => openContextMenu(event, song)}
                     >
@@ -431,8 +431,8 @@ export default function SearchModal({ navigation }) {
                   <SongImage source={{ uri: song?.artwork }} />
                   <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
                     <SongContent>
-                      <Text>{song?.name}</Text>
-                      <Text fontSize="sm" color="secondary">
+                      <Text numberOfLines={1}>{song?.name}</Text>
+                      <Text numberOfLines={1} fontSize="sm" color="secondary">
                         Song •{' '}
                         {song.artist
                           .map((artist) => artist?.name || 'Unknown Artist')
@@ -440,7 +440,7 @@ export default function SearchModal({ navigation }) {
                       </Text>
                     </SongContent>
 
-                    <IconWrapper>
+                    <IconWrapper style={{ paddingLeft: 5}}>
                       <TouchableOpacity
                         onPress={(event) => openContextMenu(event, song)}
                       >

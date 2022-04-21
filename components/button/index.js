@@ -101,13 +101,14 @@ export default function Button({
   title,
   icon = null,
   iconProps = {},
+  titleProps = {},
   ...props
 }) {
   return (
     <TouchableOpacityWrapper {...props}>
       <ButtonWrapper {...props}>
         {icon && <Icon variant={icon} {...iconProps} />}
-        <TextWrapper {...props}>{title || 'Button'}</TextWrapper>
+        <TextWrapper {...props} {...titleProps}>{title || 'Button'}</TextWrapper>
       </ButtonWrapper>
     </TouchableOpacityWrapper>
   );

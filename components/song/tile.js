@@ -6,8 +6,24 @@ import styled from 'styled-components/native';
 import { TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { useSongQueue } from 'stores/song-queue';
+import { Text} from 'components'
 
-const SongTileView = styled.View``;
+const SongTileView = styled.View`
+  ${(props) => {
+    if (props.inGrid) {
+      const size = (Dimensions.get('window').width - 40) * 0.5 - 10;
+      if (size < 180) {
+        return `
+          width: ${size}px;
+        `;
+      }
+    }
+
+    return `
+      width: 180px;
+    `;
+  }}
+`;
 
 const SongArtwork = styled.Image`
   position: relative;
@@ -41,12 +57,18 @@ const SongArtistName = styled.Text`
   font-size: ${(props) => props.theme.fontSize.sm};
 `;
 
-const SongLength = styled.Text`
+const SongLength = styled.View`
   color: ${(props) => props.theme.color.white};
   position: absolute;
   z-index: 10;
   right: 8px;
   top: 8px;
+  background: rgba(0,0,0,0.3);
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-radius: 5px;
 `;
 
 const SongRemoveButton = styled.TouchableOpacity`
@@ -107,9 +129,9 @@ export default function SongTile({
             />
           </SongRemoveButton>
         )}
-        <SongLength>{song.length}</SongLength>
-        <SongName>{song.name}</SongName>
-        <SongArtistName>
+        <SongLength><Text fontSize='12'>{Math.round(song.duration/60)} min</Text></SongLength>
+        <SongName numberOfLines={1}>{song.name}</SongName>
+        <SongArtistName numberOfLines={1}>
           {song.artist?.map((artist) => artist.name)?.join(', ')}
         </SongArtistName>
       </SongTileView>

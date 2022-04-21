@@ -104,13 +104,14 @@ export default function Explorables() {
       <FlatList
         horizontal
         data={cards}
-        snapToInterval={Dimensions.get('window').width * 0.82 + 10}
+        style={{ paddingLeft: 15 }}
+        snapToInterval={Dimensions.get('window').width * 0.92 + 10 }
         decelerationRate='fast'
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
-        renderItem={({ item }) => (
-          <ExplorableCard {...item} />
+        renderItem={({ item, index}) => (
+          <ExplorableCard {...item} isLast={index == cards.length -1} />
         )}
       />
     </>

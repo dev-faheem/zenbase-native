@@ -122,6 +122,7 @@ export default function ChangePassword({route, navigation }) {
         <InputWrapper>
           <Text>New Password</Text>
           <Input
+            returnKeyType='done'
             onEndEditing={validatePassword}
             style={[ isPasswordMatched === false && {borderWidth: 0.5, borderColor: '#FD3B30'}]}
             secureTextEntry={true}
@@ -137,6 +138,7 @@ export default function ChangePassword({route, navigation }) {
 
           <Text style={{ marginTop: 10}}>Confirm Password</Text>
           <Input
+            returnKeyType='done'
             onEndEditing={validatePassword}
             style={[isPasswordMatched === false && {borderWidth: 0.5, borderColor: '#FD3B30'}]}
             placeholderTextColor={theme.color.secondary}

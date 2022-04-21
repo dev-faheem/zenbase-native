@@ -149,9 +149,11 @@ export default function Home({ navigation, route }) {
             Explore
           </Text>
           <ActivelyListing />
+        </Container>
 
-          <Explorables />
-
+        <Explorables />
+        
+        <Container>
           {!user.isPremium && (
             <>
               <TouchableOpacity

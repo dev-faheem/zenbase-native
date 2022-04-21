@@ -4,7 +4,7 @@ import { StackActions, CommonActions } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { useAuth } from "stores/auth";
 import { useTheme } from "stores/theme";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import axios from "services/axios";
 import SplashScreen from "screens/splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -135,13 +135,14 @@ export default function Login({ navigation }) {
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-        <Text fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
+        <Text numberOfLines={1} adjustsFontSizeToFit fontSize='34' fontWeight="bold" style={{ marginTop: 10 }}>
           Meditate, Earn, Repeat
         </Text>
         <ZenbaseLogo source={ZentbaseLogoPrimary} />
 
         <InputWrapper>
           <Input
+            returnKeyType='done'
             autoCapitalize="none"
             placeholder="Phone number or email"
             placeholderTextColor={theme.color.secondary}
@@ -155,6 +156,7 @@ export default function Login({ navigation }) {
           />
 
           <Input
+            returnKeyType='done'
             placeholder="Password"
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPassword, value)}
@@ -162,15 +164,22 @@ export default function Login({ navigation }) {
             value={password}
             ref={passwordInput}
           />
-
-          <Button
-            onPress={() => navigation.navigate("ForgotPassword")}
-            variant="silent"
-            fontSize="14"
-            title="Forgot Password?"
-            style={{ marginTop: 8 }}
-          />
+          
         </InputWrapper>
+
+        <InputWrapper style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 15
+        }}>
+          <TouchableOpacity 
+            onPress={() => navigation.navigate('ForgotPassword')}
+            style={{ padding: 15 }}>
+            <Text color={'primary'} fontWeight="600">Forgot Password?</Text>
+          </TouchableOpacity>
+        </InputWrapper>
+
       </Container>
       <FooterWrapper>
         <Container style={{ flex: 1 }}>

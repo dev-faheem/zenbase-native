@@ -10,7 +10,7 @@ const CardWrapper = styled.View`
 
 const CardImage = styled.Image`
   border-radius: 5px;
-  width: ${Dimensions.get('window').width * 0.82}px;
+  width: ${Dimensions.get('window').width * 0.92}px;
   height: 225px;
 `;
 
@@ -42,10 +42,10 @@ const Description = styled.Text`
   font-size: 12px;
 `;
 
-export default function ExplorableCard({ name, description, image }) {
+export default function ExplorableCard({ name, description, image, isLast = false}) {
   return (
     <CardWrapper>
-      <CardImage source={image} />
+      <CardImage source={image} style={[isLast && { marginRight: 15 }]} />
       <OverlayWrapper>
         <Header>
           <Heading>{name}</Heading>

@@ -68,13 +68,13 @@ const TermsAndPrivacyFlex = styled.View`
 
 const dropdownProps = {
   itemProps: {
-    style: {
-      backgroundColor: "#1B1C1E",
-      // height: 45,
-      paddingHorizontal: 10,
-      paddingVertical: 10,
-    },
-    activeOpacity: 1,
+    // style: {
+    //   backgroundColor: '#1B1C1E',
+    //   // height: 45,
+    //   paddingHorizontal: 10,
+    //   paddingVertical: 10,
+    // },
+    // activeOpacity: 1,
   },
   style: {
     backgroundColor: "#1B1C1E",
@@ -96,8 +96,9 @@ const dropdownProps = {
   },
 
   dropDownContainerStyle: {
-    height: 100,
+    height: 120,
     zIndex: 10000000,
+    backgroundColor: "#1B1C1E",
   },
   zIndex: 100000,
   zIndexInverse: 100000,
@@ -122,14 +123,20 @@ export default function register({ navigation }) {
 
   const [openCountry, setOpenCountry] = useState(false);
   const [valueCountry, setValueCountry] = useState(null);
-  const [countries, setCountries] = useState(
-    Country.getAllCountries().map((country) => {
-      return {
-        label: country.name,
-        value: country.isoCode,
-      };
-    })
-  );
+  const [countries, setCountries] = useState([
+    {
+      label: Country.getCountryByCode("US").name,
+      value: Country.getCountryByCode("US").isoCode,
+    },
+    ...Country.getAllCountries()
+      .map((country) => {
+        return {
+          label: country.name,
+          value: country.isoCode,
+        };
+      })
+      .filter((obj) => obj.value != "US"),
+  ]);
 
   const [openState, setOpenState] = useState(false);
   const [valueState, setValueState] = useState(null);
@@ -179,69 +186,76 @@ export default function register({ navigation }) {
   return (
     <Canvas>
       {renderLoader()}
-      <ScrollView scrollEnabled={false}>
-        <Container style={{ flex: 1 }}>
-          <Text fontSize="34" fontWeight="bold" style={{ marginTop: 10 }}>
-            Meditate, Earn, Repeat
-          </Text>
-          <ZenbaseLogo source={ZentbaseLogoPrimary} />
+      <Container style={{ flex: 1 }}>
+        <Text
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          fontSize="34"
+          fontWeight="bold"
+          style={{ marginTop: 10 }}
+        >
+          Meditate, Earn, Repeat
+        </Text>
+        <ZenbaseLogo source={ZentbaseLogoPrimary} />
 
-          <InputWrapper>
-            <Input
-              autoCapitalize="none"
-              placeholder="Phone number or Email"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={(value) => updateInput(setEmail, value)}
-              value={email}
-              onSubmitEditing={() => passwordInput.current.focus()}
-            />
+        <InputWrapper>
+          <Input
+            returnKeyType="done"
+            autoCapitalize="none"
+            placeholder="Phone number or Email"
+            placeholderTextColor={theme.color.secondary}
+            onChangeText={(value) => updateInput(setEmail, value)}
+            value={email}
+            onSubmitEditing={() => passwordInput.current.focus()}
+          />
 
-            <Input
-              placeholder="Password"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={(value) => updateInput(setPassword, value)}
-              secureTextEntry={true}
-              value={password}
-              ref={passwordInput}
-            />
+          <Input
+            returnKeyType="done"
+            placeholder="Password"
+            placeholderTextColor={theme.color.secondary}
+            onChangeText={(value) => updateInput(setPassword, value)}
+            secureTextEntry={true}
+            value={password}
+            ref={passwordInput}
+          />
 
-            <DropDownPicker
-              open={openCountry}
-              value={valueCountry}
-              items={countries}
-              setOpen={setOpenCountry}
-              setValue={(value) => {
-                setValueCountry(value);
-                setStates(
-                  State.getStatesOfCountry(value()).map((state) => {
-                    return {
-                      label: state.name,
-                      value: state.isoCode,
-                    };
-                  })
-                );
-              }}
-              setItems={setCountries}
-              placeholder="Country"
-              {...dropdownProps}
-            />
+          <DropDownPicker
+            open={openCountry}
+            value={valueCountry}
+            items={countries}
+            setOpen={setOpenCountry}
+            setValue={(value) => {
+              setValueCountry(value);
+              setStates(
+                State.getStatesOfCountry(value()).map((state) => {
+                  return {
+                    label: state.name,
+                    value: state.isoCode,
+                  };
+                })
+              );
+            }}
+            setItems={setCountries}
+            placeholder="Country"
+            {...dropdownProps}
+          />
 
-            {openCountry && <View style={{ height: 100 }} />}
+          {openCountry && <View style={{ height: 100 }} />}
 
-            <DropDownPicker
-              open={openState}
-              value={valueState}
-              items={states}
-              setOpen={setOpenState}
-              setValue={setValueState}
-              setItems={setStates}
-              placeholder="State/Province"
-              {...dropdownProps}
-            />
+          <DropDownPicker
+            open={openState}
+            value={valueState}
+            items={states}
+            setOpen={setOpenState}
+            setValue={setValueState}
+            setItems={setStates}
+            placeholder="State/Province"
+            {...dropdownProps}
+          />
 
-            {openState && <View style={{ height: 100 }} />}
+          {openState && <View style={{ height: 100 }} />}
 
-            {/* <Input
+          {/* <Input
               autoCapitalize="none"
               placeholder="Country"
               placeholderTextColor={theme.color.secondary}
@@ -258,59 +272,68 @@ export default function register({ navigation }) {
               value={email}
               onSubmitEditing={() => passwordInput.current.focus()}
             /> */}
+        </InputWrapper>
 
+        <InputWrapper
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 15,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ padding: 15 }}
+          >
+            <Text color={"primary"} fontWeight="600">
+              Already have an account
+            </Text>
+          </TouchableOpacity>
+        </InputWrapper>
+      </Container>
+      <FooterWrapper>
+        <Container style={{ flex: 1 }}>
+          <FooterFlex>
+            <Box h="60px" />
             <Button
-              onPress={() => navigation.goBack()}
-              variant="silent"
-              fontSize="14"
-              title="Already have an account"
-              style={{ marginTop: 8 }}
+              variant={isRegisterEnabled ? "primary" : "disabled"}
+              title="Continue"
+              block
+              onPress={() => {
+                if (isRegisterEnabled) {
+                  registerHandler();
+                }
+              }}
             />
-          </InputWrapper>
-        </Container>
-        <FooterWrapper>
-          <Container style={{ flex: 1 }}>
-            <FooterFlex>
-              <Box h="60px" />
-              <Button
-                variant={isRegisterEnabled ? "primary" : "disabled"}
-                title="Continue"
-                block
-                onPress={() => {
-                  if (isRegisterEnabled) {
-                    registerHandler();
-                  }
-                }}
-              />
-              <TermsAndPrivacyWrapper>
-                <TermsAndPrivacyFlex>
-                  <Text>By signing in you accept our </Text>
-                  <TouchableOpacity>
-                    <Text
-                      fontWeight="bold"
-                      style={{ textDecorationLine: "underline" }}
-                    >
-                      Terms of use
-                    </Text>
-                  </TouchableOpacity>
-                </TermsAndPrivacyFlex>
+            <TermsAndPrivacyWrapper>
+              <TermsAndPrivacyFlex>
+                <Text>By signing in you accept our </Text>
+                <TouchableOpacity>
+                  <Text
+                    fontWeight="bold"
+                    style={{ textDecorationLine: "underline" }}
+                  >
+                    Terms of use
+                  </Text>
+                </TouchableOpacity>
+              </TermsAndPrivacyFlex>
 
-                <TermsAndPrivacyFlex style={{ marginTop: 2 }}>
-                  <Text>and </Text>
-                  <TouchableOpacity>
-                    <Text
-                      fontWeight="bold"
-                      style={{ textDecorationLine: "underline" }}
-                    >
-                      Privacy Policy
-                    </Text>
-                  </TouchableOpacity>
-                </TermsAndPrivacyFlex>
-              </TermsAndPrivacyWrapper>
-            </FooterFlex>
-          </Container>
-        </FooterWrapper>
-      </ScrollView>
+              <TermsAndPrivacyFlex style={{ marginTop: 2 }}>
+                <Text>and </Text>
+                <TouchableOpacity>
+                  <Text
+                    fontWeight="bold"
+                    style={{ textDecorationLine: "underline" }}
+                  >
+                    Privacy Policy
+                  </Text>
+                </TouchableOpacity>
+              </TermsAndPrivacyFlex>
+            </TermsAndPrivacyWrapper>
+          </FooterFlex>
+        </Container>
+      </FooterWrapper>
     </Canvas>
   );
 }
