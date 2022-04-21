@@ -1,27 +1,30 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import { useMock } from 'services/mock';
-import { Ionicons } from '@expo/vector-icons';
-import styled from 'styled-components/native';
-import { TouchableWithoutFeedback } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
-import { useSongQueue } from 'stores/song-queue';
-import { Text} from 'components'
+import React from "react";
+import { Dimensions } from "react-native";
+import { useMock } from "services/mock";
+import { Ionicons } from "@expo/vector-icons";
+import styled from "styled-components/native";
+import { TouchableWithoutFeedback } from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import { useSongQueue } from "stores/song-queue";
+import { Text } from "components";
+
+const WINDOW_WIDTH = Dimensions.get("window").width;
+const TILE_SIZE = (WINDOW_WIDTH - 40) * 0.5 - 10;
 
 const SongTileView = styled.View`
   ${(props) => {
     if (props.inGrid) {
-      const size = (Dimensions.get('window').width - 40) * 0.5 - 10;
+      const size = TILE_SIZE;
       if (size < 180) {
         return `
-          width: ${size}px;
-        `;
+        width: ${size}px;
+      `;
       }
     }
 
     return `
-      width: 180px;
-    `;
+    width: 180px;
+  `;
   }}
 `;
 
@@ -29,7 +32,7 @@ const SongArtwork = styled.Image`
   position: relative;
   ${(props) => {
     if (props.inGrid) {
-      const size = (Dimensions.get('window').width - 40) * 0.5 - 10;
+      const size = TILE_SIZE;
       if (size < 180) {
         return `
           width: ${size}px;
@@ -63,7 +66,7 @@ const SongLength = styled.View`
   z-index: 10;
   right: 8px;
   top: 8px;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   padding-right: 5px;
   padding-left: 5px;
   padding-top: 2px;
@@ -94,7 +97,7 @@ export default function SongTile({
   queue = [],
   mock = false,
 }) {
-  song = useMock('song', song, mock);
+  song = useMock("song", song, mock);
   const navigation = useNavigation();
 
   const { updateSongQueue } = useSongQueue();
@@ -105,17 +108,20 @@ export default function SongTile({
         removable
           ? onRemove
           : () => {
-              navigation.navigate('Play', { _id: song?._id });
-              updateSongQueue(song?._id, queue.map(v => v?._id));
+              navigation.navigate("Play", { _id: song?._id });
+              updateSongQueue(
+                song?._id,
+                queue.map((v) => v?._id)
+              );
             }
       }
     >
-      <SongTileView style={style || null}>
+      <SongTileView style={style || null} inGrid={inGrid || null}>
         <SongArtwork
           source={
             mock
               ? song.artwork
-              : { uri: song.artwork?.replace('https', 'http') }
+              : { uri: song.artwork?.replace("https", "http") }
           }
           inGrid={inGrid || null}
         />
@@ -129,10 +135,12 @@ export default function SongTile({
             />
           </SongRemoveButton>
         )}
-        <SongLength><Text fontSize='12'>{Math.round(song.duration/60)} min</Text></SongLength>
+        <SongLength>
+          <Text fontSize="12">{Math.round(song.duration / 60)} min</Text>
+        </SongLength>
         <SongName numberOfLines={1}>{song.name}</SongName>
         <SongArtistName numberOfLines={1}>
-          {song.artist?.map((artist) => artist.name)?.join(', ')}
+          {song.artist?.map((artist) => artist.name)?.join(", ")}
         </SongArtistName>
       </SongTileView>
     </TouchableWithoutFeedback>
