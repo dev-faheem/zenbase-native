@@ -87,6 +87,7 @@ export default function ForgotPassword({ navigation }) {
         <Text style={{ textAlign: 'center', marginTop: 8, marginBottom: 10}}>Enter your email or phone number and we’ll send you a link to get your account back.</Text>
         <InputWrapper>
           <Input
+            returnKeyType='done'
             autoCapitalize='none'
             placeholder='Phone number or email'
             placeholderTextColor={theme.color.secondary}

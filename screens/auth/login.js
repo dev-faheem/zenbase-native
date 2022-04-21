@@ -132,6 +132,7 @@ export default function Login({ navigation }) {
 
         <InputWrapper>
           <Input
+            returnKeyType='done'
             autoCapitalize="none"
             placeholder="Phone number or email"
             placeholderTextColor={theme.color.secondary}
@@ -145,6 +146,7 @@ export default function Login({ navigation }) {
           />
 
           <Input
+            returnKeyType='done'
             placeholder="Password"
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPassword, value)}
