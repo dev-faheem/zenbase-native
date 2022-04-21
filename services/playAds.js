@@ -9,6 +9,7 @@ export const playAds = async (
   // return;
   try {
     let played = 1;
+    console.log({ ADMOB: config.GOOGLE_ADMOB_ADUNIT });
     await AdMobInterstitial.setAdUnitID(config.GOOGLE_ADMOB_ADUNIT);
     await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
     await AdMobInterstitial.showAdAsync();
