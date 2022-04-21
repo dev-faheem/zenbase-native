@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [secondsWorth, setSecondsWorth] = useState(0.000001);
   const [transactions, setTransactions] = useState([]);
-  const [walletAmount, setWalletAmount] = useState();
+  const [walletAmount, setWalletAmount] = useState(0);
 
   useEffect(() => {
     // Check async storage if user was logged in previously
@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }) => {
     // Save user to async storage
     const serializedUser = JSON.stringify(_user);
     await AsyncStorage.setItem("@zenbase_user", serializedUser);
-    console.log({ serializedUser });
   };
 
   const logout = async () => {

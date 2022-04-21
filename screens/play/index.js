@@ -345,9 +345,10 @@ export default function Play({ navigation }) {
       await setSong(data.data);
       await setLoading(false);
       await audio.unloadAsync();
-      setPosition(0);
-      setDuration(1);
-      setIsPlaying(false);
+      await setPosition(0);
+      await setDuration(1);
+      await setIsPlaying(false);
+      await playSong(data.data);
     } catch (e) {
       axios.handleError(e);
     }
@@ -402,8 +403,37 @@ export default function Play({ navigation }) {
 
   const onPressPause = async () => {
     setIsPlaying(false);
-    await audio.stopAsync();
+    await audio.pauseAsync();
     stopTokenTimer();
+  };
+
+  const playSong = async (data) => {
+    try {
+      console.log({ data });
+      await audio.unloadAsync();
+      await audio.loadAsync({ uri: data?.source });
+      await audio.playAsync();
+
+      startTokenTimer();
+      audio.setOnPlaybackStatusUpdate((status) => {
+        setDuration(status.durationMillis);
+        setPosition(status.positionMillis);
+
+        if (status.didJustFinish) {
+          stopTokenTimer();
+        }
+      });
+
+      setIsPlaying(true);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  const onPressPlay = async () => {
+    setIsPlaying(true);
+    await audio.playAsync();
+    startTokenTimer();
   };
 
   const onSlidingComplete = async (value) => {
@@ -436,7 +466,9 @@ export default function Play({ navigation }) {
             <ZentokenImage source={ZentokenIcon} style={{ marginRight: 8 }} />
             <Text fontWeight="600">
               {renderMsToTiming(position) || "00:00"} •{" "}
-              {Number(zentokens).toPrecision(4)} ZENT earned
+              {position < GIVEAWAY_TOKEN_AFTER_SECONDS * 1000
+                ? "Earn after 5 minutes"
+                : `${Number(zentokens).toPrecision(4)} ZENT earned`}
             </Text>
           </ZentEarningWrapper>
 
@@ -583,20 +615,7 @@ export default function Play({ navigation }) {
                   </SongControlsButton>
                 ) : (
                   // Play Button
-                  <SongControlsButton
-                    onPress={async () => {
-                      await audio.unloadAsync();
-                      await audio.loadAsync({ uri: song?.source });
-                      await audio.playAsync({ uri: song?.source });
-
-                      startTokenTimer();
-                      audio.setOnPlaybackStatusUpdate((status) => {
-                        setDuration(status.durationMillis);
-                        setPosition(status.positionMillis);
-                      });
-                      setIsPlaying(true);
-                    }}
-                  >
+                  <SongControlsButton onPress={onPressPlay}>
                     <Foundation name="play" size={48} color="white" />
                   </SongControlsButton>
                 )}

@@ -62,7 +62,7 @@ const TermsAndPrivacyFlex = styled.View`
 `;
 
 export default function Login({ navigation }) {
-  const { login, logout } = useAuth();
+  const { login } = useAuth();
   const { theme } = useTheme();
 
   const passwordInput = useRef();
@@ -111,20 +111,22 @@ export default function Login({ navigation }) {
   }, [phoneNumberOrEmail, password]);
 
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
+      await fetchUserFromAsyncStorage();
       setIsAppReady(true);
     }, 3000);
-
-    fetchUserFromAsyncStorage();
   }, []);
 
   const fetchUserFromAsyncStorage = async () => {
     const serializedUser = await AsyncStorage.getItem("@zenbase_user");
     if (serializedUser !== null) {
-      const oldUser = JSON.parse(serializedUser);
-      // console.log({ oldUser });
-    } else {
-      console.log("No user was found in async store.");
+      const _user = JSON.parse(serializedUser);
+      login(_user);
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: "App" }],
+        })
+      );
     }
   };
 
@@ -135,14 +137,20 @@ export default function Login({ navigation }) {
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-        <Text numberOfLines={1} adjustsFontSizeToFit fontSize='34' fontWeight="bold" style={{ marginTop: 10 }}>
+        <Text
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          fontSize="34"
+          fontWeight="bold"
+          style={{ marginTop: 10 }}
+        >
           Meditate, Earn, Repeat
         </Text>
         <ZenbaseLogo source={ZentbaseLogoPrimary} />
 
         <InputWrapper>
           <Input
-            returnKeyType='done'
+            returnKeyType="done"
             autoCapitalize="none"
             placeholder="Phone number or email"
             placeholderTextColor={theme.color.secondary}
@@ -156,7 +164,7 @@ export default function Login({ navigation }) {
           />
 
           <Input
-            returnKeyType='done'
+            returnKeyType="done"
             placeholder="Password"
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPassword, value)}
@@ -164,22 +172,25 @@ export default function Login({ navigation }) {
             value={password}
             ref={passwordInput}
           />
-          
         </InputWrapper>
 
-        <InputWrapper style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 15
-        }}>
-          <TouchableOpacity 
-            onPress={() => navigation.navigate('ForgotPassword')}
-            style={{ padding: 15 }}>
-            <Text color={'primary'} fontWeight="600">Forgot Password?</Text>
+        <InputWrapper
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 15,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ForgotPassword")}
+            style={{ padding: 15 }}
+          >
+            <Text color={"primary"} fontWeight="600">
+              Forgot Password?
+            </Text>
           </TouchableOpacity>
         </InputWrapper>
-
       </Container>
       <FooterWrapper>
         <Container style={{ flex: 1 }}>

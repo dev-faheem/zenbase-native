@@ -60,9 +60,8 @@ const TermsAndPrivacyFlex = styled.View`
   justify-content: flex-start;
 `;
 
-export default function ChangePassword({route, navigation }) {
+export default function ChangePassword({ route, navigation }) {
   const { changePasswordToken } = route.params;
-  const { login, logout } = useAuth();
   const { theme } = useTheme();
 
   const confirmPasswordInput = useRef();
@@ -87,9 +86,9 @@ export default function ChangePassword({route, navigation }) {
         data: { data },
       } = await axios.post("/auth/change-password", {
         newPassword,
-        changePasswordToken
+        changePasswordToken,
       });
-      
+
       alert(data.msg);
       navigation.goBack();
       navigation.goBack();
@@ -100,16 +99,16 @@ export default function ChangePassword({route, navigation }) {
   };
 
   const validatePassword = () => {
-    setIsChangePasswordEnable(false)
+    setIsChangePasswordEnable(false);
     if (newPassword == "" || confirmPassword == "") {
-        setIsPasswordMatched(null)
+      setIsPasswordMatched(null);
     } else if (newPassword != confirmPassword) {
-        setIsPasswordMatched(false);
+      setIsPasswordMatched(false);
     } else {
-        setIsChangePasswordEnable(true);
-        setIsPasswordMatched(true)
+      setIsChangePasswordEnable(true);
+      setIsPasswordMatched(true);
     }
-  }
+  };
 
   return (
     <Canvas>
@@ -122,9 +121,14 @@ export default function ChangePassword({route, navigation }) {
         <InputWrapper>
           <Text>New Password</Text>
           <Input
-            returnKeyType='done'
+            returnKeyType="done"
             onEndEditing={validatePassword}
-            style={[ isPasswordMatched === false && {borderWidth: 0.5, borderColor: '#FD3B30'}]}
+            style={[
+              isPasswordMatched === false && {
+                borderWidth: 0.5,
+                borderColor: "#FD3B30",
+              },
+            ]}
             secureTextEntry={true}
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setNewPassword, value)}
@@ -136,11 +140,16 @@ export default function ChangePassword({route, navigation }) {
             }}
           />
 
-          <Text style={{ marginTop: 10}}>Confirm Password</Text>
+          <Text style={{ marginTop: 10 }}>Confirm Password</Text>
           <Input
-            returnKeyType='done'
+            returnKeyType="done"
             onEndEditing={validatePassword}
-            style={[isPasswordMatched === false && {borderWidth: 0.5, borderColor: '#FD3B30'}]}
+            style={[
+              isPasswordMatched === false && {
+                borderWidth: 0.5,
+                borderColor: "#FD3B30",
+              },
+            ]}
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setConfirmPassword, value)}
             secureTextEntry={true}
@@ -148,7 +157,11 @@ export default function ChangePassword({route, navigation }) {
             ref={confirmPasswordInput}
           />
 
-          {isPasswordMatched === false && <Text style={{ marginTop: 18, width: '100%', textAlign: 'center'}}>Passwords do not match</Text>}
+          {isPasswordMatched === false && (
+            <Text style={{ marginTop: 18, width: "100%", textAlign: "center" }}>
+              Passwords do not match
+            </Text>
+          )}
         </InputWrapper>
       </Container>
       <FooterWrapper>

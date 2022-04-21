@@ -6,7 +6,7 @@ import styled from "styled-components/native";
 import { TouchableWithoutFeedback } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { useSongQueue } from "stores/song-queue";
-import { Text } from "components";
+import Text from "components/text";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TILE_SIZE = (WINDOW_WIDTH - 40) * 0.5 - 10;

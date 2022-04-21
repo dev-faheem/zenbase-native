@@ -14,6 +14,7 @@ import styled from "styled-components/native";
 import { ScrollView, Image, Animated, Platform } from "react-native";
 import { BlurView } from "expo-blur";
 import Constants from "expo-constants";
+import { useFocusEffect } from "@react-navigation/native";
 
 // Import Icons
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -125,10 +126,6 @@ function History({ ZentBanner }) {
   const { user, zenTransactions, fetchTransactions } = useAuth();
   const navigation = useNavigation();
   const scrollY = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
   return (
     <>
       <Container style={{ flex: 1 }}>
@@ -296,7 +293,7 @@ function NoHistoryFound({ ZentBanner }) {
 
 // Wallet Component (Default)
 export default function Wallet({ route, navigation }) {
-  const { walletAmount, zenTransactions } = useAuth();
+  const { walletAmount, zenTransactions, fetchTransactions } = useAuth();
   const ZentToken = (
     <ZentTokenBanner
       tokens={Number(walletAmount).toPrecision(6)}
@@ -306,6 +303,10 @@ export default function Wallet({ route, navigation }) {
       }}
     />
   );
+
+  useFocusEffect(() => {
+    fetchTransactions();
+  });
 
   return (
     <Canvas>

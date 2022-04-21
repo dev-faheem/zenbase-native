@@ -77,7 +77,7 @@ export default function Home({ navigation, route }) {
   const bestNewSounds = useSearch();
   const { data: categories } = useCategories();
   const { theme } = useTheme();
-  const { user, walletAmount } = useAuth();
+  const { user, walletAmount, logout } = useAuth();
 
   const [under10MinSongs, setUnder10MinSongs] = useState([]);
   const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
@@ -120,6 +120,7 @@ export default function Home({ navigation, route }) {
   }, []);
 
   if (route.params?.performLogout === true) {
+    logout();
     navigation.reset({
       index: 0,
       routes: [{ name: "Login" }],
@@ -152,7 +153,7 @@ export default function Home({ navigation, route }) {
         </Container>
 
         <Explorables />
-        
+
         <Container>
           {!user.isPremium && (
             <>

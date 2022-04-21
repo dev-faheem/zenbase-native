@@ -43,7 +43,7 @@ const SwitchWrapper = styled.View`
 export default function Settings({ route }) {
   const { theme } = useTheme();
   const navigation = useNavigation();
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, logout } = useAuth();
   // States
   const [autoRenew, setAutoRenew] = useState(
     user?.renewZenbasePremiumAutomatically || false
