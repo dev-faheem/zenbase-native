@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "services/axios";
 import Transactions from "stores/transactions";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -38,16 +38,24 @@ export const AuthProvider = ({ children }) => {
     setWalletAmount(data.data.amount);
   };
 
-  const login = (_user) => {
+  const login = async (_user) => {
     setUser(_user);
     setIsLoggedIn(true);
+    axios.interceptors.request.use((config) => {
+      config.headers.authorization = _user?.token;
+      return config;
+    });
     // Save user to async storage
+    const serializedUser = JSON.stringify(_user);
+    await AsyncStorage.setItem("@zenbase_user", serializedUser);
+    console.log({ serializedUser });
   };
 
-  const logout = () => {
+  const logout = async () => {
     setUser();
     setIsLoggedIn(false);
     // Remove user from async storage
+    await AsyncStorage.removeItem("@zenbase_user");
   };
 
   const giveToken = async (amount, reason) => {

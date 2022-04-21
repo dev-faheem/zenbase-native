@@ -7,6 +7,7 @@ import { useTheme } from "stores/theme";
 import { ScrollView, TouchableOpacity } from "react-native";
 import axios from "services/axios";
 import SplashScreen from "screens/splash-screen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Import Images
 import ZentbaseLogoPrimary from "assets/images/zenbase-full-primary-logo.png";
@@ -87,10 +88,7 @@ export default function Login({ navigation }) {
         username: phoneNumberOrEmail,
         password,
       });
-      axios.interceptors.request.use((config) => {
-        config.headers.authorization = data?.token;
-        return config;
-      });
+
       login(data);
 
       // Reset Stack Navigation
@@ -116,7 +114,19 @@ export default function Login({ navigation }) {
     setTimeout(() => {
       setIsAppReady(true);
     }, 3000);
+
+    fetchUserFromAsyncStorage();
   }, []);
+
+  const fetchUserFromAsyncStorage = async () => {
+    const serializedUser = await AsyncStorage.getItem("@zenbase_user");
+    if (serializedUser !== null) {
+      const oldUser = JSON.parse(serializedUser);
+      // console.log({ oldUser });
+    } else {
+      console.log("No user was found in async store.");
+    }
+  };
 
   if (!isAppReady) {
     return <SplashScreen />;

@@ -84,7 +84,6 @@ export function HomeStack() {
 
 // Navigation Component (Default)
 export default function Navigation() {
-  const { isLoggedIn } = useAuth();
   return (
     <NavigationContainer>
       <Stack.Navigator

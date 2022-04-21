@@ -6,6 +6,7 @@ import { ActivityIndicator } from "react-native";
 // Import images
 import ZentBackground from "assets/images/wallet/zent-bg-lg.png";
 import ZenbaseFullLogo from "assets/images/zenbase-full-white-logo.png";
+import { useAuth } from "stores/auth";
 
 // Styled Component
 const BackgroundWrapper = styled.ImageBackground`

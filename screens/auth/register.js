@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Text, Container, Canvas, Button, Box } from 'components';
-import { useNavigation } from '@react-navigation/core';
-import { StackActions, CommonActions } from '@react-navigation/native';
-import styled from 'styled-components/native';
-import { useAuth } from 'stores/auth';
-import DropDownPicker from 'react-native-dropdown-picker';
-DropDownPicker.setTheme('DARK');
+import React, { useState, useEffect, useRef } from "react";
+import { Text, Container, Canvas, Button, Box } from "components";
+import { useNavigation } from "@react-navigation/core";
+import { StackActions, CommonActions } from "@react-navigation/native";
+import styled from "styled-components/native";
+import { useAuth } from "stores/auth";
+import DropDownPicker from "react-native-dropdown-picker";
+DropDownPicker.setTheme("DARK");
 
 // Import Images
-import ZentbaseLogoPrimary from 'assets/images/zenbase-full-primary-logo.png';
-import { useTheme } from 'stores/theme';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
-import Loader from 'components/loader';
-import { useLoader } from 'stores/loader';
-import axios from 'services/axios';
-import { Picker, PickerIOS } from '@react-native-picker/picker';
-import Country from 'country-state-city/dist/lib/country';
-import State from 'country-state-city/dist/lib/state';
+import ZentbaseLogoPrimary from "assets/images/zenbase-full-primary-logo.png";
+import { useTheme } from "stores/theme";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import Loader from "components/loader";
+import { useLoader } from "stores/loader";
+import axios from "services/axios";
+import { Picker, PickerIOS } from "@react-native-picker/picker";
+import Country from "country-state-city/dist/lib/country";
+import State from "country-state-city/dist/lib/state";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -69,7 +69,7 @@ const TermsAndPrivacyFlex = styled.View`
 const dropdownProps = {
   itemProps: {
     style: {
-      backgroundColor: '#1B1C1E',
+      backgroundColor: "#1B1C1E",
       // height: 45,
       paddingHorizontal: 10,
       paddingVertical: 10,
@@ -77,7 +77,7 @@ const dropdownProps = {
     activeOpacity: 1,
   },
   style: {
-    backgroundColor: '#1B1C1E',
+    backgroundColor: "#1B1C1E",
     height: 45,
     borderRadius: 5,
     marginTop: 10,
@@ -86,13 +86,13 @@ const dropdownProps = {
     zIndex: 10,
   },
   textStyle: {
-    color: '#8F9094',
+    color: "#8F9094",
   },
   labelStyle: {
-    color: 'white',
+    color: "white",
   },
   disabledStyle: {
-    color: 'white',
+    color: "white",
   },
 
   dropDownContainerStyle: {
@@ -112,11 +112,11 @@ export default function register({ navigation }) {
 
   // States
   const [isRegisterEnabled, setIsRegisterEnabled] = useState(false);
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   // const [country, setCountry] = useState('');
   // const [state, setState] = useState('');
 
@@ -149,7 +149,7 @@ export default function register({ navigation }) {
     try {
       const {
         data: { data },
-      } = await axios.post('/auth/register', {
+      } = await axios.post("/auth/register", {
         // name,
         // phone: phoneNumber,
         // username,
@@ -158,12 +158,9 @@ export default function register({ navigation }) {
         country: valueCountry,
         state: valueState,
       });
-      axios.interceptors.request.use((config) => {
-        config.headers.authorization = data?.token;
-        return config;
-      });
+
       login(data);
-      navigation.navigate('SignupBonus');
+      navigation.navigate("SignupBonus");
     } catch (error) {
       axios.handleError(error);
       console.error(error);
@@ -172,7 +169,7 @@ export default function register({ navigation }) {
   };
 
   useEffect(() => {
-    if (email.trim() == '' || password == '') {
+    if (email.trim() == "" || password == "") {
       setIsRegisterEnabled(false);
     } else {
       setIsRegisterEnabled(true);
@@ -276,7 +273,7 @@ export default function register({ navigation }) {
             <FooterFlex>
               <Box h="60px" />
               <Button
-                variant={isRegisterEnabled ? 'primary' : 'disabled'}
+                variant={isRegisterEnabled ? "primary" : "disabled"}
                 title="Continue"
                 block
                 onPress={() => {
@@ -291,7 +288,7 @@ export default function register({ navigation }) {
                   <TouchableOpacity>
                     <Text
                       fontWeight="bold"
-                      style={{ textDecorationLine: 'underline' }}
+                      style={{ textDecorationLine: "underline" }}
                     >
                       Terms of use
                     </Text>
@@ -303,7 +300,7 @@ export default function register({ navigation }) {
                   <TouchableOpacity>
                     <Text
                       fontWeight="bold"
-                      style={{ textDecorationLine: 'underline' }}
+                      style={{ textDecorationLine: "underline" }}
                     >
                       Privacy Policy
                     </Text>
