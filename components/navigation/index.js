@@ -102,6 +102,7 @@ export default function Navigation() {
           <Stack.Screen name="OTP" component={OneTimePassword} />
           <Stack.Screen name="SignupBonus" component={SignupBonus} />
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
+          <Stack.Screen name="Play" component={Play} />
 
           <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
           <Stack.Screen
@@ -119,7 +120,6 @@ export default function Navigation() {
           <Stack.Screen name="DonationThanks" component={DonationThanks} />
           <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
           <Stack.Screen name="SearchModal" component={SearchModal} />
-          <Stack.Screen name="Play" component={Play} />
           <Stack.Screen name="AddJournal" component={AddJournal} />
 
           {/* CTAs */}

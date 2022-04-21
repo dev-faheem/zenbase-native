@@ -32,7 +32,8 @@ import { useAuth } from "stores/auth";
 import ReactNativeShare from "helpers/react-native-share";
 import { useSongQueue } from "stores/song-queue";
 
-const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
+// const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
+const GIVEAWAY_TOKEN_AFTER_SECONDS = 5; // seconds
 const CONTINUE_LISTENING = 60 * 60 * 1; //seconds
 
 const windowsWidth = Dimensions.get("window").width;
@@ -218,6 +219,7 @@ export default function Play({ navigation }) {
   const [continueListening, setContinueListening] = useState(false);
   const clickContinueListeningRef = useRef(false);
   const [zentokens, setZentokens] = useState(0);
+  const [zentokenMined, setZentokenMined] = useState(0);
 
   // Function to Init continue button animation
   const startProgressBarAnimation = () => {
@@ -314,11 +316,11 @@ export default function Play({ navigation }) {
     clearInterval(tokenInterval.current);
   };
 
-  const transactTokens = async () => {
+  const transactTokens = async (isClosingTransaction = true) => {
     if (zentokens <= 0) return;
     try {
       await axios.post("/transactions", {
-        amount: zentokens,
+        amount: zentokens - zentokenMined,
         appreciatedFor: secondsWorth,
         type: "SONG_MINING",
         remarks: "",
@@ -326,7 +328,10 @@ export default function Play({ navigation }) {
           songs: _id,
         },
       });
-      setZentokens(0);
+      if (!isClosingTransaction) {
+        setZentokenMined(zentokenMined + zentokens);
+      }
+      // setZentokens(0);
     } catch (e) {
       console.error(e);
     }
@@ -393,18 +398,23 @@ export default function Play({ navigation }) {
   const onPressClose = async () => {
     try {
       await onPressPause();
-      await transactTokens();
+      if (zentokens == 0) {
+        navigation.goBack();
+        resetSongQueue();
+        return;
+      }
+      navigation.navigate("ClaimToWallet", {
+        transactTokens,
+        zentokens,
+        song,
+        duration,
+        position,
+      });
+      // await transactTokens();
     } catch (e) {
       console.error(e);
     }
-    navigation.goBack();
     resetSongQueue();
-  };
-
-  const onPressPause = async () => {
-    setIsPlaying(false);
-    await audio.pauseAsync();
-    stopTokenTimer();
   };
 
   const playSong = async (data) => {
@@ -434,6 +444,12 @@ export default function Play({ navigation }) {
     setIsPlaying(true);
     await audio.playAsync();
     startTokenTimer();
+  };
+
+  const onPressPause = async () => {
+    setIsPlaying(false);
+    await audio.pauseAsync();
+    stopTokenTimer();
   };
 
   const onSlidingComplete = async (value) => {
