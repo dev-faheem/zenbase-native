@@ -16,8 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [walletAmount, setWalletAmount] = useState(0);
 
   useEffect(() => {
-    // Check async storage if user was logged in previously
-    // If user exists, then load the user into global state
     fetchLatestTokenWorth();
   }, []);
 
@@ -95,6 +93,7 @@ export const AuthProvider = ({ children }) => {
         walletAmount,
         zenTransactions: transactions,
         fetchTransactions,
+        fetchLatestTokenWorth,
       }}
     >
       {children}
