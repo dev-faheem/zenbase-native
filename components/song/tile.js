@@ -93,7 +93,7 @@ export default function SongTile({
   song,
   removable,
   onRemove,
-  inGrid,
+  inGrid = true,
   queue = [],
   mock = false,
 }) {
