@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Text, Container, Canvas, ContextMenu, Button } from "components";
+import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
 import { useRoute } from "@react-navigation/core";
 import styled from "styled-components";
 import axios from "services/axios";
@@ -270,6 +271,7 @@ export default function Play({ navigation }) {
 
   //
   useEffect(() => {
+    activateKeepAwake();
     playAds(
       user.ads || 0,
       () => {},
@@ -279,6 +281,8 @@ export default function Play({ navigation }) {
         setZentokens(zentoken + 30 * secondsWorth);
       }
     );
+
+    return deactivateKeepAwake();
   }, []);
 
   // Continue Listening
