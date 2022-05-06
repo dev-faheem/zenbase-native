@@ -102,14 +102,6 @@ export default function Navigation() {
           <Stack.Screen name="OTP" component={OneTimePassword} />
           <Stack.Screen name="SignupBonus" component={SignupBonus} />
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
-          <Stack.Screen name="Play" component={Play} />
-
-          <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
-          <Stack.Screen
-            name="EnableNotification"
-            component={EnableNotification}
-          />
-          <Stack.Screen name="TotalEarnings" component={TotalEarnings} />
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
@@ -121,6 +113,14 @@ export default function Navigation() {
           <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
           <Stack.Screen name="SearchModal" component={SearchModal} />
           <Stack.Screen name="AddJournal" component={AddJournal} />
+          <Stack.Screen name="Play" component={Play} />
+
+          <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
+          <Stack.Screen
+            name="EnableNotification"
+            component={EnableNotification}
+          />
+          <Stack.Screen name="TotalEarnings" component={TotalEarnings} />
 
           {/* CTAs */}
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />

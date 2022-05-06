@@ -272,6 +272,7 @@ export default function Play({ navigation }) {
   //
   useEffect(() => {
     activateKeepAwake();
+    Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
     playAds(
       user.ads || 0,
       () => {},
@@ -282,7 +283,7 @@ export default function Play({ navigation }) {
       }
     );
 
-    return deactivateKeepAwake();
+    return () => { deactivateKeepAwake() };
   }, []);
 
   // Continue Listening
@@ -680,7 +681,7 @@ export default function Play({ navigation }) {
                   maximumValue={1}
                   minimumTrackTintColor="rgba(255, 255, 255, 0.6)"
                   maximumTrackTintColor="rgba(255, 255, 255, 0.1)"
-                  // value={volume}
+                  value={volume}
                   onValueChange={async (_volume) => {
                     await audio.setVolumeAsync(_volume);
                     // setVolume(_volume);
