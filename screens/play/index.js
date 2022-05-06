@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Text, Container, Canvas, ContextMenu, Button } from "components";
-import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
+import { activateKeepAwake, deactivateKeepAwake } from "expo-keep-awake";
 import { useRoute } from "@react-navigation/core";
 import styled from "styled-components";
 import axios from "services/axios";
@@ -192,7 +192,9 @@ function renderMsToTiming(ms) {
   }
   let zeroFixMinutes = minutes >= 10 ? "" : "0";
   let zeroFixSeconds = seconds >= 10 ? "" : "0";
-  return `${zeroFixMinutes}${minutes}:${zeroFixSeconds}${seconds}`;
+  return `${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
+    seconds || "0"
+  }`;
 }
 
 export default function Play({ navigation }) {
@@ -215,6 +217,7 @@ export default function Play({ navigation }) {
   const [volume, setVolume] = useState(1);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(1);
+  const [carryOver, setCarryOver] = useState(0);
   const [adBonus, setAdBonus] = useState(0);
   const { setLoading, renderLoader } = useLoader();
   const [continueListening, setContinueListening] = useState(false);
@@ -283,7 +286,9 @@ export default function Play({ navigation }) {
       }
     );
 
-    return () => { deactivateKeepAwake() };
+    return () => {
+      deactivateKeepAwake();
+    };
   }, []);
 
   // Continue Listening
@@ -352,6 +357,7 @@ export default function Play({ navigation }) {
     try {
       setLoading(true);
       const { data } = await axios.get(`/songs/${id}`);
+
       await setSong(data.data);
       await setLoading(false);
       await audio.unloadAsync();
@@ -424,7 +430,6 @@ export default function Play({ navigation }) {
 
   const playSong = async (data) => {
     try {
-      console.log({ data });
       await audio.unloadAsync();
       await audio.loadAsync({ uri: data?.source });
       await audio.playAsync();
@@ -436,6 +441,7 @@ export default function Play({ navigation }) {
 
         if (status.didJustFinish) {
           stopTokenTimer();
+          onPressForwards();
         }
       });
 
@@ -472,6 +478,24 @@ export default function Play({ navigation }) {
     }
   };
 
+  const onPressBackwards = async () => {
+    if (queueMetaData.previousIndex > 0) {
+      updateSongQueue(songQueue[queueMetaData.previousIndex]);
+      setCarryOver(carryOver + position);
+      setSongId(songQueue[queueMetaData.previousIndex]);
+    }
+  };
+
+  const onPressForwards = async () => {
+    if (queueMetaData.nextIndex > 0) {
+      updateSongQueue(songQueue[queueMetaData.nextIndex]);
+      setCarryOver(carryOver + position);
+      setSongId(songQueue[queueMetaData.nextIndex]);
+    }
+  };
+
+  const actualPosition = position + carryOver;
+
   return (
     <Canvas>
       {renderLoader()}
@@ -486,8 +510,8 @@ export default function Play({ navigation }) {
           <ZentEarningWrapper>
             <ZentokenImage source={ZentokenIcon} style={{ marginRight: 8 }} />
             <Text fontWeight="600">
-              {renderMsToTiming(position) || "00:00"} •{" "}
-              {position < GIVEAWAY_TOKEN_AFTER_SECONDS * 1000
+              {renderMsToTiming(actualPosition) || "00:00"} •{" "}
+              {actualPosition < GIVEAWAY_TOKEN_AFTER_SECONDS * 1000
                 ? "Earn after 5 minutes"
                 : `${Number(zentokens).toPrecision(4)} ZENT earned`}
             </Text>
@@ -610,14 +634,7 @@ export default function Play({ navigation }) {
               </View>
 
               <SongControls style={{ position: "relative", top: -7 }}>
-                <SongControlsButton
-                  onPress={() => {
-                    if (queueMetaData.previousIndex > 0) {
-                      updateSongQueue(songQueue[queueMetaData.previousIndex]);
-                      setSongId(songQueue[queueMetaData.previousIndex]);
-                    }
-                  }}
-                >
+                <SongControlsButton onPress={onPressBackwards}>
                   <FontAwesome5
                     name="backward"
                     size={24}
@@ -641,14 +658,7 @@ export default function Play({ navigation }) {
                   </SongControlsButton>
                 )}
 
-                <SongControlsButton
-                  onPress={() => {
-                    if (queueMetaData.nextIndex > 0) {
-                      updateSongQueue(songQueue[queueMetaData.nextIndex]);
-                      setSongId(songQueue[queueMetaData.nextIndex]);
-                    }
-                  }}
-                >
+                <SongControlsButton onPress={onPressForwards}>
                   <FontAwesome5
                     name="forward"
                     size={24}

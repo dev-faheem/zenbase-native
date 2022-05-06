@@ -1,8 +1,9 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Dimensions } from "react-native";
+import styled from "styled-components/native";
 
-const CardWrapper = styled.View`
+const CardWrapper = styled.TouchableOpacity`
   margin-top: 20px;
   margin-bottom: 50px;
   margin-right: 10px;
@@ -10,7 +11,7 @@ const CardWrapper = styled.View`
 
 const CardImage = styled.Image`
   border-radius: 5px;
-  width: ${Dimensions.get('window').width * 0.92}px;
+  width: ${Dimensions.get("window").width * 0.92}px;
   height: 225px;
 `;
 
@@ -42,9 +43,22 @@ const Description = styled.Text`
   font-size: 12px;
 `;
 
-export default function ExplorableCard({ name, description, image, isLast = false}) {
+export default function ExplorableCard({
+  name,
+  description,
+  image,
+  link = null,
+  isLast = false,
+}) {
+  const navigation = useNavigation();
   return (
-    <CardWrapper>
+    <CardWrapper
+      onPress={() => {
+        if (link) {
+          navigation.navigate("Play", { _id: link });
+        }
+      }}
+    >
       <CardImage source={image} style={[isLast && { marginRight: 15 }]} />
       <OverlayWrapper>
         <Header>
