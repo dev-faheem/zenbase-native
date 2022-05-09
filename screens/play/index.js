@@ -62,14 +62,14 @@ const SongBackdrop = styled.Image`
 `;
 
 const SongArtworkContainer = styled.View`
-  margin-top: 40px;
-  margin-bottom: 27px;
-  flex-direction: row;
+  margin-top: 5%;
+  margin-bottom: 7.5%;
+  flex-direction: column;
   justify-content: center;
+  align-content: center;
+  align-items: center
 `;
 const SongArtwork = styled.Image`
-  width: ${Math.floor(Dimensions.get("window").width - 44)}px;
-  height: ${Math.floor(Dimensions.get("window").width - 44)}px;
   border-radius: 10px;
 `;
 const SongTitle = styled.Text`
@@ -525,6 +525,9 @@ export default function Play({ navigation }) {
                   shadowColor: "black",
                   shadowOffset: { height: 2 },
                   shadowOpacity: 1,
+                  height: 350,
+                  width: 350,
+                  
                 }}
               />
             </Shadow>
