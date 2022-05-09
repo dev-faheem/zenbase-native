@@ -67,7 +67,8 @@ const SongArtworkContainer = styled.View`
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  align-items: center
+  align-items: center;
+  
 `;
 const SongArtwork = styled.Image`
   border-radius: 10px;
@@ -525,9 +526,8 @@ export default function Play({ navigation }) {
                   shadowColor: "black",
                   shadowOffset: { height: 2 },
                   shadowOpacity: 1,
-                  height: 350,
-                  width: 350,
-                  
+                  height: Dimensions.get('window').height * .5,
+                  width: Dimensions.get('window').width * .9,
                 }}
               />
             </Shadow>
