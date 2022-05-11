@@ -47,6 +47,7 @@ import EnableNotification from "screens/play/enable-notification";
 import TotalEarnings from "screens/play/total-earnings";
 import JournalUpgradeToZenbase from "screens/journal/upgrade-to-zenbase";
 import ChangePassword from "screens/auth/change-password";
+import UserProfile from "screens/followers/user";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -102,6 +103,7 @@ export default function Navigation() {
           <Stack.Screen name="OTP" component={OneTimePassword} />
           <Stack.Screen name="SignupBonus" component={SignupBonus} />
           <Stack.Screen name="ReferFriends" component={ReferFriends} />
+          <Stack.Screen name="UserProfile" component={UserProfile} />
         </Stack.Group>
 
         <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
