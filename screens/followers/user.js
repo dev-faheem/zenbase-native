@@ -103,6 +103,9 @@ function ProfileHeader({
     navigation,
 }) {
     const { theme } = useTheme();
+
+    const { user } = route.params;
+
     let imageSource =
         typeof profilePicture == 'string'
             ? { uri: profilePicture }
@@ -115,7 +118,7 @@ function ProfileHeader({
         >
             <ProfileHeaderOverlay>
                 <ProfileHeaderButtons>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                         <Ionicons
                             name="ios-chevron-back"
                             size={30}
@@ -134,10 +137,10 @@ function ProfileHeader({
                         fontWeight="bold"
                         style={{ marginTop: 8 }}
                     >
-                        Rupinder Singh
+                        {user.name}
                     </Text>
                     <Text color="secondary" fontSize="xl" style={{ marginTop: 8 }}>
-                        @rupinder
+                        @{user.username}
                     </Text>
                     <ProfileHeaderEditButton
                         onPress={() => {
@@ -158,12 +161,13 @@ function ProfileHeader({
 
 export default function UserProfile({ route, navigation }) {
     const { theme } = useTheme();
+    const { user } = route.params;
     const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
 
     return (
         <View style={{ flex: 1 }}>
             <ProfileHeader
-                profilePicture={profileImage}
+                profilePicture={user.image || profileImage}
                 route={route}
                 navigation={navigation}
             />
@@ -172,7 +176,7 @@ export default function UserProfile({ route, navigation }) {
                     <Container>
 
                         <Text fontSize="20" style={{ marginTop: 22, marginBottom: 22 }}>
-                            Recently Played
+                            {user.isArtist ? 'Uploaded Songs': 'Recently Played'}
                         </Text>
 
                         <SongListWrapper>
