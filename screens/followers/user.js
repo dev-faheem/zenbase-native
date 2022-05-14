@@ -15,6 +15,7 @@ import {
 import styled from "styled-components/native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
+import axios from 'services/axios';
 
 // Import Images
 import profileImage from "assets/images/artist.png";
@@ -162,7 +163,38 @@ function ProfileHeader({
 export default function UserProfile({ route, navigation }) {
     const { theme } = useTheme();
     const { user } = route.params;
-    const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
+    const [songs, setSongs] = useState([]);
+
+    useEffect(() => {
+        if (user.isArtist) {
+            fetchArtistSongs();
+        } else {
+            fetchRecentlyPlayedSongs();
+        }
+    }, []);
+
+    const fetchRecentlyPlayedSongs = async () => {
+        try {
+          let recents = user?.recentlyPlayed;
+          if (!recents) {
+            return setSongs([]);
+          }
+          const { data } = await axios.get("/songs/ids?ids=" + recents.join(","));
+          setSongs(data.data.results);
+        } catch (e) {
+          console.error(e);
+        }
+    };
+
+    const fetchArtistSongs = async () => {
+        try {
+            const { data } = await axios.get(`/songs/by-artist/${user._id}`);
+            setSongs(data.data.results);
+          } catch (e) {
+            setSongs([]);
+            console.error(e);
+          }
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -180,12 +212,12 @@ export default function UserProfile({ route, navigation }) {
                         </Text>
 
                         <SongListWrapper>
-                            {recentlyPlayedSongs.map((song) => (
+                            {songs.map((song) => (
                                 <SongTile
                                     style={{ marginBottom: 20 }}
                                     inGrid
                                     song={song}
-                                    queue={recentlyPlayedSongs}
+                                    queue={songs}
                                 />
                             ))}
                         </SongListWrapper>

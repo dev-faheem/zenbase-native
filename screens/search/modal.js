@@ -360,6 +360,10 @@ export default function SearchModal({ navigation }) {
               <TouchableOpacity onPress={async () => {
                 try {
                   await AsyncStorage.removeItem('recents');
+                  updateUser(
+                    "recentlyPlayed",
+                    []
+                  );
                   setRecentlyPlayedSongs([]);
                 } catch (e) {
                   console.log(e);
