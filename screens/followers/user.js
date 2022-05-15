@@ -107,6 +107,26 @@ function ProfileHeader({
 
     const { user } = route.params;
 
+    const [isFollowed, setIsFollowed] = useState(false);
+
+    useEffect(() => {
+        if (user.isFollowed) {
+            setIsFollowed(true);
+        }
+    }, []);
+
+    const toggleFollow = async () => {
+        try {
+            setIsFollowed(!isFollowed);
+
+            const { data } = await axios.post(`/auth/${user._id}/follow`);
+            console.log(data.data);
+          } catch (e) {
+            setIsFollowed(!isFollowed);
+            console.error(e);
+          }
+    }
+
     let imageSource =
         typeof profilePicture == 'string'
             ? { uri: profilePicture }
@@ -144,13 +164,10 @@ function ProfileHeader({
                         @{user.username}
                     </Text>
                     <ProfileHeaderEditButton
-                        onPress={() => {
-                            // navigation.goBack();
-
-                        }}
+                        onPress={toggleFollow}
                     >
                         <Text color="white" fontSize="md">
-                            FOLLOW
+                            {isFollowed?'FOLLOWING':'FOLLOW'}
                         </Text>
                     </ProfileHeaderEditButton>
                 </ProfileHeaderSafeArea>
