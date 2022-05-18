@@ -108,7 +108,7 @@ const SearchBarContainer = styled.View`
 
 const SearchBarWrapper = styled.View`
   flex: 1;
-  height: 60px;
+  height: 32px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;

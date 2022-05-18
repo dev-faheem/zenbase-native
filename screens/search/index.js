@@ -96,7 +96,7 @@ const IconWrapper = styled.View`
 
 const SearchBarWrapper = styled.TouchableOpacity`
   width: 100%;
-  height: 60px;
+  height: 32px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
