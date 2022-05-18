@@ -1,11 +1,11 @@
 // Import Dependencies
-import React from "react";
-import { TouchableOpacity, SafeAreaView, View, Platform } from "react-native";
-import styled from "styled-components/native";
-import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "stores/theme";
-import { BlurView } from "expo-blur";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import React from 'react';
+import { TouchableOpacity, SafeAreaView, View, Platform } from 'react-native';
+import styled from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from 'stores/theme';
+import { BlurView } from 'expo-blur';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TabBarWrapper = styled.View`
     flex-direction: row;
@@ -38,8 +38,8 @@ export default function TabBar({ state, descriptors, navigation }) {
                         options.tabBarLabel !== undefined
                             ? options.tabBarLabel
                             : options.title !== undefined
-                            ? options.title
-                            : route.name;
+                                ? options.title
+                                : route.name;
 
                     const isFocused = state.index === index;
 
@@ -100,9 +100,9 @@ export default function TabBar({ state, descriptors, navigation }) {
                                                     color={
                                                         isFocused
                                                             ? theme.color
-                                                                  .primary
+                                                                .primary
                                                             : theme.color
-                                                                  .secondary
+                                                                .secondary
                                                     }
                                                 />
                                             );
@@ -114,9 +114,9 @@ export default function TabBar({ state, descriptors, navigation }) {
                                                     color={
                                                         isFocused
                                                             ? theme.color
-                                                                  .primary
+                                                                .primary
                                                             : theme.color
-                                                                  .secondary
+                                                                .secondary
                                                     }
                                                 />
                                             );
@@ -128,9 +128,9 @@ export default function TabBar({ state, descriptors, navigation }) {
                                                     color={
                                                         isFocused
                                                             ? theme.color
-                                                                  .primary
+                                                                .primary
                                                             : theme.color
-                                                                  .secondary
+                                                                .secondary
                                                     }
                                                 />
                                             );
@@ -142,9 +142,9 @@ export default function TabBar({ state, descriptors, navigation }) {
                                                     color={
                                                         isFocused
                                                             ? theme.color
-                                                                  .primary
+                                                                .primary
                                                             : theme.color
-                                                                  .secondary
+                                                                .secondary
                                                     }
                                                 />
                                             );
@@ -156,9 +156,9 @@ export default function TabBar({ state, descriptors, navigation }) {
                                                     color={
                                                         isFocused
                                                             ? theme.color
-                                                                  .primary
+                                                                .primary
                                                             : theme.color
-                                                                  .secondary
+                                                                .secondary
                                                     }
                                                 />
                                             );
