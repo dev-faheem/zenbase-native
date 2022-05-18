@@ -201,7 +201,7 @@ export default function Home({ navigation, route }) {
 
           <CategoryList categories={categories} />
           <SongList
-            title="Best New Sounds"
+            title="Best New Meditations"
             songs={bestNewSounds?.data?.results || []}
           />
 
