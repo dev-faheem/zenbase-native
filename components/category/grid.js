@@ -43,7 +43,7 @@ const CategoryGrid = ({ categories = [] }) => {
     <>
       <TitleContainer>
         <Text fontSize="xl" color="white">
-          Browse Vibrations
+          Browse Categories
         </Text>
       </TitleContainer>
 
