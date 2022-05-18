@@ -96,7 +96,7 @@ const IconWrapper = styled.View`
 
 const SearchBarWrapper = styled.TouchableOpacity`
   width: 100%;
-  height: 30px;
+  height: 32px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -218,8 +218,8 @@ export default function Search({ navigation }) {
           </Text>
 
           <SearchBarWrapper onPress={() => navigation.navigate("SearchModal")}>
-            <Ionicons name="search" size={15} color={theme.color.secondary} />
-            <Text color="secondary" fontSize="sm" style={{ marginLeft: 5 }}>
+            <Ionicons name="search" size={25} color={theme.color.secondary} />
+            <Text color="secondary" fontSize="md" style={{ marginLeft: 5 }}>
               Artists, Sounds, Friends, and More
             </Text>
           </SearchBarWrapper>
@@ -280,7 +280,7 @@ export default function Search({ navigation }) {
                           </Text>
                         </SongContent>
 
-                        <IconWrapper style={{ paddingLeft: 5}}>
+                        <IconWrapper style={{ paddingLeft: 5 }}>
                           <TouchableOpacity
                             onPress={(event) => openContextMenu(event, song)}
                           >
@@ -344,7 +344,7 @@ export default function Search({ navigation }) {
             onPress: () => {
               toggleLikedTrack();
             },
-          }: {
+          } : {
             title: "Add to Library",
             icon: <Ionicons name="heart-outline" size={16} color="white" />,
             onPress: () => {
@@ -359,8 +359,7 @@ export default function Search({ navigation }) {
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
             onPress: () => {
               ReactNativeShare(
-                `${user?.name} is inviting you to listen the "${
-                  contextMenuSong?.name || "tunes"
+                `${user?.name} is inviting you to listen the "${contextMenuSong?.name || "tunes"
                 }"! Meditate with ${user?.name} only on Zenbase.`,
                 () => {
                   // Success

@@ -28,7 +28,7 @@
       "bundleIdentifier": "us.zenbase.native",
       "buildNumber": "0.0.5",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-2423909336067009~3903897471"
+        "googleMobileAdsAppId": "ca-app-pub-2423909336067009~1752802852"
       }
     },
     "android": {
@@ -39,7 +39,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-2423909336067009/3903897471"
+        "googleMobileAdsAppId": "ca-app-pub-2423909336067009/1752802852"
       }
     },
     "web": {
