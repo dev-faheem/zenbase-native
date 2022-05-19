@@ -29,6 +29,7 @@ import { useAuth } from 'stores/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReactNativeShare from 'helpers/react-native-share';
 import { useSongQueue } from 'stores/song-queue';
+import useDebounce from 'services/useDebounce';
 
 const windowsWidth = Dimensions.get('window').width;
 const windowsHeight = Dimensions.get('window').height;
@@ -165,6 +166,7 @@ const TrendingFloatingArtistImage = styled.Image`
 
 export default function SearchModal({ navigation }) {
   const [search, setSearch] = useState('');
+  const debouncedSearchTerm = useDebounce(search, 500);
   const { theme } = useTheme();
 
   const { updateSongQueue } = useSongQueue();
@@ -242,14 +244,14 @@ export default function SearchModal({ navigation }) {
   };
 
   useEffect(() => {
-    if (search.trim() != '') {
+    if (debouncedSearchTerm.trim() != '') {
       fetchSongs();
       fetchUsers();
     } else {
       setSongs([]);
       setUsers([]);
     }
-  }, [search]);
+  }, [debouncedSearchTerm]);
 
   const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
 

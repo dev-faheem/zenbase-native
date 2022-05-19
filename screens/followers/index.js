@@ -1,16 +1,18 @@
 // Import Dependencies
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Alert, ScrollView, View, Dimensions} from 'react-native';
 import { Text, Container, Canvas, Button, IOSList, SongTile, NavigationPadding } from "components";
 import styled from "styled-components/native";
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from 'stores/theme';
+import axios from 'services/axios';
 
 // Import Images
 import profileImage from 'assets/images/artist.png';
 
 // Import Profile Header
 import MiniProfileHeader from "screens/profile/header/mini";
+import { useFocusEffect } from "@react-navigation/native";
 
 
 // Styled Component
@@ -21,7 +23,7 @@ const UserListWrapper = styled.View`
   justify-content: space-between;
 `
 
-const UserWrapper = styled.View`
+const UserWrapper = styled.TouchableOpacity`
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -51,6 +53,29 @@ const UserImage = styled.Image`
 export default function Followers({ route, navigation }) {
   const { theme } = useTheme();
   const { title } = route.params;
+
+  const [users, setUsers] = useState([]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchUsers();
+    }, [])
+  );
+
+
+  useEffect(() => {
+    setUsers([]);
+    fetchUsers();
+  }, [title]);
+
+  const fetchUsers = async () => {
+    try {
+      const { data } = await axios.get(`/auth/me/${title.toLowerCase()}`);
+      setUsers(data.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
   
   return (
     <View style={{ flex: 1 }}>
@@ -65,45 +90,15 @@ export default function Followers({ route, navigation }) {
             <Text fontWeight="bold" fontSize="h2" style={{ marginTop: 22, marginBottom: 22 }}>{title}</Text>
 
             <UserListWrapper>
-              <UserWrapper>
-                <UserImage source={profileImage}/>
-                <Text color="secondary">Alexis Morgan</Text>
-              </UserWrapper>
 
-              <UserWrapper>
-                <UserImage source={profileImage}/>
-                <Text color="secondary">Alexis Morgan</Text>
-              </UserWrapper>
-
-              <UserWrapper>
-                <UserImage source={profileImage}/>
-                <Text color="secondary">Alexis Morgan</Text>
-              </UserWrapper>
-
-              <UserWrapper>
-                <UserImage source={profileImage}/>
-                <Text color="secondary">Alexis Morgan</Text>
-              </UserWrapper>
-
-              <UserWrapper>
-                <UserImage source={profileImage}/>
-                <Text color="secondary">Alexis Morgan</Text>
-              </UserWrapper>
-
-              <UserWrapper>
-                <UserImage source={profileImage}/>
-                <Text color="secondary">Alexis Morgan</Text>
-              </UserWrapper>
-
-              <UserWrapper>
-                <UserImage source={profileImage}/>
-                <Text color="secondary">Alexis Morgan</Text>
-              </UserWrapper>
-
-              <UserWrapper>
-                <UserImage source={profileImage}/>
-                <Text color="secondary">Alexis Morgan</Text>
-              </UserWrapper>
+              {users.map(user => {
+                return  <UserWrapper onPress={() => {
+                  navigation.navigate('UserProfile', { user });
+                }}>
+                  <UserImage source={user?.image || profileImage}/>
+                  <Text color="secondary">{user.name}</Text>
+                </UserWrapper>
+              })}
             </UserListWrapper>
 
             <NavigationPadding withSafeAreaInsets />

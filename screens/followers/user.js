@@ -107,20 +107,12 @@ function ProfileHeader({
 
     const { user } = route.params;
 
-    const [isFollowed, setIsFollowed] = useState(false);
-
-    useEffect(() => {
-        if (user.isFollowed) {
-            setIsFollowed(true);
-        }
-    }, []);
+    const [isFollowed, setIsFollowed] = useState(user.isFollowed || false);
 
     const toggleFollow = async () => {
         try {
             setIsFollowed(!isFollowed);
-
             const { data } = await axios.post(`/auth/${user._id}/follow`);
-            console.log(data.data);
           } catch (e) {
             setIsFollowed(!isFollowed);
             console.error(e);
