@@ -44,7 +44,7 @@ const SearchInput = styled.TextInput`
   height: 30px;
   margin-top: 10px;
   margin-bottom: 10px;
-  font-size: ${(props) => props.theme.fontSize.sm};
+  font-size: ${(props) => props.theme.fontSize.md};
 `;
 
 const SongListWrapper = styled.View`
@@ -109,7 +109,7 @@ const SearchBarContainer = styled.View`
 
 const SearchBarWrapper = styled.View`
   flex: 1;
-  height: 30px;
+  height: 32px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -175,7 +175,7 @@ export default function SearchModal({ navigation }) {
   const { user: userAuth, updateUser } = useAuth();
 
   const [contextMenuSong, setContextMenuSong] = useState();
-  
+
   // Context Menu Config
   let contextMenuHeight = 0;
   const [contextMenuConfig, setContextMenuConfig] = useState({
@@ -285,7 +285,7 @@ export default function SearchModal({ navigation }) {
       <Container>
         <SearchBarContainer>
           <SearchBarWrapper>
-            <Ionicons name="search" size={15} color={theme.color.secondary} />
+            <Ionicons name="search" size={25} color={theme.color.secondary} />
             <SearchInput
               autoFocus={true}
               selectionColor={theme.color.primary}
@@ -317,7 +317,7 @@ export default function SearchModal({ navigation }) {
               </HeadingWrapper>
 
               <TrendingWrapper>
-                <TrendingItem onPress={() => {}}>
+                <TrendingItem onPress={() => { }}>
                   <TrendingImageWrapper>
                     <TrendingImage
                       source={ArtistImg}
@@ -329,7 +329,7 @@ export default function SearchModal({ navigation }) {
                   </Text>
                 </TrendingItem>
 
-                <TrendingItem onPress={() => {}}>
+                <TrendingItem onPress={() => { }}>
                   <TrendingImageWrapper>
                     <TrendingImage source={SongImg} />
                     <TrendingFloatingArtistImage source={ArtistImg} />
@@ -339,7 +339,7 @@ export default function SearchModal({ navigation }) {
                   </Text>
                 </TrendingItem>
 
-                <TrendingItem onPress={() => {}}>
+                <TrendingItem onPress={() => { }}>
                   <TrendingImageWrapper>
                     <TrendingImage source={SongImg} />
                     <TrendingFloatingArtistImage source={ArtistImg} />
@@ -421,7 +421,7 @@ export default function SearchModal({ navigation }) {
                     </Text>
                   </SongContent>
 
-                  <IconWrapper style={{ paddingLeft: 5}}>
+                  <IconWrapper style={{ paddingLeft: 5 }}>
                     <TouchableOpacity
                       onPress={(event) => openContextMenu(event, song)}
                     >
@@ -479,7 +479,7 @@ export default function SearchModal({ navigation }) {
                       </Text>
                     </SongContent>
 
-                    <IconWrapper style={{ paddingLeft: 5}}>
+                    <IconWrapper style={{ paddingLeft: 5 }}>
                       <TouchableOpacity
                         onPress={(event) => openContextMenu(event, song)}
                       >
@@ -537,7 +537,7 @@ export default function SearchModal({ navigation }) {
               />
             ),
             onPress: () => {
-             toggleLikedTrack();
+              toggleLikedTrack();
             },
           } : {
             title: 'Add to Library',

@@ -20,7 +20,7 @@ export const CategoryList = ({ categories }) => {
     <>
       <TitleContainer>
         <Text fontSize="xl" color="white">
-          Sounds by Vibration
+          Sounds by Category
         </Text>
       </TitleContainer>
 
