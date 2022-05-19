@@ -59,14 +59,8 @@ export default function Followers({ route, navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       fetchUsers();
-    }, [])
+    }, [title])
   );
-
-
-  useEffect(() => {
-    setUsers([]);
-    fetchUsers();
-  }, [title]);
 
   const fetchUsers = async () => {
     try {
