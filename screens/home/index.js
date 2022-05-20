@@ -8,6 +8,7 @@ import {
   CategoryList,
   Explorables,
   NavigationPadding,
+  Button,
 } from "components";
 import {
   ScrollView,
@@ -77,7 +78,7 @@ export default function Home({ navigation, route }) {
   const bestNewSounds = useSearch();
   const { data: categories } = useCategories();
   const { theme } = useTheme();
-  const { user, walletAmount, logout, fetchTransactions } = useAuth();
+  const { user, walletAmount, logout, fetchTransactions, updateUser } = useAuth();
 
   const [under10MinSongs, setUnder10MinSongs] = useState([]);
   const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
@@ -119,9 +120,14 @@ export default function Home({ navigation, route }) {
     fetchChill();
   }, []);
 
+  // useEffect(() => {
+  //   verifyZenbasePremium()
+  // }, [])
+
   useFocusEffect(
     useCallback(() => {
       fetchTransactions();
+      verifyZenbasePremium();
     }, [])
   );
 
@@ -131,6 +137,18 @@ export default function Home({ navigation, route }) {
       index: 0,
       routes: [{ name: "Login" }],
     });
+  }
+
+  const verifyZenbasePremium = async () => {
+    try{
+      const response = await axios.get('/subscriptions')
+      if(user.isPremium == true && response.data.data.isPremium == false){
+        // User premium has ended
+      }
+      updateUser('isPremium', response.data.data.isPremium)
+    } catch(e){
+      axios.handleError(e)
+    }
   }
 
   return (
