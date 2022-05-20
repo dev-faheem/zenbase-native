@@ -8,6 +8,7 @@ import {
   CategoryList,
   Explorables,
   NavigationPadding,
+  Button,
 } from "components";
 import {
   ScrollView,
@@ -119,9 +120,9 @@ export default function Home({ navigation, route }) {
     fetchChill();
   }, []);
 
-  useEffect(() => {
-    verifyZenbasePremium()
-  }, [])
+  // useEffect(() => {
+  //   verifyZenbasePremium()
+  // }, [])
 
   useFocusEffect(
     useCallback(() => {
@@ -139,9 +140,12 @@ export default function Home({ navigation, route }) {
 
   const verifyZenbasePremium = async () => {
     try{
-      //
+      console.log('Zenbase Premium Check');
+      const response = await axios.get('/auth/premium')
+      console.log(response.data.data)
     } catch(e){
-      console.error(e)
+      console.log('Premium check error')
+      console.error(e.response.request)
     }
   }
 
@@ -169,6 +173,7 @@ export default function Home({ navigation, route }) {
           </Text>
           <ActivelyListing />
         </Container>
+        <Button onPress={verifyZenbasePremium} title="Press Me" />
 
         <Explorables />
 
