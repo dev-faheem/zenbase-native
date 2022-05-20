@@ -78,7 +78,7 @@ export default function Home({ navigation, route }) {
   const bestNewSounds = useSearch();
   const { data: categories } = useCategories();
   const { theme } = useTheme();
-  const { user, walletAmount, logout, fetchTransactions } = useAuth();
+  const { user, walletAmount, logout, fetchTransactions, updateUser } = useAuth();
 
   const [under10MinSongs, setUnder10MinSongs] = useState([]);
   const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
@@ -127,6 +127,7 @@ export default function Home({ navigation, route }) {
   useFocusEffect(
     useCallback(() => {
       fetchTransactions();
+      verifyZenbasePremium();
     }, [])
   );
 
@@ -140,12 +141,13 @@ export default function Home({ navigation, route }) {
 
   const verifyZenbasePremium = async () => {
     try{
-      console.log('Zenbase Premium Check');
-      const response = await axios.get('/auth/premium')
-      console.log(response.data.data)
+      const response = await axios.get('/subscriptions')
+      if(user.isPremium == true && response.data.data.isPremium == false){
+        // User premium has ended
+      }
+      updateUser('isPremium', response.data.data.isPremium)
     } catch(e){
-      console.log('Premium check error')
-      console.error(e.response.request)
+      axios.handleError(e)
     }
   }
 
@@ -173,7 +175,6 @@ export default function Home({ navigation, route }) {
           </Text>
           <ActivelyListing />
         </Container>
-        <Button onPress={verifyZenbasePremium} title="Press Me" />
 
         <Explorables />
 
