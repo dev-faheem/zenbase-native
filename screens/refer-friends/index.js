@@ -64,7 +64,7 @@ export default function ReferFriends({ route, navigation }) {
                     <InfoFooter>
                         <Button title='Invite friends' block onPress={() => inviteFriend(`${user?.name} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`)} />
                         <Box h='10px' />
-                        <Button title='Skip' variant='secondary' block onPress={() => { navigation.navigate('ZenbaseAds', { isForLogin: true }) }} />
+                        <Button title='Skip' variant='secondary' block onPress={() => { navigation.navigate('PremiumTrial') }} />
                     </InfoFooter>
                 </InfoWrapper>
             </Container>

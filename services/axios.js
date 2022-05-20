@@ -17,14 +17,14 @@ axios.handleError = (error) => {
 //   return request;
 // });
 
-axios.interceptors.response.use((response) => {
-  // console.log("Response:", JSON.stringify(response, null, 2));
-  console.log("Axios Response", {
-    url: `${response.request._method} ${response.request._url}`,
-    data: response.data?.data || response.data,
-    code: response.status,
-  });
-  return response;
-});
+// axios.interceptors.response.use((response) => {
+//   // console.log("Response:", JSON.stringify(response, null, 2));
+//   console.log("Axios Response", {
+//     url: `${response.request._method} ${response.request._url}`,
+//     data: response.data?.data || response.data,
+//     code: response.status,
+//   });
+//   return response;
+// });
 
 export default axios;

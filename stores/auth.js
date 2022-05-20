@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
       await axios.patch("/auth/" + field, { value });
       const userData = { ...user, [field]: value }
       setUser(userData);
-      await AsyncStorage.setItem("@zenbase_user", userData);
+      await AsyncStorage.setItem("@zenbase_user", JSON.stringify(userData));
     } catch (e) {
       axios.handleError(e);
     }
