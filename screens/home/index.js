@@ -119,6 +119,10 @@ export default function Home({ navigation, route }) {
     fetchChill();
   }, []);
 
+  useEffect(() => {
+    verifyZenbasePremium()
+  }, [])
+
   useFocusEffect(
     useCallback(() => {
       fetchTransactions();
@@ -131,6 +135,14 @@ export default function Home({ navigation, route }) {
       index: 0,
       routes: [{ name: "Login" }],
     });
+  }
+
+  const verifyZenbasePremium = async () => {
+    try{
+      //
+    } catch(e){
+      console.error(e)
+    }
   }
 
   return (
