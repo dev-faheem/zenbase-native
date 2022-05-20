@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from "stores/theme";
 import { useNavigation } from "@react-navigation/core";
 import Constants from 'expo-constants';
+import { useAuth } from "stores/auth";
 
 // Styled Component
 /**
@@ -79,8 +80,13 @@ export default function MiniProfileHeader({
     const { theme } = useTheme();
     const navigation = useNavigation();
 
-    const imageSource = typeof profilePicture == 'string' ? { uri: profilePicture } : profilePicture;
+    let imageSource = typeof profilePicture == 'string' ? { uri: profilePicture } : profilePicture;
 
+    const { user } = useAuth();
+
+    if (user.image) {
+      imageSource = { uri: user.image };
+    }
     return <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == 'android' ? 35 : 100} >
         <ProfileHeaderOverlay>
             <ProfileHeaderButtons>
@@ -100,7 +106,7 @@ export default function MiniProfileHeader({
             <ProfileHeaderSafeArea>
                 <ProfileHeaderImageWrapper>
                     <ProfileHeaderImage source={imageSource} resizeMode='cover' />
-                    <Text style={{ marginTop: 4 }}>Ella Loppez</Text>
+                    <Text style={{ marginTop: 4 }}>{user.name}</Text>
                 </ProfileHeaderImageWrapper>
             </ProfileHeaderSafeArea>
 

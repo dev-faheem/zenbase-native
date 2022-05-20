@@ -85,37 +85,37 @@ export default function Profile({ route, navigation }) {
                 //     navigation.navigate('Sounds');
                 //   }
                 // },
-                // {
-                //   icon: (
-                //     <FontAwesome5
-                //       name="users"
-                //       size={20}
-                //       color={theme.color.primary}
-                //     />
-                //   ),
-                //   title: 'Followers',
-                //   onPress: () => {
-                //     navigation.navigate('Followers', {
-                //       title: 'Followers',
-                //     });
-                //   },
-                // },
-                // {
-                //   icon: (
-                //     <FontAwesome5
-                //       name="user-alt"
-                //       size={19}
-                //       color={theme.color.primary}
-                //       style={{ marginLeft: 2, marginRight: 3 }}
-                //     />
-                //   ),
-                //   title: 'Following',
-                //   onPress: () => {
-                //     navigation.navigate('Followers', {
-                //       title: 'Following',
-                //     });
-                //   },
-                // },
+                {
+                  icon: (
+                    <FontAwesome5
+                      name="users"
+                      size={20}
+                      color={theme.color.primary}
+                    />
+                  ),
+                  title: 'Followers',
+                  onPress: () => {
+                    navigation.navigate('Followers', {
+                      title: 'Followers',
+                    });
+                  },
+                },
+                {
+                  icon: (
+                    <FontAwesome5
+                      name="user-alt"
+                      size={19}
+                      color={theme.color.primary}
+                      style={{ marginLeft: 2, marginRight: 3 }}
+                    />
+                  ),
+                  title: 'Following',
+                  onPress: () => {
+                    navigation.navigate('Followers', {
+                      title: 'Following',
+                    });
+                  },
+                },
                 {
                   icon: (
                     <Ionicons

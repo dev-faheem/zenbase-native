@@ -380,10 +380,14 @@ export default function Play({ navigation }) {
         recents = [id, ...recents];
       }
       recents = [...new Set(recents)];
-      if (recents.length > 5) {
+      if (recents.length > 8) {
         recents.pop();
       }
       await AsyncStorage.setItem("recents", JSON.stringify(recents));
+      updateUser(
+        "recentlyPlayed",
+        recents
+      );
     } catch (e) {
       console.error(e);
     }
