@@ -609,7 +609,7 @@ export default function Play({ navigation }) {
           {!continueListening && (
             <ScreenContainer>
               <View>
-                <SongTitle>{song?.name || "Song Name"}</SongTitle>
+                <SongTitle numberOfLines={2}>{song?.name || "Song Name"}</SongTitle>
                 <SongArtist>
                   {song?.artist
                     ?.map((artist) => {
