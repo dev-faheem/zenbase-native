@@ -530,8 +530,8 @@ export default function Play({ navigation }) {
                   shadowColor: "black",
                   shadowOffset: { height: 2 },
                   shadowOpacity: 1,
-                  height: Dimensions.get('window').height * .5,
-                  width: Dimensions.get('window').width * .9,
+                  height: windowsWidth * 0.9 < windowsHeight * 0.5 ? windowsWidth * 0.9 :windowsHeight * 0.5 ,
+                  width: windowsWidth * 0.9,
                 }}
               />
             </Shadow>

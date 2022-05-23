@@ -11,6 +11,7 @@ const TabBarWrapper = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: ${(props) => props.theme.spacing.xxl};
 `;
 
 export default function TabBar({ state, descriptors, navigation }) {
