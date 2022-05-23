@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   Text,
   Container,
-  Canvas,
   Box,
   SongList,
   CategoryList,
@@ -73,12 +72,26 @@ const ZentImage = styled.Image`
 `;
 
 export default function Home({ navigation, route }) {
+  const { user, walletAmount, logout, fetchTransactions, updateUser } =
+    useAuth();
+
+  // if (route.params?.performLogout === true) {
+  //   logout();
+  //   AsyncStorageLib.clear();
+  //   navigation.reset({
+  //     index: 0,
+  //     routes: [{ name: "Login" }],
+  //   });
+
+  //   return <></>;
+  // }
+
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const bestNewSounds = useSearch();
   const { data: categories } = useCategories();
   const { theme } = useTheme();
-  const { user, walletAmount, logout, fetchTransactions, updateUser } = useAuth();
+
 
   const [under10MinSongs, setUnder10MinSongs] = useState([]);
   const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
@@ -131,25 +144,17 @@ export default function Home({ navigation, route }) {
     }, [])
   );
 
-  if (route.params?.performLogout === true) {
-    logout();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
-  }
-
   const verifyZenbasePremium = async () => {
-    try{
-      const response = await axios.get('/subscriptions')
-      if(user.isPremium == true && response.data.data.isPremium == false){
+    try {
+      const response = await axios.get("/subscriptions");
+      if (user.isPremium == true && response.data.data.isPremium == false) {
         // User premium has ended
       }
-      updateUser('isPremium', response.data.data.isPremium)
-    } catch(e){
-      axios.handleError(e)
+      updateUser("isPremium", response.data.data.isPremium);
+    } catch (e) {
+      axios.handleError(e);
     }
-  }
+  };
 
   return (
     <>
