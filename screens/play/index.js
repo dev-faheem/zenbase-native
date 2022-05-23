@@ -68,7 +68,6 @@ const SongArtworkContainer = styled.View`
   justify-content: center;
   align-content: center;
   align-items: center;
-  
 `;
 const SongArtwork = styled.Image`
   border-radius: 10px;
@@ -362,10 +361,12 @@ export default function Play({ navigation }) {
       await setSong(data.data);
       await setLoading(false);
       await audio.unloadAsync();
+      await setCarryOver(carryOver + position);
       await setPosition(0);
       await setDuration(1);
       await setIsPlaying(false);
       await playSong(data.data);
+
     } catch (e) {
       axios.handleError(e);
     }
@@ -384,10 +385,7 @@ export default function Play({ navigation }) {
         recents.pop();
       }
       await AsyncStorage.setItem("recents", JSON.stringify(recents));
-      updateUser(
-        "recentlyPlayed",
-        recents
-      );
+      updateUser("recentlyPlayed", recents);
     } catch (e) {
       console.error(e);
     }
@@ -438,6 +436,7 @@ export default function Play({ navigation }) {
       await audio.unloadAsync();
       await audio.loadAsync({ uri: data?.source });
       await audio.playAsync();
+      await audio.setVolumeAsync(previousVolumeRef.current);
 
       startTokenTimer();
       audio.setOnPlaybackStatusUpdate((status) => {
@@ -486,7 +485,6 @@ export default function Play({ navigation }) {
   const onPressBackwards = async () => {
     if (queueMetaData.previousIndex > 0) {
       updateSongQueue(songQueue[queueMetaData.previousIndex]);
-      setCarryOver(carryOver + position);
       setSongId(songQueue[queueMetaData.previousIndex]);
     }
   };
@@ -494,12 +492,13 @@ export default function Play({ navigation }) {
   const onPressForwards = async () => {
     if (queueMetaData.nextIndex > 0) {
       updateSongQueue(songQueue[queueMetaData.nextIndex]);
-      setCarryOver(carryOver + position);
       setSongId(songQueue[queueMetaData.nextIndex]);
     }
   };
 
-  const actualPosition = position + carryOver;
+  const previousVolumeRef = useRef(1);
+
+  const actualPosition = (position + carryOver) || carryOver;
 
   return (
     <Canvas>
@@ -530,8 +529,8 @@ export default function Play({ navigation }) {
                   shadowColor: "black",
                   shadowOffset: { height: 2 },
                   shadowOpacity: 1,
-                  height: Dimensions.get('window').height * .5,
-                  width: Dimensions.get('window').width * .9,
+                  height: Dimensions.get("window").height * 0.5,
+                  width: Dimensions.get("window").width * 0.9,
                 }}
               />
             </Shadow>
@@ -700,6 +699,7 @@ export default function Play({ navigation }) {
                   maximumTrackTintColor="rgba(255, 255, 255, 0.1)"
                   value={volume}
                   onValueChange={async (_volume) => {
+                    previousVolumeRef.current = _volume
                     await audio.setVolumeAsync(_volume);
                     // setVolume(_volume);
                   }}
