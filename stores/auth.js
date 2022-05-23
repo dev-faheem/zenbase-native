@@ -68,7 +68,9 @@ export const AuthProvider = ({ children }) => {
     if (!isLoggedIn) return;
     try {
       await axios.patch("/auth/" + field, { value });
-      setUser({ ...user, [field]: value });
+      const userData = { ...user, [field]: value }
+      setUser(userData);
+      await AsyncStorage.setItem("@zenbase_user", JSON.stringify(userData));
     } catch (e) {
       axios.handleError(e);
     }

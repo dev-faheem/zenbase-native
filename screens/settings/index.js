@@ -25,6 +25,7 @@ import ProfileHeader from "screens/profile/header";
 import { useAuth } from "stores/auth";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import ReactNativeShare from "helpers/react-native-share";
+import AsyncStorageLib from "@react-native-async-storage/async-storage";
 
 // Styled Component
 const SwitchWrapper = styled.View`
@@ -168,7 +169,13 @@ export default function Settings({ route }) {
                     </View>
                   ),
                   title: "Sign Out",
-                  onPress: () => {
+                  onPress: async () => {
+                    await AsyncStorageLib.clear();
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: "Login" }],
+                    });
+                    return;
                     navigation.navigate("Home", {
                       performLogout: true,
                     });
