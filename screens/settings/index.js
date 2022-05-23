@@ -47,7 +47,7 @@ export default function Settings({ route }) {
   const { user, updateUser, logout } = useAuth();
   // States
   const [autoRenew, setAutoRenew] = useState(
-    user?.renewZenbasePremiumAutomatically || false
+    user ?.renewZenbasePremiumAutomatically || false
   );
 
   const toggleAutoRenew = () => {
@@ -55,7 +55,7 @@ export default function Settings({ route }) {
   };
 
   useEffect(() => {
-    if (user?.renewZenbasePremiumAutomatically != autoRenew) {
+    if (user ?.renewZenbasePremiumAutomatically != autoRenew) {
       updateUser("renewZenbasePremiumAutomatically", autoRenew);
     }
   }, [autoRenew]);
@@ -108,7 +108,7 @@ export default function Settings({ route }) {
                   title: "Invite Friends",
                   onPress: () =>
                     inviteFriend(
-                      `${user?.name} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`
+                      `${user ?.name} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`
                     ),
                 },
                 {
@@ -120,7 +120,7 @@ export default function Settings({ route }) {
                     />
                   ),
                   title: "Zenbase Premium",
-                  onPress: () => {},
+                  onPress: () => { },
                 },
                 {
                   icon: (
@@ -143,8 +143,8 @@ export default function Settings({ route }) {
                       resizeMode="cover"
                     />
                   ),
-                  title: "Zenbase Rewards",
-                  onPress: () => {},
+                  title: "Rewards",
+                  onPress: () => { },
                 },
                 {
                   icon: (
