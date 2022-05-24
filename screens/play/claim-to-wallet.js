@@ -94,6 +94,8 @@ const calculateLength = (_duration) => {
 export default function ClaimToWallet({ route, navigation }) {
   const { transactTokens, zentokens, song, position, duration } = route.params;
 
+  const is100thMeditation = false
+
   const onPressClaimToWallet = async () => {
     await transactTokens();
     navigation.navigate("Wallet");
@@ -222,9 +224,9 @@ export default function ClaimToWallet({ route, navigation }) {
               <Text fontSize="h2" fontWeight="bold">
                 You’ve received {Number(zentokens).toPrecision(2)} ZENT
               </Text>
-              {/* <Text fontSize="h2" fontWeight="bold" color="primary">
+              {is100thMeditation && <Text fontSize="h2" fontWeight="bold" color="primary">
                 That’s your 100th meditation!
-              </Text> */}
+              </Text>}
             </InfoBody>
             <InfoFooter>
               <Button

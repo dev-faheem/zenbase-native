@@ -170,7 +170,8 @@ export default function Settings({ route }) {
                   ),
                   title: "Sign Out",
                   onPress: async () => {
-                    await AsyncStorageLib.clear();
+                    await AsyncStorageLib.removeItem('recents');
+                    await AsyncStorageLib.removeItem('@zenbase_user');
                     navigation.reset({
                       index: 0,
                       routes: [{ name: "Login" }],
