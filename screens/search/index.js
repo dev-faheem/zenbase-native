@@ -182,8 +182,16 @@ export default function Search({ navigation }) {
         return setRecentlyPlayedSongs([]);
       }
       const { data } = await axios.get("/songs/ids?ids=" + recents.join(","));
-      setSongQueue(data.data.results.map(song => song?._id));
-      let recentSongs = spliceIntoChunks(data.data.results, 4);
+      const songs = [];
+
+      for (let songId of recents) {
+        const song = data.data.results.find(song => song._id == songId)
+        if (song) {
+          songs.push(song);
+        }
+      }
+      setSongQueue(songs.map(song => song._id));
+      let recentSongs = spliceIntoChunks(songs, 4);
       setRecentlyPlayedSongs(recentSongs);
     } catch (e) {
       console.error(e);

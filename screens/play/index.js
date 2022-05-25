@@ -378,9 +378,9 @@ export default function Play({ navigation }) {
       if (!recents) {
         recents = [id];
       } else {
-        recents = [id, ...recents];
+        recents = [id, ...recents.filter(songId => songId != id)];
       }
-      recents = [...new Set(recents)];
+
       if (recents.length > 8) {
         recents.pop();
       }
@@ -483,14 +483,14 @@ export default function Play({ navigation }) {
   };
 
   const onPressBackwards = async () => {
-    if (queueMetaData.previousIndex > 0) {
+    if (queueMetaData.previousIndex >= 0) {
       updateSongQueue(songQueue[queueMetaData.previousIndex]);
       setSongId(songQueue[queueMetaData.previousIndex]);
     }
   };
 
   const onPressForwards = async () => {
-    if (queueMetaData.nextIndex > 0) {
+    if (queueMetaData.nextIndex >= 0) {
       updateSongQueue(songQueue[queueMetaData.nextIndex]);
       setSongId(songQueue[queueMetaData.nextIndex]);
     }
@@ -678,7 +678,7 @@ export default function Play({ navigation }) {
               </SongControls>
 
               {/* Volume Slider */}
-              <VolumnSliderWrapper>
+              {/* <VolumnSliderWrapper>
                 <Ionicons
                   name="ios-volume-off"
                   color="rgba(255, 255, 255, 0.7)"
@@ -709,7 +709,7 @@ export default function Play({ navigation }) {
                   color="rgba(255, 255, 255, 0.7)"
                   size={25}
                 />
-              </VolumnSliderWrapper>
+              </VolumnSliderWrapper> */}
 
               <SongControls style={{ marginBottom: 20, marginTop: 10 }}>
                 <OptionButton

@@ -261,12 +261,20 @@ export default function SearchModal({ navigation }) {
 
   const fetchRecentlyPlayedSongs = async () => {
     try {
-      let recents = JSON.parse(await AsyncStorage.getItem('recents'));
+      let recents = JSON.parse(await AsyncStorage.getItem("recents"));
       if (!recents) {
         return setRecentlyPlayedSongs([]);
       }
-      const { data } = await axios.get('/songs/ids?ids=' + recents.join(','));
-      setRecentlyPlayedSongs(data.data.results);
+      const { data } = await axios.get("/songs/ids?ids=" + recents.join(","));
+      const songs = [];
+
+      for (let songId of recents) {
+        const song = data.data.results.find(song => song._id == songId)
+        if (song) {
+          songs.push(song);
+        }
+      }
+      setRecentlyPlayedSongs(songs);
     } catch (e) {
       console.error(e);
     }
