@@ -287,6 +287,7 @@ export default function SearchModal({ navigation }) {
           <SearchBarWrapper>
             <Ionicons name="search" size={25} color={theme.color.secondary} />
             <SearchInput
+              returnKeyType="done"
               autoFocus={true}
               selectionColor={theme.color.primary}
               placeholder="Artists, Sounds, Friends, and More"
