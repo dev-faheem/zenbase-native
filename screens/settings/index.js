@@ -143,7 +143,7 @@ export default function Settings({ route }) {
                       resizeMode="cover"
                     />
                   ),
-                  title: "Zenbase Rewards",
+                  title: "Rewards",
                   onPress: () => {},
                 },
                 {

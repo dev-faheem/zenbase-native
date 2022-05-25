@@ -305,7 +305,6 @@ export default function AddJournal({ navigation }) {
             </Text>
             <JournalText onPress={() => setIsTextInputView(true)}>
               <Text
-                numberOfLines={10}
                 style={{ color: 'rgba(247, 248, 250, 0.9)' }}
                 numberOfLines={100}
               >
@@ -391,6 +390,7 @@ export default function AddJournal({ navigation }) {
               </Container>
               <TextAreaWrapper>
                 <JournalTitleInput
+                  returnKeyType="done"
                   autoFocus={true}
                   selectionColor="rgba(255,255,255,0.5)"
                   placeholderTextColor="#F7F8FA"
@@ -403,6 +403,7 @@ export default function AddJournal({ navigation }) {
                 />
 
                 <JournalDescriptionInput
+                  returnKeyType="done"
                   selectionColor="rgba(255,255,255,0.5)"
                   placeholderTextColor="#F7F8FA"
                   placeholder="Write how you’re feeling here..."

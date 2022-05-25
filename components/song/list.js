@@ -32,7 +32,7 @@ export default function SongList({
   return (
     <>
       <TitleContainer>
-        <Text fontSize="xl" color="white">
+        <Text fontWeight="600" fontSize="xl" color="white">
           {title}
         </Text>
 

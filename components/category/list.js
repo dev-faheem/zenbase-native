@@ -19,7 +19,7 @@ export const CategoryList = ({ categories }) => {
   return (
     <>
       <TitleContainer>
-        <Text fontSize="xl" color="white">
+        <Text fontWeight="600" fontSize="xl" color="white">
           Sounds by Category
         </Text>
       </TitleContainer>
