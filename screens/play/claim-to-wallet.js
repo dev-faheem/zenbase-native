@@ -105,7 +105,8 @@ export default function ClaimToWallet({ route, navigation }) {
 
   return (
     <Canvas>
-      <BackgroundImage source={ConfettiImage} resizeMode="cover">
+      {/* <BackgroundImage source={ConfettiImage} resizeMode="cover"> */}
+      <BackgroundImage>
         <ConfettiCannon
           count={100}
           fallSpeed={2000}
