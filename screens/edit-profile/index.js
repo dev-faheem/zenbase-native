@@ -89,7 +89,7 @@ export default function EditProfile({ route, navigation }) {
   // Profile Image
   const [image, setImage] = useState(null);
 
-  const { user, updateUser, updateUserLocal } = useAuth();
+  const { user, updateUser, updateUserLocal, setUser } = useAuth();
 
   // States
   const [isProfileUpdated, setIsProfileUpdated] = useState(false);
@@ -146,16 +146,27 @@ export default function EditProfile({ route, navigation }) {
     if (isProfileUpdated) {
       // Logic to save profile changes
       if (user?.name != fullname) {
-        updateUser('name', fullname);
+        await updateUser('name', fullname, false);
+        setUser({
+          ...user,
+          name: fullname,
+        })
       }
 
       try {
         if (user?.username != username) {
-          updateUser('username', username);
-        }
+          await updateUser('username', username, false);
+          setUser({
+            ...user,
+            name: fullname,
+            username
+          })
+      }
       } catch (e) {
         alert('Username already exists.');
       }
+
+
 
       // Close Edit Profile Model after updating profile
       navigation.goBack();

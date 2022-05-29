@@ -151,6 +151,7 @@ export default function Home({ navigation, route }) {
         // User premium has ended
       }
       updateUser("isPremium", response.data.data.isPremium);
+      updateUserLocal("hours", response.data.data.hours)
     } catch (e) {
       axios.handleError(e);
     }

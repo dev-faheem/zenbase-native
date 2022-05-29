@@ -64,20 +64,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const updateUser = async (field, value) => {
+  const updateUser = async (field, value, updateState = true) => {
     if (!isLoggedIn) return;
     try {
       await axios.patch("/auth/" + field, { value });
-      const userData = { ...user, [field]: value }
-      setUser(userData);
-      await AsyncStorage.setItem("@zenbase_user", JSON.stringify(userData));
+      if (updateState) {
+        const userData = { ...user, [field]: value };
+        await setUser(userData);
+        await AsyncStorage.setItem("@zenbase_user", JSON.stringify(userData));
+      }
     } catch (e) {
       axios.handleError(e);
     }
   };
 
-  const updateUserLocal = (field, value) => {
-    setUser({ ...user, [field]: value });
+  const updateUserLocal = async (field, value) => {
+    await setUser({ ...user, [field]: value });
   };
 
   return (
@@ -85,6 +87,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         isLoggedIn,
+        setUser,
         login,
         logout,
         giveToken,

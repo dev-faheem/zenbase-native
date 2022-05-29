@@ -111,17 +111,27 @@ export default function Settings({ route }) {
                       `${user?.name} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`
                     ),
                 },
-                {
-                  icon: (
-                    <Image
-                      source={ZenbaseVector}
-                      style={{ marginRight: 3, width: 23, height: 23 }}
-                      resizeMode="contain"
-                    />
-                  ),
-                  title: "Zenbase Premium",
-                  onPress: () => {},
-                },
+                user?.isPremium
+                  ? {
+                      icon: (
+                        <Image
+                          source={ZenbaseVector}
+                          style={{ marginRight: 3, width: 23, height: 23 }}
+                          resizeMode="contain"
+                        />
+                      ),
+                      title: user?.isPremium
+                        ? "Cancel Zenbase Premium"
+                        : "Zenbase Premium",
+                      onPress: () => {
+                        if (user?.isPremium) {
+                          navigation.navigate("CancelPremium");
+                        } else {
+                          navigation.navigate("");
+                        }
+                      },
+                    }
+                  : null,
                 {
                   icon: (
                     <Image
@@ -170,8 +180,8 @@ export default function Settings({ route }) {
                   ),
                   title: "Sign Out",
                   onPress: async () => {
-                    await AsyncStorageLib.removeItem('recents');
-                    await AsyncStorageLib.removeItem('@zenbase_user');
+                    await AsyncStorageLib.removeItem("recents");
+                    await AsyncStorageLib.removeItem("@zenbase_user");
                     navigation.reset({
                       index: 0,
                       routes: [{ name: "Login" }],
@@ -182,7 +192,7 @@ export default function Settings({ route }) {
                     });
                   },
                 },
-              ]}
+              ].filter((_) => _ != null)}
             />
             <SwitchWrapper>
               <Text numberOfLines={1}>Renew Zenbase Premium Automatically</Text>

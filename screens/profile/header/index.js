@@ -108,8 +108,6 @@ export default function ProfileHeader({
     imageSource = { uri: user.image };
   }
 
-  console.log({ user });
-
   return (
     <ProfileHeaderWrapper
       source={imageSource}
