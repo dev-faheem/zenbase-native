@@ -3,5 +3,5 @@ export default {
   GOOGLE_ADMOB_ADUNIT: "ca-app-pub-2423909336067009/1752802852",
   STRIPE_KEY:
     "pk_live_51KBv53KKBDWbGUnY8YFKcBbDoZfW4HLgm8zctS3c7fHkMImvWpFyICPFWofPVD09IachL5L0IBmdu58TjlYYBzex00KPykfkLI",
-  STRIPE_MERCHANT_ID: "us.zenbase.merchant",
+  STRIPE_MERCHANT_ID: "merchant.zenbase.us",
 };
