@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }) => {
     // Save user to async storage
     const serializedUser = JSON.stringify(_user);
     await AsyncStorage.setItem("@zenbase_user", serializedUser);
+    await AsyncStorage.setItem("recents", JSON.stringify(_user?.recentlyPlayed || []));
   };
 
   const logout = async () => {
