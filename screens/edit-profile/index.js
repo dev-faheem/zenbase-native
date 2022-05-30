@@ -86,13 +86,13 @@ export default function EditProfile({ route, navigation }) {
   // Theme Configuration
   const { theme } = useTheme();
 
-  // Profile Image
-  const [image, setImage] = useState(null);
-
   const { user, updateUser, updateUserLocal, setUser } = useAuth();
-
+  
+  // Profile Image
+  const [image, setImage] = useState(user?.image || null);
   // States
   const [isProfileUpdated, setIsProfileUpdated] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [fullname, setFullname] = useState(user?.name);
   const [username, setUsername] = useState(user?.username);
 
@@ -144,6 +144,8 @@ export default function EditProfile({ route, navigation }) {
   // Save Changes
   const saveChanges = async () => {
     if (isProfileUpdated) {
+      setIsProfileUpdated(false);
+      setIsUpdating(true);
       // Logic to save profile changes
       if (user?.name != fullname) {
         await updateUser('name', fullname, false);
@@ -166,8 +168,7 @@ export default function EditProfile({ route, navigation }) {
         alert('Username already exists.');
       }
 
-
-
+      setIsUpdating(false);
       // Close Edit Profile Model after updating profile
       navigation.goBack();
     }
@@ -189,7 +190,7 @@ export default function EditProfile({ route, navigation }) {
         </TouchableOpacity>
         <Button
           variant={isProfileUpdated ? 'silent' : 'silentDisabled'}
-          title="Done"
+          title={isUpdating ? "Loading..." : "Done"}
           onPress={saveChanges}
         />
       </EditProfileHeader>
