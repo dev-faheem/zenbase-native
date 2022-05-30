@@ -20,6 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 // Import Images
 import ConfettiImage from "assets/images/confetti.png";
 import wallpaper1 from "assets/images/wallpapers/wallpaper-1.png";
+import axios from "services/axios";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -98,7 +99,7 @@ export default function ClaimToWallet({ route, navigation }) {
   const { transactTokens, zentokens, song, position, duration } = route.params;
   const {secondsWorth} = useAuth()
 
-  const is100thMeditation = false
+  const [is100thMeditation, setIs100thMeditation] = useState(false)
 
   const onPressClaimToWallet = async () => {
     await transactTokens();
@@ -107,7 +108,17 @@ export default function ClaimToWallet({ route, navigation }) {
 
   useEffect(() => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    fetch100thMeditation()
   }, []);
+
+  const fetch100thMeditation = async () => {
+    try{
+      const response = await axios.get('/auth/meditation-100')
+      setIs100thMeditation(response?.data?.data?.is100thMeditation || false)
+    } catch(e){
+      axios.handleError(e)
+    }
+  }
 
   return (
     <Canvas>
