@@ -5,7 +5,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "production": "expo start --no-dev --minify"
+    "production": "expo start --no-dev --minify",
+    "build:ios": "npx eas build --platform=ios",
+    "build:android": "npx eas build --platform=android"
   },
   "dependencies": {
     "@miblanchard/react-native-slider": "^2.1.0",
