@@ -162,7 +162,7 @@ function History({ ZentBanner }) {
                 <WalletHistoryListText>
                   <Text fontSize="lg" numberOfLines={1}>
                     {transactionListenDuration(transaction)} •{" "}
-                    {Number(transaction.amount).toPrecision(6)} ZENT
+                    {Number(transaction.amount).toFixed(6)} ZENT
                   </Text>
                   <Text
                     fontSize="md"

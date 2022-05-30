@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Box, Container, Text } from 'components';
-import styled from 'styled-components/native';
+import React, { useEffect, useState, useRef } from "react";
+import { Box, Container, Text } from "components";
+import styled from "styled-components/native";
 
-import { BlurView } from 'expo-blur';
+import { BlurView } from "expo-blur";
 import {
   SafeAreaView,
   ScrollView,
@@ -11,23 +11,23 @@ import {
   TouchableWithoutFeedback,
   View,
   KeyboardAvoidingView,
-} from 'react-native';
+} from "react-native";
 
 // Import Icons
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons, Entypo } from "@expo/vector-icons";
 
 // Import Images
-import SongImage from 'assets/images/song.png';
-import SongImage2 from 'assets/images/wallpapers/wallpaper-1.png';
-import { useRoute } from '@react-navigation/native';
-import { useAuth } from 'stores/auth';
+import SongImage from "assets/images/song.png";
+import SongImage2 from "assets/images/wallpapers/wallpaper-1.png";
+import { useRoute } from "@react-navigation/native";
+import { useAuth } from "stores/auth";
 
 // Styled Components
 const SongTileWrapper = styled.View`
   position: relative;
   margin-right: ${(props) => props.theme.spacing.md};
   ${(props) => {
-    const size = (Dimensions.get('window').width - 40) * 0.5;
+    const size = (Dimensions.get("window").width - 40) * 0.5;
     if (size < 185) {
       return `
                 width: ${size}px;
@@ -159,11 +159,12 @@ const JournalDescriptionInput = styled.TextInput`
 // Add Journal Component (Default)
 export default function AddJournal({ navigation }) {
   const journalDescriptionInput = useRef();
-  const { song, zentokens } = useRoute().params;
-
+  const { song, zentokens, claimToWalletProps, transactTokens } =
+    useRoute().params;
+  const claimToWallet = JSON.parse(claimToWalletProps);
   const [emotion, setEmotion] = useState(null);
-  const [journalTitle, setJournalTitle] = useState('');
-  const [journalDescription, setJournalDescription] = useState('');
+  const [journalTitle, setJournalTitle] = useState("");
+  const [journalDescription, setJournalDescription] = useState("");
   const [zentValue, setZentValue] = useState(zentokens || 0);
 
   const [isTextInputView, setIsTextInputView] = useState(false);
@@ -173,8 +174,8 @@ export default function AddJournal({ navigation }) {
   useEffect(() => {
     if (
       emotion == null ||
-      `${journalTitle}`.trim() == '' ||
-      `${journalDescription}`.trim() == ''
+      `${journalTitle}`.trim() == "" ||
+      `${journalDescription}`.trim() == ""
     ) {
       setIsSubmitEnabled(false);
     } else {
@@ -185,7 +186,7 @@ export default function AddJournal({ navigation }) {
   const { user, updateUser } = useAuth();
 
   const onSubmit = () => {
-    updateUser('journal', [
+    updateUser("journal", [
       {
         title: journalTitle,
         description: journalDescription,
@@ -196,14 +197,15 @@ export default function AddJournal({ navigation }) {
       },
       ...(user.journal || []),
     ]);
-    navigation.goBack();
+    navigation.navigate("ClaimToWallet", { ...claimToWallet, transactTokens });
+    // navigation.goBack();
   };
 
   return (
     <BlurView
       intensity={200}
       tint="dark"
-      style={{ width: '100%', height: '100%' }}
+      style={{ width: "100%", height: "100%" }}
     >
       <SafeAreaView style={{ flex: 1 }}>
         <TouchableOpacity
@@ -217,10 +219,10 @@ export default function AddJournal({ navigation }) {
         <View>
           <ScrollView
             showsHorizontalScrollIndicator={false}
-            style={{ width: '100%', marginTop: 20, marginBottom: 20 }}
+            style={{ width: "100%", marginTop: 20, marginBottom: 20 }}
             horizontal={true}
           >
-            <Box w={`${Dimensions.get('window').width * 0.3}px`} />
+            <Box w={`${Dimensions.get("window").width * 0.3}px`} />
             <SongTileWrapper>
               <SongTile source={{ uri: song?.artwork }} />
               {/* <SongTimeWrapper>20 min</SongTimeWrapper> */}
@@ -233,9 +235,9 @@ export default function AddJournal({ navigation }) {
             fontWeight="600"
             style={{
               marginTop: 5,
-              width: '100%',
-              textAlign: 'center',
-              color: 'rgba(247,248,250, 0.9)',
+              width: "100%",
+              textAlign: "center",
+              color: "rgba(247,248,250, 0.9)",
             }}
           >
             How are you feeling today?
@@ -244,14 +246,14 @@ export default function AddJournal({ navigation }) {
           <EmojiWrapper>
             <Emoji
               style={[
-                { borderWidth: emotion == 'happy' ? 1 : 0 },
-                emotion == 'happy' && {
-                  shadowColor: 'white',
+                { borderWidth: emotion == "happy" ? 1 : 0 },
+                emotion == "happy" && {
+                  shadowColor: "white",
                   shadowRadius: 8,
                   shadowOpacity: 0.8,
                 },
               ]}
-              onPress={() => setEmotion('happy')}
+              onPress={() => setEmotion("happy")}
             >
               <Entypo
                 name={`emoji-happy`}
@@ -262,14 +264,14 @@ export default function AddJournal({ navigation }) {
 
             <Emoji
               style={[
-                { borderWidth: emotion == 'neutral' ? 1 : 0 },
-                emotion == 'neutral' && {
-                  shadowColor: 'white',
+                { borderWidth: emotion == "neutral" ? 1 : 0 },
+                emotion == "neutral" && {
+                  shadowColor: "white",
                   shadowRadius: 8,
                   shadowOpacity: 0.8,
                 },
               ]}
-              onPress={() => setEmotion('neutral')}
+              onPress={() => setEmotion("neutral")}
             >
               <Entypo
                 name={`emoji-neutral`}
@@ -280,14 +282,14 @@ export default function AddJournal({ navigation }) {
 
             <Emoji
               style={[
-                { borderWidth: emotion == 'sad' ? 1 : 0 },
-                emotion == 'sad' && {
-                  shadowColor: 'white',
+                { borderWidth: emotion == "sad" ? 1 : 0 },
+                emotion == "sad" && {
+                  shadowColor: "white",
                   shadowRadius: 8,
                   shadowOpacity: 0.8,
                 },
               ]}
-              onPress={() => setEmotion('sad')}
+              onPress={() => setEmotion("sad")}
             >
               <Entypo
                 name={`emoji-sad`}
@@ -305,17 +307,17 @@ export default function AddJournal({ navigation }) {
             </Text>
             <JournalText onPress={() => setIsTextInputView(true)}>
               <Text
-                style={{ color: 'rgba(247, 248, 250, 0.9)' }}
+                style={{ color: "rgba(247, 248, 250, 0.9)" }}
                 numberOfLines={100}
               >
                 {`${journalDescription}`.trim() ||
-                  'Write how you’re feeling here...'}
+                  "Write how you’re feeling here..."}
               </Text>
             </JournalText>
             <Text
               fontSize="md"
               style={{
-                color: 'rgba(255, 255, 255, 0.9)',
+                color: "rgba(255, 255, 255, 0.9)",
                 marginTop: 5,
                 marginBottom: 18,
               }}
@@ -326,7 +328,7 @@ export default function AddJournal({ navigation }) {
           </FooterBody>
           <FooterButtons>
             <SubmitButton
-              style={[isSubmitEnabled && { backgroundColor: '#fff' }]}
+              style={[isSubmitEnabled && { backgroundColor: "#fff" }]}
               onPress={() => {
                 if (isSubmitEnabled) {
                   onSubmit();
@@ -337,7 +339,7 @@ export default function AddJournal({ navigation }) {
                 fontWeight="600"
                 fontSize="lg"
                 style={[
-                  { color: isSubmitEnabled ? '#000' : 'rgba(0,0,0,0.6)' },
+                  { color: isSubmitEnabled ? "#000" : "rgba(0,0,0,0.6)" },
                 ]}
               >
                 Submit
@@ -346,7 +348,10 @@ export default function AddJournal({ navigation }) {
 
             <SkipButton
               onPress={() => {
-                navigation.goBack();
+                navigation.navigate("ClaimToWallet", {
+                  ...claimToWallet,
+                  transactTokens,
+                });
               }}
             >
               <Text fontWeight="600" fontSize="lg">
@@ -362,19 +367,19 @@ export default function AddJournal({ navigation }) {
         <BlurView
           style={[
             {
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               left: 0,
-              width: '100%',
-              height: '100%',
+              width: "100%",
+              height: "100%",
             },
           ]}
           intensity={200}
           tint="dark"
         >
           <KeyboardAvoidingView
-            style={{ width: '100%', height: '100%' }}
-            behavior={'padding'}
+            style={{ width: "100%", height: "100%" }}
+            behavior={"padding"}
           >
             <SafeAreaView style={{ flex: 1 }}>
               <Container>
@@ -416,7 +421,7 @@ export default function AddJournal({ navigation }) {
               <Container>
                 <Text
                   style={{
-                    color: 'rgba(247, 248, 250, 0.8)',
+                    color: "rgba(247, 248, 250, 0.8)",
                     marginTop: 5,
                     marginBottom: 20,
                   }}

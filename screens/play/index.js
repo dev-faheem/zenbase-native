@@ -366,7 +366,6 @@ export default function Play({ navigation }) {
       await setDuration(1);
       await setIsPlaying(false);
       await playSong(data.data);
-
     } catch (e) {
       axios.handleError(e);
     }
@@ -378,7 +377,7 @@ export default function Play({ navigation }) {
       if (!recents) {
         recents = [id];
       } else {
-        recents = [id, ...recents.filter(songId => songId != id)];
+        recents = [id, ...recents.filter((songId) => songId != id)];
       }
 
       if (recents.length > 8) {
@@ -417,12 +416,16 @@ export default function Play({ navigation }) {
         resetSongQueue();
         return;
       }
-      navigation.navigate("ClaimToWallet", {
-        transactTokens,
-        zentokens,
+      navigation.navigate("AddJournal", {
         song,
-        duration,
-        position,
+        zentokens,
+        transactTokens,
+        claimToWalletProps: JSON.stringify({
+          zentokens,
+          song,
+          duration,
+          position,
+        }),
       });
       // await transactTokens();
     } catch (e) {
@@ -496,9 +499,43 @@ export default function Play({ navigation }) {
     }
   };
 
+  const onPressListenWithFriends = () => {
+    ReactNativeShare(
+      `${user?.name} is inviting you to meditate with him.\n\nJoin here: www.zenbase.us`,
+      () => {
+        // Success
+      },
+      () => {
+        // Dismissed
+      },
+      (err) => {
+        // Error
+      }
+    );
+  };
+
+  const onPressShareSong = () => {
+    ReactNativeShare(
+      `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+      () => {
+        // Success
+      },
+      () => {
+        // Dismissed
+      },
+      (err) => {
+        // Error
+      }
+    );
+  };
+
+  const onPressAddJournal = () => {
+    navigation.navigate("AddJournal", { song, zentokens });
+  };
+
   const previousVolumeRef = useRef(1);
 
-  const actualPosition = (position + carryOver) || carryOver;
+  const actualPosition = position + carryOver || carryOver;
 
   return (
     <Canvas>
@@ -529,7 +566,10 @@ export default function Play({ navigation }) {
                   shadowColor: "black",
                   shadowOffset: { height: 2 },
                   shadowOpacity: 1,
-                  height: windowsWidth * 0.9 < windowsHeight * 0.5 ? windowsWidth * 0.9 :windowsHeight * 0.5 ,
+                  height:
+                    windowsWidth * 0.9 < windowsHeight * 0.5
+                      ? windowsWidth * 0.9
+                      : windowsHeight * 0.5,
                   width: windowsWidth * 0.9,
                 }}
               />
@@ -609,7 +649,9 @@ export default function Play({ navigation }) {
           {!continueListening && (
             <ScreenContainer>
               <View>
-                <SongTitle numberOfLines={2}>{song?.name || "Song Name"}</SongTitle>
+                <SongTitle numberOfLines={2}>
+                  {song?.name || "Song Name"}
+                </SongTitle>
                 <SongArtist>
                   {song?.artist
                     ?.map((artist) => {
@@ -747,11 +789,7 @@ export default function Play({ navigation }) {
                     }}
                   />
                 </OptionButton>
-                <OptionButton
-                  onPress={() => {
-                    navigation.navigate("AddJournal", { song, zentokens });
-                  }}
-                >
+                <OptionButton onPress={onPressListenWithFriends}>
                   <ZenbaseAddImage
                     source={ZenbaseAddIcon}
                     resizeMode="contain"
@@ -810,38 +848,12 @@ export default function Play({ navigation }) {
                 />
               </View>
             ),
-            onPress: () => {
-              ReactNativeShare(
-                `${user?.name} is inviting you to meditate with him.\n\nJoin here: www.zenbase.us`,
-                () => {
-                  // Success
-                },
-                () => {
-                  // Dismissed
-                },
-                (err) => {
-                  // Error
-                }
-              );
-            },
+            onPress: onPressListenWithFriends,
           },
           {
             title: "Share Song...",
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
-            onPress: () => {
-              ReactNativeShare(
-                `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
-                () => {
-                  // Success
-                },
-                () => {
-                  // Dismissed
-                },
-                (err) => {
-                  // Error
-                }
-              );
-            },
+            onPress: onPressShareSong,
           },
         ]}
       />

@@ -84,15 +84,19 @@ const WalletHistoryListThumbnail = styled.Image`
 
 const calculateLength = (_duration) => {
   if (_duration) {
+    if(_duration < 60){
+      return `${Math.ceil(_duration)} sec`
+    }
     const minutes = _duration / 60;
     return `${Math.ceil(minutes)} min`;
   }
-  return "5 min";
+  return "~ min";
 };
 
 // ClaimToWallet (Default)
 export default function ClaimToWallet({ route, navigation }) {
   const { transactTokens, zentokens, song, position, duration } = route.params;
+  const {secondsWorth} = useAuth()
 
   const is100thMeditation = false
 
@@ -138,7 +142,7 @@ export default function ClaimToWallet({ route, navigation }) {
             <WalletHistoryList>
               <WalletHistoryListText>
                 <Text fontSize="lg" numberOfLines={1} color="primary">
-                  {calculateLength(song?.duration)} •{" "}
+                  {calculateLength(zentokens/secondsWorth)} •{" "}
                   {Number(zentokens).toPrecision(6)} ZENT
                 </Text>
                 <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
