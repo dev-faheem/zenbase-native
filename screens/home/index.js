@@ -13,7 +13,9 @@ import {
   ScrollView,
   Animated,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   StatusBar,
+  Dimensions
 } from "react-native";
 import useSearch from "queries/useSearch";
 import useCategories from "queries/useCategories";
@@ -26,10 +28,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "stores/auth";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "services/axios";
+import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Import Images
 import zentBackground from "assets/images/wallet/zent-bg.png";
 import ActivelyListing from "components/actively-listening";
+
+const windowHeight = Dimensions.get("window").height;
 
 const PremiumTextWrapper = styled.View`
   width: 100%;
@@ -97,6 +103,8 @@ export default function Home({ navigation, route }) {
   const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
   const [chillSongs, setChillSongs] = useState([]);
 
+  const [isFirstTimeModel, setIsFirstTimeModal] = useState(true);
+
   const fetchSongsUnder10Min = async () => {
     try {
       const { data } = await axios.get("/songs/duration/600");
@@ -131,6 +139,18 @@ export default function Home({ navigation, route }) {
     fetchSongsUnder10Min();
     fetchGuidedMeditation();
     fetchChill();
+
+    (async () => {
+      try {
+        if (await AsyncStorage.getItem("isFirstTimeModal") == '0') {
+          return setIsFirstTimeModal(false);
+        }
+      } catch (e){
+        console.log(e);
+      }
+    
+    })();
+   
   }, []);
 
   // useEffect(() => {
@@ -141,8 +161,22 @@ export default function Home({ navigation, route }) {
     useCallback(() => {
       fetchTransactions();
       verifyZenbasePremium();
+
+      return () => {
+        removeFirstTimeModal();
+      }
     }, [])
   );
+
+  const removeFirstTimeModal = async () => {
+    try {
+      setIsFirstTimeModal(false);
+      await AsyncStorage.setItem("isFirstTimeModal", '0');
+    } catch(e) {
+      console.log(e)
+    }
+      
+  }
 
   const verifyZenbasePremium = async () => {
     try {
@@ -168,6 +202,7 @@ export default function Home({ navigation, route }) {
         )}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
+        scrollEnabled={!isFirstTimeModel}
       >
         <Container>
           <Box mt={`${Constants.statusBarHeight}px`} />
@@ -270,6 +305,32 @@ export default function Home({ navigation, route }) {
           </BlurHeaderWrapper>
         </BlurView>
       </Animated.View>
+
+      {isFirstTimeModel && <TouchableWithoutFeedback
+          onPress={removeFirstTimeModal}
+        >
+          <BlurView
+            intensity={150}
+            style={{
+              position: 'absolute',
+              width: "100%",
+              height: windowHeight - (Platform.OS == "ios" ? Constants.statusBarHeight : 15)-310,
+              bottom: 0,
+              left: 0,
+              zIndex: 99999,
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'flex-start'
+            }}
+            tint="dark"
+          >
+            <AntDesign name="arrowup" size={50} color="white" style={{marginTop: 20}}/>
+            <Text style={{ marginTop: 25, textAlign: 'center'}} fontSize={22} fontWeight={600}>Welcome!</Text>
+            <Text style={{ marginTop: 10, textAlign: 'center'}} fontSize={22} fontWeight={600} >If you’re new to meditation, we recommend you start here.</Text>
+            <Text style={{ marginTop: '30%', textAlign: 'center'}} fontSize={14} >No thanks, I know how to meditate</Text>
+          </BlurView>
+        </TouchableWithoutFeedback>
+      }
     </>
   );
 }
