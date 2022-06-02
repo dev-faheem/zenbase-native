@@ -408,7 +408,6 @@ export default function AddJournal({ navigation }) {
                 />
 
                 <JournalDescriptionInput
-                  returnKeyType="done"
                   selectionColor="rgba(255,255,255,0.5)"
                   placeholderTextColor="#F7F8FA"
                   placeholder="Write how you’re feeling here..."
