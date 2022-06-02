@@ -170,7 +170,7 @@ export default function Journal({ route, navigation }) {
                             : null
                         }
                       >
-                        <View style={{ width: "65%" }}>
+                        <View style={{ width: "58%" }}>
                           <Text numberOfLines={1} style={{ marginTop: 4 }}>
                             {data.item.title}
                           </Text>
@@ -185,10 +185,11 @@ export default function Journal({ route, navigation }) {
                         </View>
                         <View
                           style={{
-                            width: "35%",
+                            width: "42%",
                             flexDirection: "column",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-end",
+                            paddingRight: 15
                           }}
                         >
                           <Text numberOfLines={1} color="primary">
