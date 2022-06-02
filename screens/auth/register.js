@@ -14,9 +14,10 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import Loader from "components/loader";
 import { useLoader } from "stores/loader";
 import axios from "services/axios";
-import { Picker, PickerIOS } from "@react-native-picker/picker";
 import Country from "country-state-city/dist/lib/country";
 import State from "country-state-city/dist/lib/state";
+import RNPickerSelect from 'react-native-picker-select';
+import { Ionicons } from "@expo/vector-icons";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -111,6 +112,43 @@ export default function register({ navigation }) {
 
   const { setLoading, renderLoader } = useLoader();
 
+  const pickerStyling = {
+    borderWidth: 0,
+    inputIOS: {
+      backgroundColor: "#1B1C1E",
+      height: 45,
+      borderRadius: 5,
+      marginTop: 10,
+      paddingLeft: 10,
+      color: '#fff'
+    },
+    inputAndroid: {
+      backgroundColor: "#1B1C1E",
+      height: 45,
+      borderRadius: 5,
+      marginTop: 10,
+      paddingLeft: 10
+    },
+    placeholder: {
+      color:theme.color.secondary, 
+    },
+    modalViewBottom: {
+      backgroundColor: theme.color.background
+    },
+    modalViewMiddle: {
+      backgroundColor: '#1B1C1E',
+      
+    },
+    
+    done: {
+      color: theme.color.primary
+    },
+    iconContainer: {
+      top: 20,
+      right: 12,
+    }
+  }
+
   // States
   const [isRegisterEnabled, setIsRegisterEnabled] = useState(false);
   const [name, setName] = useState("");
@@ -127,12 +165,14 @@ export default function register({ navigation }) {
     {
       label: Country.getCountryByCode("US").name,
       value: Country.getCountryByCode("US").isoCode,
+      color: 'white'
     },
     ...Country.getAllCountries()
       .map((country) => {
         return {
           label: country.name,
           value: country.isoCode,
+          color: 'white'
         };
       })
       .filter((obj) => obj.value != "US"),
@@ -176,12 +216,12 @@ export default function register({ navigation }) {
   };
 
   useEffect(() => {
-    if (email.trim() == "" || password == "") {
+    if (email.trim() == "" || password == "" || valueCountry == null) {
       setIsRegisterEnabled(false);
     } else {
       setIsRegisterEnabled(true);
     }
-  }, [email, password]);
+  }, [email, password, valueCountry]);
 
   return (
     <Canvas>
@@ -219,6 +259,55 @@ export default function register({ navigation }) {
             ref={passwordInput}
           />
 
+        <RNPickerSelect
+            style={pickerStyling}
+            placeholder={{
+              label: 'Country',
+              value: null,
+              color: theme.color.secondary,
+            }}
+            value={valueCountry}
+            onValueChange={(value) => {
+              setValueCountry(value);
+              if (value == null) {
+                setStates([]);
+              } else {
+                setStates(
+                  State.getStatesOfCountry(value).map((state) => {
+                    return {
+                      label: state.name,
+                      value: state.isoCode,
+                      color: 'white'
+                    };
+                  })
+                );
+              }
+             
+            }}
+            items={countries}
+            Icon={() => {
+              return <Ionicons name="chevron-down" size={24} color="gray" />;
+            }}
+        />
+
+        <RNPickerSelect
+            style={pickerStyling}
+            placeholder={{
+              label: 'State',
+              value: null,
+              color: theme.color.secondary,
+            }}
+            value={valueState}
+            onValueChange={(value) => {
+              setValueState(value);
+             
+            }}
+            items={states}
+            Icon={() => {
+              return <Ionicons name="chevron-down" size={24} color="gray" />;
+            }}
+        />
+{/* 
           <DropDownPicker
             open={openCountry}
             value={valueCountry}
@@ -253,7 +342,7 @@ export default function register({ navigation }) {
             {...dropdownProps}
           />
 
-          {openState && <View style={{ height: 100 }} />}
+          {openState && <View style={{ height: 100 }} />} */}
 
           {/* <Input
               autoCapitalize="none"
