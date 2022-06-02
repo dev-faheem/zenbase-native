@@ -17,6 +17,13 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
+      ],
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.zenbase.us",
+          "enableGooglePay": false
+        }
       ]
     ],
     "updates": {
@@ -26,7 +33,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "us.zenbase.native",
-      "buildNumber": "0.0.9",
+      "buildNumber": "0.1.0",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2423909336067009~1752802852"
       }
