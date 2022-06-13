@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { useTheme } from 'stores/theme';
 import * as ImagePicker from 'expo-image-picker';
+import Filter from 'bad-words';
 
 // Import Images
 import profileImage from 'assets/images/artist.png';
@@ -81,13 +82,18 @@ const HR = styled.View`
   border-bottom-color: ${(props) => props.theme.color.informationBackground};
 `;
 
+const ErrorText = styled.Text`
+  color: #fd3b30;
+  margin: 10px;
+`;
+
 // Edti Profile Component (Default)
 export default function EditProfile({ route, navigation }) {
   // Theme Configuration
   const { theme } = useTheme();
 
   const { user, updateUser, updateUserLocal, setUser } = useAuth();
-  
+
   // Profile Image
   const [image, setImage] = useState(user?.image || null);
   // States
@@ -95,11 +101,18 @@ export default function EditProfile({ route, navigation }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [fullname, setFullname] = useState(user?.name);
   const [username, setUsername] = useState(user?.username);
+  const [isValidUserName, setIsValidUserName] = useState(false);
+
+  const filter = new Filter({ placeHolder: 'x' });
 
   // Input Handler
   const updateInput = (setState, value) => {
     setState(value);
-
+    if (value && filter.clean(value).includes('x')) {
+      setIsValidUserName(true);
+    } else {
+      setIsValidUserName(false);
+    }
     if (!isProfileUpdated) {
       setIsProfileUpdated(true);
     }
@@ -117,7 +130,7 @@ export default function EditProfile({ route, navigation }) {
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 4],
-        quality: 1,
+        quality: 1
       });
 
       if (!result.cancelled) {
@@ -128,10 +141,10 @@ export default function EditProfile({ route, navigation }) {
         formData.append('image', {
           uri: result.uri,
           name: 'image.jpg',
-          type: 'image/jpeg',
+          type: 'image/jpeg'
         });
         const {
-          data: { data: imageURL },
+          data: { data: imageURL }
         } = await axios.patch('/auth/profile-image', formData);
         updateUserLocal('image', imageURL);
         setIsProfileUpdated(true);
@@ -142,8 +155,18 @@ export default function EditProfile({ route, navigation }) {
   };
 
   // Save Changes
+  const saveEditProfile = () => {
+    if (filter.clean(fullname).includes('x')) {
+      setIsProfileUpdated(false);
+    } else {
+      saveChanges();
+      setIsProfileUpdated(true);
+    }
+  };
+
   const saveChanges = async () => {
     if (isProfileUpdated) {
+      setIsValidUserName(true);
       setIsProfileUpdated(false);
       setIsUpdating(true);
       // Logic to save profile changes
@@ -151,10 +174,9 @@ export default function EditProfile({ route, navigation }) {
         await updateUser('name', fullname, false);
         setUser({
           ...user,
-          name: fullname,
-        })
+          name: fullname
+        });
       }
-
       try {
         if (user?.username != username) {
           await updateUser('username', username, false);
@@ -162,16 +184,16 @@ export default function EditProfile({ route, navigation }) {
             ...user,
             name: fullname,
             username
-          })
-      }
+          });
+        }
       } catch (e) {
         alert('Username already exists.');
       }
-
       setIsUpdating(false);
       // Close Edit Profile Model after updating profile
       navigation.goBack();
     }
+    //}
   };
 
   return (
@@ -190,8 +212,8 @@ export default function EditProfile({ route, navigation }) {
         </TouchableOpacity>
         <Button
           variant={isProfileUpdated ? 'silent' : 'silentDisabled'}
-          title={isUpdating ? "Loading..." : "Done"}
-          onPress={saveChanges}
+          title={isUpdating ? 'Loading...' : 'Done'}
+          onPress={saveEditProfile}
         />
       </EditProfileHeader>
       <Container style={{ flex: 1 }}>
@@ -227,7 +249,7 @@ export default function EditProfile({ route, navigation }) {
           {/* Username */}
           <InputGroup>
             <InputLabel>
-              <Text>Username</Text>
+              <Text>Username name</Text>
             </InputLabel>
             <Text color="secondary">@</Text>
             <Input
@@ -239,6 +261,9 @@ export default function EditProfile({ route, navigation }) {
           </InputGroup>
           {/* Username - End*/}
         </InputWrapper>
+        <ErrorText>
+          {isValidUserName && 'User name not allowed bed word'}
+        </ErrorText>
         <Text
           color="information"
           style={{ padding: 5, paddingTop: 10 }}
