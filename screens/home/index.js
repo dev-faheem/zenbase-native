@@ -30,6 +30,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "services/axios";
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from "helpers/notifications";
 
 // Import Images
 import zentBackground from "assets/images/wallet/zent-bg.png";
@@ -105,6 +106,9 @@ export default function Home({ navigation, route }) {
 
   const [isFirstTimeModel, setIsFirstTimeModal] = useState(true);
 
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
   const fetchSongsUnder10Min = async () => {
     try {
       const { data } = await axios.get("/songs/duration/600");
@@ -150,7 +154,21 @@ export default function Home({ navigation, route }) {
       }
     
     })();
-   
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      console.log('notification', notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('response notification', response);
+    });
+
+
+    Notifications.scheduleNotification();
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
   }, []);
 
   // useEffect(() => {
