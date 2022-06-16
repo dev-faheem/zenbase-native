@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Alert, Container, Canvas, Text, Button } from "components";
-import styled from "styled-components/native";
-import { ScrollView, TextInput, TouchableOpacity } from "react-native";
-import { useTheme } from "stores/theme";
-import * as ImagePicker from "expo-image-picker";
-import Filter from "bad-words";
+import React, { useEffect, useState } from 'react';
+import { Alert, Container, Canvas, Text, Button } from 'components';
+import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
+import { useTheme } from 'stores/theme';
+import * as ImagePicker from 'expo-image-picker';
+import Filter from 'bad-words';
 
 // Import Images
-import profileImage from "assets/images/artist.png";
+import profileImage from 'assets/images/artist.png';
 
 // Import Icons
-import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "stores/auth";
-import axios from "services/axios";
+import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from 'stores/auth';
+import axios from 'services/axios';
 
 // Styled Component
 const EditProfileHeader = styled.View`
@@ -130,15 +130,15 @@ export default function EditProfile({ route, navigation }) {
     try {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
       }
 
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 4],
-        quality: 1,
+        quality: 1
       });
 
       if (!result.cancelled) {
@@ -146,15 +146,15 @@ export default function EditProfile({ route, navigation }) {
 
         // Form Data to Save Photo
         let formData = new FormData();
-        formData.append("image", {
+        formData.append('image', {
           uri: result.uri,
-          name: "image.jpg",
-          type: "image/jpeg",
+          name: 'image.jpg',
+          type: 'image/jpeg'
         });
         const {
           data: { data: imageURL }
-        } = await axios.patch("/auth/profile-image", formData);
-        updateUserLocal("image", imageURL);
+        } = await axios.patch('/auth/profile-image', formData);
+        updateUserLocal('image', imageURL);
         setIsProfileUpdated(true);
       }
     } catch (err) {
@@ -174,7 +174,7 @@ export default function EditProfile({ route, navigation }) {
         setIsUpdating(true);
         // Logic to save profile changes
         if (user?.name != fullname) {
-          await updateUser("name", fullname, false);
+          await updateUser('name', fullname, false);
           setUser({
             ...user,
             name: fullname
@@ -182,7 +182,7 @@ export default function EditProfile({ route, navigation }) {
         }
         try {
           if (user?.username != username) {
-            await updateUser("username", username, false);
+            await updateUser('username', username, false);
             setUser({
               ...user,
               name: fullname,
@@ -190,7 +190,7 @@ export default function EditProfile({ route, navigation }) {
             });
           }
         } catch (e) {
-          alert("Username already exists.");
+          alert('Username already exists.');
         }
         setIsUpdating(false);
         // Close Edit Profile Model after updating profile
@@ -200,8 +200,6 @@ export default function EditProfile({ route, navigation }) {
       setIsProfileUpdated(false);
       setIsValidUserName(true);
     }
-
-    //}
   };
 
   return (
@@ -213,14 +211,14 @@ export default function EditProfile({ route, navigation }) {
           }}
         >
           <Ionicons
-            name="ios-chevron-back"
+            name='ios-chevron-back'
             size={30}
             color={theme.color.primary}
           />
         </TouchableOpacity>
         <Button
-          variant={isProfileUpdated ? "silent" : "silentDisabled"}
-          title={isUpdating ? "Loading..." : "Done"}
+          variant={isProfileUpdated ? 'silent' : 'silentDisabled'}
+          title={isUpdating ? 'Loading...' : 'Done'}
           onPress={saveChanges}
         />
       </EditProfileHeader>
@@ -228,10 +226,10 @@ export default function EditProfile({ route, navigation }) {
         <ProfileImageWrapper>
           <ProfileImage
             source={image ? { uri: image } : profileImage}
-            resizeMode="cover"
+            resizeMode='cover'
           />
           <EditButton onPress={editProfile}>
-            <Text color="white" fontSize="md">
+            <Text color='white' fontSize='md'>
               EDIT
             </Text>
           </EditButton>
@@ -244,7 +242,7 @@ export default function EditProfile({ route, navigation }) {
               <Text>Name</Text>
             </InputLabel>
             <Input
-              placeholder="Full Name"
+              placeholder='Full Name'
               placeholderTextColor={theme.color.secondary}
               onChangeText={(value) => updateInput(setFullname, value)}
               value={fullname}
@@ -259,9 +257,9 @@ export default function EditProfile({ route, navigation }) {
             <InputLabel>
               <Text>Username</Text>
             </InputLabel>
-            <Text color="secondary">@</Text>
+            <Text color='secondary'>@</Text>
             <Input
-              placeholder="username"
+              placeholder='username'
               placeholderTextColor={theme.color.secondary}
               onChangeText={(value) => updateInput(setUsername, value)}
               value={username}
@@ -270,12 +268,12 @@ export default function EditProfile({ route, navigation }) {
           {/* Username - End*/}
         </InputWrapper>
         <ErrorText>
-          {isValidUserName && "Name & Username not allowed bad word"}
+          {isValidUserName && 'Name & Username not allowed bad word'}
         </ErrorText>
         <Text
-          color="information"
+          color='information'
           style={{ padding: 5, paddingTop: 10 }}
-          fontSize="sm"
+          fontSize='sm'
         >
           Your photo, name, and username will be visible in Zenbase and web
           search results.
