@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { Alert, Container, Canvas, Text, Button } from 'components';
-import styled from 'styled-components/native';
-import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
-import { useTheme } from 'stores/theme';
-import * as ImagePicker from 'expo-image-picker';
-import Filter from 'bad-words';
+import React, { useEffect, useState } from "react";
+import { Alert, Container, Canvas, Text, Button } from "components";
+import styled from "styled-components/native";
+import { ScrollView, TextInput, TouchableOpacity } from "react-native";
+import { useTheme } from "stores/theme";
+import * as ImagePicker from "expo-image-picker";
+import Filter from "bad-words";
 
 // Import Images
-import profileImage from 'assets/images/artist.png';
+import profileImage from "assets/images/artist.png";
 
 // Import Icons
-import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from 'stores/auth';
-import axios from 'services/axios';
+import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "stores/auth";
+import axios from "services/axios";
 
 // Styled Component
 const EditProfileHeader = styled.View`
@@ -93,7 +93,6 @@ export default function EditProfile({ route, navigation }) {
   const { theme } = useTheme();
 
   const { user, updateUser, updateUserLocal, setUser } = useAuth();
-
   // Profile Image
   const [image, setImage] = useState(user?.image || null);
   // States
@@ -102,13 +101,22 @@ export default function EditProfile({ route, navigation }) {
   const [fullname, setFullname] = useState(user?.name);
   const [username, setUsername] = useState(user?.username);
   const [isValidUserName, setIsValidUserName] = useState(false);
+  const [badWords, setBadWords] = useState([]);
 
-  const filter = new Filter({ placeHolder: 'x' });
+  useEffect(() => {
+    const filter = new Filter();
+    const lowerBadWord = filter.list.map((element) => {
+      return element.toLowerCase();
+    });
+    setBadWords(lowerBadWord);
+  }, []);
 
   // Input Handler
   const updateInput = (setState, value) => {
     setState(value);
-    if (value && filter.clean(value).includes('x')) {
+
+    let isExist = badWords.includes(value.toLowerCase());
+    if (isExist) {
       setIsValidUserName(true);
     } else {
       setIsValidUserName(false);
@@ -122,15 +130,15 @@ export default function EditProfile({ route, navigation }) {
     try {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
       }
 
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 4],
-        quality: 1
+        quality: 1,
       });
 
       if (!result.cancelled) {
@@ -138,15 +146,15 @@ export default function EditProfile({ route, navigation }) {
 
         // Form Data to Save Photo
         let formData = new FormData();
-        formData.append('image', {
+        formData.append("image", {
           uri: result.uri,
-          name: 'image.jpg',
-          type: 'image/jpeg'
+          name: "image.jpg",
+          type: "image/jpeg",
         });
         const {
           data: { data: imageURL }
-        } = await axios.patch('/auth/profile-image', formData);
-        updateUserLocal('image', imageURL);
+        } = await axios.patch("/auth/profile-image", formData);
+        updateUserLocal("image", imageURL);
         setIsProfileUpdated(true);
       }
     } catch (err) {
@@ -154,45 +162,45 @@ export default function EditProfile({ route, navigation }) {
     }
   };
 
-  // Save Changes
-  const saveEditProfile = () => {
-    if (filter.clean(fullname).includes('x')) {
-      setIsProfileUpdated(false);
-    } else {
-      saveChanges();
-      setIsProfileUpdated(true);
-    }
-  };
-
   const saveChanges = async () => {
-    if (isProfileUpdated) {
-      setIsValidUserName(true);
-      setIsProfileUpdated(false);
-      setIsUpdating(true);
-      // Logic to save profile changes
-      if (user?.name != fullname) {
-        await updateUser('name', fullname, false);
-        setUser({
-          ...user,
-          name: fullname
-        });
-      }
-      try {
-        if (user?.username != username) {
-          await updateUser('username', username, false);
+    let isExistFullNameBadWord = badWords.includes(fullname.toLowerCase());
+    let isExistUserNameBadWord = badWords.includes(username.toLowerCase());
+
+    if (!isExistFullNameBadWord && !isExistUserNameBadWord) {
+      setIsProfileUpdated(true);
+      setIsValidUserName(false);
+      if (isProfileUpdated) {
+        setIsProfileUpdated(false);
+        setIsUpdating(true);
+        // Logic to save profile changes
+        if (user?.name != fullname) {
+          await updateUser("name", fullname, false);
           setUser({
             ...user,
-            name: fullname,
-            username
+            name: fullname
           });
         }
-      } catch (e) {
-        alert('Username already exists.');
+        try {
+          if (user?.username != username) {
+            await updateUser("username", username, false);
+            setUser({
+              ...user,
+              name: fullname,
+              username
+            });
+          }
+        } catch (e) {
+          alert("Username already exists.");
+        }
+        setIsUpdating(false);
+        // Close Edit Profile Model after updating profile
+        navigation.goBack();
       }
-      setIsUpdating(false);
-      // Close Edit Profile Model after updating profile
-      navigation.goBack();
+    } else {
+      setIsProfileUpdated(false);
+      setIsValidUserName(true);
     }
+
     //}
   };
 
@@ -211,9 +219,9 @@ export default function EditProfile({ route, navigation }) {
           />
         </TouchableOpacity>
         <Button
-          variant={isProfileUpdated ? 'silent' : 'silentDisabled'}
-          title={isUpdating ? 'Loading...' : 'Done'}
-          onPress={saveEditProfile}
+          variant={isProfileUpdated ? "silent" : "silentDisabled"}
+          title={isUpdating ? "Loading..." : "Done"}
+          onPress={saveChanges}
         />
       </EditProfileHeader>
       <Container style={{ flex: 1 }}>
@@ -249,7 +257,7 @@ export default function EditProfile({ route, navigation }) {
           {/* Username */}
           <InputGroup>
             <InputLabel>
-              <Text>Username name</Text>
+              <Text>Username</Text>
             </InputLabel>
             <Text color="secondary">@</Text>
             <Input
@@ -262,7 +270,7 @@ export default function EditProfile({ route, navigation }) {
           {/* Username - End*/}
         </InputWrapper>
         <ErrorText>
-          {isValidUserName && 'User name not allowed bed word'}
+          {isValidUserName && "Name & Username not allowed bad word"}
         </ErrorText>
         <Text
           color="information"
