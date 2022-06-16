@@ -77,7 +77,7 @@ export default function PremiumCTA({ navigation, onPress }) {
   const onPressGet = async () => {
     try {
       const { error, paymentMethod } = await presentApplePay({
-        cartItems: [{ label: "Zenbase Premium", amount: "3.99" }],
+        cartItems: [{ label: "Zenbase Premium", amount: "4.99" }],
         country: "US",
         currency: "USD",
         requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
@@ -107,7 +107,7 @@ export default function PremiumCTA({ navigation, onPress }) {
 
       // Payment Success
       await axios.post("/payments", {
-        amount: 399,
+        amount: 499,
         reason: "PREMIUM",
         valid: true,
         premium: true,
@@ -134,7 +134,7 @@ export default function PremiumCTA({ navigation, onPress }) {
       <FooterWrapper source={PremiumCTAFooterImage}>
         {isApplePaySupported ? (
           <>
-            <Text>$3.99 per month / 42 ZENT</Text>
+            <Text>$4.99 per month / 42 ZENT</Text>
             <GetButton onPress={onPressGet}>
               <Text color="primary" fontSize="md" fontWeight="bold">
                 GET
