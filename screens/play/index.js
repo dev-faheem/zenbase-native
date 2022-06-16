@@ -186,12 +186,14 @@ function renderMsToTiming(ms) {
     seconds = seconds % 60;
   }
   let hours = Math.floor(minutes / 60);
-  if (hours > 0) {
-    minutes = minutes % 60;
-    return `0${hours}:${minutes}:${seconds}`;
-  }
   let zeroFixMinutes = minutes >= 10 ? "" : "0";
   let zeroFixSeconds = seconds >= 10 ? "" : "0";
+  
+  if (hours > 0) {
+    minutes = minutes % 60;
+    return `0${hours}:${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${seconds || "0"}`;
+  }
+  
   return `${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
     seconds || "0"
   }`;
