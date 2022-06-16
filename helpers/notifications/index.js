@@ -43,17 +43,10 @@ export const askPermissions = async () => {
 };
 
 
-export const scheduleNotification = async () => {
-    await Notifications.scheduleNotificationAsync({
-        content: {
-            title: "You've got mail! 📬",
-            body: 'Here is the notification body',
-            data: { data: 'goes here' },
-        },
-        trigger: { 
-            seconds: 10,
-            repeats: true
-        }
+export const scheduleNotification = async (content, trigger) => {
+    return Notifications.scheduleNotificationAsync({
+        content,
+        trigger
     });
 };
 
@@ -67,4 +60,8 @@ export const addNotificationResponseReceivedListener = (cb) => {
 
 export const removeNotificationSubscription = (ref) => {
     Notifications.removeNotificationSubscription(ref);
+}
+
+export const cancelAllScheduledNotificationsAsync = () => {
+    return Notifications.cancelAllScheduledNotificationsAsync();
 }

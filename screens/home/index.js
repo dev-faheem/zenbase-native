@@ -144,17 +144,6 @@ export default function Home({ navigation, route }) {
     fetchGuidedMeditation();
     fetchChill();
 
-    (async () => {
-      try {
-        if (await AsyncStorage.getItem("isFirstTimeModal") == '0') {
-          return setIsFirstTimeModal(false);
-        }
-      } catch (e){
-        console.log(e);
-      }
-    
-    })();
-
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
       console.log('notification', notification);
     });
@@ -163,8 +152,32 @@ export default function Home({ navigation, route }) {
       console.log('response notification', response);
     });
 
+    (async () => {
+      try {
+        if (await AsyncStorage.getItem("isFirstTimeModal") == '0') {
+          return setIsFirstTimeModal(false);
+        }
+      } catch (e){
+        console.log(e);
+      }
+    })();
 
-    Notifications.scheduleNotification();
+
+    (async () => {
+      try {
+        await Notifications.cancelAllScheduledNotificationsAsync();
+        await Notifications.scheduleNotification({ title: `Don't Forget to Earn Zentokens!`, body: 'Take time to clear your mind. Come back to keep earning Zentokens!' }, { repeats: true, seconds: 2 * 60 * 60 });
+        await Notifications.scheduleNotification({ title: `Crazy Day? Meditate for 5 minutes`, body: `With a clear head you'll better able to manage your day.` }, { repeats: true, seconds: 8 * 60 * 60 });
+        await Notifications.scheduleNotification({ title: `Need Something Chill?`, body: 'Listen to chill vibes while taking time for yourself.' }, { repeats: true, seconds: 5 * 60 * 60  });
+        await Notifications.scheduleNotification({ title: `Relax Before Bedtime`, body: `Take time tonight to clear your mind and catch good zzz's.`}, { repeats: true, hour: 21,  minute: 15});
+        await Notifications.scheduleNotification({ title: `Start Your Morning Right`, body: `Take some time to express gratitude and feel grateful throughout the day.` }, { repeats: true, hour: 6,  minute: 30 });
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+
+    
+    
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
