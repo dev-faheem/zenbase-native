@@ -268,7 +268,7 @@ export default function EditProfile({ route, navigation }) {
           {/* Username - End*/}
         </InputWrapper>
         <ErrorText>
-          {isValidUserName && 'Name & Username not allowed bad word'}
+          {isValidUserName && 'Name & Username not allowed bad words'}
         </ErrorText>
         <Text
           color='information'
