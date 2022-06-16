@@ -188,12 +188,14 @@ function renderMsToTiming(ms) {
   let hours = Math.floor(minutes / 60);
   let zeroFixMinutes = minutes >= 10 ? "" : "0";
   let zeroFixSeconds = seconds >= 10 ? "" : "0";
-  
+
   if (hours > 0) {
     minutes = minutes % 60;
-    return `0${hours}:${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${seconds || "0"}`;
+    return `0${hours}:${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
+      seconds || "0"
+    }`;
   }
-  
+
   return `${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
     seconds || "0"
   }`;
@@ -503,7 +505,7 @@ export default function Play({ navigation }) {
 
   const onPressListenWithFriends = () => {
     ReactNativeShare(
-      `${user?.name} is inviting you to meditate with him.\n\nJoin here: www.zenbase.us`,
+      `${user?.name} is inviting you to meditate with him.\n\nJoin here: https://zenbase.us`,
       () => {
         // Success
       },
@@ -518,7 +520,7 @@ export default function Play({ navigation }) {
 
   const onPressShareSong = () => {
     ReactNativeShare(
-      `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+      `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.\n\nJoin here: https://zenbase.us`,
       () => {
         // Success
       },

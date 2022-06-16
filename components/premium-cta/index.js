@@ -1,6 +1,5 @@
 import React from "react";
 import Text from "components/text";
-import Box from "components/box";
 import styled from "styled-components/native";
 
 // Import Images
@@ -132,7 +131,10 @@ export default function PremiumCTA({ navigation, onPress }) {
         </CTAImageWrapper>
       </PaddingWrapper>
       <FooterWrapper source={PremiumCTAFooterImage}>
-        {isApplePaySupported ? (
+        {user?.isPremium && (
+          <Text>You are already a Zenbase Premium Member</Text>
+        )}
+        {isApplePaySupported && !user?.isPremium ? (
           <>
             <Text>$4.99 per month / 42 ZENT</Text>
             <GetButton onPress={onPressGet}>

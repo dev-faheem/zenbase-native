@@ -185,12 +185,12 @@ export default function Search({ navigation }) {
       const songs = [];
 
       for (let songId of recents) {
-        const song = data.data.results.find(song => song._id == songId)
+        const song = data.data.results.find((song) => song._id == songId);
         if (song) {
           songs.push(song);
         }
       }
-      setSongQueue(songs.map(song => song._id));
+      setSongQueue(songs.map((song) => song._id));
       let recentSongs = spliceIntoChunks(songs, 4);
       setRecentlyPlayedSongs(recentSongs);
     } catch (e) {
@@ -280,7 +280,11 @@ export default function Search({ navigation }) {
                       >
                         <SongContent>
                           <Text numberOfLines={1}>{song?.name}</Text>
-                          <Text numberOfLines={1} fontSize="sm" color="secondary">
+                          <Text
+                            numberOfLines={1}
+                            fontSize="sm"
+                            color="secondary"
+                          >
                             Song •{" "}
                             {song.artist
                               ?.map((artist) => artist.name)
@@ -339,26 +343,28 @@ export default function Search({ navigation }) {
           contextMenuHeight = height;
         }}
         menuList={[
-          (isSongLiked() ? {
-            title: "Delete from Library",
-            color: "primary",
-            icon: (
-              <Ionicons
-                name="ios-trash-outline"
-                size={16}
-                color={theme.color.primary}
-              />
-            ),
-            onPress: () => {
-              toggleLikedTrack();
-            },
-          } : {
-            title: "Add to Library",
-            icon: <Ionicons name="heart-outline" size={16} color="white" />,
-            onPress: () => {
-              toggleLikedTrack();
-            },
-          }),
+          isSongLiked()
+            ? {
+                title: "Delete from Library",
+                color: "primary",
+                icon: (
+                  <Ionicons
+                    name="ios-trash-outline"
+                    size={16}
+                    color={theme.color.primary}
+                  />
+                ),
+                onPress: () => {
+                  toggleLikedTrack();
+                },
+              }
+            : {
+                title: "Add to Library",
+                icon: <Ionicons name="heart-outline" size={16} color="white" />,
+                onPress: () => {
+                  toggleLikedTrack();
+                },
+              },
           {
             divider: true,
           },
@@ -367,8 +373,11 @@ export default function Search({ navigation }) {
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
             onPress: () => {
               ReactNativeShare(
-                `${user?.name} is inviting you to listen the "${contextMenuSong?.name || "tunes"
-                }"! Meditate with ${user?.name} only on Zenbase.`,
+                `${user?.name} is inviting you to listen the "${
+                  contextMenuSong?.name || "tunes"
+                }"! Meditate with ${
+                  user?.name
+                } only on Zenbase.\n\nJoin here: https://zenbase.us`,
                 () => {
                   // Success
                 },
