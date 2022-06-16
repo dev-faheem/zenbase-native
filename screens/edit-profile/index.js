@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Container, Canvas, Text, Button } from 'components';
+import { Container, Canvas, Text, Button } from 'components';
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
 import { useTheme } from 'stores/theme';
