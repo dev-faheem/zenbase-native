@@ -144,7 +144,7 @@ export default function PremiumCTA({ navigation, onPress }) {
             </GetButton>
           </>
         ) : (
-          <Text>Apple Pay is not supported on your device</Text>
+          !user?.isPremium && <Text>Apple Pay is not supported on your device</Text>
         )}
       </FooterWrapper>
     </CTAWrapper>
