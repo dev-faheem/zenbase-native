@@ -147,7 +147,7 @@ export default function ZentDonation({ route, navigation }) {
   const [selectedDonationBox, setSelectedDonationBox] = useState(-1);
   const [customDonation, setCustomDonation] = useState(false);
   const [customDonationValue, setCustomDonationValue] = useState("");
-  const [USDDonation, setUSDDonation] = useState(false);
+  const [USDDonation, setUSDDonation] = useState(true);
   const { isApplePaySupported, presentApplePay, confirmApplePayPayment } =
     useApplePay();
 
@@ -217,9 +217,12 @@ export default function ZentDonation({ route, navigation }) {
       donationAmt = 0.5;
     } else if (selectedDonationBox == 1) {
       donationAmt = 5;
-    } else if (selectedDonationBox == 2) {
+    } else if (selectedDonationBox == 2 && !USDDonation) {
       donationAmt = walletAmount;
+    } else if (selectedDonationBox == 2 && USDDonation) {
+      donationAmt = 10;
     }
+
     if (USDDonation) {
       await raiseApplePayRequest(Number(donationAmt) * 100);
     } else {
@@ -370,14 +373,18 @@ export default function ZentDonation({ route, navigation }) {
                           }
                         }
                         onPress={() => {
-                          selectDonationBox(2, totalZent);
+                          if (USDDonation) {
+                            selectDonationBox(2, 10);
+                          } else {
+                            selectDonationBox(2, totalZent);
+                          }
                         }}
                       >
                         <Text
                           color={selectedDonationBox == 2 && "primary"}
                           fontWeight={selectedDonationBox == 2 && "bold"}
                         >
-                          All
+                          {USDDonation?'10 USD':'All'}
                         </Text>
                       </DonationBox>
                     </View>
@@ -417,13 +424,13 @@ export default function ZentDonation({ route, navigation }) {
                   </DontationBoxWrapper>
                 </CardBody>
                 <CardFooter>
-                  <SwitchWrapper>
+                  {/* <SwitchWrapper>
                     <Text numberOfLines={1}>Make donation in USD</Text>
                     <Switch
                       onValueChange={toggleUSDDonation}
                       value={USDDonation}
                     />
-                  </SwitchWrapper>
+                  </SwitchWrapper> */}
                   <Button
                     title="Donate"
                     variant={donationValue > 0 ? "primary" : "disabled"}

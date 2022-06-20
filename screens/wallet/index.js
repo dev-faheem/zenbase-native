@@ -224,7 +224,7 @@ function History({ ZentBanner }) {
           </HeaderWrapper>
         </BlurView>
       </Animated.View>
-      {!user.isPremium && (
+      {false && !user.isPremium && (
         <BlurView
           style={{
             position: "absolute",

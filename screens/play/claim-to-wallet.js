@@ -169,7 +169,7 @@ export default function ClaimToWallet({ route, navigation }) {
                 </Text>
               </WalletHistoryListText>
               <WalletHistoryListThumbnail
-                source={wallpaper1}
+                source={{ uri: song?.artwork?.replace("https", "http") }}
                 resizeMode="cover"
               />
             </WalletHistoryList>
