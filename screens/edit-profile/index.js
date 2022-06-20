@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Alert, Container, Canvas, Text, Button } from 'components';
+import React, { useEffect, useState } from 'react';
+import { Container, Canvas, Text, Button } from 'components';
 import styled from 'styled-components/native';
-import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useTheme } from 'stores/theme';
 import * as ImagePicker from 'expo-image-picker';
+import Filter from 'bad-words';
 
 // Import Images
 import profileImage from 'assets/images/artist.png';
@@ -81,13 +82,17 @@ const HR = styled.View`
   border-bottom-color: ${(props) => props.theme.color.informationBackground};
 `;
 
+const ErrorText = styled.Text`
+  color: #fd3b30;
+  margin: 10px;
+`;
+
 // Edti Profile Component (Default)
 export default function EditProfile({ route, navigation }) {
   // Theme Configuration
   const { theme } = useTheme();
 
   const { user, updateUser, updateUserLocal, setUser } = useAuth();
-  
   // Profile Image
   const [image, setImage] = useState(user?.image || null);
   // States
@@ -95,11 +100,27 @@ export default function EditProfile({ route, navigation }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [fullname, setFullname] = useState(user?.name);
   const [username, setUsername] = useState(user?.username);
+  const [isValidUserName, setIsValidUserName] = useState(false);
+  const [badWords, setBadWords] = useState([]);
+
+  useEffect(() => {
+    const filter = new Filter();
+    const lowerBadWord = filter.list.map((element) => {
+      return element.toLowerCase();
+    });
+    setBadWords(lowerBadWord);
+  }, []);
 
   // Input Handler
   const updateInput = (setState, value) => {
     setState(value);
 
+    let isExist = badWords.includes(value.toLowerCase());
+    if (isExist) {
+      setIsValidUserName(true);
+    } else {
+      setIsValidUserName(false);
+    }
     if (!isProfileUpdated) {
       setIsProfileUpdated(true);
     }
@@ -117,7 +138,7 @@ export default function EditProfile({ route, navigation }) {
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 4],
-        quality: 1,
+        quality: 1
       });
 
       if (!result.cancelled) {
@@ -128,10 +149,10 @@ export default function EditProfile({ route, navigation }) {
         formData.append('image', {
           uri: result.uri,
           name: 'image.jpg',
-          type: 'image/jpeg',
+          type: 'image/jpeg'
         });
         const {
-          data: { data: imageURL },
+          data: { data: imageURL }
         } = await axios.patch('/auth/profile-image', formData);
         updateUserLocal('image', imageURL);
         setIsProfileUpdated(true);
@@ -141,36 +162,43 @@ export default function EditProfile({ route, navigation }) {
     }
   };
 
-  // Save Changes
   const saveChanges = async () => {
-    if (isProfileUpdated) {
-      setIsProfileUpdated(false);
-      setIsUpdating(true);
-      // Logic to save profile changes
-      if (user?.name != fullname) {
-        await updateUser('name', fullname, false);
-        setUser({
-          ...user,
-          name: fullname,
-        })
-      }
+    let isExistFullNameBadWord = badWords.includes(fullname.toLowerCase());
+    let isExistUserNameBadWord = badWords.includes(username.toLowerCase());
 
-      try {
-        if (user?.username != username) {
-          await updateUser('username', username, false);
+    if (!isExistFullNameBadWord && !isExistUserNameBadWord) {
+      setIsProfileUpdated(true);
+      setIsValidUserName(false);
+      if (isProfileUpdated) {
+        setIsProfileUpdated(false);
+        setIsUpdating(true);
+        // Logic to save profile changes
+        if (user?.name != fullname) {
+          await updateUser('name', fullname, false);
           setUser({
             ...user,
-            name: fullname,
-            username
-          })
+            name: fullname
+          });
+        }
+        try {
+          if (user?.username != username) {
+            await updateUser('username', username, false);
+            setUser({
+              ...user,
+              name: fullname,
+              username
+            });
+          }
+        } catch (e) {
+          alert('Username already exists.');
+        }
+        setIsUpdating(false);
+        // Close Edit Profile Model after updating profile
+        navigation.goBack();
       }
-      } catch (e) {
-        alert('Username already exists.');
-      }
-
-      setIsUpdating(false);
-      // Close Edit Profile Model after updating profile
-      navigation.goBack();
+    } else {
+      setIsProfileUpdated(false);
+      setIsValidUserName(true);
     }
   };
 
@@ -183,14 +211,14 @@ export default function EditProfile({ route, navigation }) {
           }}
         >
           <Ionicons
-            name="ios-chevron-back"
+            name='ios-chevron-back'
             size={30}
             color={theme.color.primary}
           />
         </TouchableOpacity>
         <Button
           variant={isProfileUpdated ? 'silent' : 'silentDisabled'}
-          title={isUpdating ? "Loading..." : "Done"}
+          title={isUpdating ? 'Loading...' : 'Done'}
           onPress={saveChanges}
         />
       </EditProfileHeader>
@@ -198,10 +226,10 @@ export default function EditProfile({ route, navigation }) {
         <ProfileImageWrapper>
           <ProfileImage
             source={image ? { uri: image } : profileImage}
-            resizeMode="cover"
+            resizeMode='cover'
           />
           <EditButton onPress={editProfile}>
-            <Text color="white" fontSize="md">
+            <Text color='white' fontSize='md'>
               EDIT
             </Text>
           </EditButton>
@@ -214,7 +242,7 @@ export default function EditProfile({ route, navigation }) {
               <Text>Name</Text>
             </InputLabel>
             <Input
-              placeholder="Full Name"
+              placeholder='Full Name'
               placeholderTextColor={theme.color.secondary}
               onChangeText={(value) => updateInput(setFullname, value)}
               value={fullname}
@@ -229,9 +257,9 @@ export default function EditProfile({ route, navigation }) {
             <InputLabel>
               <Text>Username</Text>
             </InputLabel>
-            <Text color="secondary">@</Text>
+            <Text color='secondary'>@</Text>
             <Input
-              placeholder="username"
+              placeholder='username'
               placeholderTextColor={theme.color.secondary}
               onChangeText={(value) => updateInput(setUsername, value)}
               value={username}
@@ -239,10 +267,13 @@ export default function EditProfile({ route, navigation }) {
           </InputGroup>
           {/* Username - End*/}
         </InputWrapper>
+        <ErrorText>
+          {isValidUserName && 'Name & Username not allowed bad words'}
+        </ErrorText>
         <Text
-          color="information"
+          color='information'
           style={{ padding: 5, paddingTop: 10 }}
-          fontSize="sm"
+          fontSize='sm'
         >
           Your photo, name, and username will be visible in Zenbase and web
           search results.
