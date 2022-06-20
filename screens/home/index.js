@@ -30,6 +30,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "services/axios";
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from "helpers/notifications";
 
 // Import Images
 import zentBackground from "assets/images/wallet/zent-bg.png";
@@ -105,6 +106,9 @@ export default function Home({ navigation, route }) {
 
   const [isFirstTimeModel, setIsFirstTimeModal] = useState(true);
 
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
   const fetchSongsUnder10Min = async () => {
     try {
       const { data } = await axios.get("/songs/duration/600");
@@ -140,6 +144,14 @@ export default function Home({ navigation, route }) {
     fetchGuidedMeditation();
     fetchChill();
 
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      console.log('notification', notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('response notification', response);
+    });
+
     (async () => {
       try {
         if (await AsyncStorage.getItem("isFirstTimeModal") == '0') {
@@ -148,9 +160,28 @@ export default function Home({ navigation, route }) {
       } catch (e){
         console.log(e);
       }
-    
     })();
-   
+
+
+    (async () => {
+      try {
+        await Notifications.cancelAllScheduledNotificationsAsync();
+        await Notifications.scheduleNotification({ title: `Don't Forget to Earn Zentokens!`, body: 'Take time to clear your mind. Come back to keep earning Zentokens!' }, { seconds: 2 * 60 * 60 });
+        await Notifications.scheduleNotification({ title: `Crazy Day? Meditate for 5 minutes`, body: `With a clear head you'll better able to manage your day.` }, { seconds: 8 * 60 * 60 });
+        await Notifications.scheduleNotification({ title: `Need Something Chill?`, body: 'Listen to chill vibes while taking time for yourself.' }, { seconds: 5 * 60 * 60  });
+        await Notifications.scheduleNotification({ title: `Relax Before Bedtime`, body: `Take time tonight to clear your mind and catch good zzz's.`}, { repeats: true, hour: 21,  minute: 15});
+        await Notifications.scheduleNotification({ title: `Start Your Morning Right`, body: `Take some time to express gratitude and feel grateful throughout the day.` }, { repeats: true, hour: 6,  minute: 30 });
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+
+    
+    
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
   }, []);
 
   // useEffect(() => {

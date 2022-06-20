@@ -20,7 +20,6 @@ import {
   FontAwesome5,
   Foundation,
   Ionicons,
-  MaterialCommunityIcons,
   Feather,
 } from "@expo/vector-icons";
 import { Audio } from "expo-av";
@@ -36,6 +35,8 @@ import { useSongQueue } from "stores/song-queue";
 const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
 // const GIVEAWAY_TOKEN_AFTER_SECONDS = 5; // seconds
 const CONTINUE_LISTENING = 60 * 60 * 1; //seconds
+// const MAX_LISTENING_TIME = 10 * 1; // seconds
+const MAX_LISTENING_TIME = 3 * 60 * 60 * 1; // seconds
 
 const windowsWidth = Dimensions.get("window").width;
 const windowsHeight = Dimensions.get("window").height;
@@ -47,10 +48,6 @@ const ScreenContainer = styled.View`
   flex-direction: column;
   justify-content: space-between;
 `;
-
-const ZenCounter = styled.View``;
-const ZenCounterImage = styled.Image``;
-const ZenCounterEarnings = styled.Text``;
 
 const SongBackdrop = styled.Image`
   position: absolute;
@@ -186,12 +183,16 @@ function renderMsToTiming(ms) {
     seconds = seconds % 60;
   }
   let hours = Math.floor(minutes / 60);
-  if (hours > 0) {
-    minutes = minutes % 60;
-    return `0${hours}:${minutes}:${seconds}`;
-  }
   let zeroFixMinutes = minutes >= 10 ? "" : "0";
   let zeroFixSeconds = seconds >= 10 ? "" : "0";
+
+  if (hours > 0) {
+    minutes = minutes % 60;
+    return `0${hours}:${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
+      seconds || "0"
+    }`;
+  }
+
   return `${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
     seconds || "0"
   }`;
@@ -214,11 +215,9 @@ export default function Play({ navigation }) {
 
   const [song, setSong] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(1);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(1);
   const [carryOver, setCarryOver] = useState(0);
-  const [adBonus, setAdBonus] = useState(0);
   const { setLoading, renderLoader } = useLoader();
   const [continueListening, setContinueListening] = useState(false);
   const clickContinueListeningRef = useRef(false);
@@ -309,7 +308,14 @@ export default function Play({ navigation }) {
     const intervalId = setInterval(() => {
       secondsRef.current++;
 
-      if (secondsRef.current > GIVEAWAY_TOKEN_AFTER_SECONDS) {
+      if (secondsRef.current >= MAX_LISTENING_TIME) {
+        onPressPause();
+        navigation.navigate("TotalEarnings");
+      }
+      if (
+        secondsRef.current > GIVEAWAY_TOKEN_AFTER_SECONDS &&
+        secondsRef.current < MAX_LISTENING_TIME
+      ) {
         setZentokens((oldZentoken) => {
           return (
             oldZentoken +
@@ -501,7 +507,7 @@ export default function Play({ navigation }) {
 
   const onPressListenWithFriends = () => {
     ReactNativeShare(
-      `${user?.name} is inviting you to meditate with him.\n\nJoin here: www.zenbase.us`,
+      `${user?.name} is inviting you to meditate with him.\n\nJoin here: https://zenbase.us`,
       () => {
         // Success
       },
@@ -516,7 +522,7 @@ export default function Play({ navigation }) {
 
   const onPressShareSong = () => {
     ReactNativeShare(
-      `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+      `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.\n\nJoin here: https://zenbase.us`,
       () => {
         // Success
       },

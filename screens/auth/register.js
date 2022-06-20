@@ -216,7 +216,8 @@ export default function register({ navigation }) {
   };
 
   useEffect(() => {
-    if (email.trim() == "" || password == "" || valueCountry == null) {
+    // if (email.trim() == "" || password == "" || valueCountry == null) {
+    if (email.trim() == "" || password == "") {
       setIsRegisterEnabled(false);
     } else {
       setIsRegisterEnabled(true);
@@ -242,7 +243,7 @@ export default function register({ navigation }) {
           <Input
             returnKeyType="done"
             autoCapitalize="none"
-            placeholder="Phone number or Email"
+            placeholder="Email"
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setEmail, value)}
             value={email}
@@ -262,7 +263,7 @@ export default function register({ navigation }) {
         <RNPickerSelect
             style={pickerStyling}
             placeholder={{
-              label: 'Country',
+              label: 'Country (Optional)',
               value: null,
               color: theme.color.secondary,
             }}
@@ -293,7 +294,7 @@ export default function register({ navigation }) {
         <RNPickerSelect
             style={pickerStyling}
             placeholder={{
-              label: 'State',
+              label: 'State (Optional)',
               value: null,
               color: theme.color.secondary,
             }}

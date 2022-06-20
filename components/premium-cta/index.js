@@ -1,6 +1,5 @@
 import React from "react";
 import Text from "components/text";
-import Box from "components/box";
 import styled from "styled-components/native";
 
 // Import Images
@@ -77,7 +76,7 @@ export default function PremiumCTA({ navigation, onPress }) {
   const onPressGet = async () => {
     try {
       const { error, paymentMethod } = await presentApplePay({
-        cartItems: [{ label: "Zenbase Premium", amount: "3.99" }],
+        cartItems: [{ label: "Zenbase Premium", amount: "4.99" }],
         country: "US",
         currency: "USD",
         requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
@@ -107,7 +106,7 @@ export default function PremiumCTA({ navigation, onPress }) {
 
       // Payment Success
       await axios.post("/payments", {
-        amount: 399,
+        amount: 499,
         reason: "PREMIUM",
         valid: true,
         premium: true,
@@ -132,9 +131,12 @@ export default function PremiumCTA({ navigation, onPress }) {
         </CTAImageWrapper>
       </PaddingWrapper>
       <FooterWrapper source={PremiumCTAFooterImage}>
-        {isApplePaySupported ? (
+        {user?.isPremium && (
+          <Text>You are already a Zenbase Premium Member</Text>
+        )}
+        {isApplePaySupported && !user?.isPremium ? (
           <>
-            <Text>$3.99 per month / 42 ZENT</Text>
+            <Text>$4.99 per month / 42 ZENT</Text>
             <GetButton onPress={onPressGet}>
               <Text color="primary" fontSize="md" fontWeight="bold">
                 GET
@@ -142,7 +144,7 @@ export default function PremiumCTA({ navigation, onPress }) {
             </GetButton>
           </>
         ) : (
-          <Text>Apple Pay is not supported on your device</Text>
+          !user?.isPremium && <Text>Apple Pay is not supported on your device</Text>
         )}
       </FooterWrapper>
     </CTAWrapper>

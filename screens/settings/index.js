@@ -145,17 +145,17 @@ export default function Settings({ route }) {
                     navigation.navigate("ZenbaseAds", { isForLogin: false });
                   },
                 },
-                {
-                  icon: (
-                    <Image
-                      source={ZentTokenVector}
-                      style={{ marginRight: 3, width: 21, height: 21 }}
-                      resizeMode="cover"
-                    />
-                  ),
-                  title: "Rewards",
-                  onPress: () => {},
-                },
+                // {
+                //   icon: (
+                //     <Image
+                //       source={ZentTokenVector}
+                //       style={{ marginRight: 3, width: 21, height: 21 }}
+                //       resizeMode="cover"
+                //     />
+                //   ),
+                //   title: "Rewards",
+                //   onPress: () => {},
+                // },
                 {
                   icon: (
                     <View

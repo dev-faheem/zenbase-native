@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Container,
@@ -6,33 +6,33 @@ import {
   Divider,
   Button,
   ContextMenu,
-} from 'components';
-import styled from 'styled-components/native';
-import useSearch from 'queries/useSearch';
+} from "components";
+import styled from "styled-components/native";
+import useSearch from "queries/useSearch";
 import {
   FlatList,
   ScrollView,
   Dimensions,
   TouchableOpacity,
-} from 'react-native';
-import useCategories from 'queries/useCategories';
+} from "react-native";
+import useCategories from "queries/useCategories";
 
-import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useTheme } from 'stores/theme';
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTheme } from "stores/theme";
 
 // Import Images
-import SongImg from 'assets/images/song.png';
-import ArtistImg from 'assets/images/artist.png';
-import axios from 'services/axios';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useAuth } from 'stores/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ReactNativeShare from 'helpers/react-native-share';
-import { useSongQueue } from 'stores/song-queue';
-import useDebounce from 'services/useDebounce';
+import SongImg from "assets/images/song.png";
+import ArtistImg from "assets/images/artist.png";
+import axios from "services/axios";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useAuth } from "stores/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ReactNativeShare from "helpers/react-native-share";
+import { useSongQueue } from "stores/song-queue";
+import useDebounce from "services/useDebounce";
 
-const windowsWidth = Dimensions.get('window').width;
-const windowsHeight = Dimensions.get('window').height;
+const windowsWidth = Dimensions.get("window").width;
+const windowsHeight = Dimensions.get("window").height;
 
 // Styled Components
 const SearchInput = styled.TextInput`
@@ -165,7 +165,7 @@ const TrendingFloatingArtistImage = styled.Image`
 `;
 
 export default function SearchModal({ navigation }) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const debouncedSearchTerm = useDebounce(search, 500);
   const { theme } = useTheme();
 
@@ -226,7 +226,7 @@ export default function SearchModal({ navigation }) {
   };
 
   const fetchSongs = async () => {
-    const { data } = await axios.get('/songs', {
+    const { data } = await axios.get("/songs", {
       params: {
         search,
       },
@@ -235,7 +235,7 @@ export default function SearchModal({ navigation }) {
   };
 
   const fetchUsers = async () => {
-    const { data } = await axios.get('/auth/search', {
+    const { data } = await axios.get("/auth/search", {
       params: {
         q: search,
       },
@@ -244,7 +244,7 @@ export default function SearchModal({ navigation }) {
   };
 
   useEffect(() => {
-    if (debouncedSearchTerm.trim() != '') {
+    if (debouncedSearchTerm.trim() != "") {
       fetchSongs();
       fetchUsers();
     } else {
@@ -269,7 +269,7 @@ export default function SearchModal({ navigation }) {
       const songs = [];
 
       for (let songId of recents) {
-        const song = data.data.results.find(song => song._id == songId)
+        const song = data.data.results.find((song) => song._id == songId);
         if (song) {
           songs.push(song);
         }
@@ -285,8 +285,8 @@ export default function SearchModal({ navigation }) {
     navigation.goBack();
 
     // Navigate to user profile page
-    navigation.navigate('UserProfile', { user });
-  }
+    navigation.navigate("UserProfile", { user });
+  };
 
   return (
     <Canvas>
@@ -317,7 +317,7 @@ export default function SearchModal({ navigation }) {
       </Container>
       <ScrollView>
         <Container>
-          {search == '' && false && (
+          {search == "" && false && (
             <>
               <HeadingWrapper>
                 <Text fontSize="xl" fontWeight="600">
@@ -326,7 +326,7 @@ export default function SearchModal({ navigation }) {
               </HeadingWrapper>
 
               <TrendingWrapper>
-                <TrendingItem onPress={() => { }}>
+                <TrendingItem onPress={() => {}}>
                   <TrendingImageWrapper>
                     <TrendingImage
                       source={ArtistImg}
@@ -338,7 +338,7 @@ export default function SearchModal({ navigation }) {
                   </Text>
                 </TrendingItem>
 
-                <TrendingItem onPress={() => { }}>
+                <TrendingItem onPress={() => {}}>
                   <TrendingImageWrapper>
                     <TrendingImage source={SongImg} />
                     <TrendingFloatingArtistImage source={ArtistImg} />
@@ -348,7 +348,7 @@ export default function SearchModal({ navigation }) {
                   </Text>
                 </TrendingItem>
 
-                <TrendingItem onPress={() => { }}>
+                <TrendingItem onPress={() => {}}>
                   <TrendingImageWrapper>
                     <TrendingImage source={SongImg} />
                     <TrendingFloatingArtistImage source={ArtistImg} />
@@ -365,21 +365,24 @@ export default function SearchModal({ navigation }) {
 
           <HeadingWrapper>
             <Text fontSize="xl" fontWeight="600">
-              {search == '' && recentlyPlayedSongs.length > 0 ? 'Recent' : songs.length > 0 || users.length > 0 ? 'Top Matches' : ''}
+              {search == "" && recentlyPlayedSongs.length > 0
+                ? "Recent"
+                : songs.length > 0 || users.length > 0
+                ? "Top Matches"
+                : ""}
             </Text>
-            {(search == '' && recentlyPlayedSongs.length > 0) && (
-              <TouchableOpacity onPress={async () => {
-                try {
-                  await AsyncStorage.removeItem('recents');
-                  updateUser(
-                    "recentlyPlayed",
-                    []
-                  );
-                  setRecentlyPlayedSongs([]);
-                } catch (e) {
-                  console.log(e);
-                }
-              }}>
+            {search == "" && recentlyPlayedSongs.length > 0 && (
+              <TouchableOpacity
+                onPress={async () => {
+                  try {
+                    await AsyncStorage.removeItem("recents");
+                    updateUser("recentlyPlayed", []);
+                    setRecentlyPlayedSongs([]);
+                  } catch (e) {
+                    console.log(e);
+                  }
+                }}
+              >
                 <Text fontSize="md" color="primary">
                   Clear
                 </Text>
@@ -388,34 +391,45 @@ export default function SearchModal({ navigation }) {
           </HeadingWrapper>
 
           <SongListWrapper>
-            {users.filter(user => user.isArtist && user.username != userAuth.username).map((user) => (
-              <SongList onPress={() => {
-                openUser(user);
-              }}>
-                <ArtistImage source={user.image ? {uri: user.image } : ArtistImg} />
-                <SongContentWrapper>
-                  <SongContent>
-                    <Text>{user?.name}</Text>
-                    <Text fontSize="sm" color="secondary">
-                      {user.isArtist ? 'Artist': 'User'}
-                    </Text>
-                  </SongContent>
+            {users
+              .filter(
+                (user) => user.isArtist && user.username != userAuth.username
+              )
+              .map((user) => (
+                <SongList
+                  onPress={() => {
+                    openUser(user);
+                  }}
+                >
+                  <ArtistImage
+                    source={user.image ? { uri: user.image } : ArtistImg}
+                  />
+                  <SongContentWrapper>
+                    <SongContent>
+                      <Text>{user?.name}</Text>
+                      <Text fontSize="sm" color="secondary">
+                        {user.isArtist ? "Artist" : "User"}
+                      </Text>
+                    </SongContent>
 
-                  <IconWrapper>
-                    <Ionicons
-                      name="ios-chevron-forward"
-                      size={24}
-                      color={theme.color.secondary}
-                    />
-                  </IconWrapper>
-                </SongContentWrapper>
-              </SongList>
-            ))}
+                    <IconWrapper>
+                      <Ionicons
+                        name="ios-chevron-forward"
+                        size={24}
+                        color={theme.color.secondary}
+                      />
+                    </IconWrapper>
+                  </SongContentWrapper>
+                </SongList>
+              ))}
             {songs.map((song) => (
               <SongList
                 onPress={() => {
-                  updateSongQueue(song._id, songs.map(song => song._id));
-                  navigation.navigate('Play', { _id: song._id });
+                  updateSongQueue(
+                    song._id,
+                    songs.map((song) => song._id)
+                  );
+                  navigation.navigate("Play", { _id: song._id });
                 }}
               >
                 <SongImage source={{ uri: song?.artwork }} />
@@ -423,10 +437,10 @@ export default function SearchModal({ navigation }) {
                   <SongContent>
                     <Text numberOfLines={1}>{song?.name}</Text>
                     <Text numberOfLines={1} fontSize="sm" color="secondary">
-                      Song •{' '}
+                      Song •{" "}
                       {song.artist
-                        .map((artist) => artist?.name || 'Unknown Artist')
-                        .join(', ')}
+                        .map((artist) => artist?.name || "Unknown Artist")
+                        .join(", ")}
                     </Text>
                   </SongContent>
 
@@ -444,36 +458,47 @@ export default function SearchModal({ navigation }) {
                 </SongContentWrapper>
               </SongList>
             ))}
-            {users.filter(user => !user.isArtist && user.username != userAuth.username).map((user) => (
-              <SongList onPress={() => {
-                openUser(user);
-              }}>
-                <ArtistImage source={user.image ? {uri: user.image } : ArtistImg} />
-                <SongContentWrapper>
-                  <SongContent>
-                    <Text>{user?.name}</Text>
-                    <Text fontSize="sm" color="secondary">
-                      {user.isArtist ? 'Artist': 'User'}
-                    </Text>
-                  </SongContent>
+            {users
+              .filter(
+                (user) => !user.isArtist && user.username != userAuth.username
+              )
+              .map((user) => (
+                <SongList
+                  onPress={() => {
+                    openUser(user);
+                  }}
+                >
+                  <ArtistImage
+                    source={user.image ? { uri: user.image } : ArtistImg}
+                  />
+                  <SongContentWrapper>
+                    <SongContent>
+                      <Text>{user?.name}</Text>
+                      <Text fontSize="sm" color="secondary">
+                        {user.isArtist ? "Artist" : "User"}
+                      </Text>
+                    </SongContent>
 
-                  <IconWrapper>
-                    <Ionicons
-                      name="ios-chevron-forward"
-                      size={24}
-                      color={theme.color.secondary}
-                    />
-                  </IconWrapper>
-                </SongContentWrapper>
-              </SongList>
-            ))}
+                    <IconWrapper>
+                      <Ionicons
+                        name="ios-chevron-forward"
+                        size={24}
+                        color={theme.color.secondary}
+                      />
+                    </IconWrapper>
+                  </SongContentWrapper>
+                </SongList>
+              ))}
 
-            {search == '' &&
+            {search == "" &&
               recentlyPlayedSongs.map((song) => (
                 <SongList
                   onPress={() => {
-                    updateSongQueue(song._id, recentlyPlayedSongs.map(song => song._id));
-                    navigation.navigate('Play', { _id: song._id });
+                    updateSongQueue(
+                      song._id,
+                      recentlyPlayedSongs.map((song) => song._id)
+                    );
+                    navigation.navigate("Play", { _id: song._id });
                   }}
                 >
                   <SongImage source={{ uri: song?.artwork }} />
@@ -481,10 +506,10 @@ export default function SearchModal({ navigation }) {
                     <SongContent>
                       <Text numberOfLines={1}>{song?.name}</Text>
                       <Text numberOfLines={1} fontSize="sm" color="secondary">
-                        Song •{' '}
+                        Song •{" "}
                         {song.artist
-                          .map((artist) => artist?.name || 'Unknown Artist')
-                          .join(', ')}
+                          .map((artist) => artist?.name || "Unknown Artist")
+                          .join(", ")}
                       </Text>
                     </SongContent>
 
@@ -535,26 +560,28 @@ export default function SearchModal({ navigation }) {
           contextMenuHeight = height;
         }}
         menuList={[
-          (isSongLiked() ? {
-            title: 'Delete from Library',
-            color: 'primary',
-            icon: (
-              <Ionicons
-                name="ios-trash-outline"
-                size={16}
-                color={theme.color.primary}
-              />
-            ),
-            onPress: () => {
-              toggleLikedTrack();
-            },
-          } : {
-            title: 'Add to Library',
-            icon: <Ionicons name="heart-outline" size={16} color="white" />,
-            onPress: () => {
-              toggleLikedTrack();
-            },
-          }),
+          isSongLiked()
+            ? {
+                title: "Delete from Library",
+                color: "primary",
+                icon: (
+                  <Ionicons
+                    name="ios-trash-outline"
+                    size={16}
+                    color={theme.color.primary}
+                  />
+                ),
+                onPress: () => {
+                  toggleLikedTrack();
+                },
+              }
+            : {
+                title: "Add to Library",
+                icon: <Ionicons name="heart-outline" size={16} color="white" />,
+                onPress: () => {
+                  toggleLikedTrack();
+                },
+              },
           {
             divider: true,
           },
@@ -581,11 +608,11 @@ export default function SearchModal({ navigation }) {
           //   onPress: () => {},
           // },
           {
-            title: 'Share Song...',
+            title: "Share Song...",
             icon: <Ionicons name="ios-share-outline" size={16} color="white" />,
             onPress: () => {
               ReactNativeShare(
-                `${user?.name} is inviting you to listen the "${contextMenuSong?.name}"! Meditate with ${user?.name} only on Zenbase.`,
+                `${user?.name} is inviting you to listen the "${contextMenuSong?.name}"! Meditate with ${user?.name} only on Zenbase.\n\nJoin here: https://zenbase.us`,
                 () => {
                   // Success
                 },
