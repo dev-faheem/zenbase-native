@@ -100,10 +100,14 @@ export default function ClaimToWallet({ route, navigation }) {
   const {secondsWorth} = useAuth()
 
   const [is100thMeditation, setIs100thMeditation] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const onPressClaimToWallet = async () => {
-    await transactTokens();
-    navigation.navigate("Wallet");
+    if (!isLoading) {
+      await transactTokens();
+      setIsLoading(false);
+      navigation.navigate("Wallet");  
+    }
   };
 
   useEffect(() => {
@@ -246,9 +250,12 @@ export default function ClaimToWallet({ route, navigation }) {
             </InfoBody>
             <InfoFooter>
               <Button
-                title="Claim to wallet"
+                title={isLoading?"Please Wait...":"Claim to wallet"}
                 block
-                onPress={onPressClaimToWallet}
+                onPress={() => {
+                  setIsLoading(true);
+                  onPressClaimToWallet();
+                }}
               />
             </InfoFooter>
           </InfoWrapper>
