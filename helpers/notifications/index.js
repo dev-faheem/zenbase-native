@@ -22,14 +22,14 @@ export const askPermissions = async () => {
             finalStatus = status;
         }
         if (finalStatus !== 'granted') {
-            alert('Enable push notifications to use the app!');
+            // alert('Enable push notifications to use the app!');
             await AsyncStorage.setItem('expopushtoken', "");
             return;
         }
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         await AsyncStorage.setItem('expopushtoken', token);
     } else {
-        alert('Must use physical device for Push Notifications');
+        // alert('Must use physical device for Push Notifications');
     }
 
     if (Platform.OS === 'android') {

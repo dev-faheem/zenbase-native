@@ -16,12 +16,12 @@ Notifications.init();
 export default function App() {
 
   useEffect(() => {
-  //   (async () => {
-  //     const { status } = await requestTrackingPermissionsAsync();
-  //     if (status === 'granted') {
-  //       console.log('Yay! I have user permission to track data');
-  //     }
-  //   })();
+    (async () => {
+      const { status } = await requestTrackingPermissionsAsync();
+      if (status === 'granted') {
+        console.log('Yay! I have user permission to track data');
+      }
+    })();
     Notifications.askPermissions();
   }, []);
 
