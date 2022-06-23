@@ -194,7 +194,7 @@ export default function Settings({ route }) {
                 },
               ].filter((_) => _ != null)}
             />
-            <SwitchWrapper>
+            {/* <SwitchWrapper>
               <Text numberOfLines={1}>Renew Zenbase Premium Automatically</Text>
               <Switch onValueChange={toggleAutoRenew} value={autoRenew} />
             </SwitchWrapper>
@@ -205,7 +205,7 @@ export default function Settings({ route }) {
             >
               When you have enough Zentoken your tokens will be redeemed for
               Zenbase Premium automatically.
-            </Text>
+            </Text> */}
           </Container>
         </ScrollView>
       </View>
