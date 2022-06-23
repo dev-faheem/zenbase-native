@@ -30,8 +30,13 @@ const CategoryGrid = ({ categories = [] }) => {
 
   useEffect(() => {
     let categoryRowCount = Math.ceil(categories.length / 2);
+    let count = 0;
     const _rows = [...new Array(categoryRowCount)]
-      .map((_, index) => index)
+      .map((_, index) => {
+        const r = count;
+        count += 2;
+        return r;
+      })
       .map((index) => {
         if (!categories[index + 1]) return [categories[index]];
         return [categories[index], categories[index + 1]];
