@@ -455,7 +455,7 @@ export default function ZentDonation({ route, navigation }) {
                 </CardBody>
                 <CardFooter>
                   <Button
-                    title="Yes, donate my Zentoken!"
+                    title="Yes"
                     block
                     onPress={() => {
                       setIsDonation(true);

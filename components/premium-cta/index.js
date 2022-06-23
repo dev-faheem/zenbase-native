@@ -136,7 +136,7 @@ export default function PremiumCTA({ navigation, onPress }) {
         )}
         {isApplePaySupported && !user?.isPremium ? (
           <>
-            <Text>$4.99 per month / 42 ZENT</Text>
+            <Text>$4.99 per month</Text>
             <GetButton onPress={onPressGet}>
               <Text color="primary" fontSize="md" fontWeight="bold">
                 GET
