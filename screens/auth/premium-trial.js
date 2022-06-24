@@ -6,6 +6,7 @@ import { useTheme } from "stores/theme";
 // Import Images
 import ConfettiImage from "assets/images/confetti.png";
 import axios from "services/axios";
+import { CommonActions } from "@react-navigation/native";
 
 const BackgroundImage = styled.ImageBackground`
   width: 100%;
@@ -29,15 +30,20 @@ const FooterFlex = styled.View`
 export default function PremiumTrial({ navigation }) {
   const onPressStartExploring = async () => {
     try {
-      await axios.post("/payments", {
-        amount: 0,
-        reason: "SIGNUP_BONUS",
-        valid: true,
-        premium: true,
-      });
+      // await axios.post("/payments", {
+      //   amount: 0,
+      //   reason: "SIGNUP_BONUS",
+      //   valid: true,
+      //   premium: true,
+      // });
 
-      navigation.goBack();
-      navigation.navigate("ZenbaseAds", { isForLogin: true });
+      // navigation.goBack();
+      // navigation.navigate("ZenbaseAds", { isForLogin: true });
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: "App" }],
+        })
+      );
     } catch (e) {
       console.error(e);
     }

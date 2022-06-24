@@ -89,11 +89,15 @@ export default function ZenbaseAds({ route, navigation }) {
 
   const selectAdsAmount = (amount = 2) => {
     updateUser("ads", amount);
-    navigation.dispatch(
-      CommonActions.reset({
-        routes: [{ name: "App" }],
-      })
-    );
+    if (isForLogin) {
+      navigation.navigate('PremiumTrial') 
+    } else {
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: "App" }],
+        })
+      );
+    }
   };
 
   return (

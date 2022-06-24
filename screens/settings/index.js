@@ -108,7 +108,7 @@ export default function Settings({ route }) {
                   title: "Invite Friends",
                   onPress: () =>
                     inviteFriend(
-                      `${user?.name} is inviting you to meditate with him/her. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`
+                      `${user?.name} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`
                     ),
                 },
                 user?.isPremium

@@ -19,6 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 // Import Images
 import ConfettiImage from "assets/images/confetti.png";
 import { useAuth } from "stores/auth";
+import axios from "services/axios";
 
 // Styled Component
 
@@ -66,6 +67,18 @@ export default function SignupBonus({ route, navigation }) {
 
   useEffect(() => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    (async() => {
+      try {
+        await axios.post("/payments", {
+          amount: 0,
+          reason: "SIGNUP_BONUS",
+          valid: true,
+          premium: true,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    })();
   }, []);
 
   const onPressClaimToWallet = async () => {
