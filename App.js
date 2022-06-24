@@ -9,7 +9,7 @@ import { StripeProvider } from "@stripe/stripe-react-native";
 import config from "./config";
 import { SongQueueProvider } from "stores/song-queue";
 import * as Notifications from "helpers/notifications";
-// import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 
 Notifications.init();
 
