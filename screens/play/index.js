@@ -188,7 +188,8 @@ function renderMsToTiming(ms) {
 
   if (hours > 0) {
     minutes = minutes % 60;
-    return `0${hours}:${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
+    zeroFixMinutes = minutes >= 10 ? "" : "0";
+    return `${hours}:${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
       seconds || "0"
     }`;
   }
