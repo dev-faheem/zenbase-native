@@ -57,7 +57,16 @@ export default function Profile({ route, navigation }) {
         return setRecentlyPlayedSongs([]);
       }
       const { data } = await axios.get("/songs/ids?ids=" + recents.join(","));
-      setRecentlyPlayedSongs(data.data.results);
+      const songs = [];
+
+      for (let songId of recents) {
+        const song = data.data.results.find((song) => song._id == songId);
+        if (song) {
+          songs.push(song);
+        }
+      }
+
+      setRecentlyPlayedSongs(songs);
     } catch (e) {
       console.error(e);
     }
