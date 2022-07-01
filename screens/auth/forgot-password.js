@@ -55,10 +55,6 @@ export default function ForgotPassword({ navigation }) {
       }
   
       const value = phoneNumberOrEmail;
-      
-      const { data } =  await axios.post('/auth/generate-otp', {
-        username: phoneNumberOrEmail,
-      });
   
       navigation.navigate('OTP', { type, value, userId: data.data.userId });
     } catch(e) {
