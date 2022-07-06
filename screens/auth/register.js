@@ -16,7 +16,7 @@ import { useLoader } from "stores/loader";
 import axios from "services/axios";
 import Country from "country-state-city/dist/lib/country";
 import State from "country-state-city/dist/lib/state";
-import RNPickerSelect from 'react-native-picker-select';
+import RNPickerSelect from "react-native-picker-select";
 import { Ionicons } from "@expo/vector-icons";
 
 // Styled Component
@@ -81,28 +81,28 @@ const dropdownProps = {
     backgroundColor: "#1B1C1E",
     height: 45,
     borderRadius: 5,
-    marginTop: 10,
+    marginTop: 10
   },
   containerStyle: {
-    zIndex: 10,
+    zIndex: 10
   },
   textStyle: {
-    color: "#8F9094",
+    color: "#8F9094"
   },
   labelStyle: {
-    color: "white",
+    color: "white"
   },
   disabledStyle: {
-    color: "white",
+    color: "white"
   },
 
   dropDownContainerStyle: {
     height: 120,
     zIndex: 10000000,
-    backgroundColor: "#1B1C1E",
+    backgroundColor: "#1B1C1E"
   },
   zIndex: 100000,
-  zIndexInverse: 100000,
+  zIndexInverse: 100000
 };
 
 export default function register({ navigation }) {
@@ -120,7 +120,7 @@ export default function register({ navigation }) {
       borderRadius: 5,
       marginTop: 10,
       paddingLeft: 10,
-      color: '#fff'
+      color: "#fff"
     },
     inputAndroid: {
       backgroundColor: "#1B1C1E",
@@ -130,24 +130,23 @@ export default function register({ navigation }) {
       paddingLeft: 10
     },
     placeholder: {
-      color:theme.color.secondary, 
+      color: theme.color.secondary
     },
     modalViewBottom: {
       backgroundColor: theme.color.background
     },
     modalViewMiddle: {
-      backgroundColor: '#1B1C1E',
-      
+      backgroundColor: "#1B1C1E"
     },
-    
+
     done: {
       color: theme.color.primary
     },
     iconContainer: {
       top: 20,
-      right: 12,
+      right: 12
     }
-  }
+  };
 
   // States
   const [isRegisterEnabled, setIsRegisterEnabled] = useState(false);
@@ -165,24 +164,23 @@ export default function register({ navigation }) {
     {
       label: Country.getCountryByCode("US").name,
       value: Country.getCountryByCode("US").isoCode,
-      color: 'white'
+      color: "white"
     },
     ...Country.getAllCountries()
       .map((country) => {
         return {
           label: country.name,
           value: country.isoCode,
-          color: 'white'
+          color: "white"
         };
       })
-      .filter((obj) => obj.value != "US"),
+      .filter((obj) => obj.value != "US")
   ]);
 
   const [openState, setOpenState] = useState(false);
   const [valueState, setValueState] = useState(null);
   const [states, setStates] = useState([]);
-
-  const { login } = useAuth();
+  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState("");
 
   // Input Handler
   const updateInput = (setState, value) => {
@@ -192,22 +190,30 @@ export default function register({ navigation }) {
   // Register Handler
   const registerHandler = async () => {
     setLoading(true);
+    // let type = "email";
+
+    let type = "phoneNumber"; // or email
+    if (/[a-zA-Z]/g.test(phoneNumberOrEmail)) {
+      type = "email";
+    }
+    console.log("type of data", type);
 
     try {
       const {
-        data: { data },
+        data: { data }
       } = await axios.post("/auth/register", {
-        // name,
-        // phone: phoneNumber,
-        // username,
-        email,
+        phone: type === "email" ? "" : phoneNumberOrEmail,
+        email: phoneNumberOrEmail,
         password,
         country: valueCountry,
-        state: valueState,
+        state: valueState
       });
-
-      login(data);
-      navigation.navigate("SignupBonus");
+      let value = phoneNumberOrEmail;
+      navigation.navigate("OTP", {
+        type,
+        value,
+        userId: data._id
+      });
     } catch (error) {
       axios.handleError(error);
       console.error(error);
@@ -217,7 +223,7 @@ export default function register({ navigation }) {
 
   useEffect(() => {
     // if (email.trim() == "" || password == "" || valueCountry == null) {
-    if (email.trim() == "" || password == "") {
+    if (phoneNumberOrEmail.trim() == "" || password == "") {
       setIsRegisterEnabled(false);
     } else {
       setIsRegisterEnabled(true);
@@ -243,11 +249,15 @@ export default function register({ navigation }) {
           <Input
             returnKeyType="done"
             autoCapitalize="none"
-            placeholder="Email"
+            placeholder="Phone number or email"
             placeholderTextColor={theme.color.secondary}
-            onChangeText={(value) => updateInput(setEmail, value)}
-            value={email}
-            onSubmitEditing={() => passwordInput.current.focus()}
+            onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
+            value={phoneNumberOrEmail}
+            onSubmitEditing={() => {
+              if (!(phoneNumberOrEmail != "" && password != "")) {
+                passwordInput.current.focus();
+              }
+            }}
           />
 
           <Input
@@ -260,12 +270,12 @@ export default function register({ navigation }) {
             ref={passwordInput}
           />
 
-        <RNPickerSelect
+          <RNPickerSelect
             style={pickerStyling}
             placeholder={{
-              label: 'Country (Optional)',
+              label: "Country (Optional)",
               value: null,
-              color: theme.color.secondary,
+              color: theme.color.secondary
             }}
             value={valueCountry}
             onValueChange={(value) => {
@@ -278,37 +288,35 @@ export default function register({ navigation }) {
                     return {
                       label: state.name,
                       value: state.isoCode,
-                      color: 'white'
+                      color: "white"
                     };
                   })
                 );
               }
-             
             }}
             items={countries}
             Icon={() => {
               return <Ionicons name="chevron-down" size={24} color="gray" />;
             }}
-        />
+          />
 
-        <RNPickerSelect
+          <RNPickerSelect
             style={pickerStyling}
             placeholder={{
-              label: 'State (Optional)',
+              label: "State (Optional)",
               value: null,
-              color: theme.color.secondary,
+              color: theme.color.secondary
             }}
             value={valueState}
             onValueChange={(value) => {
               setValueState(value);
-             
             }}
             items={states}
             Icon={() => {
               return <Ionicons name="chevron-down" size={24} color="gray" />;
             }}
-        />
-{/* 
+          />
+          {/* 
           <DropDownPicker
             open={openCountry}
             value={valueCountry}
@@ -369,7 +377,7 @@ export default function register({ navigation }) {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 15,
+            marginTop: 15
           }}
         >
           <TouchableOpacity
