@@ -68,8 +68,8 @@ export default function PremiumUpgrade2({ navigation }) {
             <SafeAreaView style={{ flex: 1 }}>
                 <Container style={{ flex: 1 }}>
                     <HeaderWrapper>
-                        <HeaderImage source={ZentBackground} resizeMode='cover' />
-                        <Text style={{ marginBottom: 15 }}>0.01 Zent</Text>
+                        {/* <HeaderImage source={ZentBackground} resizeMode='cover' />
+                        <Text style={{ marginBottom: 15 }}>0.01 Zent</Text> */}
                     </HeaderWrapper>
                     <Text fontSize='21' style={{ marginBottom: 25 }} fontWeight='600' color='header90'>Upgrade to Zenbase Premium to listen with friends and earn 2x more.</Text>
                     <PremiumCTA onPress={() => { }} />

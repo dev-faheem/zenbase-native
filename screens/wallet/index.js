@@ -118,7 +118,7 @@ const HeaderImage = styled.Image`
 
 const transactionListenDuration = (transaction) => {
   const seconds = Number(transaction.amount / transaction.appreciatedFor) || 1;
-  const minutes = Math.ceil(seconds / 60);
+  const minutes = Math.ceil(seconds / 60) + 5;
   return `${minutes} min`;
 };
 
@@ -157,6 +157,8 @@ function History({ ZentBanner }) {
           {/* Wallet History List */}
           {zenTransactions
             .filter((transaction) => transaction.type == "SONG_MINING")
+            .slice(0)
+            .reverse()
             .map((transaction) => (
               <WalletHistoryList>
                 <WalletHistoryListText>

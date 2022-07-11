@@ -24,6 +24,7 @@ import { BlurView } from "expo-blur";
 
 // Import images
 import ZenbaseWhiteVector from "assets/vectors/zenbase-white.png";
+import ApplePayImage from "assets/images/apple-pay.png";
 import { useAuth } from "stores/auth";
 import axios from "services/axios";
 import { useApplePay } from "@stripe/stripe-react-native";
@@ -130,6 +131,12 @@ const SwitchWrapper = styled.View`
   justify-content: space-between;
   align-items: center;
 `;
+
+const ApplePayBanner = styled.Image`
+  width: 100%;
+  height: 225px;
+  margin-bottom: 30px;
+`
 
 // Zent Donation Component (Default)
 export default function ZentDonation({ route, navigation }) {
@@ -285,8 +292,9 @@ export default function ZentDonation({ route, navigation }) {
                 )}
               </CardBody>
             </CardWrapper>
-
-            <ZentTokenBanner tokens={totalZent} usd={usdValue} />
+            
+            <ApplePayBanner source={ApplePayImage} resizeMode={'center'} />
+            {/* <ZentTokenBanner tokens={totalZent} usd={usdValue} /> */}
           </DonationHeader>
           <DonationFooter>
             {isDonation ? (

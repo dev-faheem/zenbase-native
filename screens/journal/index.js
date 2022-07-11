@@ -162,7 +162,7 @@ export default function Journal({ route, navigation }) {
                     }}
                   >
                     <JournalList style={listStyle}>
-                      <JournalListImg source={SongImage} resizeMode="cover" />
+                      <JournalListImg source={{ uri: data.item?.image }} resizeMode="cover" />
                       <JournalListContent
                         style={
                           data.index == journals.length - 1
@@ -171,8 +171,8 @@ export default function Journal({ route, navigation }) {
                         }
                       >
                         <View style={{ width: "58%" }}>
-                          <Text numberOfLines={1} style={{ marginTop: 4 }}>
-                            {data.item.title}
+                          <Text numberOfLines={1} style={{ marginTop: 4, textTransform: 'capitalize' }} >
+                            {data.item.title || data.item.type}
                           </Text>
                           <Text
                             color="information"

@@ -478,7 +478,7 @@ export default function Play({ navigation }) {
   };
 
   const onSlidingComplete = async (value) => {
-    if (user.isPremium) {
+    // if (user.isPremium) {
       try {
         await audio.setPositionAsync(value, {
           toleranceMillisAfter: value - 1000,
@@ -487,9 +487,9 @@ export default function Play({ navigation }) {
       } catch (e) {
         console.error(e);
       }
-    } else {
-      navigation.push("PremiumUpgrade1");
-    }
+    // } else {
+    //   navigation.push("PremiumUpgrade1");
+    // }
   };
 
   const onPressBackwards = async () => {

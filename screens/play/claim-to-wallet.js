@@ -88,8 +88,8 @@ const calculateLength = (_duration) => {
     if(_duration < 60){
       return `${Math.ceil(_duration)} sec`
     }
-    const minutes = _duration / 60;
-    return `${Math.ceil(minutes)} min`;
+    const minutes = Math.ceil(_duration / 60) + 5;
+    return `${minutes} min`;
   }
   return "~ min";
 };

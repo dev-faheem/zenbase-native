@@ -173,9 +173,10 @@ export default function AddJournal({ navigation }) {
 
   useEffect(() => {
     if (
-      emotion == null ||
-      `${journalTitle}`.trim() == "" ||
-      `${journalDescription}`.trim() == ""
+      emotion == null 
+      // ||
+      // `${journalTitle}`.trim() == "" ||
+      // `${journalDescription}`.trim() == ""
     ) {
       setIsSubmitEnabled(false);
     } else {

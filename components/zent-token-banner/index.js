@@ -60,7 +60,7 @@ export default function ZentTokenBanner({ tokens, usd, onPress = null }) {
       </ZentExpandIconWrapper>} */}
       <ZentLogo source={zentLogo} />
       <ZentTokens>{tokens || 0} ZENT</ZentTokens>
-      <ZentValue>{usd || 0} USD</ZentValue>
+      {/* <ZentValue>{usd || 0} USD</ZentValue> */}
     </ZentWrapper>
     );
     

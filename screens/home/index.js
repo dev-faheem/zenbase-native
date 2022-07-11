@@ -251,11 +251,15 @@ export default function Home({ navigation, route }) {
         <Explorables />
 
         <Container>
-          {!user.isPremium && (
+
             <>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("PremiumTrailEnded");
+                  if (user?.isPremium) {
+                    navigation.navigate("Wallet");
+                  } else {
+                    navigation.navigate("PremiumTrailEnded");
+                  }
                 }}
               >
                 <ListWrapper>
@@ -267,13 +271,13 @@ export default function Home({ navigation, route }) {
                       <Text color="white">
                         {Number(walletAmount).toPrecision(6)} ZENT
                       </Text>
-                      <Text
+                      {!user?.isPremium && <Text
                         color="secondary"
                         fontSize={12}
                         style={{ marginTop: 2 }}
                       >
                         Earning 10% more with Zenbase Premium
-                      </Text>
+                      </Text>}
                     </VAlignCenter>
                     <VAlignCenter style={{ paddingRight: 5 }}>
                       <Ionicons
@@ -287,7 +291,6 @@ export default function Home({ navigation, route }) {
               </TouchableOpacity>
               <Divider style={{ marginTop: 5, marginBottom: 20 }} />
             </>
-          )}
 
           <CategoryList categories={categories} />
           <SongList

@@ -11,7 +11,7 @@ import {
   Box,
 } from "components";
 import styled from "styled-components/native";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
 
 // Import Images
@@ -190,8 +190,22 @@ export default function Settings({ route }) {
                     navigation.navigate("Home", {
                       performLogout: true,
                     });
-                  },
+                  }
                 },
+                {
+                  icon: (
+                    <AntDesign
+                      name="delete"
+                      size={19}
+                      color={theme.color.primary}
+                      style={{ marginLeft: 2 }}
+                    />
+                  ),
+                  title: <Text style={{ color: "red" }}>Delete Account</Text>,
+                  onPress: () => {
+                    navigation.navigate("DeleteUser");
+                  }
+                }
               ].filter((_) => _ != null)}
             />
             {/* <SwitchWrapper>
