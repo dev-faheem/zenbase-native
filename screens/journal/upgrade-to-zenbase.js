@@ -68,8 +68,8 @@ export default function JournalUpgradeToZenbase({ navigation }) {
       <SafeAreaView style={{ flex: 1 }}>
         <Container style={{ flex: 1 }}>
           <HeaderWrapper>
-            <HeaderImage source={ZentBackground} resizeMode="cover" />
-            <Text style={{ marginBottom: 15 }}>0.01 Zent</Text>
+            {/* <HeaderImage source={ZentBackground} resizeMode="cover" />
+            <Text style={{ marginBottom: 15 }}>0.01 Zent</Text> */}
           </HeaderWrapper>
           <Text
             fontSize="22"
