@@ -48,6 +48,7 @@ import TotalEarnings from "screens/play/total-earnings";
 import JournalUpgradeToZenbase from "screens/journal/upgrade-to-zenbase";
 import ChangePassword from "screens/auth/change-password";
 import UserProfile from "screens/followers/user";
+import DeleteAccount from "screens/delete-account";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -90,7 +91,7 @@ export default function Navigation() {
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{
-          headerShown: false,
+          headerShown: false
         }}
       >
         <Stack.Group>
@@ -116,8 +117,8 @@ export default function Navigation() {
           <Stack.Screen name="SearchModal" component={SearchModal} />
           <Stack.Screen name="AddJournal" component={AddJournal} />
           <Stack.Screen name="Play" component={Play} />
-
           <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
+          <Stack.Screen name="DeleteUser" component={DeleteAccount} />
           <Stack.Screen
             name="EnableNotification"
             component={EnableNotification}
