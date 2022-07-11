@@ -78,7 +78,7 @@ export default function OneTimePassword({ route, navigation }) {
       },
       username: value
     });
-  });
+  }, []);
 
   const validateOTP = async () => {
     try {
