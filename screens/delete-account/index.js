@@ -4,6 +4,7 @@ import { Text, Container, Button } from "components";
 import { useTheme } from "stores/theme";
 import axios from "services/axios";
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
+import Constants from 'expo-constants';
 
 // Import Icons
 import { Ionicons, AntDesign } from "@expo/vector-icons";
