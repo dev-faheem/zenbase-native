@@ -6,7 +6,7 @@ export const playAds = async (
   onAdPlayed = () => {},
   onFinalAdPlayed = () => {}
 ) => {
-  return;
+  // return;
   try {
     let played = 1;
     console.log({ ADMOB: config.GOOGLE_ADMOB_ADUNIT });
