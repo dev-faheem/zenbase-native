@@ -14,15 +14,12 @@ axios.handleError = (error) => {
 
 axios.interceptors.request.use((request) => {
   console.log(
-    `Request: ${request.method?.toUpperCase()} ${request.url} ${JSON.stringify(
-      request.data,
-      null,
-      2
-    ) || ''}`
+    `Request: ${request.method?.toUpperCase()} ${request.url} ${
+      JSON.stringify(request.data, null, 2) || ""
+    }`
   );
   return request;
 });
-
 
 // axios.interceptors.response.use((response) => {
 //   // console.log("Response:", JSON.stringify(response, null, 2));

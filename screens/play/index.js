@@ -33,7 +33,7 @@ import ReactNativeShare from "helpers/react-native-share";
 import { useSongQueue } from "stores/song-queue";
 
 const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
-// const GIVEAWAY_TOKEN_AFTER_SECONDS = 5; // seconds
+// const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
 const CONTINUE_LISTENING = 60 * 60 * 1; //seconds
 // const MAX_LISTENING_TIME = 10 * 1; // seconds
 const MAX_LISTENING_TIME = 3 * 60 * 60 * 1; // seconds
@@ -479,14 +479,14 @@ export default function Play({ navigation }) {
 
   const onSlidingComplete = async (value) => {
     // if (user.isPremium) {
-      try {
-        await audio.setPositionAsync(value, {
-          toleranceMillisAfter: value - 1000,
-          toleranceMillisBefore: value + 1000,
-        });
-      } catch (e) {
-        console.error(e);
-      }
+    try {
+      await audio.setPositionAsync(value, {
+        toleranceMillisAfter: value - 1000,
+        toleranceMillisBefore: value + 1000,
+      });
+    } catch (e) {
+      console.error(e);
+    }
     // } else {
     //   navigation.push("PremiumUpgrade1");
     // }

@@ -6,7 +6,7 @@ import styled from "styled-components/native";
 import CTABackground from "assets/images/cta/bg.png";
 import PremiumCTAImage from "assets/images/cta/premium.png";
 import PremiumCTAFooterImage from "assets/images/cta/premium-footer-bg.png";
-import { useApplePay } from "@stripe/stripe-react-native";
+// import { useApplePay } from "@stripe/stripe-react-native";
 import { Alert } from "react-native";
 import axios from "services/axios";
 import { useAuth } from "stores/auth";
@@ -68,45 +68,45 @@ const GetButton = styled.TouchableOpacity`
 `;
 
 export default function PremiumCTA({ navigation, onPress }) {
-  const { isApplePaySupported, presentApplePay, confirmApplePayPayment } =
-    useApplePay();
+  // const { isApplePaySupported, presentApplePay, confirmApplePayPayment } =
+  //   useApplePay();
 
   const { user, updateUser } = useAuth();
 
   const onPressGet = async () => {
     try {
-      const { error, paymentMethod } = await presentApplePay({
-        cartItems: [{ label: "Zenbase Premium", amount: "4.99" }],
-        country: "US",
-        currency: "USD",
-        requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
-      });
+      // const { error, paymentMethod } = await presentApplePay({
+      //   cartItems: [{ label: "Zenbase Premium", amount: "4.99" }],
+      //   country: "US",
+      //   currency: "USD",
+      //   requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
+      // });
 
-      if (error) {
-        console.log({ applePayError: error });
-        Alert.alert(error.message);
-        return;
-      }
+      // if (error) {
+      //   console.log({ applePayError: error });
+      //   Alert.alert(error.message);
+      //   return;
+      // }
 
       // Fetch Client Secret from Server
 
-      const response = await axios.post("/stripe");
+      // const response = await axios.post("/stripe");
 
-      const clientSecret = response.data.data.clientSecret;
+      // const clientSecret = response.data.data.clientSecret;
 
-      const { error: confirmError } = await confirmApplePayPayment(
-        clientSecret
-      );
+      // const { error: confirmError } = await confirmApplePayPayment(
+      //   clientSecret
+      // );
 
-      if (confirmError) {
-        console.log({ applePayConfirmError: confirmError });
-        Alert.alert(confirmError.message);
-        return;
-      }
+      // if (confirmError) {
+      //   console.log({ applePayConfirmError: confirmError });
+      //   Alert.alert(confirmError.message);
+      //   return;
+      // }
 
       // Payment Success
       await axios.post("/payments", {
-        amount: 499,
+        amount: 0,
         reason: "PREMIUM",
         valid: true,
         premium: true,
@@ -134,17 +134,20 @@ export default function PremiumCTA({ navigation, onPress }) {
         {user?.isPremium && (
           <Text>You are already a Zenbase Premium Member</Text>
         )}
-        {isApplePaySupported && !user?.isPremium ? (
+        {/* Removed 'isApplePaySupported &&'  from below statement */}
+        {!user?.isPremium ? (
           <>
-            <Text>$4.99 per month</Text>
+            <Text>$0.00 per month</Text>
             <GetButton onPress={onPressGet}>
               <Text color="primary" fontSize="md" fontWeight="bold">
-                GET
+                CLAIM
               </Text>
             </GetButton>
           </>
         ) : (
-          !user?.isPremium && <Text>Apple Pay is not supported on your device</Text>
+          !user?.isPremium && (
+            <Text>Apple Pay is not supported on your device</Text>
+          )
         )}
       </FooterWrapper>
     </CTAWrapper>

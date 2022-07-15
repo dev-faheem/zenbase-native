@@ -18,6 +18,8 @@ import ZenbaseVectorGrey from "assets/vectors/zenbase-grey.png";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "stores/auth";
 import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
+import axios from "services/axios";
 
 // Styled Component
 const JournalHeader = styled.View`
@@ -57,6 +59,15 @@ const JournalListImg = styled.Image`
   margin-right: ${(props) => props.theme.spacing.sm};
 `;
 
+const JournalListImgLoading = styled.View`
+  width: 50px;
+  height: 50px;
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  margin-left: ${(props) => props.theme.spacing.sm};
+  margin-right: ${(props) => props.theme.spacing.sm};
+  background: #8b57ff;
+`;
+
 const JournalDeleteWrapper = styled.TouchableOpacity`
   flex: 1;
   flex-direction: row;
@@ -93,6 +104,22 @@ export default function Journal({ route, navigation }) {
       };
     })
   );
+
+  const [songs, setSongs] = useState([]);
+
+  useEffect(() => {
+    const updatedSongIds = journals.map((entry) => {
+      return entry.item.song;
+    });
+    if (updatedSongIds.length > 0) {
+      fetchSongs(updatedSongIds);
+    }
+  }, [journals]);
+
+  const fetchSongs = async (ids) => {
+    const response = await axios.get("/songs/ids?ids=" + ids.join(","));
+    setSongs(response.data.data.results);
+  };
 
   // Function to delete Journal
   const deleteJournal = (journal, journalIndex) => {
@@ -151,6 +178,10 @@ export default function Journal({ route, navigation }) {
                   };
                 }
 
+                const song = songs.find((x) => {
+                  return x._id == data.item.item.song;
+                });
+
                 return (
                   <TouchableHighlight
                     onPress={() => {
@@ -162,7 +193,14 @@ export default function Journal({ route, navigation }) {
                     }}
                   >
                     <JournalList style={listStyle}>
-                      <JournalListImg source={{ uri: data.item?.image }} resizeMode="cover" />
+                      {song ? (
+                        <JournalListImg
+                          source={{ uri: song?.artwork }}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <JournalListImgLoading />
+                      )}
                       <JournalListContent
                         style={
                           data.index == journals.length - 1
@@ -171,7 +209,13 @@ export default function Journal({ route, navigation }) {
                         }
                       >
                         <View style={{ width: "58%" }}>
-                          <Text numberOfLines={1} style={{ marginTop: 4, textTransform: 'capitalize' }} >
+                          <Text
+                            numberOfLines={1}
+                            style={{
+                              marginTop: 4,
+                              textTransform: "capitalize",
+                            }}
+                          >
                             {data.item.title || data.item.type}
                           </Text>
                           <Text
@@ -189,7 +233,7 @@ export default function Journal({ route, navigation }) {
                             flexDirection: "column",
                             justifyContent: "center",
                             alignItems: "flex-end",
-                            paddingRight: 15
+                            paddingRight: 15,
                           }}
                         >
                           <Text numberOfLines={1} color="primary">
