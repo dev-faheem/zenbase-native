@@ -47,7 +47,7 @@ export default function OneTimePassword({ route, navigation }) {
   const { login } = useAuth();
 
   // Params
-  const { type, value, userId } = route.params;
+  const { type, value, userId, data: originalRegisterData } = route.params;
 
   // Refs
   const inputRefs = [
@@ -56,7 +56,7 @@ export default function OneTimePassword({ route, navigation }) {
     useRef(),
     useRef(),
     useRef(),
-    useRef()
+    useRef(),
   ];
 
   // States
@@ -74,19 +74,19 @@ export default function OneTimePassword({ route, navigation }) {
   useEffect(async () => {
     const generateOtp = await axios.post("/auth/generate-otp", {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      username: value
+      username: value,
     });
   }, []);
 
   const validateOTP = async () => {
     try {
-      const { data } = await axios.post("/auth/validate-otp", {
+      await axios.post("/auth/validate-otp", {
         otp: otp.join(""),
-        userId
+        userId,
       });
-      login(data);
+      login(originalRegisterData);
       navigation.navigate("SignupBonus");
 
       // navigation.navigate("ChangePassword", { changePasswordToken: data.data.changePasswordToken });
@@ -103,7 +103,7 @@ export default function OneTimePassword({ route, navigation }) {
             flex: 1,
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Ionicons

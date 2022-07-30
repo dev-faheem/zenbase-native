@@ -105,6 +105,7 @@ export default function Explorables() {
           height: 390,
           position: "absolute",
           zIndex: -1000,
+          width: "100%",
         }}
       />
       <BackdropOverlay source={ExplorableLinearGradient} />

@@ -21,6 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ConfettiImage from "assets/images/confetti.png";
 import wallpaper1 from "assets/images/wallpapers/wallpaper-1.png";
 import axios from "services/axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -103,6 +104,7 @@ export default function ClaimToWallet({ route, navigation }) {
   const onPressClaimToWallet = async () => {
     if (!isLoading) {
       await transactTokens();
+      await AsyncStorage.removeItem("lastClickedSong");
       setIsLoading(false);
       navigation.navigate("Wallet");
     }

@@ -293,7 +293,7 @@ export default function ZentDonation({ route, navigation }) {
               </CardBody>
             </CardWrapper>
 
-            <ApplePayBanner source={ApplePayImage} resizeMode={"center"} />
+            <ApplePayBanner source={ApplePayImage} resizeMode={"contain"} />
             {/* <ZentTokenBanner tokens={totalZent} usd={usdValue} /> */}
           </DonationHeader>
           <DonationFooter>

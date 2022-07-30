@@ -335,6 +335,8 @@ export default function Play({ navigation }) {
 
   const transactTokens = async (isClosingTransaction = true) => {
     if (zentokens <= 0) return;
+    const lastPlayedSong = await getLastClickedSong();
+    console.log({ lastPlayedSong });
     try {
       await axios.post("/transactions", {
         amount: zentokens - zentokenMined,
@@ -342,7 +344,7 @@ export default function Play({ navigation }) {
         type: "SONG_MINING",
         remarks: "",
         meta: {
-          songs: _id,
+          songs: lastPlayedSong._id || _id,
         },
       });
       if (!isClosingTransaction) {
@@ -415,15 +417,16 @@ export default function Play({ navigation }) {
     return user.likedSongs?.includes(song?._id);
   };
 
-  const onPressClose = async () => {
-    let lastClickedSong;
+  const getLastClickedSong = async () => {
     try {
-      lastClickedSong = JSON.parse(
-        await AsyncStorage.getItem("lastClickedSong")
-      );
+      return JSON.parse(await AsyncStorage.getItem("lastClickedSong")) || song;
     } catch (e) {
-      lastClickedSong = song;
+      return song;
     }
+  };
+
+  const onPressClose = async () => {
+    const lastClickedSong = await getLastClickedSong();
 
     try {
       await onPressPause();
@@ -432,6 +435,7 @@ export default function Play({ navigation }) {
         resetSongQueue();
         return;
       }
+
       navigation.navigate("AddJournal", {
         song: lastClickedSong,
         zentokens,
@@ -561,7 +565,7 @@ export default function Play({ navigation }) {
         <>
           <SongBackdrop
             source={{ uri: song?.artwork?.replace("https", "http") }}
-            blurRadius={100}
+            blurRadius={80}
             style={{ opacity: 0.7 }}
           />
 

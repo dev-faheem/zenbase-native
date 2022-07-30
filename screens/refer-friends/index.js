@@ -13,6 +13,7 @@ import styled from "styled-components/native";
 // Import Icons
 import { FontAwesome } from "@expo/vector-icons";
 import { useAuth } from "stores/auth";
+import { CommonActions } from "@react-navigation/native";
 
 // Styled Component
 const InfoWrapper = styled.View`

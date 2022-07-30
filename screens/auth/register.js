@@ -105,7 +105,7 @@ const dropdownProps = {
   zIndexInverse: 100000,
 };
 
-export default function register({ navigation }) {
+export default function register({ navigation, route }) {
   const { theme } = useTheme();
 
   const passwordInput = useRef();
@@ -217,6 +217,7 @@ export default function register({ navigation }) {
         type,
         value,
         userId: data._id,
+        data,
       });
     } catch (error) {
       axios.handleError(error);
