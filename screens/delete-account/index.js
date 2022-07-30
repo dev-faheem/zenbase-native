@@ -4,7 +4,7 @@ import { Text, Container, Button } from "components";
 import { useTheme } from "stores/theme";
 import axios from "services/axios";
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 // Import Icons
 import { Ionicons, AntDesign } from "@expo/vector-icons";
@@ -89,7 +89,7 @@ export default function DeleteAccount({ route, navigation }) {
         await AsyncStorageLib.removeItem("@zenbase_user");
         navigation.reset({
           index: 0,
-          routes: [{ name: "Login" }]
+          routes: [{ name: "Login" }],
         });
       }
     } catch (e) {
@@ -122,7 +122,7 @@ export default function DeleteAccount({ route, navigation }) {
           <HeaderImageWrapper>
             <HeaderImage source={ZentBackground} resizeMode="cover" />
             <Text style={{ marginBottom: 15 }}>
-              {Number(walletAmount).toPrecision(6)} Zent
+              {Number(walletAmount).toFixed(6)} Zent
             </Text>
           </HeaderImageWrapper>
         </HeaderSafeArea>
@@ -146,7 +146,7 @@ export default function DeleteAccount({ route, navigation }) {
               marginTop: 10,
               width: "100%",
               textAlign: "center",
-              alignSelf: "center"
+              alignSelf: "center",
             }}
             fontWeight="bold"
             color="header90"
@@ -159,7 +159,7 @@ export default function DeleteAccount({ route, navigation }) {
               marginBottom: 25,
               width: "100%",
               textAlign: "center",
-              alignSelf: "center"
+              alignSelf: "center",
             }}
             fontWeight="600"
             color="header90"

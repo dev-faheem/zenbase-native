@@ -111,40 +111,40 @@ export default function Settings({ route }) {
                       `${user?.name} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://zenbase.us`
                     ),
                 },
-                user?.isPremium
-                  ? {
-                      icon: (
-                        <Image
-                          source={ZenbaseVector}
-                          style={{ marginRight: 3, width: 23, height: 23 }}
-                          resizeMode="contain"
-                        />
-                      ),
-                      title: user?.isPremium
-                        ? "Cancel Zenbase Premium"
-                        : "Zenbase Premium",
-                      onPress: () => {
-                        if (user?.isPremium) {
-                          navigation.navigate("CancelPremium");
-                        } else {
-                          navigation.navigate("");
-                        }
-                      },
-                    }
-                  : null,
-                {
-                  icon: (
-                    <Image
-                      source={AdVector}
-                      style={{ marginRight: 3, width: 23, height: 23 }}
-                      resizeMode="contain"
-                    />
-                  ),
-                  title: "Zenbase Ads",
-                  onPress: () => {
-                    navigation.navigate("ZenbaseAds", { isForLogin: false });
-                  },
-                },
+                // user?.isPremium
+                //   ? {
+                //       icon: (
+                //         <Image
+                //           source={ZenbaseVector}
+                //           style={{ marginRight: 3, width: 23, height: 23 }}
+                //           resizeMode="contain"
+                //         />
+                //       ),
+                //       title: user?.isPremium
+                //         ? "Cancel Zenbase Premium"
+                //         : "Zenbase Premium",
+                //       onPress: () => {
+                //         if (user?.isPremium) {
+                //           navigation.navigate("CancelPremium");
+                //         } else {
+                //           navigation.navigate("");
+                //         }
+                //       },
+                //     }
+                //   : null,
+                // {
+                //   icon: (
+                //     <Image
+                //       source={AdVector}
+                //       style={{ marginRight: 3, width: 23, height: 23 }}
+                //       resizeMode="contain"
+                //     />
+                //   ),
+                //   title: "Zenbase Ads",
+                //   onPress: () => {
+                //     navigation.navigate("ZenbaseAds", { isForLogin: false });
+                //   },
+                // },
                 // {
                 //   icon: (
                 //     <Image
@@ -190,7 +190,7 @@ export default function Settings({ route }) {
                     navigation.navigate("Home", {
                       performLogout: true,
                     });
-                  }
+                  },
                 },
                 {
                   icon: (
@@ -204,8 +204,8 @@ export default function Settings({ route }) {
                   title: <Text style={{ color: "red" }}>Delete Account</Text>,
                   onPress: () => {
                     navigation.navigate("DeleteUser");
-                  }
-                }
+                  },
+                },
               ].filter((_) => _ != null)}
             />
             {/* <SwitchWrapper>

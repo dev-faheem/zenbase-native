@@ -103,7 +103,7 @@ export default function WalletPremium({ navigation }) {
           <HeaderWrapper>
             <HeaderImage source={ZentBackground} resizeMode="cover" />
             <Text style={{ marginBottom: 15 }}>
-              {Number(walletAmount).toPrecision(6)} ZENT
+              {Number(walletAmount).toFixed(6)} ZENT
             </Text>
           </HeaderWrapper>
           <PremiumCTA />

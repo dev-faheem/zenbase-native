@@ -305,7 +305,7 @@ export default function Wallet({ route, navigation }) {
   const { walletAmount, zenTransactions, fetchTransactions } = useAuth();
   const ZentToken = (
     <ZentTokenBanner
-      tokens={Number(walletAmount).toPrecision(6)}
+      tokens={Number(walletAmount).toFixed(6)}
       usd={0}
       onPress={() => {
         navigation.navigate("ZentDonation");

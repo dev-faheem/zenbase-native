@@ -7,6 +7,7 @@ import { TouchableWithoutFeedback } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { useSongQueue } from "stores/song-queue";
 import Text from "components/text";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TILE_SIZE = (WINDOW_WIDTH - 40) * 0.5 - 10;
@@ -102,20 +103,17 @@ export default function SongTile({
 
   const { updateSongQueue } = useSongQueue();
 
+  const onPressTile = async () => {
+    navigation.navigate("Play", { _id: song?._id });
+    await AsyncStorage.setItem("lastClickedSong", JSON.stringify(song));
+    updateSongQueue(
+      song?._id,
+      queue.map((v) => v?._id)
+    );
+  };
+
   return (
-    <TouchableWithoutFeedback
-      onPress={
-        removable
-          ? onRemove
-          : () => {
-              navigation.navigate("Play", { _id: song?._id });
-              updateSongQueue(
-                song?._id,
-                queue.map((v) => v?._id)
-              );
-            }
-      }
-    >
+    <TouchableWithoutFeedback onPress={removable ? onRemove : onPressTile}>
       <SongTileView style={style || null} inGrid={inGrid || null}>
         <SongArtwork
           source={

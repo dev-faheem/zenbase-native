@@ -416,6 +416,15 @@ export default function Play({ navigation }) {
   };
 
   const onPressClose = async () => {
+    let lastClickedSong;
+    try {
+      lastClickedSong = JSON.parse(
+        await AsyncStorage.getItem("lastClickedSong")
+      );
+    } catch (e) {
+      lastClickedSong = song;
+    }
+
     try {
       await onPressPause();
       if (zentokens == 0) {
@@ -424,12 +433,12 @@ export default function Play({ navigation }) {
         return;
       }
       navigation.navigate("AddJournal", {
-        song,
+        song: lastClickedSong,
         zentokens,
         transactTokens,
         claimToWalletProps: JSON.stringify({
           zentokens,
-          song,
+          song: lastClickedSong,
           duration,
           position,
         }),
@@ -461,7 +470,8 @@ export default function Play({ navigation }) {
 
       setIsPlaying(true);
     } catch (e) {
-      alert(e.message);
+      alert("Something went wrong!");
+      navigation.goBack();
     }
   };
 
@@ -561,7 +571,7 @@ export default function Play({ navigation }) {
               {renderMsToTiming(actualPosition) || "00:00"} •{" "}
               {actualPosition < GIVEAWAY_TOKEN_AFTER_SECONDS * 1000
                 ? "Earn after 5 minutes"
-                : `${Number(zentokens).toPrecision(4)} ZENT earned`}
+                : `${Number(zentokens).toFixed(4)} ZENT earned`}
             </Text>
           </ZentEarningWrapper>
 

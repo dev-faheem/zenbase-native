@@ -75,7 +75,7 @@ export default function PremiumTrailEnded({ navigation }) {
           <HeaderWrapper>
             {/* <HeaderImage source={ZentBackground} resizeMode="cover" />
             <Text style={{ marginBottom: 15 }}>
-              {Number(walletAmount).toPrecision(6)} Zent
+              {Number(walletAmount).toFixed(6)} Zent
             </Text> */}
           </HeaderWrapper>
           <Text

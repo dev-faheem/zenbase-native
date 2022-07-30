@@ -136,7 +136,7 @@ const ApplePayBanner = styled.Image`
   width: 100%;
   height: 225px;
   margin-bottom: 30px;
-`
+`;
 
 // Zent Donation Component (Default)
 export default function ZentDonation({ route, navigation }) {
@@ -145,7 +145,7 @@ export default function ZentDonation({ route, navigation }) {
   const { walletAmount, secondsWorth } = useAuth();
 
   // Required Variables
-  const totalZent = Number(walletAmount).toPrecision(6);
+  const totalZent = Number(walletAmount).toFixed(6);
   const usdValue = 0;
 
   // States
@@ -292,8 +292,8 @@ export default function ZentDonation({ route, navigation }) {
                 )}
               </CardBody>
             </CardWrapper>
-            
-            <ApplePayBanner source={ApplePayImage} resizeMode={'center'} />
+
+            <ApplePayBanner source={ApplePayImage} resizeMode={"center"} />
             {/* <ZentTokenBanner tokens={totalZent} usd={usdValue} /> */}
           </DonationHeader>
           <DonationFooter>
@@ -392,7 +392,7 @@ export default function ZentDonation({ route, navigation }) {
                           color={selectedDonationBox == 2 && "primary"}
                           fontWeight={selectedDonationBox == 2 && "bold"}
                         >
-                          {USDDonation?'10 USD':'All'}
+                          {USDDonation ? "10 USD" : "All"}
                         </Text>
                       </DonationBox>
                     </View>

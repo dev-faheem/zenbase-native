@@ -92,10 +92,7 @@ export default function TotalEarnings({ route, navigation }) {
   const { walletAmount } = useAuth();
 
   const ZentBanner = (
-    <ZentTokenBanner
-      tokens={Number(walletAmount || 0).toPrecision(6)}
-      usd={0}
-    />
+    <ZentTokenBanner tokens={Number(walletAmount || 0).toFixed(6)} usd={0} />
   );
 
   return (

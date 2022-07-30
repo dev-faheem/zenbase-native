@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   StatusBar,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import useSearch from "queries/useSearch";
 import useCategories from "queries/useCategories";
@@ -28,7 +28,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "stores/auth";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "services/axios";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "helpers/notifications";
 
@@ -99,7 +99,6 @@ export default function Home({ navigation, route }) {
   const { data: categories } = useCategories();
   const { theme } = useTheme();
 
-
   const [under10MinSongs, setUnder10MinSongs] = useState([]);
   const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
   const [chillSongs, setChillSongs] = useState([]);
@@ -144,42 +143,73 @@ export default function Home({ navigation, route }) {
     fetchGuidedMeditation();
     fetchChill();
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      console.log('notification', notification);
-    });
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        console.log("notification", notification);
+      });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log('response notification', response);
-    });
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log("response notification", response);
+      });
 
     (async () => {
       try {
-        if (await AsyncStorage.getItem("isFirstTimeModal") == '0') {
+        if ((await AsyncStorage.getItem("isFirstTimeModal")) == "0") {
           return setIsFirstTimeModal(false);
         }
-      } catch (e){
-        console.log(e);
-      }
-    })();
-
-
-    (async () => {
-      try {
-        await Notifications.cancelAllScheduledNotificationsAsync();
-        await Notifications.scheduleNotification({ title: `Don't Forget to Earn Zentokens!`, body: 'Take time to clear your mind. Come back to keep earning Zentokens!' }, { seconds: 2 * 60 * 60 });
-        await Notifications.scheduleNotification({ title: `Crazy Day? Meditate for 5 minutes`, body: `With a clear head you'll better able to manage your day.` }, { seconds: 8 * 60 * 60 });
-        await Notifications.scheduleNotification({ title: `Need Something Chill?`, body: 'Listen to chill vibes while taking time for yourself.' }, { seconds: 5 * 60 * 60  });
-        await Notifications.scheduleNotification({ title: `Relax Before Bedtime`, body: `Take time tonight to clear your mind and catch good zzz's.`}, { repeats: true, hour: 21,  minute: 15});
-        await Notifications.scheduleNotification({ title: `Start Your Morning Right`, body: `Take some time to express gratitude and feel grateful throughout the day.` }, { repeats: true, hour: 6,  minute: 30 });
       } catch (e) {
         console.log(e);
       }
     })();
 
-    
-    
+    (async () => {
+      try {
+        await Notifications.cancelAllScheduledNotificationsAsync();
+        await Notifications.scheduleNotification(
+          {
+            title: `Don't Forget to Earn Zentokens!`,
+            body: "Take time to clear your mind. Come back to keep earning Zentokens!",
+          },
+          { seconds: 2 * 60 * 60 }
+        );
+        await Notifications.scheduleNotification(
+          {
+            title: `Crazy Day? Meditate for 5 minutes`,
+            body: `With a clear head you'll better able to manage your day.`,
+          },
+          { seconds: 8 * 60 * 60 }
+        );
+        await Notifications.scheduleNotification(
+          {
+            title: `Need Something Chill?`,
+            body: "Listen to chill vibes while taking time for yourself.",
+          },
+          { seconds: 5 * 60 * 60 }
+        );
+        await Notifications.scheduleNotification(
+          {
+            title: `Relax Before Bedtime`,
+            body: `Take time tonight to clear your mind and catch good zzz's.`,
+          },
+          { repeats: true, hour: 21, minute: 15 }
+        );
+        await Notifications.scheduleNotification(
+          {
+            title: `Start Your Morning Right`,
+            body: `Take some time to express gratitude and feel grateful throughout the day.`,
+          },
+          { repeats: true, hour: 6, minute: 30 }
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
@@ -195,19 +225,18 @@ export default function Home({ navigation, route }) {
 
       return () => {
         removeFirstTimeModal();
-      }
+      };
     }, [])
   );
 
   const removeFirstTimeModal = async () => {
     try {
       setIsFirstTimeModal(false);
-      await AsyncStorage.setItem("isFirstTimeModal", '0');
-    } catch(e) {
-      console.log(e)
+      await AsyncStorage.setItem("isFirstTimeModal", "0");
+    } catch (e) {
+      console.log(e);
     }
-      
-  }
+  };
 
   const verifyZenbasePremium = async () => {
     try {
@@ -216,7 +245,7 @@ export default function Home({ navigation, route }) {
         // User premium has ended
       }
       updateUser("isPremium", response.data.data.isPremium);
-      updateUserLocal("hours", response.data.data.hours)
+      updateUserLocal("hours", response.data.data.hours);
     } catch (e) {
       axios.handleError(e);
     }
@@ -251,46 +280,47 @@ export default function Home({ navigation, route }) {
         <Explorables />
 
         <Container>
-
-            <>
-              <TouchableOpacity
-                onPress={() => {
-                  if (user?.isPremium) {
-                    navigation.navigate("Wallet");
-                  } else {
-                    navigation.navigate("PremiumTrailEnded");
-                  }
-                }}
-              >
-                <ListWrapper>
-                  <VAlignCenter style={{ marginLeft: 5 }}>
-                    <ZentImage source={zentBackground} />
-                  </VAlignCenter>
-                  <ListContentWrapper>
-                    <VAlignCenter>
-                      <Text color="white">
-                        {Number(walletAmount).toPrecision(6)} ZENT
-                      </Text>
-                      {!user?.isPremium && <Text
+          <>
+            <TouchableOpacity
+              onPress={() => {
+                if (user?.isPremium) {
+                  navigation.navigate("Wallet");
+                } else {
+                  navigation.navigate("PremiumTrailEnded");
+                }
+              }}
+            >
+              <ListWrapper>
+                <VAlignCenter style={{ marginLeft: 5 }}>
+                  <ZentImage source={zentBackground} />
+                </VAlignCenter>
+                <ListContentWrapper>
+                  <VAlignCenter>
+                    <Text color="white">
+                      {Number(walletAmount).toFixed(6)} ZENT
+                    </Text>
+                    {!user?.isPremium && (
+                      <Text
                         color="secondary"
                         fontSize={12}
                         style={{ marginTop: 2 }}
                       >
                         Earning 10% more with Zenbase Premium
-                      </Text>}
-                    </VAlignCenter>
-                    <VAlignCenter style={{ paddingRight: 5 }}>
-                      <Ionicons
-                        name="ios-chevron-forward"
-                        size={24}
-                        color={theme.color.information}
-                      />
-                    </VAlignCenter>
-                  </ListContentWrapper>
-                </ListWrapper>
-              </TouchableOpacity>
-              <Divider style={{ marginTop: 5, marginBottom: 20 }} />
-            </>
+                      </Text>
+                    )}
+                  </VAlignCenter>
+                  <VAlignCenter style={{ paddingRight: 5 }}>
+                    <Ionicons
+                      name="ios-chevron-forward"
+                      size={24}
+                      color={theme.color.information}
+                    />
+                  </VAlignCenter>
+                </ListContentWrapper>
+              </ListWrapper>
+            </TouchableOpacity>
+            <Divider style={{ marginTop: 5, marginBottom: 20 }} />
+          </>
 
           <CategoryList categories={categories} />
           <SongList
@@ -340,31 +370,55 @@ export default function Home({ navigation, route }) {
         </BlurView>
       </Animated.View>
 
-      {isFirstTimeModel && <TouchableWithoutFeedback
-          onPress={removeFirstTimeModal}
-        >
+      {isFirstTimeModel && (
+        <TouchableWithoutFeedback onPress={removeFirstTimeModal}>
           <BlurView
             intensity={150}
             style={{
-              position: 'absolute',
+              position: "absolute",
               width: "100%",
-              height: windowHeight - (Platform.OS == "ios" ? Constants.statusBarHeight : 15)-310,
+              height:
+                windowHeight -
+                (Platform.OS == "ios" ? Constants.statusBarHeight : 15) -
+                310,
               bottom: 0,
               left: 0,
               zIndex: 99999,
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'flex-start'
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-start",
             }}
             tint="dark"
           >
-            <AntDesign name="arrowup" size={50} color="white" style={{marginTop: 20}}/>
-            <Text style={{ marginTop: 25, textAlign: 'center'}} fontSize={22} fontWeight={600}>Welcome!</Text>
-            <Text style={{ marginTop: 10, textAlign: 'center'}} fontSize={22} fontWeight={600} >If you’re new to meditation, we recommend you start here.</Text>
-            <Text style={{ marginTop: '30%', textAlign: 'center'}} fontSize={14} >No thanks, I know how to meditate</Text>
+            <AntDesign
+              name="arrowup"
+              size={50}
+              color="white"
+              style={{ marginTop: 20 }}
+            />
+            <Text
+              style={{ marginTop: 25, textAlign: "center" }}
+              fontSize={22}
+              fontWeight={600}
+            >
+              Welcome!
+            </Text>
+            <Text
+              style={{ marginTop: 10, textAlign: "center" }}
+              fontSize={22}
+              fontWeight={600}
+            >
+              If you’re new to meditation, we recommend you start here.
+            </Text>
+            <Text
+              style={{ marginTop: "30%", textAlign: "center" }}
+              fontSize={14}
+            >
+              No thanks, I know how to meditate
+            </Text>
           </BlurView>
         </TouchableWithoutFeedback>
-      }
+      )}
     </>
   );
 }

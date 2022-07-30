@@ -26,18 +26,18 @@ const cards = [
   //   description: "Start your day the best possible way.",
   //   image: CardImage3,
   // },
-  
-  {
-    name: "Guided Meditation",
-    description: "Learn from a master of meditation.",
-    image: CardImage1,
-    link: "627546e4f89098380d986d0a",
-  },
+
   {
     name: "Deep Sleep",
     description: "Catch some quality zzz’s.",
     image: CardImage2,
     link: "62754606f89098380d986d09",
+  },
+  {
+    name: "Guided Meditation",
+    description: "Learn from a master of meditation.",
+    image: CardImage1,
+    link: "627546e4f89098380d986d0a",
   },
 ];
 

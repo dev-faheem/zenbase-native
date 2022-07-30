@@ -89,7 +89,7 @@ export default function CancelPremium({ navigation }) {
         <Container style={{ flex: 1 }}>
           <HeaderWrapper>
             {/* <HeaderImage source={ZentBackground} resizeMode="cover" />
-            <Text style={{ marginBottom: 15 }}>{Number(walletAmount).toPrecision(6)} Zent</Text> */}
+            <Text style={{ marginBottom: 15 }}>{Number(walletAmount).toFixed(6)} Zent</Text> */}
           </HeaderWrapper>
           <Text
             fontSize="22"

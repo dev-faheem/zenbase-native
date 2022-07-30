@@ -58,7 +58,7 @@ const InfoFooter = styled.View`
  * *******************
  */
 const WalletHistoryList = styled.View`
-  width: ${windowWidth * 0.85}px;
+  width: ${windowWidth * 0.89}px;
   flex-direction: row;
   justify-content: space-between;
   margin-top: ${(props) => props.theme.spacing.sm};
@@ -85,10 +85,8 @@ const WalletHistoryListThumbnail = styled.Image`
 
 const calculateLength = (_duration) => {
   if (_duration) {
-    if(_duration < 60){
-      return `${Math.ceil(_duration)} sec`
-    }
-    const minutes = Math.ceil(_duration / 60) + 5;
+    _duration += 5 * 60;
+    const minutes = Math.ceil(_duration / 60);
     return `${minutes} min`;
   }
   return "~ min";
@@ -97,32 +95,32 @@ const calculateLength = (_duration) => {
 // ClaimToWallet (Default)
 export default function ClaimToWallet({ route, navigation }) {
   const { transactTokens, zentokens, song, position, duration } = route.params;
-  const {secondsWorth} = useAuth()
+  const { secondsWorth } = useAuth();
 
-  const [is100thMeditation, setIs100thMeditation] = useState(false)
+  const [is100thMeditation, setIs100thMeditation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const onPressClaimToWallet = async () => {
     if (!isLoading) {
       await transactTokens();
       setIsLoading(false);
-      navigation.navigate("Wallet");  
+      navigation.navigate("Wallet");
     }
   };
 
   useEffect(() => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    fetch100thMeditation()
+    fetch100thMeditation();
   }, []);
 
   const fetch100thMeditation = async () => {
-    try{
-      const response = await axios.get('/auth/meditation-100')
-      setIs100thMeditation(response?.data?.data?.is100thMeditation || false)
-    } catch(e){
-      axios.handleError(e)
+    try {
+      const response = await axios.get("/auth/meditation-100");
+      setIs100thMeditation(response?.data?.data?.is100thMeditation || false);
+    } catch (e) {
+      axios.handleError(e);
     }
-  }
+  };
 
   return (
     <Canvas>
@@ -135,10 +133,7 @@ export default function ClaimToWallet({ route, navigation }) {
           fadeOut
         />
         <Container>
-          <ZentTokenBanner
-            tokens={Number(zentokens).toPrecision(6)}
-            usd={0.0}
-          />
+          <ZentTokenBanner tokens={Number(zentokens).toFixed(6)} usd={0.0} />
 
           <ScrollView
             showsHorizontalScrollIndicator={false}
@@ -157,8 +152,8 @@ export default function ClaimToWallet({ route, navigation }) {
             <WalletHistoryList>
               <WalletHistoryListText>
                 <Text fontSize="lg" numberOfLines={1} color="primary">
-                  {calculateLength(zentokens/secondsWorth)} •{" "}
-                  {Number(zentokens).toPrecision(6)} ZENT
+                  {calculateLength(zentokens / secondsWorth)} •{" "}
+                  {Number(zentokens).toFixed(6)} ZENT
                 </Text>
                 <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                   {song?.name}
@@ -242,15 +237,17 @@ export default function ClaimToWallet({ route, navigation }) {
                 color="white"
               />
               <Text fontSize="h2" fontWeight="bold">
-                You’ve received {Number(zentokens).toPrecision(2)} ZENT
+                You’ve received {Number(zentokens).toFixed(2)} ZENT
               </Text>
-              {is100thMeditation && <Text fontSize="h2" fontWeight="bold" color="primary">
-                That’s your 100th meditation!
-              </Text>}
+              {is100thMeditation && (
+                <Text fontSize="h2" fontWeight="bold" color="primary">
+                  That’s your 100th meditation!
+                </Text>
+              )}
             </InfoBody>
             <InfoFooter>
               <Button
-                title={isLoading?"Please Wait...":"Claim to wallet"}
+                title={isLoading ? "Please Wait..." : "Claim to wallet"}
                 block
                 onPress={() => {
                   setIsLoading(true);

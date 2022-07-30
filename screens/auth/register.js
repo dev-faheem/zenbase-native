@@ -81,28 +81,28 @@ const dropdownProps = {
     backgroundColor: "#1B1C1E",
     height: 45,
     borderRadius: 5,
-    marginTop: 10
+    marginTop: 10,
   },
   containerStyle: {
-    zIndex: 10
+    zIndex: 10,
   },
   textStyle: {
-    color: "#8F9094"
+    color: "#8F9094",
   },
   labelStyle: {
-    color: "white"
+    color: "white",
   },
   disabledStyle: {
-    color: "white"
+    color: "white",
   },
 
   dropDownContainerStyle: {
     height: 120,
     zIndex: 10000000,
-    backgroundColor: "#1B1C1E"
+    backgroundColor: "#1B1C1E",
   },
   zIndex: 100000,
-  zIndexInverse: 100000
+  zIndexInverse: 100000,
 };
 
 export default function register({ navigation }) {
@@ -120,32 +120,32 @@ export default function register({ navigation }) {
       borderRadius: 5,
       marginTop: 10,
       paddingLeft: 10,
-      color: "#fff"
+      color: "#fff",
     },
     inputAndroid: {
       backgroundColor: "#1B1C1E",
       height: 45,
       borderRadius: 5,
       marginTop: 10,
-      paddingLeft: 10
+      paddingLeft: 10,
     },
     placeholder: {
-      color: theme.color.secondary
+      color: theme.color.secondary,
     },
     modalViewBottom: {
-      backgroundColor: theme.color.background
+      backgroundColor: theme.color.background,
     },
     modalViewMiddle: {
-      backgroundColor: "#1B1C1E"
+      backgroundColor: "#1B1C1E",
     },
 
     done: {
-      color: theme.color.primary
+      color: theme.color.primary,
     },
     iconContainer: {
       top: 20,
-      right: 12
-    }
+      right: 12,
+    },
   };
 
   // States
@@ -164,17 +164,17 @@ export default function register({ navigation }) {
     {
       label: Country.getCountryByCode("US").name,
       value: Country.getCountryByCode("US").isoCode,
-      color: "white"
+      color: "white",
     },
     ...Country.getAllCountries()
       .map((country) => {
         return {
           label: country.name,
           value: country.isoCode,
-          color: "white"
+          color: "white",
         };
       })
-      .filter((obj) => obj.value != "US")
+      .filter((obj) => obj.value != "US"),
   ]);
 
   const [openState, setOpenState] = useState(false);
@@ -196,23 +196,27 @@ export default function register({ navigation }) {
     if (/[a-zA-Z]/g.test(phoneNumberOrEmail)) {
       type = "email";
     }
-    console.log("type of data", type);
-
+    // console.log("type of data", type);
+    if (type == "phoneNumber") {
+      alert("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
     try {
       const {
-        data: { data }
+        data: { data },
       } = await axios.post("/auth/register", {
         phone: type === "email" ? "" : phoneNumberOrEmail,
         email: phoneNumberOrEmail,
         password,
         country: valueCountry,
-        state: valueState
+        state: valueState,
       });
       let value = phoneNumberOrEmail;
       navigation.navigate("OTP", {
         type,
         value,
-        userId: data._id
+        userId: data._id,
       });
     } catch (error) {
       axios.handleError(error);
@@ -249,7 +253,7 @@ export default function register({ navigation }) {
           <Input
             returnKeyType="done"
             autoCapitalize="none"
-            placeholder="Phone number or email"
+            placeholder="Email"
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
             value={phoneNumberOrEmail}
@@ -275,7 +279,7 @@ export default function register({ navigation }) {
             placeholder={{
               label: "Country (Optional)",
               value: null,
-              color: theme.color.secondary
+              color: theme.color.secondary,
             }}
             value={valueCountry}
             onValueChange={(value) => {
@@ -288,7 +292,7 @@ export default function register({ navigation }) {
                     return {
                       label: state.name,
                       value: state.isoCode,
-                      color: "white"
+                      color: "white",
                     };
                   })
                 );
@@ -305,7 +309,7 @@ export default function register({ navigation }) {
             placeholder={{
               label: "State (Optional)",
               value: null,
-              color: theme.color.secondary
+              color: theme.color.secondary,
             }}
             value={valueState}
             onValueChange={(value) => {
@@ -377,7 +381,7 @@ export default function register({ navigation }) {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 15
+            marginTop: 15,
           }}
         >
           <TouchableOpacity

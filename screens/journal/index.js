@@ -237,8 +237,7 @@ export default function Journal({ route, navigation }) {
                           }}
                         >
                           <Text numberOfLines={1} color="primary">
-                            {Number(data.item.zentValue).toPrecision(3) || "0"}{" "}
-                            ZENT
+                            {Number(data.item.zentValue).toFixed(3) || "0"} ZENT
                           </Text>
                         </View>
                       </JournalListContent>

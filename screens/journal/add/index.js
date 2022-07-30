@@ -12,6 +12,7 @@ import {
   View,
   KeyboardAvoidingView,
 } from "react-native";
+import * as Notifications from "helpers/notifications";
 
 // Import Icons
 import { Ionicons, Entypo } from "@expo/vector-icons";
@@ -173,7 +174,7 @@ export default function AddJournal({ navigation }) {
 
   useEffect(() => {
     if (
-      emotion == null 
+      emotion == null
       // ||
       // `${journalTitle}`.trim() == "" ||
       // `${journalDescription}`.trim() == ""
@@ -183,6 +184,10 @@ export default function AddJournal({ navigation }) {
       setIsSubmitEnabled(true);
     }
   }, [emotion, journalTitle, journalDescription]);
+
+  useEffect(() => {
+    Notifications.askPermissions();
+  }, []);
 
   const { user, updateUser } = useAuth();
 

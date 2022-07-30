@@ -67,7 +67,7 @@ export default function SignupBonus({ route, navigation }) {
 
   useEffect(() => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    (async() => {
+    (async () => {
       try {
         await axios.post("/payments", {
           amount: 0,
@@ -85,7 +85,9 @@ export default function SignupBonus({ route, navigation }) {
     try {
       await transactions.createWithAmount(0.01, "SIGNUP_REWARD");
       navigation.navigate("ReferFriends");
-    } catch (e) {}
+    } catch (e) {
+      console.error(e.response.data);
+    }
   };
 
   return (
