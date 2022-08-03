@@ -106,8 +106,8 @@ export default function ClaimToWallet({ route, navigation }) {
       await transactTokens();
       await AsyncStorage.removeItem("lastClickedSong");
       setIsLoading(false);
-      navigation.navigate("Wallet");
     }
+    navigation.navigate("Wallet");
   };
 
   useEffect(() => {
@@ -239,7 +239,7 @@ export default function ClaimToWallet({ route, navigation }) {
                 color="white"
               />
               <Text fontSize="h2" fontWeight="bold">
-                You’ve received {Number(zentokens).toFixed(2)} ZENT
+                You’ve received {Number(zentokens).toPrecision(2)} ZENT
               </Text>
               {is100thMeditation && (
                 <Text fontSize="h2" fontWeight="bold" color="primary">

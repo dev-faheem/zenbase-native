@@ -32,7 +32,7 @@ import { useAuth } from "stores/auth";
 import ReactNativeShare from "helpers/react-native-share";
 import { useSongQueue } from "stores/song-queue";
 
-const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
+const GIVEAWAY_TOKEN_AFTER_SECONDS = 5; // seconds
 // const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
 const CONTINUE_LISTENING = 60 * 60 * 1; //seconds
 // const MAX_LISTENING_TIME = 10 * 1; // seconds
