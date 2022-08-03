@@ -19,13 +19,6 @@
         }
       ],
       [
-        "@stripe/stripe-react-native",
-        {
-          "merchantIdentifier": "merchant.zenbase.us",
-          "enableGooglePay": false
-        }
-      ],
-      [
         "expo-tracking-transparency",
         {
           "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."

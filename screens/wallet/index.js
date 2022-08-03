@@ -308,7 +308,7 @@ export default function Wallet({ route, navigation }) {
       tokens={Number(walletAmount).toFixed(6)}
       usd={0}
       onPress={() => {
-        navigation.navigate("ZentDonation");
+        // navigation.navigate("ZentDonation");
       }}
     />
   );

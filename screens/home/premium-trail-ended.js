@@ -8,7 +8,7 @@ import Constants from "expo-constants";
 // Import Images
 import BlurImage from "assets/images/cta/blur.png";
 import ZentBackground from "assets/images/wallet/zent-bg.png";
-import { ApplePayButton, useApplePay } from "@stripe/stripe-react-native";
+// import { ApplePayButton, useApplePay } from "@stripe/stripe-react-native";
 import { useAuth } from "stores/auth";
 
 const BackgroundImage = styled.ImageBackground`
@@ -59,7 +59,7 @@ const HeaderImage = styled.Image`
 `;
 
 export default function PremiumTrailEnded({ navigation }) {
-  const { isApplePaySupported } = useApplePay();
+  // const { isApplePaySupported } = useApplePay();
   const { walletAmount } = useAuth();
 
   return (

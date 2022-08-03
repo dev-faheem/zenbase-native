@@ -27,7 +27,7 @@ import ZenbaseWhiteVector from "assets/vectors/zenbase-white.png";
 import ApplePayImage from "assets/images/apple-pay.png";
 import { useAuth } from "stores/auth";
 import axios from "services/axios";
-import { useApplePay } from "@stripe/stripe-react-native";
+// import { useApplePay } from "@stripe/stripe-react-native";
 
 // Styled Component
 const Header = styled.View`
@@ -155,8 +155,8 @@ export default function ZentDonation({ route, navigation }) {
   const [customDonation, setCustomDonation] = useState(false);
   const [customDonationValue, setCustomDonationValue] = useState("");
   const [USDDonation, setUSDDonation] = useState(true);
-  const { isApplePaySupported, presentApplePay, confirmApplePayPayment } =
-    useApplePay();
+  // const { isApplePaySupported, presentApplePay, confirmApplePayPayment } =
+  //   useApplePay();
 
   // Functions
   const selectDonationBox = (selectedDonationBox, donationValue) => {
@@ -168,52 +168,52 @@ export default function ZentDonation({ route, navigation }) {
     setUSDDonation(!USDDonation);
   };
 
-  const raiseApplePayRequest = async (amt) => {
-    try {
-      // console.log(amt / 100);
-      const { error, paymentMethod } = await presentApplePay({
-        cartItems: [
-          { label: "Zenbase Donation", amount: (amt / 100).toString() },
-        ],
-        country: "US",
-        currency: "USD",
-        requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
-      });
+  // const raiseApplePayRequest = async (amt) => {
+  //   try {
+  //     // console.log(amt / 100);
+  //     const { error, paymentMethod } = await presentApplePay({
+  //       cartItems: [
+  //         { label: "Zenbase Donation", amount: (amt / 100).toString() },
+  //       ],
+  //       country: "US",
+  //       currency: "USD",
+  //       requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
+  //     });
 
-      if (error) {
-        console.log({ applePayPresentError: error });
-        Alert.alert(error.message);
-        return;
-      }
+  //     if (error) {
+  //       console.log({ applePayPresentError: error });
+  //       Alert.alert(error.message);
+  //       return;
+  //     }
 
-      // Fetch Client Secret from Server
+  //     // Fetch Client Secret from Server
 
-      const response = await axios.post(`/stripe/${amt}`);
+  //     const response = await axios.post(`/stripe/${amt}`);
 
-      const clientSecret = response.data.data.clientSecret;
+  //     const clientSecret = response.data.data.clientSecret;
 
-      const { error: confirmError } = await confirmApplePayPayment(
-        clientSecret
-      );
+  //     const { error: confirmError } = await confirmApplePayPayment(
+  //       clientSecret
+  //     );
 
-      if (confirmError) {
-        console.log({ applePayConfirmError: confirmError });
-        Alert.alert(confirmError.message);
-        return;
-      }
+  //     if (confirmError) {
+  //       console.log({ applePayConfirmError: confirmError });
+  //       Alert.alert(confirmError.message);
+  //       return;
+  //     }
 
-      // Payment Success
-      await axios.post("/payments", {
-        amount: amt,
-        reason: "DONATION",
-        valid: true,
-      });
-      navigation.navigate("DonationThanks");
-    } catch (e) {
-      console.log({ applePayError: e });
-      Alert.alert("Payment was not successful");
-    }
-  };
+  //     // Payment Success
+  //     await axios.post("/payments", {
+  //       amount: amt,
+  //       reason: "DONATION",
+  //       valid: true,
+  //     });
+  //     navigation.navigate("DonationThanks");
+  //   } catch (e) {
+  //     console.log({ applePayError: e });
+  //     Alert.alert("Payment was not successful");
+  //   }
+  // };
 
   const donateZent = async () => {
     // Donate Zen Tokens
@@ -231,7 +231,8 @@ export default function ZentDonation({ route, navigation }) {
     }
 
     if (USDDonation) {
-      await raiseApplePayRequest(Number(donationAmt) * 100);
+      // await raiseApplePayRequest(Number(donationAmt) * 100);
+      alert("Donations are disabled.");
     } else {
       if (donationAmt > walletAmount) {
         alert(`You dont have enough ZENT!`);
