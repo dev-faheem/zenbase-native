@@ -152,7 +152,7 @@ export default function Login({ navigation }) {
           <Input
             returnKeyType="done"
             autoCapitalize="none"
-            placeholder="Phone number or email"
+            placeholder="Email"
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
             value={phoneNumberOrEmail}
