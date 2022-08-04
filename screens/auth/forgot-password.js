@@ -56,7 +56,11 @@ export default function ForgotPassword({ navigation }) {
   
       const value = phoneNumberOrEmail;
   
-      navigation.navigate('OTP', { type, value, userId: data.data.userId });
+      const { data } =  await axios.post('/auth/generate-otp', {
+        username: phoneNumberOrEmail,
+      });
+
+      navigation.navigate('OTP', { type, value, userId: data.data.userId, isForChangePassword: true });
     } catch(e) {
       axios.handleError(e);
     }

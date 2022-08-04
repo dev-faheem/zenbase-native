@@ -47,7 +47,7 @@ export default function OneTimePassword({ route, navigation }) {
   const { login } = useAuth();
 
   // Params
-  const { type, value, userId, data: originalRegisterData } = route.params;
+  const { type, value, userId, data: originalRegisterData, isForChangePassword } = route.params;
 
   // Refs
   const inputRefs = [
@@ -72,24 +72,30 @@ export default function OneTimePassword({ route, navigation }) {
   }, otp);
 
   useEffect(async () => {
-    const generateOtp = await axios.post("/auth/generate-otp", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      username: value,
-    });
+    if (!isForChangePassword) {
+      const generateOtp = await axios.post("/auth/generate-otp", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        username: value,
+      });
+    }
   }, []);
 
   const validateOTP = async () => {
     try {
-      await axios.post("/auth/validate-otp", {
+      const {data} = await axios.post("/auth/validate-otp", {
         otp: otp.join(""),
         userId,
       });
-      login(originalRegisterData);
-      navigation.navigate("SignupBonus");
 
-      // navigation.navigate("ChangePassword", { changePasswordToken: data.data.changePasswordToken });
+      if (!isForChangePassword) {
+        login(originalRegisterData);
+        navigation.navigate("SignupBonus");
+      } else {
+        navigation.navigate("ChangePassword", { changePasswordToken: data.data.changePasswordToken });
+      }
+
     } catch (e) {
       axios.handleError(e);
     }
