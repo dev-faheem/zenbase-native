@@ -38,7 +38,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "us.zenbase.native",
-      "buildNumber": "0.1.9",
+      "buildNumber": "0.2.0",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2423909336067009~1752802852"
       },
