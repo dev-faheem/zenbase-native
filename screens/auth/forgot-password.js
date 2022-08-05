@@ -84,12 +84,12 @@ export default function ForgotPassword({ navigation }) {
         
         <Ionicons name='lock-closed' size={36} color='white' />
         <Text fontSize='h2' fontWeight='bold' style={{ marginTop: 8 }}>Trouble logging in?</Text>
-        <Text style={{ textAlign: 'center', marginTop: 8, marginBottom: 10}}>Enter your email or phone number and we’ll send you a link to get your account back.</Text>
+        <Text style={{ textAlign: 'center', marginTop: 8, marginBottom: 10}}>Enter your email and we’ll send you a link to get your account back.</Text>
         <InputWrapper>
           <Input
             returnKeyType='done'
             autoCapitalize='none'
-            placeholder='Phone number or email'
+            placeholder='Email'
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
             value={phoneNumberOrEmail}
