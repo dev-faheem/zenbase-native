@@ -8,6 +8,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import axios from "services/axios";
 import SplashScreen from "screens/splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Buffer } from "buffer";
 
 // Import Images
 import ZentbaseLogoPrimary from "assets/images/zenbase-full-primary-logo.png";
@@ -121,6 +122,18 @@ export default function Login({ navigation }) {
     const serializedUser = await AsyncStorage.getItem("@zenbase_user");
     if (serializedUser !== null) {
       const _user = JSON.parse(serializedUser);
+
+      try {
+        const decoded = _user.token.split('.')[1];
+        const jwt = JSON.parse(Buffer.from(decoded, 'base64').toString('utf-8'));
+        
+        if (Date.now() >= jwt?.exp * 1000) {
+          return;
+        }
+      } catch(e) {
+        return;
+      }
+
       login(_user);
       navigation.dispatch(
         CommonActions.reset({

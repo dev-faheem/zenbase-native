@@ -522,7 +522,7 @@ export default function Play({ navigation }) {
 
   const onPressListenWithFriends = () => {
     ReactNativeShare(
-      `${user?.name} is inviting you to meditate with him.\n\nJoin here: https://zenbase.us`,
+      `${user?.name} is inviting you to meditate with them.\n\nJoin here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`,
       () => {
         // Success
       },
@@ -537,7 +537,7 @@ export default function Play({ navigation }) {
 
   const onPressShareSong = () => {
     ReactNativeShare(
-      `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.\n\nJoin here: https://zenbase.us`,
+      `${user?.name} is inviting you to listen the "${song?.name}"! Meditate with ${user?.name} only on Zenbase.\n\nJoin here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`,
       () => {
         // Success
       },

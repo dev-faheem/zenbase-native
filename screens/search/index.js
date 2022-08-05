@@ -377,7 +377,7 @@ export default function Search({ navigation }) {
                   contextMenuSong?.name || "tunes"
                 }"! Meditate with ${
                   user?.name
-                } only on Zenbase.\n\nJoin here: https://zenbase.us`,
+                } only on Zenbase.\n\nJoin here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`,
                 () => {
                   // Success
                 },

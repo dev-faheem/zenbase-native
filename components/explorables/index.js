@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import ExplorableCard from "components/explorables/card";
 import CardImage1 from "assets/images/explorable/card-1.png";
 import CardImage2 from "assets/images/explorable/card-2.png";
+import CardImage3 from "assets/images/explorable/card-3.png";
 import CardImage4 from "assets/images/explorable/card-4.png";
 import CardImage5 from "assets/images/explorable/card-5.png";
 import ExplorableLinearGradient from "assets/images/explorable-gradient.png";
@@ -21,12 +22,12 @@ const cards = [
     image: CardImage4,
     link: "627544e7f89098380d986d08",
   },
-  // {
-  //   name: "Morning Gratitude",
-  //   description: "Start your day the best possible way.",
-  //   image: CardImage3,
-  // },
-
+  {
+    name: "Morning Gratitude",
+    description: "Start your day the best possible way.",
+    image: CardImage3,
+    link: "62ed5109ad097570d6c9101e",
+  },
   {
     name: "Deep Sleep",
     description: "Catch some quality zzz’s.",
