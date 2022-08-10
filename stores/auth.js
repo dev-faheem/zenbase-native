@@ -16,11 +16,8 @@ export const AuthProvider = ({ children }) => {
   const [walletAmount, setWalletAmount] = useState(0);
 
   useEffect(() => {
-    fetchLatestTokenWorth();
-  }, []);
-
-  useEffect(() => {
     if (user != null) {
+      fetchLatestTokenWorth();
       fetchTransactions();
     }
   }, [user]);
@@ -68,12 +65,12 @@ export const AuthProvider = ({ children }) => {
   const updateUser = async (field, value, updateState = true) => {
     if (!isLoggedIn) return;
     try {
-      await axios.patch("/auth/" + field, { value });
       if (updateState) {
         const userData = { ...user, [field]: value };
         await setUser(userData);
         await AsyncStorage.setItem("@zenbase_user", JSON.stringify(userData));
       }
+      await axios.patch("/auth/" + field, { value });
     } catch (e) {
       axios.handleError(e);
     }

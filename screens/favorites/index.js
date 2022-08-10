@@ -119,11 +119,15 @@ export default function Favorites({ route, navigation }) {
               style={{ marginTop: 20, marginBottom: 10 }}
               notDefault
               transparent
-              data={likedCategories.slice(0, 2).map((category) => {
+              data={likedCategories.map((category) => {
                 return {
                   icon: <ListImage source={{ uri: category.artwork }} />,
                   title: category.name,
                   onPress: () => {
+                    navigation.navigate("SongList", {
+                      songs: songs.filter(song => song?.categories.includes(category?._id)), 
+                      title: category?.name
+                    });
                     // navigation.navigate('FavoritesType', {
                     //   type: category.name,
                     //   category,

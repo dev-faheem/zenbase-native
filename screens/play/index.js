@@ -409,7 +409,8 @@ export default function Play({ navigation }) {
         })
       );
     } else {
-      updateUser("likedSongs", [...user.likedSongs, song?._id]);
+      user.likedSongs.push(song?._id);
+      updateUser("likedSongs", user.likedSongs);
     }
   };
 
