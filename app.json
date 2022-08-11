@@ -2,7 +2,7 @@
   "expo": {
     "name": "Zenbase",
     "slug": "zenbase",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "zenbase",
@@ -38,7 +38,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "us.zenbase.native",
-      "buildNumber": "0.2.1",
+      "buildNumber": "0.2.2",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2423909336067009~1752802852"
       },
