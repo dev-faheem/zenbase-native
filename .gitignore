@@ -50,6 +50,9 @@ local.properties
 *.iml
 *.hprof
 
+/package-lock.json
+/yarn.lock
+
 # node.js
 #
 node_modules/
