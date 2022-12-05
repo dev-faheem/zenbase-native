@@ -6,7 +6,7 @@ const dark = {
     primaryDarker: "#5200AC",
     black: "#000000",
     white: "#ffffff",
-    red: '#FD3B30',
+    red: "#FD3B30",
     secondary: "#8F9094",
     information: "#ABABAC",
     informationBackground: "#2E2E30",
@@ -15,7 +15,7 @@ const dark = {
     suggestions: "#88898D",
     header: "rgba(247,248,250,0.6)",
     header90: "rgba(247,248,250,0.9)",
-    transparent: "rgba(0,0,0,0)", 
+    transparent: "rgba(0,0,0,0)",
   },
   fontSize: {
     xs: "10px",

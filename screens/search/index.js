@@ -11,12 +11,7 @@ import {
 } from "components";
 import styled from "styled-components/native";
 import useSearch from "queries/useSearch";
-import {
-  FlatList,
-  ScrollView,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import useCategories from "queries/useCategories";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
@@ -280,27 +275,14 @@ export default function Search({ navigation }) {
                       >
                         <SongContent>
                           <Text numberOfLines={1}>{song?.name}</Text>
-                          <Text
-                            numberOfLines={1}
-                            fontSize="sm"
-                            color="secondary"
-                          >
-                            Song •{" "}
-                            {song.artist
-                              ?.map((artist) => artist.name)
-                              .join(", ")}
+                          <Text numberOfLines={1} fontSize="sm" color="secondary">
+                            Song • {song.artist?.map((artist) => artist.name).join(", ")}
                           </Text>
                         </SongContent>
 
                         <IconWrapper style={{ paddingLeft: 5 }}>
-                          <TouchableOpacity
-                            onPress={(event) => openContextMenu(event, song)}
-                          >
-                            <Feather
-                              name="more-horizontal"
-                              size={24}
-                              color={theme.color.white}
-                            />
+                          <TouchableOpacity onPress={(event) => openContextMenu(event, song)}>
+                            <Feather name="more-horizontal" size={24} color={theme.color.white} />
                           </TouchableOpacity>
                         </IconWrapper>
                       </SongContentWrapper>
@@ -347,13 +329,7 @@ export default function Search({ navigation }) {
             ? {
                 title: "Delete from Library",
                 color: "primary",
-                icon: (
-                  <Ionicons
-                    name="ios-trash-outline"
-                    size={16}
-                    color={theme.color.primary}
-                  />
-                ),
+                icon: <Ionicons name="ios-trash-outline" size={16} color={theme.color.primary} />,
                 onPress: () => {
                   toggleLikedTrack();
                 },

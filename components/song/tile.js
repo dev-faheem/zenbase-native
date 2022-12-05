@@ -116,21 +116,12 @@ export default function SongTile({
     <TouchableWithoutFeedback onPress={removable ? onRemove : onPressTile}>
       <SongTileView style={style || null} inGrid={inGrid || null}>
         <SongArtwork
-          source={
-            mock
-              ? song.artwork
-              : { uri: song.artwork?.replace("https", "http") }
-          }
+          source={mock ? song.artwork : { uri: song.artwork?.replace("https", "http") }}
           inGrid={inGrid || null}
         />
         {removable && (
           <SongRemoveButton onPress={onRemove || null}>
-            <Ionicons
-              name="ios-remove"
-              size={15}
-              style={{ marginLeft: 1 }}
-              color="white"
-            />
+            <Ionicons name="ios-remove" size={15} style={{ marginLeft: 1 }} color="white" />
           </SongRemoveButton>
         )}
         <SongLength>

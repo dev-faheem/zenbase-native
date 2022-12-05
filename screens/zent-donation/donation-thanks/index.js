@@ -59,12 +59,7 @@ export default function DonationThanks({ route, navigation }) {
       <CardWrapper>
         <CardBody>
           <ZenbaseLogo source={ZenbaseFullLogo} resizeMode="contain" />
-          <Ionicons
-            name="heart"
-            size={48}
-            color="white"
-            style={{ marginTop: 60 }}
-          />
+          <Ionicons name="heart" size={48} color="white" style={{ marginTop: 60 }} />
           <Text
             fontSize="xl"
             fontWeight="500"

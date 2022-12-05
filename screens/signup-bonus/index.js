@@ -1,12 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Container,
-  Canvas,
-  Text,
-  Button,
-  ZentTokenBanner,
-  Box,
-} from "components";
+import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Dimensions } from "react-native";
@@ -106,23 +99,14 @@ export default function SignupBonus({ route, navigation }) {
               navigation.goBack();
             }}
           >
-            <Ionicons
-              name="ios-chevron-back"
-              size={30}
-              color={theme.color.primary}
-            />
+            <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
           </TouchableOpacity>
         </Header>
         <Container style={{ flex: 1 }}>
           <ZentTokenBanner tokens={0.01} usd={0.0} />
           <InfoWrapper>
             <InfoBody>
-              <Ionicons
-                name="gift"
-                size={34}
-                style={{ marginBottom: 12 }}
-                color="white"
-              />
+              <Ionicons name="gift" size={34} style={{ marginBottom: 12 }} color="white" />
               <Text fontSize="h2" fontWeight="bold">
                 You’ve received 0.01 ZENT
               </Text>
@@ -131,11 +115,7 @@ export default function SignupBonus({ route, navigation }) {
               </Text>
             </InfoBody>
             <InfoFooter>
-              <Button
-                title="Claim to wallet"
-                block
-                onPress={onPressClaimToWallet}
-              />
+              <Button title="Claim to wallet" block onPress={onPressClaimToWallet} />
             </InfoFooter>
           </InfoWrapper>
         </Container>

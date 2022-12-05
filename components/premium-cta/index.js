@@ -131,9 +131,7 @@ export default function PremiumCTA({ navigation, onPress }) {
         </CTAImageWrapper>
       </PaddingWrapper>
       <FooterWrapper source={PremiumCTAFooterImage}>
-        {user?.isPremium && (
-          <Text>You are already a Zenbase Premium Member</Text>
-        )}
+        {user?.isPremium && <Text>You are already a Zenbase Premium Member</Text>}
         {/* Removed 'isApplePaySupported &&'  from below statement */}
         {!user?.isPremium ? (
           <>
@@ -145,9 +143,7 @@ export default function PremiumCTA({ navigation, onPress }) {
             </GetButton>
           </>
         ) : (
-          !user?.isPremium && (
-            <Text>Apple Pay is not supported on your device</Text>
-          )
+          !user?.isPremium && <Text>Apple Pay is not supported on your device</Text>
         )}
       </FooterWrapper>
     </CTAWrapper>

@@ -7,21 +7,10 @@ import axios from "services/axios";
 import { useLoader } from "stores/loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import {
-  Dimensions,
-  Image,
-  Animated,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, Image, Animated, TouchableOpacity, View } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import Slider from "@react-native-community/slider";
-import {
-  FontAwesome5,
-  Foundation,
-  Ionicons,
-  Feather,
-} from "@expo/vector-icons";
+import { FontAwesome5, Foundation, Ionicons, Feather } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 
 // Import Images
@@ -189,14 +178,10 @@ function renderMsToTiming(ms) {
   if (hours > 0) {
     minutes = minutes % 60;
     zeroFixMinutes = minutes >= 10 ? "" : "0";
-    return `${hours}:${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
-      seconds || "0"
-    }`;
+    return `${hours}:${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${seconds || "0"}`;
   }
 
-  return `${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${
-    seconds || "0"
-  }`;
+  return `${zeroFixMinutes}${minutes || "0"}:${zeroFixSeconds}${seconds || "0"}`;
 }
 
 export default function Play({ navigation }) {
@@ -207,12 +192,9 @@ export default function Play({ navigation }) {
 
   const { user, updateUser, secondsWorth } = useAuth();
 
-  const { songQueue, resetSongQueue, queueMetaData, updateSongQueue } =
-    useSongQueue();
+  const { songQueue, resetSongQueue, queueMetaData, updateSongQueue } = useSongQueue();
 
-  const progressBarWidth = useRef(
-    new Animated.Value(windowsWidth - 40)
-  ).current;
+  const progressBarWidth = useRef(new Animated.Value(windowsWidth - 40)).current;
 
   const [song, setSong] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -319,9 +301,7 @@ export default function Play({ navigation }) {
       ) {
         setZentokens((oldZentoken) => {
           return (
-            oldZentoken +
-            secondsWorth +
-            (user.isPremium ? secondsWorth * 0.1 : 0) // 10% more for premium users
+            oldZentoken + secondsWorth + (user.isPremium ? secondsWorth * 0.1 : 0) // 10% more for premium users
           );
         });
       }
@@ -608,18 +588,10 @@ export default function Play({ navigation }) {
           {continueListening && (
             <FooterWrapper>
               <FooterBody>
-                <Text
-                  fontSize="20"
-                  fontWeight="bold"
-                  style={{ color: "rgba(247, 248, 250, 0.9)" }}
-                >
+                <Text fontSize="20" fontWeight="bold" style={{ color: "rgba(247, 248, 250, 0.9)" }}>
                   Are you still listening to
                 </Text>
-                <Text
-                  fontSize="20"
-                  fontWeight="bold"
-                  style={{ color: "rgba(247, 248, 250, 0.9)" }}
-                >
+                <Text fontSize="20" fontWeight="bold" style={{ color: "rgba(247, 248, 250, 0.9)" }}>
                   "{song?.name}"?
                 </Text>
               </FooterBody>
@@ -644,11 +616,7 @@ export default function Play({ navigation }) {
                       },
                     ]}
                   />
-                  <Text
-                    fontSize="16"
-                    color="black"
-                    style={{ position: "relative", zIndex: 2 }}
-                  >
+                  <Text fontSize="16" color="black" style={{ position: "relative", zIndex: 2 }}>
                     Continue listening
                   </Text>
                 </ContinueButton>
@@ -671,9 +639,7 @@ export default function Play({ navigation }) {
           {!continueListening && (
             <ScreenContainer>
               <View>
-                <SongTitle numberOfLines={2}>
-                  {song?.name || "Song Name"}
-                </SongTitle>
+                <SongTitle numberOfLines={2}>{song?.name || "Song Name"}</SongTitle>
                 <SongArtist>
                   {song?.artist
                     ?.map((artist) => {
@@ -708,11 +674,7 @@ export default function Play({ navigation }) {
                   <FontAwesome5
                     name="backward"
                     size={24}
-                    color={
-                      queueMetaData.previousIndex >= 0
-                        ? "white"
-                        : "rgba(255, 255, 255, 0.35)"
-                    }
+                    color={queueMetaData.previousIndex >= 0 ? "white" : "rgba(255, 255, 255, 0.35)"}
                   />
                 </SongControlsButton>
 
@@ -732,11 +694,7 @@ export default function Play({ navigation }) {
                   <FontAwesome5
                     name="forward"
                     size={24}
-                    color={
-                      queueMetaData.nextIndex >= 0
-                        ? "white"
-                        : "rgba(255, 255, 255, 0.35)"
-                    }
+                    color={queueMetaData.nextIndex >= 0 ? "white" : "rgba(255, 255, 255, 0.35)"}
                   />
                 </SongControlsButton>
               </SongControls>
@@ -776,10 +734,7 @@ export default function Play({ navigation }) {
               </VolumnSliderWrapper> */}
 
               <SongControls style={{ marginBottom: 20, marginTop: 10 }}>
-                <OptionButton
-                  style={{ backgroundColor: "white" }}
-                  onPress={onPressClose}
-                >
+                <OptionButton style={{ backgroundColor: "white" }} onPress={onPressClose}>
                   <Ionicons
                     name="ios-close"
                     size={18}
@@ -794,9 +749,7 @@ export default function Play({ navigation }) {
                     toggleLikedTrack();
                   }}
                   style={{
-                    backgroundColor: isSongLiked()
-                      ? "white"
-                      : "rgba(247, 248, 250, 0.3)",
+                    backgroundColor: isSongLiked() ? "white" : "rgba(247, 248, 250, 0.3)",
                   }}
                 >
                   <Ionicons

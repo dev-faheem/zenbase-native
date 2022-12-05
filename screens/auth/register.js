@@ -385,10 +385,7 @@ export default function register({ navigation, route }) {
             marginTop: 15,
           }}
         >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{ padding: 15 }}
-          >
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 15 }}>
             <Text color={"primary"} fontWeight="600">
               Already have an account
             </Text>
@@ -413,10 +410,7 @@ export default function register({ navigation, route }) {
               <TermsAndPrivacyFlex>
                 <Text>By signing in you accept our </Text>
                 <TouchableOpacity>
-                  <Text
-                    fontWeight="bold"
-                    style={{ textDecorationLine: "underline" }}
-                  >
+                  <Text fontWeight="bold" style={{ textDecorationLine: "underline" }}>
                     Terms of use
                   </Text>
                 </TouchableOpacity>
@@ -425,10 +419,7 @@ export default function register({ navigation, route }) {
               <TermsAndPrivacyFlex style={{ marginTop: 2 }}>
                 <Text>and </Text>
                 <TouchableOpacity>
-                  <Text
-                    fontWeight="bold"
-                    style={{ textDecorationLine: "underline" }}
-                  >
+                  <Text fontWeight="bold" style={{ textDecorationLine: "underline" }}>
                     Privacy Policy
                   </Text>
                 </TouchableOpacity>

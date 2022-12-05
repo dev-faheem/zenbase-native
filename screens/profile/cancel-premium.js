@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Text,
-  Container,
-  Canvas,
-  Button,
-  Box,
-  PremiumCTA,
-  RewardsCTA,
-} from "components";
+import { Text, Container, Canvas, Button, Box, PremiumCTA, RewardsCTA } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { SafeAreaView, TouchableOpacity, StatusBar } from "react-native";
@@ -51,8 +43,7 @@ const HeaderWrapper = styled.View`
 const HeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() =>
-    Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 10 + "px"};
+  top: ${() => (Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 10 + "px")};
   right: ${(props) => props.theme.spacing.lg};
   justify-content: flex-end;
   flex-direction: row;

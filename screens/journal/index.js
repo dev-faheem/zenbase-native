@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { Container, Canvas, Text } from "components";
-import {
-  ScrollView,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import { useTheme } from "stores/theme";
 import { SwipeListView } from "react-native-swipe-list-view";
 import styled from "styled-components/native";
@@ -140,18 +135,11 @@ export default function Journal({ route, navigation }) {
             navigation.goBack();
           }}
         >
-          <Ionicons
-            name="ios-chevron-back"
-            size={30}
-            color={theme.color.primary}
-          />
+          <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
         </TouchableOpacity>
       </JournalHeader>
       <Container style={{ flex: 1 }}>
-        <ScrollView
-          style={{ width: "100%" }}
-          showsVerticalScrollIndicator={false}
-        >
+        <ScrollView style={{ width: "100%" }} showsVerticalScrollIndicator={false}>
           <Text fontSize="h2" fontWeight="bold" style={{ marginBottom: 18 }}>
             My Journal
           </Text>
@@ -194,19 +182,12 @@ export default function Journal({ route, navigation }) {
                   >
                     <JournalList style={listStyle}>
                       {song ? (
-                        <JournalListImg
-                          source={{ uri: song?.artwork }}
-                          resizeMode="cover"
-                        />
+                        <JournalListImg source={{ uri: song?.artwork }} resizeMode="cover" />
                       ) : (
                         <JournalListImgLoading />
                       )}
                       <JournalListContent
-                        style={
-                          data.index == journals.length - 1
-                            ? { borderBottomWidth: 0 }
-                            : null
-                        }
+                        style={data.index == journals.length - 1 ? { borderBottomWidth: 0 } : null}
                       >
                         <View style={{ width: "58%" }}>
                           <Text
@@ -305,8 +286,7 @@ export default function Journal({ route, navigation }) {
                       style={{ marginTop: 6, lineHeight: 18 }}
                       fontSize="13"
                     >
-                      Earn and save all of your journal entries with Zenbase
-                      Premium.
+                      Earn and save all of your journal entries with Zenbase Premium.
                     </Text>
                   </View>
                   <View

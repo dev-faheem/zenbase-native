@@ -1,6 +1,6 @@
-import React from 'react';
-import { StatusBar, SafeAreaView } from 'react-native';
-import styled from 'styled-components/native';
+import React from "react";
+import { StatusBar, SafeAreaView } from "react-native";
+import styled from "styled-components/native";
 
 const BackdropView = styled.View`
   background: ${(props) => props.theme.color.background};

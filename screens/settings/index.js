@@ -1,15 +1,7 @@
 // Import Dependencies
 import React, { useState, useEffect } from "react";
 import { Alert, ScrollView, View, Image, Switch } from "react-native";
-import {
-  Text,
-  Container,
-  Canvas,
-  Button,
-  IOSList,
-  SongTile,
-  Box,
-} from "components";
+import { Text, Container, Canvas, Button, IOSList, SongTile, Box } from "components";
 import styled from "styled-components/native";
 import { Ionicons, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
@@ -46,9 +38,7 @@ export default function Settings({ route }) {
   const navigation = useNavigation();
   const { user, updateUser, logout } = useAuth();
   // States
-  const [autoRenew, setAutoRenew] = useState(
-    user?.renewZenbasePremiumAutomatically || false
-  );
+  const [autoRenew, setAutoRenew] = useState(user?.renewZenbasePremiumAutomatically || false);
 
   const toggleAutoRenew = () => {
     setAutoRenew(!autoRenew);
@@ -77,12 +67,7 @@ export default function Settings({ route }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ProfileHeader
-        editable
-        profilePicture={profileImage}
-        route={route}
-        navigation={navigation}
-      />
+      <ProfileHeader editable profilePicture={profileImage} route={route} navigation={navigation} />
       <View style={{ flex: 1, backgroundColor: theme.color.black }}>
         <ScrollView>
           <Container>

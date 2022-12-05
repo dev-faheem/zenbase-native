@@ -55,8 +55,7 @@ const HeaderImageWrapper = styled.View`
 const HeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() =>
-    Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 10 + "px"};
+  top: ${() => (Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 10 + "px")};
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
@@ -121,23 +120,14 @@ export default function DeleteAccount({ route, navigation }) {
         <HeaderSafeArea>
           <HeaderImageWrapper>
             <HeaderImage source={ZentBackground} resizeMode="cover" />
-            <Text style={{ marginBottom: 15 }}>
-              {Number(walletAmount).toFixed(6)} Zent
-            </Text>
+            <Text style={{ marginBottom: 15 }}>{Number(walletAmount).toFixed(6)} Zent</Text>
           </HeaderImageWrapper>
         </HeaderSafeArea>
       </HeaderWrapper>
 
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-      >
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}>
         <Container style={{ flex: 1, justifyContent: "center" }}>
-          <AntDesign
-            name="delete"
-            size={40}
-            color="white"
-            style={{ alignSelf: "center" }}
-          />
+          <AntDesign name="delete" size={40} color="white" style={{ alignSelf: "center" }} />
 
           <Text
             fontSize="30"
@@ -164,9 +154,8 @@ export default function DeleteAccount({ route, navigation }) {
             fontWeight="600"
             color="header90"
           >
-            There is no recovery method to get back earned zentoken once your
-            account is deleted. your zentoken will be recirculated to zenbase
-            for others to earn.
+            There is no recovery method to get back earned zentoken once your account is deleted.
+            your zentoken will be recirculated to zenbase for others to earn.
           </Text>
         </Container>
       </ScrollView>
@@ -174,9 +163,7 @@ export default function DeleteAccount({ route, navigation }) {
       <FooterWrapper>
         <Container style={{ flex: 1 }}>
           <FooterFlex>
-            <Text style={{ marginBottom: 10 }}>
-              For billing questions email {user.email}
-            </Text>
+            <Text style={{ marginBottom: 10 }}>For billing questions email {user.email}</Text>
             <Button
               title="Delete my account and Zentoken"
               variant="secondary"

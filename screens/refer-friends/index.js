@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Canvas,
-  Text,
-  Button,
-  ZentTokenBanner,
-  Box,
-} from "components";
+import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import { ReactNativeShare } from "helpers";
 import styled from "styled-components/native";
 
@@ -92,12 +85,7 @@ export default function ReferFriends({ route, navigation }) {
               }
             />
             <Box h="10px" />
-            <Button
-              title="Skip"
-              variant="secondary"
-              block
-              onPress={onPressNavigateToNextScreen}
-            />
+            <Button title="Skip" variant="secondary" block onPress={onPressNavigateToNextScreen} />
           </InfoFooter>
         </InfoWrapper>
       </Container>

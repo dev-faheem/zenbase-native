@@ -124,13 +124,13 @@ export default function Login({ navigation }) {
       const _user = JSON.parse(serializedUser);
 
       try {
-        const decoded = _user.token.split('.')[1];
-        const jwt = JSON.parse(Buffer.from(decoded, 'base64').toString('utf-8'));
-        
+        const decoded = _user.token.split(".")[1];
+        const jwt = JSON.parse(Buffer.from(decoded, "base64").toString("utf-8"));
+
         if (Date.now() >= jwt?.exp * 1000) {
           return;
         }
-      } catch(e) {
+      } catch (e) {
         return;
       }
 
@@ -229,10 +229,7 @@ export default function Login({ navigation }) {
               <TermsAndPrivacyFlex>
                 <Text>By signing in you accept our </Text>
                 <TouchableOpacity>
-                  <Text
-                    fontWeight="bold"
-                    style={{ textDecorationLine: "underline" }}
-                  >
+                  <Text fontWeight="bold" style={{ textDecorationLine: "underline" }}>
                     Terms of use
                   </Text>
                 </TouchableOpacity>
@@ -241,10 +238,7 @@ export default function Login({ navigation }) {
               <TermsAndPrivacyFlex style={{ marginTop: 2 }}>
                 <Text>and </Text>
                 <TouchableOpacity>
-                  <Text
-                    fontWeight="bold"
-                    style={{ textDecorationLine: "underline" }}
-                  >
+                  <Text fontWeight="bold" style={{ textDecorationLine: "underline" }}>
                     Privacy Policy
                   </Text>
                 </TouchableOpacity>

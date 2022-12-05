@@ -91,19 +91,16 @@ export default function TotalEarnings({ route, navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
   const { walletAmount } = useAuth();
 
-  const ZentBanner = (
-    <ZentTokenBanner tokens={Number(walletAmount || 0).toFixed(6)} usd={0} />
-  );
+  const ZentBanner = <ZentTokenBanner tokens={Number(walletAmount || 0).toFixed(6)} usd={0} />;
 
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
         <Animated.ScrollView
           style={{ width: "100%" }}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: true }
-          )}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+            useNativeDriver: true,
+          })}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
         >
@@ -121,10 +118,7 @@ export default function TotalEarnings({ route, navigation }) {
           >
             You’ve earned the maximum today
           </Text>
-          <Text
-            fontSize="lg"
-            style={{ marginBottom: 20, width: "100%", textAlign: "center" }}
-          >
+          <Text fontSize="lg" style={{ marginBottom: 20, width: "100%", textAlign: "center" }}>
             3 hour earning limit
           </Text>
 
@@ -136,26 +130,14 @@ export default function TotalEarnings({ route, navigation }) {
                   <Text fontSize="lg" numberOfLines={1} color="primary">
                     5 minutes • 0.01 ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                     Our Purpose Has Presence
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     Damon
                   </Text>
                 </WalletHistoryListText>
-                <WalletHistoryListThumbnail
-                  source={wallpaper1}
-                  resizeMode="cover"
-                />
+                <WalletHistoryListThumbnail source={wallpaper1} resizeMode="cover" />
               </WalletHistoryList>
 
               <WalletHistoryList>
@@ -163,26 +145,14 @@ export default function TotalEarnings({ route, navigation }) {
                   <Text fontSize="lg" numberOfLines={1} color="primary">
                     10 minutes • 0.02 ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                     Move Mountain
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     Super Seeker
                   </Text>
                 </WalletHistoryListText>
-                <WalletHistoryListThumbnail
-                  source={wallpaper2}
-                  resizeMode="cover"
-                />
+                <WalletHistoryListThumbnail source={wallpaper2} resizeMode="cover" />
               </WalletHistoryList>
 
               <WalletHistoryList>
@@ -190,26 +160,14 @@ export default function TotalEarnings({ route, navigation }) {
                   <Text fontSize="lg" numberOfLines={1} color="primary">
                     5 minutes • 0.01 ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                     Let Go
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     Freestyle
                   </Text>
                 </WalletHistoryListText>
-                <WalletHistoryListThumbnail
-                  source={wallpaper3}
-                  resizeMode="cover"
-                />
+                <WalletHistoryListThumbnail source={wallpaper3} resizeMode="cover" />
               </WalletHistoryList>
 
               <WalletHistoryList>
@@ -217,26 +175,14 @@ export default function TotalEarnings({ route, navigation }) {
                   <Text fontSize="lg" numberOfLines={1} color="primary">
                     15 minutes • 0.03 ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                     Wisdom of The Ancients
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     Master Chadd
                   </Text>
                 </WalletHistoryListText>
-                <WalletHistoryListThumbnail
-                  source={wallpaper4}
-                  resizeMode="cover"
-                />
+                <WalletHistoryListThumbnail source={wallpaper4} resizeMode="cover" />
               </WalletHistoryList>
 
               <WalletHistoryList>
@@ -244,26 +190,14 @@ export default function TotalEarnings({ route, navigation }) {
                   <Text fontSize="lg" numberOfLines={1} color="primary">
                     15 minutes • 0.03 ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                     Wisdom of The Ancients
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     Master Chadd
                   </Text>
                 </WalletHistoryListText>
-                <WalletHistoryListThumbnail
-                  source={wallpaper1}
-                  resizeMode="cover"
-                />
+                <WalletHistoryListThumbnail source={wallpaper1} resizeMode="cover" />
               </WalletHistoryList>
 
               <WalletHistoryList>
@@ -271,26 +205,14 @@ export default function TotalEarnings({ route, navigation }) {
                   <Text fontSize="lg" numberOfLines={1} color="primary">
                     15 minutes • 0.03 ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                     Wisdom of The Ancients
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     Master Chadd
                   </Text>
                 </WalletHistoryListText>
-                <WalletHistoryListThumbnail
-                  source={wallpaper2}
-                  resizeMode="cover"
-                />
+                <WalletHistoryListThumbnail source={wallpaper2} resizeMode="cover" />
               </WalletHistoryList>
 
               <WalletHistoryList>
@@ -298,26 +220,14 @@ export default function TotalEarnings({ route, navigation }) {
                   <Text fontSize="lg" numberOfLines={1} color="primary">
                     15 minutes • 0.03 ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                     Wisdom of The Ancients
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     Master Chadd
                   </Text>
                 </WalletHistoryListText>
-                <WalletHistoryListThumbnail
-                  source={wallpaper3}
-                  resizeMode="cover"
-                />
+                <WalletHistoryListThumbnail source={wallpaper3} resizeMode="cover" />
               </WalletHistoryList>
 
               <WalletHistoryList>
@@ -325,26 +235,14 @@ export default function TotalEarnings({ route, navigation }) {
                   <Text fontSize="lg" numberOfLines={1} color="primary">
                     15 minutes • 0.03 ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                     Wisdom of The Ancients
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     Master Chadd
                   </Text>
                 </WalletHistoryListText>
-                <WalletHistoryListThumbnail
-                  source={wallpaper4}
-                  resizeMode="cover"
-                />
+                <WalletHistoryListThumbnail source={wallpaper4} resizeMode="cover" />
               </WalletHistoryList>
             </>
           )}
@@ -369,17 +267,14 @@ export default function TotalEarnings({ route, navigation }) {
           intensity={200}
           style={{
             width: "100%",
-            height:
-              (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 60,
+            height: (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 60,
             paddingBottom: Platform.OS == "android" ? 5 : 0,
           }}
           tint="dark"
         >
           <HeaderWrapper>
             <HeaderImage source={zentBackground} resizeMode="cover" />
-            <Text style={{ marginBottom: 15 }}>
-              {ZentBanner.props.tokens} Zent
-            </Text>
+            <Text style={{ marginBottom: 15 }}>{ZentBanner.props.tokens} Zent</Text>
           </HeaderWrapper>
         </BlurView>
       </Animated.View>

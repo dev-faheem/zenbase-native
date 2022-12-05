@@ -160,8 +160,7 @@ const JournalDescriptionInput = styled.TextInput`
 // Add Journal Component (Default)
 export default function AddJournal({ navigation }) {
   const journalDescriptionInput = useRef();
-  const { song, zentokens, claimToWalletProps, transactTokens } =
-    useRoute().params;
+  const { song, zentokens, claimToWalletProps, transactTokens } = useRoute().params;
   const claimToWallet = JSON.parse(claimToWalletProps);
   const [emotion, setEmotion] = useState(null);
   const [journalTitle, setJournalTitle] = useState("");
@@ -208,11 +207,7 @@ export default function AddJournal({ navigation }) {
   };
 
   return (
-    <BlurView
-      intensity={200}
-      tint="dark"
-      style={{ width: "100%", height: "100%" }}
-    >
+    <BlurView intensity={200} tint="dark" style={{ width: "100%", height: "100%" }}>
       <SafeAreaView style={{ flex: 1 }}>
         <TouchableOpacity
           onPress={() => {
@@ -261,11 +256,7 @@ export default function AddJournal({ navigation }) {
               ]}
               onPress={() => setEmotion("happy")}
             >
-              <Entypo
-                name={`emoji-happy`}
-                size={36}
-                color="rgba(254,254,254, 0.9)"
-              />
+              <Entypo name={`emoji-happy`} size={36} color="rgba(254,254,254, 0.9)" />
             </Emoji>
 
             <Emoji
@@ -279,11 +270,7 @@ export default function AddJournal({ navigation }) {
               ]}
               onPress={() => setEmotion("neutral")}
             >
-              <Entypo
-                name={`emoji-neutral`}
-                size={36}
-                color="rgba(254,254,254, 0.9)"
-              />
+              <Entypo name={`emoji-neutral`} size={36} color="rgba(254,254,254, 0.9)" />
             </Emoji>
 
             <Emoji
@@ -297,11 +284,7 @@ export default function AddJournal({ navigation }) {
               ]}
               onPress={() => setEmotion("sad")}
             >
-              <Entypo
-                name={`emoji-sad`}
-                size={36}
-                color="rgba(254,254,254, 0.9)"
-              />
+              <Entypo name={`emoji-sad`} size={36} color="rgba(254,254,254, 0.9)" />
             </Emoji>
           </EmojiWrapper>
         </Container>
@@ -312,12 +295,8 @@ export default function AddJournal({ navigation }) {
               My Journal
             </Text>
             <JournalText onPress={() => setIsTextInputView(true)}>
-              <Text
-                style={{ color: "rgba(247, 248, 250, 0.9)" }}
-                numberOfLines={100}
-              >
-                {`${journalDescription}`.trim() ||
-                  "Write how you’re feeling here..."}
+              <Text style={{ color: "rgba(247, 248, 250, 0.9)" }} numberOfLines={100}>
+                {`${journalDescription}`.trim() || "Write how you’re feeling here..."}
               </Text>
             </JournalText>
             <Text
@@ -328,8 +307,7 @@ export default function AddJournal({ navigation }) {
                 marginBottom: 18,
               }}
             >
-              You can access all of your journal entries from your profile at
-              any time.
+              You can access all of your journal entries from your profile at any time.
             </Text>
           </FooterBody>
           <FooterButtons>
@@ -344,9 +322,7 @@ export default function AddJournal({ navigation }) {
               <Text
                 fontWeight="600"
                 fontSize="lg"
-                style={[
-                  { color: isSubmitEnabled ? "#000" : "rgba(0,0,0,0.6)" },
-                ]}
+                style={[{ color: isSubmitEnabled ? "#000" : "rgba(0,0,0,0.6)" }]}
               >
                 Submit
               </Text>
@@ -383,10 +359,7 @@ export default function AddJournal({ navigation }) {
           intensity={200}
           tint="dark"
         >
-          <KeyboardAvoidingView
-            style={{ width: "100%", height: "100%" }}
-            behavior={"padding"}
-          >
+          <KeyboardAvoidingView style={{ width: "100%", height: "100%" }} behavior={"padding"}>
             <SafeAreaView style={{ flex: 1 }}>
               <Container>
                 <BlurViewHeader>
@@ -431,8 +404,7 @@ export default function AddJournal({ navigation }) {
                     marginBottom: 20,
                   }}
                 >
-                  You can access all of your journal entries from your profile
-                  at any time.
+                  You can access all of your journal entries from your profile at any time.
                 </Text>
               </Container>
             </SafeAreaView>

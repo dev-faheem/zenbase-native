@@ -13,9 +13,5 @@ export async function getSearch(query) {
 }
 
 export default function useSearch(options) {
-  return useMutation(
-    ["search"],
-    async (query) => await getSearch(query),
-    options
-  );
+  return useMutation(["search"], async (query) => await getSearch(query), options);
 }

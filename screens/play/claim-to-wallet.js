@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Canvas,
-  Text,
-  Button,
-  ZentTokenBanner,
-  Box,
-} from "components";
+import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Dimensions, ScrollView } from "react-native";
@@ -154,18 +147,12 @@ export default function ClaimToWallet({ route, navigation }) {
             <WalletHistoryList>
               <WalletHistoryListText>
                 <Text fontSize="lg" numberOfLines={1} color="primary">
-                  {calculateLength(zentokens / secondsWorth)} •{" "}
-                  {Number(zentokens).toFixed(6)} ZENT
+                  {calculateLength(zentokens / secondsWorth)} • {Number(zentokens).toFixed(6)} ZENT
                 </Text>
                 <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }}>
                   {song?.name}
                 </Text>
-                <Text
-                  fontSize="md"
-                  numberOfLines={1}
-                  style={{ marginTop: 2 }}
-                  color="secondary"
-                >
+                <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                   {song?.artist.map((artist) => artist.name).join(", ")}
                 </Text>
               </WalletHistoryListText>
@@ -232,12 +219,7 @@ export default function ClaimToWallet({ route, navigation }) {
 
           <InfoWrapper>
             <InfoBody>
-              <Ionicons
-                name="gift"
-                size={34}
-                style={{ marginBottom: 12 }}
-                color="white"
-              />
+              <Ionicons name="gift" size={34} style={{ marginBottom: 12 }} color="white" />
               <Text fontSize="h2" fontWeight="bold">
                 You’ve received {Number(zentokens).toPrecision(2)} ZENT
               </Text>

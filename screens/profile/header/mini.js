@@ -1,12 +1,12 @@
 // Import Dependencies
 import React from "react";
-import { Platform, TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from "react-native";
 import { Text, Button } from "components";
 import styled from "styled-components/native";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
 import { useNavigation } from "@react-navigation/core";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 import { useAuth } from "stores/auth";
 
 // Styled Component
@@ -16,52 +16,52 @@ import { useAuth } from "stores/auth";
  * **************
  */
 const ProfileHeaderWrapper = styled.ImageBackground`
-  background-color: ${props => props.theme.color.hud};
+  background-color: ${(props) => props.theme.color.hud};
   width: 100%;
-  height: ${(Platform.OS == 'ios' ? Constants.statusBarHeight: 5) + 80}px;
-`
+  height: ${(Platform.OS == "ios" ? Constants.statusBarHeight : 5) + 80}px;
+`;
 
 const ProfileHeaderOverlay = styled.View`
   flex: 1;
   background-color: rgba(0, 0, 0, 0.55);
-`
+`;
 
 const ProfileHeaderSafeArea = styled.SafeAreaView`
   flex: 1;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const ProfileHeaderImageWrapper = styled.View`
   flex-direction: column;
   align-items: center;
-`
+`;
 
 const ProfileHeaderImage = styled.Image`
   height: 40px;
   width: 40px;
   border-radius: 50px;
-`
+`;
 
 const ProfileHeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() => Platform.OS == 'android' ? '12px' : Constants.statusBarHeight + 10 + 'px'};
+  top: ${() => (Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 10 + "px")};
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
   width: 100%;
-`
+`;
 
 const ProfileHeaderIconWrapper = styled.TouchableOpacity`
   width: 30px;
   height: 30px;
   border-radius: 50px;
-  background-color: ${props => props.theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
   justify-content: center;
   align-items: center;
-`
+`;
 
 /**
  * **********
@@ -70,46 +70,60 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
  */
 
 // Profile Header
-export default function MiniProfileHeader({ 
-    profilePicture,  
-    secondaryButton, 
-    secondaryButtonOnPress,   
-    backButton = true, 
+export default function MiniProfileHeader({
+  profilePicture,
+  secondaryButton,
+  secondaryButtonOnPress,
+  backButton = true,
 }) {
+  const { theme } = useTheme();
+  const navigation = useNavigation();
 
-    const { theme } = useTheme();
-    const navigation = useNavigation();
+  let imageSource = typeof profilePicture == "string" ? { uri: profilePicture } : profilePicture;
 
-    let imageSource = typeof profilePicture == 'string' ? { uri: profilePicture } : profilePicture;
+  const { user } = useAuth();
 
-    const { user } = useAuth();
+  if (user.image) {
+    imageSource = { uri: user.image };
+  }
+  return (
+    <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == "android" ? 35 : 100}>
+      <ProfileHeaderOverlay>
+        <ProfileHeaderButtons>
+          {/* Back Buttons */}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            {backButton && (
+              <Ionicons
+                name="ios-chevron-back"
+                size={32}
+                color={theme.color.primary}
+                style={{ marginLeft: 10, top: -5 }}
+              />
+            )}
+          </TouchableOpacity>
 
-    if (user.image) {
-      imageSource = { uri: user.image };
-    }
-    return <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == 'android' ? 35 : 100} >
-        <ProfileHeaderOverlay>
-            <ProfileHeaderButtons>
+          {/* Text Button */}
+          {secondaryButton && (
+            <Button
+              variant="silent"
+              title={secondaryButton}
+              style={{ top: -2 }}
+              onPress={secondaryButtonOnPress || null}
+            />
+          )}
+        </ProfileHeaderButtons>
 
-                {/* Back Buttons */}
-                <TouchableOpacity onPress={() => {
-                    navigation.goBack();
-                }}>
-                    {backButton && <Ionicons name="ios-chevron-back" size={32} color={theme.color.primary} style={{ marginLeft: 10, top: -5 }} />}
-                </TouchableOpacity>
-
-                {/* Text Button */}
-                {secondaryButton && <Button variant="silent" title={secondaryButton} style={{ top: -2 }} onPress={secondaryButtonOnPress || null} />}
-
-            </ProfileHeaderButtons>
-
-            <ProfileHeaderSafeArea>
-                <ProfileHeaderImageWrapper>
-                    <ProfileHeaderImage source={imageSource} resizeMode='cover' />
-                    <Text style={{ marginTop: 4 }}>{user.name}</Text>
-                </ProfileHeaderImageWrapper>
-            </ProfileHeaderSafeArea>
-
-        </ProfileHeaderOverlay>
+        <ProfileHeaderSafeArea>
+          <ProfileHeaderImageWrapper>
+            <ProfileHeaderImage source={imageSource} resizeMode="cover" />
+            <Text style={{ marginTop: 4 }}>{user.name}</Text>
+          </ProfileHeaderImageWrapper>
+        </ProfileHeaderSafeArea>
+      </ProfileHeaderOverlay>
     </ProfileHeaderWrapper>
+  );
 }

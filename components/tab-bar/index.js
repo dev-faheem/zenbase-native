@@ -1,11 +1,11 @@
 // Import Dependencies
-import React from 'react';
-import { TouchableOpacity, SafeAreaView, View, Platform } from 'react-native';
-import styled from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from 'stores/theme';
-import { BlurView } from 'expo-blur';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React from "react";
+import { TouchableOpacity, SafeAreaView, View, Platform } from "react-native";
+import styled from "styled-components/native";
+import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "stores/theme";
+import { BlurView } from "expo-blur";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TabBarWrapper = styled.View`
   flex-direction: row;
@@ -22,14 +22,14 @@ export default function TabBar({ state, descriptors, navigation }) {
       intensity={200}
       tint="dark"
       style={{
-        position: 'absolute',
-        width: '100%',
+        position: "absolute",
+        width: "100%",
         bottom: 0,
         left: 0,
         height: useSafeAreaInsets().bottom + 50,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <TabBarWrapper>
@@ -46,7 +46,7 @@ export default function TabBar({ state, descriptors, navigation }) {
 
           const onPress = () => {
             const event = navigation.emit({
-              type: 'tabPress',
+              type: "tabPress",
               target: route.key,
               canPreventDefault: true,
             });
@@ -59,17 +59,17 @@ export default function TabBar({ state, descriptors, navigation }) {
 
           const onLongPress = () => {
             navigation.emit({
-              type: 'tabLongPress',
+              type: "tabLongPress",
               target: route.key,
             });
           };
 
           return (
-            (label == 'Home' ||
-              label == 'Search' ||
-              label == 'Wallet' ||
-              label == 'Favorites' ||
-              label == 'Profile') && (
+            (label == "Home" ||
+              label == "Search" ||
+              label == "Wallet" ||
+              label == "Favorites" ||
+              label == "Profile") && (
               <TouchableOpacity
                 key={index}
                 accessibilityRole="button"
@@ -80,70 +80,50 @@ export default function TabBar({ state, descriptors, navigation }) {
                 onLongPress={onLongPress}
                 style={{
                   flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 {(() => {
                   switch (label) {
-                    case 'Home':
+                    case "Home":
                       return (
                         <Ionicons
                           name="play-circle"
                           size={28}
-                          color={
-                            isFocused
-                              ? theme.color.primary
-                              : theme.color.secondary
-                          }
+                          color={isFocused ? theme.color.primary : theme.color.secondary}
                         />
                       );
-                    case 'Search':
+                    case "Search":
                       return (
                         <Ionicons
                           name="ios-search"
                           size={28}
-                          color={
-                            isFocused
-                              ? theme.color.primary
-                              : theme.color.secondary
-                          }
+                          color={isFocused ? theme.color.primary : theme.color.secondary}
                         />
                       );
-                    case 'Wallet':
+                    case "Wallet":
                       return (
                         <Ionicons
                           name="md-wallet"
                           size={28}
-                          color={
-                            isFocused
-                              ? theme.color.primary
-                              : theme.color.secondary
-                          }
+                          color={isFocused ? theme.color.primary : theme.color.secondary}
                         />
                       );
-                    case 'Favorites':
+                    case "Favorites":
                       return (
                         <Ionicons
                           name="heart"
                           size={28}
-                          color={
-                            isFocused
-                              ? theme.color.primary
-                              : theme.color.secondary
-                          }
+                          color={isFocused ? theme.color.primary : theme.color.secondary}
                         />
                       );
-                    case 'Profile':
+                    case "Profile":
                       return (
                         <Ionicons
                           name="person-circle-outline"
                           size={28}
-                          color={
-                            isFocused
-                              ? theme.color.primary
-                              : theme.color.secondary
-                          }
+                          color={isFocused ? theme.color.primary : theme.color.secondary}
                         />
                       );
                   }

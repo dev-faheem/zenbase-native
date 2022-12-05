@@ -91,7 +91,7 @@ export default function Navigation() {
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}
       >
         <Stack.Group>
@@ -119,28 +119,19 @@ export default function Navigation() {
           <Stack.Screen name="Play" component={Play} />
           <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
           <Stack.Screen name="DeleteUser" component={DeleteAccount} />
-          <Stack.Screen
-            name="EnableNotification"
-            component={EnableNotification}
-          />
+          <Stack.Screen name="EnableNotification" component={EnableNotification} />
           <Stack.Screen name="TotalEarnings" component={TotalEarnings} />
 
           {/* CTAs */}
           <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
           <Stack.Screen name="PremiumTrial" component={PremiumTrial} />
-          <Stack.Screen
-            name="PremiumTrailEnded"
-            component={PremiumTrailEnded}
-          />
+          <Stack.Screen name="PremiumTrailEnded" component={PremiumTrailEnded} />
           <Stack.Screen name="WalletRewards" component={WalletRewards} />
           <Stack.Screen name="WalletPremium" component={WalletPremium} />
           <Stack.Screen name="CancelPremium" component={CancelPremium} />
           <Stack.Screen name="PremiumUpgrade1" component={PremiumUpgrade1} />
           <Stack.Screen name="PremiumUpgrade2" component={PremiumUpgrade2} />
-          <Stack.Screen
-            name="JournalUpgradeToZenbase"
-            component={JournalUpgradeToZenbase}
-          />
+          <Stack.Screen name="JournalUpgradeToZenbase" component={JournalUpgradeToZenbase} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

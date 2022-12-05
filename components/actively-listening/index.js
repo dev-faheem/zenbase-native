@@ -1,8 +1,8 @@
-import styled from 'styled-components/native';
-import { Text } from 'components';
-import ZenbaseWhiteVector from 'assets/vectors/zenbase-white.png';
-import { useState, useEffect } from 'react';
-import axios from 'services/axios';
+import styled from "styled-components/native";
+import { Text } from "components";
+import ZenbaseWhiteVector from "assets/vectors/zenbase-white.png";
+import { useState, useEffect } from "react";
+import axios from "services/axios";
 
 const ActivelyListingView = styled.View`
   display: flex;
@@ -34,7 +34,7 @@ export default function ActivelyListing() {
     try {
       const {
         data: { data },
-      } = await axios.get('/auth/active');
+      } = await axios.get("/auth/active");
       setActivelyListening(data);
     } catch (e) {
       console.log(e);
@@ -47,8 +47,7 @@ export default function ActivelyListing() {
     <ActivelyListingView>
       <ZenbaseWhiteImage source={ZenbaseWhiteVector} />
       <Text color="white">
-        {activelyListening} {activelyListening == 1 ? 'person' : 'people'}{' '}
-        listening
+        {activelyListening} {activelyListening == 1 ? "person" : "people"} listening
       </Text>
     </ActivelyListingView>
   );

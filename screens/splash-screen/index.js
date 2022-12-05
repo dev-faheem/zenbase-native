@@ -52,11 +52,7 @@ export default function SplashScreen({ route, navigation }) {
         <CardBody>
           <ZenbaseLogo source={ZenbaseFullLogo} resizeMode="contain" />
           {/* <Ionicons name="heart" size={48} color='white' style={{ marginTop: 60 }} /> */}
-          <ActivityIndicator
-            size="large"
-            color="#fff"
-            style={{ marginTop: 70 }}
-          />
+          <ActivityIndicator size="large" color="#fff" style={{ marginTop: 70 }} />
           <Text
             fontSize="xl"
             fontWeight="500"

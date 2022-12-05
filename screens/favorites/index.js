@@ -1,15 +1,7 @@
 // Import Dependencies
 import React, { useState, useRef, useEffect } from "react";
 import { Animated, Platform } from "react-native";
-import {
-  Text,
-  Container,
-  Canvas,
-  Button,
-  IOSList,
-  SongTile,
-  NavigationPadding,
-} from "components";
+import { Text, Container, Canvas, Button, IOSList, SongTile, NavigationPadding } from "components";
 import styled from "styled-components/native";
 import { BlurView } from "expo-blur";
 import Constants from "expo-constants";
@@ -84,11 +76,9 @@ export default function Favorites({ route, navigation }) {
         return [...accumulator, ...current];
       }, []);
 
-    const filteredCategories = [...new Set(accumulatedCategories)].map(
-      (categoryId) => {
-        return categories.find((category) => category._id == categoryId);
-      }
-    );
+    const filteredCategories = [...new Set(accumulatedCategories)].map((categoryId) => {
+      return categories.find((category) => category._id == categoryId);
+    });
     setLikedCategories(filteredCategories);
   }, [songs, categories]);
 
@@ -96,10 +86,9 @@ export default function Favorites({ route, navigation }) {
     <Canvas>
       <Animated.ScrollView
         style={{ flex: 1 }}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: true }
-        )}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+          useNativeDriver: true,
+        })}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
@@ -125,8 +114,8 @@ export default function Favorites({ route, navigation }) {
                   title: category.name,
                   onPress: () => {
                     navigation.navigate("SongList", {
-                      songs: songs.filter(song => song?.categories.includes(category?._id)), 
-                      title: category?.name
+                      songs: songs.filter((song) => song?.categories.includes(category?._id)),
+                      title: category?.name,
                     });
                     // navigation.navigate('FavoritesType', {
                     //   type: category.name,
@@ -186,8 +175,7 @@ export default function Favorites({ route, navigation }) {
           intensity={150}
           style={{
             width: "100%",
-            height:
-              (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 30,
+            height: (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 30,
             paddingBottom: Platform.OS == "android" ? 10 : 0,
           }}
           tint="dark"

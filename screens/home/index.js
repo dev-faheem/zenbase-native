@@ -79,8 +79,7 @@ const ZentImage = styled.Image`
 `;
 
 export default function Home({ navigation, route }) {
-  const { user, walletAmount, logout, fetchTransactions, updateUser } =
-    useAuth();
+  const { user, walletAmount, logout, fetchTransactions, updateUser } = useAuth();
 
   // if (route.params?.performLogout === true) {
   //   logout();
@@ -119,9 +118,7 @@ export default function Home({ navigation, route }) {
 
   const fetchGuidedMeditation = async () => {
     try {
-      const { data } = await axios.get(
-        "/songs/category-name/guided meditation"
-      );
+      const { data } = await axios.get("/songs/category-name/guided meditation");
       setGuidedMeditationSongs(data.data.results);
     } catch (e) {
       axios.handleError(e);
@@ -143,15 +140,13 @@ export default function Home({ navigation, route }) {
     fetchGuidedMeditation();
     fetchChill();
 
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        console.log("notification", notification);
-      });
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+      console.log("notification", notification);
+    });
 
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log("response notification", response);
-      });
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+      console.log("response notification", response);
+    });
 
     (async () => {
       try {
@@ -207,9 +202,7 @@ export default function Home({ navigation, route }) {
     })();
 
     return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
+      Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
@@ -256,10 +249,9 @@ export default function Home({ navigation, route }) {
       <StatusBar barStyle="light-content" />
       <Animated.ScrollView
         style={{ backgroundColor: theme.color.background }}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: true }
-        )}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+          useNativeDriver: true,
+        })}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         scrollEnabled={!isFirstTimeModel}
@@ -267,9 +259,7 @@ export default function Home({ navigation, route }) {
         <Container>
           <Box mt={`${Constants.statusBarHeight}px`} />
 
-          <PremiumTextWrapper>
-            {user?.isPremium && <Text>Premium</Text>}
-          </PremiumTextWrapper>
+          <PremiumTextWrapper>{user?.isPremium && <Text>Premium</Text>}</PremiumTextWrapper>
 
           <Text fontSize="h2" fontWeight="bold">
             Explore
@@ -296,15 +286,9 @@ export default function Home({ navigation, route }) {
                 </VAlignCenter>
                 <ListContentWrapper>
                   <VAlignCenter>
-                    <Text color="white">
-                      {Number(walletAmount).toFixed(6)} ZENT
-                    </Text>
+                    <Text color="white">{Number(walletAmount).toFixed(6)} ZENT</Text>
                     {!user?.isPremium && (
-                      <Text
-                        color="secondary"
-                        fontSize={12}
-                        style={{ marginTop: 2 }}
-                      >
+                      <Text color="secondary" fontSize={12} style={{ marginTop: 2 }}>
                         Earning 10% more with Zenbase Premium
                       </Text>
                     )}
@@ -323,10 +307,7 @@ export default function Home({ navigation, route }) {
           </>
 
           <CategoryList categories={categories} />
-          <SongList
-            title="Best New Meditations"
-            songs={bestNewSounds?.data?.results || []}
-          />
+          <SongList title="Best New Meditations" songs={bestNewSounds?.data?.results || []} />
 
           <SongList title="Under 10 Minutes" songs={under10MinSongs} />
 
@@ -358,8 +339,7 @@ export default function Home({ navigation, route }) {
           intensity={150}
           style={{
             width: "100%",
-            height:
-              (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 30,
+            height: (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 30,
             paddingBottom: Platform.OS == "android" ? 10 : 0,
           }}
           tint="dark"
@@ -377,10 +357,7 @@ export default function Home({ navigation, route }) {
             style={{
               position: "absolute",
               width: "100%",
-              height:
-                windowHeight -
-                (Platform.OS == "ios" ? Constants.statusBarHeight : 15) -
-                310,
+              height: windowHeight - (Platform.OS == "ios" ? Constants.statusBarHeight : 15) - 310,
               bottom: 0,
               left: 0,
               zIndex: 99999,
@@ -390,30 +367,14 @@ export default function Home({ navigation, route }) {
             }}
             tint="dark"
           >
-            <AntDesign
-              name="arrowup"
-              size={50}
-              color="white"
-              style={{ marginTop: 20 }}
-            />
-            <Text
-              style={{ marginTop: 25, textAlign: "center" }}
-              fontSize={22}
-              fontWeight={600}
-            >
+            <AntDesign name="arrowup" size={50} color="white" style={{ marginTop: 20 }} />
+            <Text style={{ marginTop: 25, textAlign: "center" }} fontSize={22} fontWeight={600}>
               Welcome!
             </Text>
-            <Text
-              style={{ marginTop: 10, textAlign: "center" }}
-              fontSize={22}
-              fontWeight={600}
-            >
+            <Text style={{ marginTop: 10, textAlign: "center" }} fontSize={22} fontWeight={600}>
               If you’re new to meditation, we recommend you start here.
             </Text>
-            <Text
-              style={{ marginTop: "30%", textAlign: "center" }}
-              fontSize={14}
-            >
+            <Text style={{ marginTop: "30%", textAlign: "center" }} fontSize={14}>
               No thanks, I know how to meditate
             </Text>
           </BlurView>

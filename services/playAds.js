@@ -1,11 +1,7 @@
 // import { AdMobInterstitial } from "expo-ads-admob";
 import config from "../config";
 
-export const playAds = async (
-  count,
-  onAdPlayed = () => {},
-  onFinalAdPlayed = () => {}
-) => {
+export const playAds = async (count, onAdPlayed = () => {}, onFinalAdPlayed = () => {}) => {
   return;
   try {
     let played = 1;

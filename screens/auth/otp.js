@@ -50,14 +50,7 @@ export default function OneTimePassword({ route, navigation }) {
   const { type, value, userId, data: originalRegisterData, isForChangePassword } = route.params;
 
   // Refs
-  const inputRefs = [
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
-  ];
+  const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
 
   // States
   const [isNextEnabled, setIsNextEnabled] = useState(false);
@@ -84,7 +77,7 @@ export default function OneTimePassword({ route, navigation }) {
 
   const validateOTP = async () => {
     try {
-      const {data} = await axios.post("/auth/validate-otp", {
+      const { data } = await axios.post("/auth/validate-otp", {
         otp: otp.join(""),
         userId,
       });
@@ -93,9 +86,10 @@ export default function OneTimePassword({ route, navigation }) {
         login(originalRegisterData);
         navigation.navigate("SignupBonus");
       } else {
-        navigation.navigate("ChangePassword", { changePasswordToken: data.data.changePasswordToken });
+        navigation.navigate("ChangePassword", {
+          changePasswordToken: data.data.changePasswordToken,
+        });
       }
-
     } catch (e) {
       axios.handleError(e);
     }
@@ -112,20 +106,14 @@ export default function OneTimePassword({ route, navigation }) {
             alignItems: "center",
           }}
         >
-          <Ionicons
-            name={type == "phoneNumber" ? "call" : "mail"}
-            size={36}
-            color="white"
-          />
+          <Ionicons name={type == "phoneNumber" ? "call" : "mail"} size={36} color="white" />
           <Text fontSize="h2" fontWeight="bold" style={{ marginTop: 8 }}>
             Enter Confirmation Code
           </Text>
           <Text style={{ textAlign: "center", marginTop: 8 }}>
             Enter the 6-digit secret code we sent to
           </Text>
-          <Text style={{ textAlign: "center", marginTop: 2, marginBottom: 10 }}>
-            {value}
-          </Text>
+          <Text style={{ textAlign: "center", marginTop: 2, marginBottom: 10 }}>{value}</Text>
           <InputWrapper>
             <Input
               selectionColor={theme.color.white}
@@ -142,10 +130,7 @@ export default function OneTimePassword({ route, navigation }) {
                 setOtp(updatedOtp);
               }}
               onKeyPress={(e) => {
-                if (
-                  e.nativeEvent.key != "Backspace" &&
-                  e.nativeEvent.value != ""
-                ) {
+                if (e.nativeEvent.key != "Backspace" && e.nativeEvent.value != "") {
                   inputRefs[1].current.focus();
                 }
               }}
@@ -168,10 +153,8 @@ export default function OneTimePassword({ route, navigation }) {
               }}
               onKeyPress={(e) => {
                 if (
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === undefined) ||
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === "")
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === undefined) ||
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === "")
                 ) {
                   inputRefs[0].current.focus();
                 } else if (e.nativeEvent.value !== "") {
@@ -197,10 +180,8 @@ export default function OneTimePassword({ route, navigation }) {
               }}
               onKeyPress={(e) => {
                 if (
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === undefined) ||
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === "")
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === undefined) ||
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === "")
                 ) {
                   inputRefs[1].current.focus();
                 } else if (e.nativeEvent.value !== "") {
@@ -227,10 +208,8 @@ export default function OneTimePassword({ route, navigation }) {
               }}
               onKeyPress={(e) => {
                 if (
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === undefined) ||
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === "")
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === undefined) ||
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === "")
                 ) {
                   inputRefs[2].current.focus();
                 } else if (e.nativeEvent.value !== "") {
@@ -257,10 +236,8 @@ export default function OneTimePassword({ route, navigation }) {
               }}
               onKeyPress={(e) => {
                 if (
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === undefined) ||
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === "")
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === undefined) ||
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === "")
                 ) {
                   inputRefs[3].current.focus();
                 } else if (e.nativeEvent.value !== "") {
@@ -282,10 +259,8 @@ export default function OneTimePassword({ route, navigation }) {
               }}
               onKeyPress={(e) => {
                 if (
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === undefined) ||
-                  (e.nativeEvent.key == "Backspace" &&
-                    e.nativeEvent.value === "")
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === undefined) ||
+                  (e.nativeEvent.key == "Backspace" && e.nativeEvent.value === "")
                 ) {
                   inputRefs[4].current.focus();
                 }

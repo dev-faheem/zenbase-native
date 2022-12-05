@@ -74,11 +74,7 @@ export default function Profile({ route, navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ProfileHeader
-        profilePicture={profileImage}
-        route={route}
-        navigation={navigation}
-      />
+      <ProfileHeader profilePicture={profileImage} route={route} navigation={navigation} />
       <View style={{ flex: 1, backgroundColor: theme.color.black }}>
         <ScrollView>
           <Container>
@@ -95,17 +91,11 @@ export default function Profile({ route, navigation }) {
                 //   }
                 // },
                 {
-                  icon: (
-                    <FontAwesome5
-                      name="users"
-                      size={20}
-                      color={theme.color.primary}
-                    />
-                  ),
-                  title: 'Followers',
+                  icon: <FontAwesome5 name="users" size={20} color={theme.color.primary} />,
+                  title: "Followers",
                   onPress: () => {
-                    navigation.navigate('Followers', {
-                      title: 'Followers',
+                    navigation.navigate("Followers", {
+                      title: "Followers",
                     });
                   },
                 },
@@ -118,21 +108,15 @@ export default function Profile({ route, navigation }) {
                       style={{ marginLeft: 2, marginRight: 3 }}
                     />
                   ),
-                  title: 'Following',
+                  title: "Following",
                   onPress: () => {
-                    navigation.navigate('Followers', {
-                      title: 'Following',
+                    navigation.navigate("Followers", {
+                      title: "Following",
                     });
                   },
                 },
                 {
-                  icon: (
-                    <Ionicons
-                      name="ios-journal"
-                      size={24}
-                      color={theme.color.primary}
-                    />
-                  ),
+                  icon: <Ionicons name="ios-journal" size={24} color={theme.color.primary} />,
                   title: "My Journal",
                   onPress: () => {
                     navigation.navigate("Journal");

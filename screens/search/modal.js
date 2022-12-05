@@ -1,20 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  Container,
-  Canvas,
-  Divider,
-  Button,
-  ContextMenu,
-} from "components";
+import { Text, Container, Canvas, Divider, Button, ContextMenu } from "components";
 import styled from "styled-components/native";
 import useSearch from "queries/useSearch";
-import {
-  FlatList,
-  ScrollView,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import useCategories from "queries/useCategories";
 
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -328,10 +316,7 @@ export default function SearchModal({ navigation }) {
               <TrendingWrapper>
                 <TrendingItem onPress={() => {}}>
                   <TrendingImageWrapper>
-                    <TrendingImage
-                      source={ArtistImg}
-                      style={{ borderRadius: 100 }}
-                    />
+                    <TrendingImage source={ArtistImg} style={{ borderRadius: 100 }} />
                   </TrendingImageWrapper>
                   <Text color="secondary" fontSize="sm">
                     Smooth Guru
@@ -392,18 +377,14 @@ export default function SearchModal({ navigation }) {
 
           <SongListWrapper>
             {users
-              .filter(
-                (user) => user.isArtist && user.username != userAuth.username
-              )
+              .filter((user) => user.isArtist && user.username != userAuth.username)
               .map((user) => (
                 <SongList
                   onPress={() => {
                     openUser(user);
                   }}
                 >
-                  <ArtistImage
-                    source={user.image ? { uri: user.image } : ArtistImg}
-                  />
+                  <ArtistImage source={user.image ? { uri: user.image } : ArtistImg} />
                   <SongContentWrapper>
                     <SongContent>
                       <Text>{user?.name}</Text>
@@ -438,39 +419,27 @@ export default function SearchModal({ navigation }) {
                     <Text numberOfLines={1}>{song?.name}</Text>
                     <Text numberOfLines={1} fontSize="sm" color="secondary">
                       Song •{" "}
-                      {song.artist
-                        .map((artist) => artist?.name || "Unknown Artist")
-                        .join(", ")}
+                      {song.artist.map((artist) => artist?.name || "Unknown Artist").join(", ")}
                     </Text>
                   </SongContent>
 
                   <IconWrapper style={{ paddingLeft: 5 }}>
-                    <TouchableOpacity
-                      onPress={(event) => openContextMenu(event, song)}
-                    >
-                      <Feather
-                        name="more-horizontal"
-                        size={24}
-                        color={theme.color.white}
-                      />
+                    <TouchableOpacity onPress={(event) => openContextMenu(event, song)}>
+                      <Feather name="more-horizontal" size={24} color={theme.color.white} />
                     </TouchableOpacity>
                   </IconWrapper>
                 </SongContentWrapper>
               </SongList>
             ))}
             {users
-              .filter(
-                (user) => !user.isArtist && user.username != userAuth.username
-              )
+              .filter((user) => !user.isArtist && user.username != userAuth.username)
               .map((user) => (
                 <SongList
                   onPress={() => {
                     openUser(user);
                   }}
                 >
-                  <ArtistImage
-                    source={user.image ? { uri: user.image } : ArtistImg}
-                  />
+                  <ArtistImage source={user.image ? { uri: user.image } : ArtistImg} />
                   <SongContentWrapper>
                     <SongContent>
                       <Text>{user?.name}</Text>
@@ -507,21 +476,13 @@ export default function SearchModal({ navigation }) {
                       <Text numberOfLines={1}>{song?.name}</Text>
                       <Text numberOfLines={1} fontSize="sm" color="secondary">
                         Song •{" "}
-                        {song.artist
-                          .map((artist) => artist?.name || "Unknown Artist")
-                          .join(", ")}
+                        {song.artist.map((artist) => artist?.name || "Unknown Artist").join(", ")}
                       </Text>
                     </SongContent>
 
                     <IconWrapper style={{ paddingLeft: 5 }}>
-                      <TouchableOpacity
-                        onPress={(event) => openContextMenu(event, song)}
-                      >
-                        <Feather
-                          name="more-horizontal"
-                          size={24}
-                          color={theme.color.white}
-                        />
+                      <TouchableOpacity onPress={(event) => openContextMenu(event, song)}>
+                        <Feather name="more-horizontal" size={24} color={theme.color.white} />
                       </TouchableOpacity>
                     </IconWrapper>
                   </SongContentWrapper>
@@ -564,13 +525,7 @@ export default function SearchModal({ navigation }) {
             ? {
                 title: "Delete from Library",
                 color: "primary",
-                icon: (
-                  <Ionicons
-                    name="ios-trash-outline"
-                    size={16}
-                    color={theme.color.primary}
-                  />
-                ),
+                icon: <Ionicons name="ios-trash-outline" size={16} color={theme.color.primary} />,
                 onPress: () => {
                   toggleLikedTrack();
                 },

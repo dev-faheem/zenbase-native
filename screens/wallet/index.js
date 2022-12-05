@@ -138,10 +138,9 @@ function History({ ZentBanner }) {
       <Container style={{ flex: 1 }}>
         <Animated.ScrollView
           style={{ width: "100%" }}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: true }
-          )}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+            useNativeDriver: true,
+          })}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
         >
@@ -166,20 +165,10 @@ function History({ ZentBanner }) {
                     {transactionListenDuration(transaction)} •{" "}
                     {Number(transaction.amount).toFixed(6)} ZENT
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="primary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="primary">
                     {transaction.meta?.song}
                   </Text>
-                  <Text
-                    fontSize="md"
-                    numberOfLines={1}
-                    style={{ marginTop: 2 }}
-                    color="secondary"
-                  >
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
                     {transaction.meta?.artist}
                   </Text>
                 </WalletHistoryListText>
@@ -212,17 +201,14 @@ function History({ ZentBanner }) {
           intensity={200}
           style={{
             width: "100%",
-            height:
-              (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 60,
+            height: (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 60,
             paddingBottom: Platform.OS == "android" ? 5 : 0,
           }}
           tint="dark"
         >
           <HeaderWrapper>
             <HeaderImage source={zentBackground} resizeMode="cover" />
-            <Text style={{ marginBottom: 15 }}>
-              {ZentBanner.props.tokens} Zent
-            </Text>
+            <Text style={{ marginBottom: 15 }}>{ZentBanner.props.tokens} Zent</Text>
           </HeaderWrapper>
         </BlurView>
       </Animated.View>
@@ -264,10 +250,7 @@ function NoHistoryFound({ ZentBanner }) {
     let result = [];
     for (let i = 1; i <= n; i++) {
       result.push(
-        <WalletHistoryListEmpty
-          key={i}
-          style={{ top: initTop + paddintTop, height: height }}
-        />
+        <WalletHistoryListEmpty key={i} style={{ top: initTop + paddintTop, height: height }} />
       );
       paddintTop += height + 15;
     }
@@ -321,9 +304,7 @@ export default function Wallet({ route, navigation }) {
 
   return (
     <Canvas>
-      {zenTransactions.filter(
-        (transaction) => transaction.type == "SONG_MINING"
-      ).length > 0 ? (
+      {zenTransactions.filter((transaction) => transaction.type == "SONG_MINING").length > 0 ? (
         <History ZentBanner={ZentToken} />
       ) : (
         <NoHistoryFound ZentBanner={ZentToken} />

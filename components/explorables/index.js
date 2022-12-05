@@ -76,13 +76,7 @@ function BackgroundLoader(props) {
     ]).start();
   };
 
-  return (
-    <Animated.Image
-      onLoad={onLoad}
-      {...props}
-      style={[{ opacity: opacity }, props.style]}
-    />
-  );
+  return <Animated.Image onLoad={onLoad} {...props} style={[{ opacity: opacity }, props.style]} />;
 }
 
 export default function Explorables() {

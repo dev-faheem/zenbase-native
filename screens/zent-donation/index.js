@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Canvas,
-  Text,
-  Button,
-  ZentTokenBanner,
-  Box,
-} from "components";
+import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import { Alert } from "react-native";
 
 import styled from "styled-components/native";
@@ -254,11 +247,7 @@ export default function ZentDonation({ route, navigation }) {
       <Canvas>
         <Header>
           {isDonation && (
-            <Button
-              variant="silent"
-              title="Cancel"
-              onPress={() => navigation.goBack()}
-            />
+            <Button variant="silent" title="Cancel" onPress={() => navigation.goBack()} />
           )}
         </Header>
         <Container style={{ flex: 1 }}>
@@ -277,17 +266,13 @@ export default function ZentDonation({ route, navigation }) {
                     </Text>
                     <View style={{ width: "80%" }}>
                       <Text fontSize="md" style={{ textAlign: "center" }}>
-                        Rewards for your mindfulness practice. All thanks to
-                        donations by people like you.
+                        Rewards for your mindfulness practice. All thanks to donations by people
+                        like you.
                       </Text>
                     </View>
                   </>
                 ) : (
-                  <Text
-                    fontSize="h2"
-                    fontWeight="bold"
-                    style={{ textAlign: "center" }}
-                  >
+                  <Text fontSize="h2" fontWeight="bold" style={{ textAlign: "center" }}>
                     Help us reward you for your wellness!
                   </Text>
                 )}
@@ -400,9 +385,7 @@ export default function ZentDonation({ route, navigation }) {
                   </DontationBoxWrapper>
 
                   <DontationBoxWrapper style={{ marginTop: 15 }}>
-                    <View
-                      style={{ width: "100%", paddingLeft: 5, paddingRight: 5 }}
-                    >
+                    <View style={{ width: "100%", paddingLeft: 5, paddingRight: 5 }}>
                       <DonationBox
                         style={
                           selectedDonationBox == 3
@@ -419,9 +402,7 @@ export default function ZentDonation({ route, navigation }) {
                         }}
                       >
                         <Text
-                          color={
-                            selectedDonationBox == 3 ? "primary" : "information"
-                          }
+                          color={selectedDonationBox == 3 ? "primary" : "information"}
                           fontWeight={selectedDonationBox == 3 && "bold"}
                         >
                           {selectedDonationBox == 3
@@ -452,13 +433,10 @@ export default function ZentDonation({ route, navigation }) {
               <CardWrapper>
                 <CardBody>
                   <Text fontSize="md" style={{ textAlign: "center" }}>
-                    Zenbase’s commitment to promoting mindfulness is possible
-                    thanks to donations from people like you.
+                    Zenbase’s commitment to promoting mindfulness is possible thanks to donations
+                    from people like you.
                   </Text>
-                  <Text
-                    fontSize="15"
-                    style={{ marginTop: 20, textAlign: "center" }}
-                  >
+                  <Text fontSize="15" style={{ marginTop: 20, textAlign: "center" }}>
                     Can we count on you?
                   </Text>
                 </CardBody>
@@ -511,9 +489,7 @@ export default function ZentDonation({ route, navigation }) {
                 onChangeText={(value) => setCustomDonationValue(value)}
                 value={customDonationValue}
               />
-              <Text style={{ marginBottom: 20 }}>
-                {USDDonation ? "USD" : "ZENT"}
-              </Text>
+              <Text style={{ marginBottom: 20 }}>{USDDonation ? "USD" : "ZENT"}</Text>
               <Button
                 block
                 title="Done"

@@ -1,19 +1,18 @@
 // Import Dependencies
-import React, {useState, useEffect} from "react";
-import { Alert, ScrollView, View, Dimensions} from 'react-native';
+import React, { useState, useEffect } from "react";
+import { Alert, ScrollView, View, Dimensions } from "react-native";
 import { Text, Container, Canvas, Button, IOSList, SongTile, NavigationPadding } from "components";
 import styled from "styled-components/native";
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
-import { useTheme } from 'stores/theme';
-import axios from 'services/axios';
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { useTheme } from "stores/theme";
+import axios from "services/axios";
 
 // Import Images
-import profileImage from 'assets/images/artist.png';
+import profileImage from "assets/images/artist.png";
 
 // Import Profile Header
 import MiniProfileHeader from "screens/profile/header/mini";
 import { useFocusEffect } from "@react-navigation/native";
-
 
 // Styled Component
 const UserListWrapper = styled.View`
@@ -21,34 +20,33 @@ const UserListWrapper = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-`
+`;
 
 const UserWrapper = styled.TouchableOpacity`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: ${props => props.theme.spacing.xl};
-`
+  margin-bottom: ${(props) => props.theme.spacing.xl};
+`;
 
 const UserImage = styled.Image`
-  ${props => {
-    const size = (Dimensions.get('window').width - 40) * 0.5 - 10;
+  ${(props) => {
+    const size = (Dimensions.get("window").width - 40) * 0.5 - 10;
     if (size < 180) {
       return `
         width: ${size}px;
         height: ${size}px;
-      `
+      `;
     }
 
     return `
       width: 180px;
       height: 180px;
-    `
+    `;
   }}
   border-radius: 100px;
-  margin-bottom: ${props => props.theme.spacing.md};
-`
-
+  margin-bottom: ${(props) => props.theme.spacing.md};
+`;
 
 export default function Followers({ route, navigation }) {
   const { theme } = useTheme();
@@ -70,28 +68,29 @@ export default function Followers({ route, navigation }) {
       console.error(e);
     }
   };
-  
+
   return (
     <View style={{ flex: 1 }}>
-      <MiniProfileHeader
-        profilePicture={profileImage}
-        route={route}
-        navigation={navigation}
-      />
+      <MiniProfileHeader profilePicture={profileImage} route={route} navigation={navigation} />
       <View style={{ flex: 1, backgroundColor: theme.color.black }}>
         <ScrollView style={{ flex: 1 }}>
           <Container style={{ flex: 1 }}>
-            <Text fontWeight="bold" fontSize="h2" style={{ marginTop: 22, marginBottom: 22 }}>{title}</Text>
+            <Text fontWeight="bold" fontSize="h2" style={{ marginTop: 22, marginBottom: 22 }}>
+              {title}
+            </Text>
 
             <UserListWrapper>
-
-              {users.map(user => {
-                return  <UserWrapper onPress={() => {
-                  navigation.navigate('UserProfile', { user });
-                }}>
-                  <UserImage source={user?.image || profileImage}/>
-                  <Text color="secondary">{user.name}</Text>
-                </UserWrapper>
+              {users.map((user) => {
+                return (
+                  <UserWrapper
+                    onPress={() => {
+                      navigation.navigate("UserProfile", { user });
+                    }}
+                  >
+                    <UserImage source={user?.image || profileImage} />
+                    <Text color="secondary">{user.name}</Text>
+                  </UserWrapper>
+                );
               })}
             </UserListWrapper>
 

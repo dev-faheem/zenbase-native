@@ -42,8 +42,7 @@ const HeaderWrapper = styled.View`
 const HeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() =>
-    Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 10 + "px"};
+  top: ${() => (Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 10 + "px")};
   right: ${(props) => props.theme.spacing.lg};
   justify-content: flex-end;
   flex-direction: row;
@@ -78,12 +77,7 @@ export default function PremiumTrailEnded({ navigation }) {
               {Number(walletAmount).toFixed(6)} Zent
             </Text> */}
           </HeaderWrapper>
-          <Text
-            fontSize="22"
-            style={{ marginBottom: 25 }}
-            fontWeight="600"
-            color="header90"
-          >
+          <Text fontSize="22" style={{ marginBottom: 25 }} fontWeight="600" color="header90">
             Your trial of Zenbase Premium has ended.
           </Text>
           <PremiumCTA onPress={() => {}} />
@@ -96,9 +90,7 @@ export default function PremiumTrailEnded({ navigation }) {
                   navigation.goBack();
                 }}
               >
-                <Text style={{ marginTop: 20, marginBottom: 5 }}>
-                  Maybe later
-                </Text>
+                <Text style={{ marginTop: 20, marginBottom: 5 }}>Maybe later</Text>
               </TouchableOpacity>
             </FooterFlex>
           </Container>

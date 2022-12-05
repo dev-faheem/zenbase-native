@@ -1,14 +1,14 @@
 // Import Dependencies
-import React from 'react';
-import { Dimensions, Platform, View } from 'react-native';
-import { Text, Button } from 'components';
-import styled from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
-import Constants from 'expo-constants';
+import React from "react";
+import { Dimensions, Platform, View } from "react-native";
+import { Text, Button } from "components";
+import styled from "styled-components/native";
+import { Ionicons } from "@expo/vector-icons";
+import Constants from "expo-constants";
 
 // Import Images
-import ZenbaseWhiteVector from 'assets/vectors/zenbase-white.png';
-import { useAuth } from 'stores/auth';
+import ZenbaseWhiteVector from "assets/vectors/zenbase-white.png";
+import { useAuth } from "stores/auth";
 
 // Styled Component
 /**
@@ -19,7 +19,7 @@ import { useAuth } from 'stores/auth';
 const ProfileHeaderWrapper = styled.ImageBackground`
   background-color: ${(props) => props.theme.color.hud};
   width: 100%;
-  height: ${(Platform.OS == 'ios' ? Constants.statusBarHeight : 5) + 270}px;
+  height: ${(Platform.OS == "ios" ? Constants.statusBarHeight : 5) + 270}px;
 `;
 
 const ProfileHeaderOverlay = styled.View`
@@ -42,9 +42,8 @@ const ProfileHeaderImage = styled.Image`
 const ProfileHeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
-  top: ${() =>
-    Platform.OS == 'android' ? '15px' : Constants.statusBarHeight + 5 + 'px'};
-  /* top: ${() => (Platform.OS == 'android' ? '25px' : '55px')}; */
+  top: ${() => (Platform.OS == "android" ? "15px" : Constants.statusBarHeight + 5 + "px")};
+  /* top: ${() => (Platform.OS == "android" ? "25px" : "55px")}; */
   justify-content: flex-end;
   flex-direction: row;
   width: 100%;
@@ -91,16 +90,8 @@ const ZenbaseWhiteImage = styled.Image`
  */
 
 // Profile Header
-export default function ProfileHeader({
-  profilePicture,
-  editable,
-  route,
-  navigation,
-}) {
-  let imageSource =
-    typeof profilePicture == 'string'
-      ? { uri: profilePicture }
-      : profilePicture;
+export default function ProfileHeader({ profilePicture, editable, route, navigation }) {
+  let imageSource = typeof profilePicture == "string" ? { uri: profilePicture } : profilePicture;
 
   const { user } = useAuth();
 
@@ -109,10 +100,7 @@ export default function ProfileHeader({
   }
 
   return (
-    <ProfileHeaderWrapper
-      source={imageSource}
-      blurRadius={Platform.OS == 'android' ? 35 : 100}
-    >
+    <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == "android" ? 35 : 100}>
       <ProfileHeaderOverlay>
         <ProfileHeaderButtons>
           {editable ? (
@@ -133,15 +121,10 @@ export default function ProfileHeader({
               <ProfileHeaderIconWrapper
                 style={{ right: 20 }}
                 onPress={() => {
-                  navigation.navigate('Settings');
+                  navigation.navigate("Settings");
                 }}
               >
-                <Ionicons
-                  name="settings-sharp"
-                  style={{ marginLeft: 1 }}
-                  size={16}
-                  color="white"
-                />
+                <Ionicons name="settings-sharp" style={{ marginLeft: 1 }} size={16} color="white" />
               </ProfileHeaderIconWrapper>
             </>
           )}
@@ -149,12 +132,7 @@ export default function ProfileHeader({
 
         <ProfileHeaderSafeArea>
           <ProfileHeaderImage source={imageSource} resizeMode="cover" />
-          <Text
-            color="secondary"
-            fontSize="30"
-            fontWeight="bold"
-            style={{ marginTop: 8 }}
-          >
+          <Text color="secondary" fontSize="30" fontWeight="bold" style={{ marginTop: 8 }}>
             {user?.name}
           </Text>
           <Text color="secondary" fontSize="xl" style={{ marginTop: 8 }}>
@@ -163,14 +141,14 @@ export default function ProfileHeader({
           <PlayTime>
             <ZenbaseWhiteImage source={ZenbaseWhiteVector} />
             <Text color="white" fontSize="lg">
-              {user?.hours || 0} Hour{user?.hours != 1 && 's'}
+              {user?.hours || 0} Hour{user?.hours != 1 && "s"}
             </Text>
           </PlayTime>
           {editable && (
             <ProfileHeaderEditButton
               onPress={() => {
                 // navigation.goBack();
-                navigation.navigate('EditProfile', {profilePicture: imageSource});
+                navigation.navigate("EditProfile", { profilePicture: imageSource });
               }}
             >
               <Text color="white" fontSize="md">

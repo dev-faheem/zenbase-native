@@ -43,13 +43,7 @@ const Description = styled.Text`
   font-size: 12px;
 `;
 
-export default function ExplorableCard({
-  name,
-  description,
-  image,
-  link = null,
-  isLast = false,
-}) {
+export default function ExplorableCard({ name, description, image, link = null, isLast = false }) {
   const navigation = useNavigation();
   return (
     <CardWrapper

@@ -7,7 +7,7 @@ import SongTile from "components/song/tile";
 import styled from "styled-components/native";
 import Divider from "components/divider";
 import { useNavigation } from "@react-navigation/core";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 const TitleContainer = styled.View`
   display: flex;
@@ -20,12 +20,7 @@ const TitleContainer = styled.View`
   margin-bottom: 10px;
 `;
 
-export default function SongList({
-  title,
-  songs,
-  mock = false,
-  showDivider = true,
-}) {
+export default function SongList({ title, songs, mock = false, showDivider = true }) {
   const navigation = useNavigation();
   songs = useMock("songs", songs, mock);
 
@@ -54,7 +49,7 @@ export default function SongList({
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <Box mr={index === songs.length - 1 ? 0 : "10px"}>
-            <SongTile key={index} song={item} queue={songs} inGrid/>
+            <SongTile key={index} song={item} queue={songs} inGrid />
           </Box>
         )}
       />

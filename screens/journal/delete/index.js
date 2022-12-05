@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Alert, Container, Canvas, Text, Button } from 'components';
-import styled from 'styled-components/native';
-import { View } from 'react-native';
-import { useTheme } from 'stores/theme';
+import React, { useState } from "react";
+import { Alert, Container, Canvas, Text, Button } from "components";
+import styled from "styled-components/native";
+import { View } from "react-native";
+import { useTheme } from "stores/theme";
 
 // Import Icons
-import { Entypo } from '@expo/vector-icons';
+import { Entypo } from "@expo/vector-icons";
 
 // Styled Component
 const Header = styled.View`
@@ -48,28 +48,16 @@ export default function DeleteJournal({ route, navigation }) {
     <Canvas>
       <Header>
         <ButtonWrapper>
-          <Button
-            variant="silent"
-            title="Cancel"
-            onPress={() => navigation.goBack()}
-          />
+          <Button variant="silent" title="Cancel" onPress={() => navigation.goBack()} />
         </ButtonWrapper>
 
         <JournalType>
-          <Entypo
-            name={`emoji-${journal.type}`}
-            size={36}
-            color={theme.color.white}
-          />
+          <Entypo name={`emoji-${journal.type}`} size={36} color={theme.color.white} />
           <Text style={{ marginTop: 8 }}>October 20, 2021 at 1:54 PM</Text>
         </JournalType>
       </Header>
       <Container style={{ flex: 1 }}>
-        <Text
-          fontSize="h2"
-          fontWeight="bold"
-          style={{ marginTop: 8, marginBottom: 18 }}
-        >
+        <Text fontSize="h2" fontWeight="bold" style={{ marginTop: 8, marginBottom: 18 }}>
           {journal.title}
         </Text>
         <Text>{journal.description}</Text>

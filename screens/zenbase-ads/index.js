@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Canvas,
-  Text,
-  Button,
-  ZentTokenBanner,
-  Box,
-} from "components";
+import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import styled from "styled-components/native";
 import { TouchableOpacity, Dimensions } from "react-native";
 import { useTheme } from "stores/theme";
@@ -20,7 +13,7 @@ import AdVector from "assets/vectors/ad-white.png";
 import AdInformationImage from "assets/images/zenbase-ads-info.png";
 import { useAuth } from "stores/auth";
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 // Styled Component
 const AdInfoWrapper = styled.View`
@@ -90,7 +83,7 @@ export default function ZenbaseAds({ route, navigation }) {
   const selectAdsAmount = (amount = 2) => {
     updateUser("ads", amount);
     if (isForLogin) {
-      navigation.navigate('PremiumTrial') 
+      navigation.navigate("PremiumTrial");
     } else {
       navigation.dispatch(
         CommonActions.reset({
@@ -109,11 +102,7 @@ export default function ZenbaseAds({ route, navigation }) {
               navigation.goBack();
             }}
           >
-            <Ionicons
-              name="ios-chevron-back"
-              size={30}
-              color={theme.color.primary}
-            />
+            <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
           </TouchableOpacity>
         </Header>
       )}
@@ -134,44 +123,44 @@ export default function ZenbaseAds({ route, navigation }) {
             <AdsOptions>
               <Button
                 titleProps={{
-                  numberOfLines:1, 
+                  numberOfLines: 1,
                   adjustsFontSizeToFit: true,
                   style: {
                     paddingLeft: 10,
-                    paddingRight: 10
-                  }
+                    paddingRight: 10,
+                  },
                 }}
                 horizontalPadding="0"
-                width={SCREEN_WIDTH/3.6}
+                width={SCREEN_WIDTH / 3.6}
                 title="Less (1)"
                 onPress={() => selectAdsAmount(1)}
               />
               <Button
                 titleProps={{
-                  numberOfLines:1, 
+                  numberOfLines: 1,
                   adjustsFontSizeToFit: true,
                   style: {
                     paddingLeft: 10,
-                    paddingRight: 10
-                  }
+                    paddingRight: 10,
+                  },
                 }}
                 horizontalPadding="0"
-                width={SCREEN_WIDTH/3.6}
+                width={SCREEN_WIDTH / 3.6}
                 title="Moderate (2)"
                 variant="primaryDark"
                 onPress={() => selectAdsAmount(2)}
               />
               <Button
                 titleProps={{
-                  numberOfLines:1, 
+                  numberOfLines: 1,
                   adjustsFontSizeToFit: true,
                   style: {
                     paddingLeft: 10,
-                    paddingRight: 10
-                  }
+                    paddingRight: 10,
+                  },
                 }}
                 horizontalPadding="0"
-                width={SCREEN_WIDTH/3.6}
+                width={SCREEN_WIDTH / 3.6}
                 title="Max (3)"
                 variant="primaryDarker"
                 onPress={() => selectAdsAmount(3)}
@@ -181,11 +170,7 @@ export default function ZenbaseAds({ route, navigation }) {
           <InfoFooter>
             {user.isPremium && (
               <>
-                <Text
-                  color="information"
-                  fontSize="sm"
-                  style={{ marginBottom: 10 }}
-                >
+                <Text color="information" fontSize="sm" style={{ marginBottom: 10 }}>
                   You’re using Zenbase Premium! You can opt-out of Ads.
                 </Text>
                 <Button
@@ -198,11 +183,7 @@ export default function ZenbaseAds({ route, navigation }) {
             )}
             {isForLogin && !user.isPremium ? (
               <>
-                <Text
-                  color="information"
-                  fontSize="sm"
-                  style={{ marginBottom: 10 }}
-                >
+                <Text color="information" fontSize="sm" style={{ marginBottom: 10 }}>
                   Get rid of Ads with Zenbase Premium.
                 </Text>
                 <Button
