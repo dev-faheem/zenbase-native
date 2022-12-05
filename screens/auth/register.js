@@ -14,8 +14,8 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import Loader from "components/loader";
 import { useLoader } from "stores/loader";
 import axios from "services/axios";
-import Country from "country-state-city/dist/lib/country";
-import State from "country-state-city/dist/lib/state";
+import Country from "country-state-city/lib/country";
+import State from "country-state-city/lib/state";
 import RNPickerSelect from "react-native-picker-select";
 import { Ionicons } from "@expo/vector-icons";
 

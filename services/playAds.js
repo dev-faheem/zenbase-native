@@ -1,4 +1,4 @@
-import { AdMobInterstitial } from "expo-ads-admob";
+// import { AdMobInterstitial } from "expo-ads-admob";
 import config from "../config";
 
 export const playAds = async (
