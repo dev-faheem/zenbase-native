@@ -35,6 +35,9 @@ import * as Notifications from "helpers/notifications";
 // Import Images
 import zentBackground from "assets/images/wallet/zent-bg.png";
 import ActivelyListing from "components/actively-listening";
+import { TopHeader } from "components/layout";
+import ZentCoin from "components/ZentCoin";
+import ActivitiesTabs from "components/ActivitiesTabs";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -244,6 +247,11 @@ export default function Home({ navigation, route }) {
     }
   };
 
+  const tabContent = [
+    { id: "MEDITATION", name: "MEDITATION", component: <></> },
+    { id: "PODCASTS", name: "PODCASTS", component: <></> },
+  ];
+
   return (
     <>
       <StatusBar barStyle="light-content" />
@@ -260,17 +268,18 @@ export default function Home({ navigation, route }) {
           <Box mt={`${Constants.statusBarHeight}px`} />
 
           <PremiumTextWrapper>{user?.isPremium && <Text>Premium</Text>}</PremiumTextWrapper>
+          <TopHeader title="Explore" />
 
-          <Text fontSize="h2" fontWeight="bold">
-            Explore
-          </Text>
           <ActivelyListing />
         </Container>
 
         <Explorables />
 
         <Container>
-          <>
+          <ZentCoin />
+          <ActivitiesTabs tabContent={tabContent} />
+          {/* <>
+
             <TouchableOpacity
               onPress={() => {
                 if (user?.isPremium) {
@@ -304,7 +313,7 @@ export default function Home({ navigation, route }) {
               </ListWrapper>
             </TouchableOpacity>
             <Divider style={{ marginTop: 5, marginBottom: 20 }} />
-          </>
+          </> */}
 
           <CategoryList categories={categories} />
           <SongList title="Best New Meditations" songs={bestNewSounds?.data?.results || []} />
