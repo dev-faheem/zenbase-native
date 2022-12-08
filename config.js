@@ -1,5 +1,5 @@
 export default {
-  API_URL: "http://3.123.230.25:4000/",
+  API_URL: "https://development.zenbase.us/legacy/",
   // API_URL: "http://localhost:4000/",
   GOOGLE_ADMOB_ADUNIT: "ca-app-pub-2423909336067009/1752802852",
   STRIPE_KEY:

@@ -4,9 +4,7 @@ import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
-// Import Images
-import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
+import axios from "services/axios";
 
 // Styled Component
 const Header = styled.View`
@@ -89,8 +87,26 @@ export default function LoginForm({ navigation }) {
   // Change Password Handler
   const forgotPassword = async () => {
     try {
-      // setError("This information is incorrect.");
-    } catch (e) {}
+      let type = "phoneNumber"; // or email
+      if (/[a-zA-Z]/g.test(email)) {
+        type = "email";
+      }
+
+      const value = email;
+
+      const { data } = await axios.post("/auth/generate-otp", {
+        username: email,
+      });
+
+      navigation.navigate("OTP", {
+        type,
+        value,
+        userId: data.data.userId,
+        isForChangePassword: true,
+      });
+    } catch (e) {
+      setError(e?.response?.data?.error);
+    }
   };
 
   return (
@@ -113,7 +129,7 @@ export default function LoginForm({ navigation }) {
         }}
       >
         <Ionicons name="lock-closed" size={36} color="white" />
-        <Text fontSize="h2" fontWeight="bold" style={{ marginTop: 8 }}>
+        <Text fontSize={"24"} fontWeight="bold" style={{ marginTop: 8 }}>
           Trouble logging in?
         </Text>
         <Text style={{ textAlign: "center", marginTop: 8, marginBottom: 10 }}>

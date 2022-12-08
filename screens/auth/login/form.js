@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Text, Container, Canvas, Button } from "components";
 import styled from "styled-components/native";
+import { CommonActions } from "@react-navigation/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import axios from "services/axios";
 
 // Import Images
 import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
+import { useAuth } from "stores/auth";
 
 // Styled Component
 const Header = styled.View`
@@ -75,6 +78,7 @@ const BottomPadding = styled.View`
 
 export default function LoginForm({ navigation }) {
   const { theme } = useTheme();
+  const { login } = useAuth();
 
   const [error, setError] = useState("");
   const [isLoginEnabled, setIsLoginEnabled] = useState(false);
@@ -91,6 +95,7 @@ export default function LoginForm({ navigation }) {
   // Login Handler
   const loginHandler = async () => {
     try {
+      console.log("11");
       const {
         data: { data },
       } = await axios.post("/auth/login", {
@@ -107,8 +112,7 @@ export default function LoginForm({ navigation }) {
         })
       );
     } catch (e) {
-      setError("This information is incorrect.");
-      axios.handleError(e);
+      setError(e?.response?.data?.error);
     }
   };
 

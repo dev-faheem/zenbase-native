@@ -105,7 +105,7 @@ const dropdownProps = {
   zIndexInverse: 100000,
 };
 
-export default function register({ navigation, route }) {
+export default function Register({ navigation, route }) {
   const { theme } = useTheme();
 
   const passwordInput = useRef();

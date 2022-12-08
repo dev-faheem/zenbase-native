@@ -3,12 +3,21 @@ import { Text, Container, Canvas, Button } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { KeyboardAvoidingView } from "react-native";
+import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import axios from "services/axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "stores/auth";
 
 // Styled Component
+const Header = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 12px;
+  margin-bottom: 12px;
+`;
+
 const InputWrapper = styled.View`
   width: 100%;
   flex-direction: row;
@@ -17,16 +26,16 @@ const InputWrapper = styled.View`
 `;
 
 const Input = styled.TextInput`
-  width: 25px;
+  width: 45px;
   font-size: 24px;
-  padding-top: ${(props) => props.theme.spacing.sm};
-  padding-bottom: ${(props) => props.theme.spacing.sm};
+  padding-top: 8px;
+  padding-bottom: 8px;
   text-align: center;
-  border-bottom-width: 2px;
-  border-bottom-color: ${(props) => props.theme.color.white};
+  border-radius: 7.5px;
+  background-color: ${(props) => props.theme.color.hud};
   color: ${(props) => props.theme.color.white};
-  margin-left: ${(props) => props.theme.spacing.sm};
-  margin-right: ${(props) => props.theme.spacing.sm};
+  margin-left: 5px;
+  margin-right: 5px;
 `;
 
 const FooterWrapper = styled.View`
@@ -97,6 +106,15 @@ export default function OneTimePassword({ route, navigation }) {
 
   return (
     <Canvas>
+      <Header>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
+        </TouchableOpacity>
+      </Header>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         <Container
           style={{
@@ -107,7 +125,7 @@ export default function OneTimePassword({ route, navigation }) {
           }}
         >
           <Ionicons name={type == "phoneNumber" ? "call" : "mail"} size={36} color="white" />
-          <Text fontSize="h2" fontWeight="bold" style={{ marginTop: 8 }}>
+          <Text fontSize={"24"} fontWeight="bold" style={{ marginTop: 8 }}>
             Enter Confirmation Code
           </Text>
           <Text style={{ textAlign: "center", marginTop: 8 }}>
@@ -189,7 +207,6 @@ export default function OneTimePassword({ route, navigation }) {
                 }
               }}
               value={otp[2]}
-              style={{ marginRight: 20 }}
               blurOnSubmit={false}
             />
             <Input
@@ -217,7 +234,6 @@ export default function OneTimePassword({ route, navigation }) {
                 }
               }}
               value={otp[3]}
-              style={{ marginLeft: 20 }}
               blurOnSubmit={false}
             />
             <Input

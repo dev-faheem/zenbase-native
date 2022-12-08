@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import axios from "services/axios";
 
 // Import Images
 import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
@@ -73,7 +74,8 @@ const BottomPadding = styled.View`
   padding-top: 60px;
 `;
 
-export default function LoginForm({ navigation }) {
+export default function LoginForm({ route, navigation }) {
+  const { changePasswordToken } = route.params;
   const { theme } = useTheme();
 
   const [error, setError] = useState("");
@@ -93,8 +95,6 @@ export default function LoginForm({ navigation }) {
   const changePasswordHandler = async () => {
     try {
       if (validatePassword()) {
-        setError("");
-
         const {
           data: { data },
         } = await axios.post("/auth/change-password", {
@@ -108,7 +108,7 @@ export default function LoginForm({ navigation }) {
         navigation.goBack();
       }
     } catch (e) {
-      axios.handleError(e);
+      setError(e?.response?.data?.error);
     }
   };
 
