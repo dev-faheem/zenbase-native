@@ -3,14 +3,21 @@ import { Text, Container, Canvas, Button } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 // Import Images
 import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
-import ZentbaseVectorWhite from "assets/vectors/zenbase-white.png";
-import AppleIcon from "assets/vectors/apple.png";
-import GoogleIcon from "assets/vectors/google.png";
 
 // Styled Component
+const Header = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 12px;
+  margin-bottom: 12px;
+`;
+
 const ZenbaseLogo = styled.Image`
   width: 219px;
   height: 60px;
@@ -69,6 +76,7 @@ const BottomPadding = styled.View`
 export default function LoginForm({ navigation }) {
   const { theme } = useTheme();
 
+  const [error, setError] = useState("");
   const [isLoginEnabled, setIsLoginEnabled] = useState(false);
   const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -99,6 +107,7 @@ export default function LoginForm({ navigation }) {
         })
       );
     } catch (e) {
+      setError("This information is incorrect.");
       axios.handleError(e);
     }
   };
@@ -113,6 +122,15 @@ export default function LoginForm({ navigation }) {
 
   return (
     <Canvas>
+      <Header>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
+        </TouchableOpacity>
+      </Header>
       <Container
         style={{
           flex: 1,
@@ -125,6 +143,9 @@ export default function LoginForm({ navigation }) {
         <InputWrapper>
           <Text>Email</Text>
           <Input
+            style={{
+              ...(Boolean(error) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+            }}
             returnKeyType="done"
             autoCapitalize="none"
             selectionColor={theme.color.primary}
@@ -141,6 +162,9 @@ export default function LoginForm({ navigation }) {
 
           <Text style={{ marginTop: 20 }}>Password</Text>
           <Input
+            style={{
+              ...(Boolean(error) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+            }}
             returnKeyType="done"
             placeholder=""
             selectionColor={theme.color.primary}
@@ -155,11 +179,12 @@ export default function LoginForm({ navigation }) {
         <InputWrapper
           style={{
             flexDirection: "row",
-            justifyContent: "flex-end",
+            justifyContent: Boolean(error) ? "center" : "flex-end",
             alignItems: "center",
             marginTop: 15,
           }}
         >
+          <Text fontWeight="600">{Boolean(error) && error} </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate("ForgotPassword")}
             style={{ paddingTop: 10, paddingBottom: 10 }}

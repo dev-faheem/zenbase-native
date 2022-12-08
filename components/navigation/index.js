@@ -49,7 +49,7 @@ import JournalUpgradeToZenbase from "screens/journal/upgrade-to-zenbase";
 import ChangePassword from "screens/auth/change-password";
 import UserProfile from "screens/followers/user";
 import DeleteAccount from "screens/delete-account";
-import LoginForm from "screens/auth/login/login-form";
+import LoginForm from "screens/auth/login/form";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
