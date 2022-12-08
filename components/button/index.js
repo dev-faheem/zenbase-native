@@ -76,7 +76,7 @@ const ButtonWrapper = styled.View`
   height: 42px;
   padding-horizontal: ${(props) =>
     props.horizontalPadding ? props.horizontalPadding + "px" : props.theme.spacing.xxl};
-  border-radius: ${(props) => props.theme.borderRadius.md};
+  border-radius: ${(props) => props.borderRadius || props.theme.borderRadius.md};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,11 +93,19 @@ const TextWrapper = styled(Text)`
   font-weight: 500;
 `;
 
-export default function Button({ title, icon = null, iconProps = {}, titleProps = {}, ...props }) {
+export default function Button({
+  title,
+  image = null,
+  icon = null,
+  iconProps = {},
+  titleProps = {},
+  ...props
+}) {
   return (
     <TouchableOpacityWrapper {...props}>
       <ButtonWrapper {...props}>
         {icon && <Icon variant={icon} {...iconProps} />}
+        {image ? image : null}
         <TextWrapper {...props} {...titleProps}>
           {title || "Button"}
         </TextWrapper>

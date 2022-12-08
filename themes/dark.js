@@ -35,6 +35,7 @@ const dark = {
     xxl: "20px",
   },
   borderRadius: {
+    sm: "5px",
     md: "5px",
     lg: "10px",
     xl: "12px",
