@@ -185,12 +185,12 @@ export default function LoginForm({ navigation }) {
             flexDirection: "row",
             justifyContent: Boolean(error) ? "center" : "flex-end",
             alignItems: "center",
-            marginTop: 15,
+            marginTop: 10,
+            paddingTop: 10,
+            paddingBottom: 10,
           }}
         >
-          <TouchableOpacity style={{ paddingTop: 10, paddingBottom: 10 }}>
-            <Text fontWeight="600">{Boolean(error) && error} </Text>
-          </TouchableOpacity>
+          <Text fontWeight="600">{Boolean(error) && error} </Text>
         </InputWrapper>
 
         <Button
