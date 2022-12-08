@@ -183,7 +183,7 @@ export default function LoginForm({ route, navigation }) {
         <InputWrapper
           style={{
             flexDirection: "row",
-            justifyContent: Boolean(error) ? "center" : "flex-end",
+            justifyContent: "center",
             alignItems: "center",
             marginTop: 10,
             paddingTop: 10,

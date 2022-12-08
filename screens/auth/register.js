@@ -1,30 +1,33 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, Container, Canvas, Button, Box } from "components";
-import { useNavigation } from "@react-navigation/core";
-import { StackActions, CommonActions } from "@react-navigation/native";
+import { Text, Container, Canvas, Button } from "components";
 import styled from "styled-components/native";
-import { useAuth } from "stores/auth";
-import DropDownPicker from "react-native-dropdown-picker";
-DropDownPicker.setTheme("DARK");
+import { CommonActions } from "@react-navigation/native";
+import { useTheme } from "stores/theme";
+import { TouchableOpacity, Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import axios from "services/axios";
 
 // Import Images
-import ZentbaseLogoPrimary from "assets/images/zenbase-full-primary-logo.png";
-import { useTheme } from "stores/theme";
-import { ScrollView, TouchableOpacity, View } from "react-native";
-import Loader from "components/loader";
-import { useLoader } from "stores/loader";
-import axios from "services/axios";
-import Country from "country-state-city/lib/country";
-import State from "country-state-city/lib/state";
-import RNPickerSelect from "react-native-picker-select";
-import { Ionicons } from "@expo/vector-icons";
+import AppleIcon from "assets/vectors/apple.png";
+import GoogleIcon from "assets/vectors/google.png";
+import { DEFAULT_FALL_SPEED } from "react-native-confetti-cannon";
 
 // Styled Component
-const ZenbaseLogo = styled.Image`
-  width: 176px;
-  height: 48px;
-  margin-top: ${(props) => props.theme.spacing.md};
+const Header = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 12px;
+  margin-bottom: 12px;
 `;
+
+const ZenbaseLogo = styled.Image`
+  width: 219px;
+  height: 60px;
+  margin-bottom: 35px;
+`;
+
 const InputWrapper = styled.View`
   width: 100%;
   margin-top: 40px;
@@ -33,16 +36,18 @@ const InputWrapper = styled.View`
 const Input = styled.TextInput`
   width: 100%;
   height: 40px;
-  padding: ${(props) => props.theme.spacing.sm};
-  border-radius: ${(props) => props.theme.borderRadius.md};
+  padding: 8px;
+  border-radius: 7.5px;
   background-color: ${(props) => props.theme.color.hud};
   color: ${(props) => props.theme.color.white};
-  margin-top: ${(props) => props.theme.spacing.md};
+  margin-top: 5px;
+
+  border-left-color: ${(props) => props.theme.color.red};
 `;
 
 const FooterWrapper = styled.View`
   width: 100%;
-  height: 190px;
+  height: 180px;
 `;
 
 const FooterFlex = styled.View`
@@ -53,328 +58,202 @@ const FooterFlex = styled.View`
   align-items: center;
 `;
 
-const TermsAndPrivacyWrapper = styled.View`
+const FooterText = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: ${(props) => props.theme.spacing.lg};
+  padding-top: 16px;
 `;
 
-const TermsAndPrivacyFlex = styled.View`
+const TextFlex = styled.View`
   flex-direction: row;
   justify-content: flex-start;
 `;
 
-const dropdownProps = {
-  itemProps: {
-    // style: {
-    //   backgroundColor: '#1B1C1E',
-    //   // height: 45,
-    //   paddingHorizontal: 10,
-    //   paddingVertical: 10,
-    // },
-    // activeOpacity: 1,
-  },
-  style: {
-    backgroundColor: "#1B1C1E",
-    height: 45,
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  containerStyle: {
-    zIndex: 10,
-  },
-  textStyle: {
-    color: "#8F9094",
-  },
-  labelStyle: {
-    color: "white",
-  },
-  disabledStyle: {
-    color: "white",
-  },
-
-  dropDownContainerStyle: {
-    height: 120,
-    zIndex: 10000000,
-    backgroundColor: "#1B1C1E",
-  },
-  zIndex: 100000,
-  zIndexInverse: 100000,
-};
-
-export default function Register({ navigation, route }) {
+export default function Register({ navigation }) {
   const { theme } = useTheme();
 
-  const passwordInput = useRef();
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [isPasswordError, setIsPasswordError] = useState(false);
 
-  const { setLoading, renderLoader } = useLoader();
-
-  const pickerStyling = {
-    borderWidth: 0,
-    inputIOS: {
-      backgroundColor: "#1B1C1E",
-      height: 45,
-      borderRadius: 5,
-      marginTop: 10,
-      paddingLeft: 10,
-      color: "#fff",
-    },
-    inputAndroid: {
-      backgroundColor: "#1B1C1E",
-      height: 45,
-      borderRadius: 5,
-      marginTop: 10,
-      paddingLeft: 10,
-    },
-    placeholder: {
-      color: theme.color.secondary,
-    },
-    modalViewBottom: {
-      backgroundColor: theme.color.background,
-    },
-    modalViewMiddle: {
-      backgroundColor: "#1B1C1E",
-    },
-
-    done: {
-      color: theme.color.primary,
-    },
-    iconContainer: {
-      top: 20,
-      right: 12,
-    },
-  };
-
-  // States
-  const [isRegisterEnabled, setIsRegisterEnabled] = useState(false);
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [country, setCountry] = useState('');
-  // const [state, setState] = useState('');
+  const [country, setCountry] = useState("");
+  const [province, setProvince] = useState("");
 
-  const [openCountry, setOpenCountry] = useState(false);
-  const [valueCountry, setValueCountry] = useState(null);
-  const [countries, setCountries] = useState([
-    {
-      label: Country.getCountryByCode("US").name,
-      value: Country.getCountryByCode("US").isoCode,
-      color: "white",
-    },
-    ...Country.getAllCountries()
-      .map((country) => {
-        return {
-          label: country.name,
-          value: country.isoCode,
-          color: "white",
-        };
-      })
-      .filter((obj) => obj.value != "US"),
-  ]);
-
-  const [openState, setOpenState] = useState(false);
-  const [valueState, setValueState] = useState(null);
-  const [states, setStates] = useState([]);
-  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState("");
+  const passwordInput = useRef();
 
   // Input Handler
   const updateInput = (setState, value) => {
     setState(value);
   };
 
-  // Register Handler
-  const registerHandler = async () => {
-    setLoading(true);
-    // let type = "email";
+  const validateEmail = (email) => {
+    const re =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-    let type = "phoneNumber"; // or email
-    if (/[a-zA-Z]/g.test(phoneNumberOrEmail)) {
-      type = "email";
+    let isValidEmail = true;
+    if (!re.test(email)) {
+      isValidEmail = false;
     }
-    // console.log("type of data", type);
-    if (type == "phoneNumber") {
-      alert("Please enter a valid email address.");
-      setLoading(false);
-      return;
+
+    if (!isValidEmail) {
+      setIsEmailError(true);
+      setIsPasswordError(false);
+      setErrorMessage("Please provide a valid email.");
     }
-    try {
-      const {
-        data: { data },
-      } = await axios.post("/auth/register", {
-        phone: type === "email" ? "" : phoneNumberOrEmail,
-        email: phoneNumberOrEmail,
-        password,
-        country: valueCountry,
-        state: valueState,
-      });
-      let value = phoneNumberOrEmail;
-      navigation.navigate("OTP", {
-        type,
-        value,
-        userId: data._id,
-        data,
-      });
-    } catch (error) {
-      axios.handleError(error);
-      console.error(error);
+
+    if (email == "" || isValidEmail) {
+      setIsEmailError(false);
+      setIsPasswordError(false);
+      setErrorMessage("");
     }
-    setLoading(false);
   };
 
-  useEffect(() => {
-    // if (email.trim() == "" || password == "" || valueCountry == null) {
-    if (phoneNumberOrEmail.trim() == "" || password == "") {
-      setIsRegisterEnabled(false);
-    } else {
-      setIsRegisterEnabled(true);
+  const register = async () => {
+    setIsEmailError(false);
+    setIsPasswordError(false);
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    let errorMessage = "";
+    if (trimmedEmail == "") {
+      setIsEmailError(true);
+      errorMessage = "Please provide a valid email.";
     }
-  }, [email, password, valueCountry]);
+
+    if (trimmedPassword == "") {
+      setIsPasswordError(true);
+      errorMessage = "Please provide a valid password.";
+    }
+
+    if (trimmedEmail == "" && trimmedPassword == "") {
+      errorMessage = "Please provide a valid email and password.";
+    }
+
+    setErrorMessage(errorMessage);
+
+    if (isEmailError == false && isPasswordError == false) {
+      // Good to go for signu
+      try {
+        const {
+          data: { data },
+        } = await axios.post("/auth/register", {
+          phone: "",
+          email,
+          password,
+          country,
+          state: province,
+        });
+
+        let value = email;
+
+        navigation.navigate("OTP", {
+          type: "email",
+          value,
+          userId: data._id,
+          data,
+        });
+      } catch (e) {
+        setIsEmailError(true);
+        setErrorMessage(e?.response?.data?.error);
+        console.log("error", e, e?.response?.data?.error);
+      }
+    }
+  };
 
   return (
     <Canvas>
-      {renderLoader()}
-      <Container style={{ flex: 1 }}>
-        <Text
-          numberOfLines={1}
-          adjustsFontSizeToFit
-          fontSize="34"
-          fontWeight="bold"
-          style={{ marginTop: 10 }}
+      <Header>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
         >
-          Meditate, Earn, Repeat
+          <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
+        </TouchableOpacity>
+      </Header>
+      <Container
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          flexDirection: "column",
+        }}
+      >
+        <Text numberOfLines={1} adjustsFontSizeToFit fontSize="32" fontWeight="bold">
+          Sign Up
         </Text>
-        <ZenbaseLogo source={ZentbaseLogoPrimary} />
-
         <InputWrapper>
+          <Text>Email</Text>
           <Input
+            style={{
+              ...(Boolean(isEmailError) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+            }}
             returnKeyType="done"
             autoCapitalize="none"
-            placeholder="Email"
+            selectionColor={theme.color.primary}
+            placeholder=""
             placeholderTextColor={theme.color.secondary}
-            onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
-            value={phoneNumberOrEmail}
+            onChangeText={(value) => updateInput(setEmail, value)}
+            value={email}
+            onEndEditing={() => {
+              validateEmail(email);
+            }}
             onSubmitEditing={() => {
-              if (!(phoneNumberOrEmail != "" && password != "")) {
+              if (!(email != "" && password != "")) {
                 passwordInput.current.focus();
               }
             }}
           />
 
+          <Text style={{ marginTop: 15 }}>Password</Text>
           <Input
+            style={{
+              ...(Boolean(isPasswordError) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+            }}
             returnKeyType="done"
-            placeholder="Password"
+            placeholder=""
+            autoCapitalize="none"
+            selectionColor={theme.color.primary}
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPassword, value)}
-            secureTextEntry={true}
             value={password}
             ref={passwordInput}
           />
 
-          <RNPickerSelect
-            style={pickerStyling}
-            placeholder={{
-              label: "Country (Optional)",
-              value: null,
-              color: theme.color.secondary,
-            }}
-            value={valueCountry}
-            onValueChange={(value) => {
-              setValueCountry(value);
-              if (value == null) {
-                setStates([]);
-              } else {
-                setStates(
-                  State.getStatesOfCountry(value).map((state) => {
-                    return {
-                      label: state.name,
-                      value: state.isoCode,
-                      color: "white",
-                    };
-                  })
-                );
-              }
-            }}
-            items={countries}
-            Icon={() => {
-              return <Ionicons name="chevron-down" size={24} color="gray" />;
-            }}
+          <TextFlex style={{ marginTop: 15 }}>
+            <Text>Country</Text>
+            <Text color="secondary" style={{ marginLeft: 8 }}>
+              Optional
+            </Text>
+          </TextFlex>
+          <Input
+            returnKeyType="done"
+            placeholder=""
+            selectionColor={theme.color.primary}
+            placeholderTextColor={theme.color.secondary}
+            onChangeText={(value) => updateInput(setCountry, value)}
+            value={country}
           />
 
-          <RNPickerSelect
-            style={pickerStyling}
-            placeholder={{
-              label: "State (Optional)",
-              value: null,
-              color: theme.color.secondary,
-            }}
-            value={valueState}
-            onValueChange={(value) => {
-              setValueState(value);
-            }}
-            items={states}
-            Icon={() => {
-              return <Ionicons name="chevron-down" size={24} color="gray" />;
-            }}
+          <TextFlex style={{ marginTop: 15 }}>
+            <Text>State/Province</Text>
+            <Text color="secondary" style={{ marginLeft: 8 }}>
+              Optional
+            </Text>
+          </TextFlex>
+          <Input
+            returnKeyType="done"
+            placeholder=""
+            selectionColor={theme.color.primary}
+            placeholderTextColor={theme.color.secondary}
+            onChangeText={(value) => updateInput(setProvince, value)}
+            value={province}
           />
-          {/* 
-          <DropDownPicker
-            open={openCountry}
-            value={valueCountry}
-            items={countries}
-            setOpen={setOpenCountry}
-            setValue={(value) => {
-              setValueCountry(value);
-              setStates(
-                State.getStatesOfCountry(value()).map((state) => {
-                  return {
-                    label: state.name,
-                    value: state.isoCode,
-                  };
-                })
-              );
-            }}
-            setItems={setCountries}
-            placeholder="Country"
-            {...dropdownProps}
-          />
-
-          {openCountry && <View style={{ height: 100 }} />}
-
-          <DropDownPicker
-            open={openState}
-            value={valueState}
-            items={states}
-            setOpen={setOpenState}
-            setValue={setValueState}
-            setItems={setStates}
-            placeholder="State/Province"
-            {...dropdownProps}
-          />
-
-          {openState && <View style={{ height: 100 }} />} */}
-
-          {/* <Input
-              autoCapitalize="none"
-              placeholder="Country"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={(value) => updateInput(setEmail, value)}
-              value={email}
-              onSubmitEditing={() => passwordInput.current.focus()}
-            />
-
-            <Input
-              autoCapitalize="none"
-              placeholder="State"
-              placeholderTextColor={theme.color.secondary}
-              onChangeText={(value) => updateInput(setEmail, value)}
-              value={email}
-              onSubmitEditing={() => passwordInput.current.focus()}
-            /> */}
         </InputWrapper>
 
         <InputWrapper
@@ -382,49 +261,118 @@ export default function Register({ navigation, route }) {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 15,
+            marginTop: 10,
+            paddingTop: 10,
+            paddingBottom: 10,
           }}
         >
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 15 }}>
-            <Text color={"primary"} fontWeight="600">
-              Already have an account
-            </Text>
-          </TouchableOpacity>
+          <Text fontWeight="600">{Boolean(errorMessage) && errorMessage} </Text>
         </InputWrapper>
+
+        <Button
+          variant={"primary"}
+          title="Sign up"
+          block
+          style={{ marginTop: 6, marginBottom: 6 }}
+          onPress={() => {
+            register();
+          }}
+        />
       </Container>
       <FooterWrapper>
         <Container style={{ flex: 1 }}>
           <FooterFlex>
-            <Box h="60px" />
             <Button
-              variant={isRegisterEnabled ? "primary" : "disabled"}
-              title="Continue"
+              onPress={() => {}}
+              variant="secondary"
               block
-              onPress={() => {
-                if (isRegisterEnabled) {
-                  registerHandler();
-                }
+              borderRadius={theme.borderRadius.lg}
+              fontSize="14"
+              title="Sign in with Apple"
+              titleProps={{
+                style: {
+                  fontWeight: "600",
+                },
+              }}
+              image={
+                <Image
+                  source={AppleIcon}
+                  resizeMethod="center"
+                  style={{
+                    width: 14.17,
+                    height: 17,
+                    marginRight: 8,
+                    marginTop: -2,
+                  }}
+                />
+              }
+              style={{
+                marginTop: 5.5,
+                marginBottom: 5.5,
               }}
             />
-            <TermsAndPrivacyWrapper>
-              <TermsAndPrivacyFlex>
-                <Text>By signing in you accept our </Text>
+
+            <Button
+              onPress={() => {}}
+              variant="secondary"
+              block
+              borderRadius={theme.borderRadius.lg}
+              fontSize="14"
+              title="Sign in with Google"
+              titleProps={{
+                style: {
+                  fontWeight: "600",
+                },
+              }}
+              image={
+                <Image
+                  source={GoogleIcon}
+                  resizeMethod="center"
+                  style={{
+                    width: 17,
+                    height: 17,
+                    marginRight: 8,
+                  }}
+                />
+              }
+              style={{
+                marginTop: 5.5,
+                marginBottom: 5.5,
+              }}
+            />
+            <FooterText>
+              <TextFlex>
+                <Text color="secondary" fontSize="12">
+                  By signing in you accept our{" "}
+                </Text>
                 <TouchableOpacity>
-                  <Text fontWeight="bold" style={{ textDecorationLine: "underline" }}>
+                  <Text
+                    color="secondary"
+                    fontWeight="bold"
+                    fontSize="12"
+                    style={{ textDecorationLine: "underline" }}
+                  >
                     Terms of use
                   </Text>
                 </TouchableOpacity>
-              </TermsAndPrivacyFlex>
+              </TextFlex>
 
-              <TermsAndPrivacyFlex style={{ marginTop: 2 }}>
-                <Text>and </Text>
+              <TextFlex style={{ marginTop: 2 }}>
+                <Text color="secondary" fontSize="12">
+                  and{" "}
+                </Text>
                 <TouchableOpacity>
-                  <Text fontWeight="bold" style={{ textDecorationLine: "underline" }}>
+                  <Text
+                    color="secondary"
+                    fontWeight="bold"
+                    fontSize="12"
+                    style={{ textDecorationLine: "underline" }}
+                  >
                     Privacy Policy
                   </Text>
                 </TouchableOpacity>
-              </TermsAndPrivacyFlex>
-            </TermsAndPrivacyWrapper>
+              </TextFlex>
+            </FooterText>
           </FooterFlex>
         </Container>
       </FooterWrapper>

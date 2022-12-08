@@ -143,6 +143,7 @@ export default function LoginForm({ navigation }) {
             }}
             returnKeyType="done"
             placeholder=""
+            autoCapitalize="none"
             selectionColor={theme.color.primary}
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setEmail, value)}
@@ -153,7 +154,7 @@ export default function LoginForm({ navigation }) {
         <InputWrapper
           style={{
             flexDirection: "row",
-            justifyContent: Boolean(error) ? "center" : "flex-end",
+            justifyContent: "center",
             alignItems: "center",
             marginTop: 10,
             paddingTop: 10,

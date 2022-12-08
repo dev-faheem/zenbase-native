@@ -163,7 +163,7 @@ export default function Login({ navigation }) {
             <FotterText>
               <FooterTextFlex>
                 <Text>Don't have an account? </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Register")}>
                   <Text color="primary" fontWeight="bold">
                     Sign Up.
                   </Text>

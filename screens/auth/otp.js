@@ -71,7 +71,7 @@ export default function OneTimePassword({ route, navigation }) {
     } else {
       setIsNextEnabled(false);
     }
-  }, otp);
+  }, [otp]);
 
   useEffect(async () => {
     if (!isForChangePassword) {
@@ -131,7 +131,7 @@ export default function OneTimePassword({ route, navigation }) {
           <Text style={{ textAlign: "center", marginTop: 8 }}>
             Enter the 6-digit secret code we sent to
           </Text>
-          <Text style={{ textAlign: "center", marginTop: 2, marginBottom: 10 }}>{value}</Text>
+          <Text style={{ textAlign: "center", marginTop: 2, marginBottom: 20 }}>{value}</Text>
           <InputWrapper>
             <Input
               selectionColor={theme.color.white}
