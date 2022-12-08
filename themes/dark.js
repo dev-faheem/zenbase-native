@@ -6,7 +6,7 @@ const dark = {
     primaryDarker: "#5200AC",
     black: "#000000",
     white: "#ffffff",
-    red: "#FD3B30",
+    red: "#FF453A",
     secondary: "#8F9094",
     information: "#ABABAC",
     informationBackground: "#2E2E30",
@@ -36,7 +36,7 @@ const dark = {
   },
   borderRadius: {
     sm: "5px",
-    md: "5px",
+    md: "7.5px",
     lg: "10px",
     xl: "12px",
     round: "99999px",

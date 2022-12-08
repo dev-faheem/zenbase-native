@@ -80,7 +80,7 @@ export default function Login({ navigation }) {
       >
         <ZenbaseLogo source={ZentbaseLogoWhite} />
         <Button
-          onPress={() => {}}
+          onPress={() => navigation.navigate("LoginForm")}
           variant="silent"
           fontSize="14"
           title="Sign in with email."

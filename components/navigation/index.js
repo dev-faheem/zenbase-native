@@ -49,6 +49,7 @@ import JournalUpgradeToZenbase from "screens/journal/upgrade-to-zenbase";
 import ChangePassword from "screens/auth/change-password";
 import UserProfile from "screens/followers/user";
 import DeleteAccount from "screens/delete-account";
+import LoginForm from "screens/auth/login/login-form";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -96,6 +97,7 @@ export default function Navigation() {
       >
         <Stack.Group>
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="LoginForm" component={LoginForm} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="App" component={HomeStack} />
           <Stack.Screen name="Register" component={Register} />
