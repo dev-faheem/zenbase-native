@@ -38,6 +38,11 @@ import ActivelyListing from "components/actively-listening";
 import { TopHeader } from "components/layout";
 import ZentCoin from "components/ZentCoin";
 import ActivitiesTabs from "components/ActivitiesTabs";
+import Shortcuts from "./Shortcuts";
+import BrowseByTime from "./BrowseByTime";
+import Categories from "./Categories";
+import InviteFriend from "components/InviteFriend";
+import EarnMore from "components/EarnMore";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -99,6 +104,7 @@ export default function Home({ navigation, route }) {
 
   const bestNewSounds = useSearch();
   const { data: categories } = useCategories();
+
   const { theme } = useTheme();
 
   const [under10MinSongs, setUnder10MinSongs] = useState([]);
@@ -247,9 +253,30 @@ export default function Home({ navigation, route }) {
     }
   };
 
+  const tabRenderContent = () => <></>;
+
   const tabContent = [
-    { id: "MEDITATION", name: "MEDITATION", component: <></> },
-    { id: "PODCASTS", name: "PODCASTS", component: <></> },
+    {
+      id: "MEDITATION",
+      name: "MEDITATION",
+      component: (
+        <>
+          <Categories isMedication />
+          <BrowseByTime />
+          <InviteFriend label="Meditate" />
+        </>
+      ),
+    },
+    {
+      id: "PODCASTS",
+      name: "PODCASTS",
+      component: (
+        <>
+          <Categories />
+          <InviteFriend label="Listen" />
+        </>
+      ),
+    },
   ];
 
   return (
@@ -277,7 +304,10 @@ export default function Home({ navigation, route }) {
 
         <Container>
           <ZentCoin />
-          <ActivitiesTabs tabContent={tabContent} />
+          <Shortcuts />
+          <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
+
+          <EarnMore />
           {/* <>
 
             <TouchableOpacity
@@ -315,7 +345,7 @@ export default function Home({ navigation, route }) {
             <Divider style={{ marginTop: 5, marginBottom: 20 }} />
           </> */}
 
-          <CategoryList categories={categories} />
+          {/* <CategoryList categories={categories} /> */}
           <SongList title="Best New Meditations" songs={bestNewSounds?.data?.results || []} />
 
           <SongList title="Under 10 Minutes" songs={under10MinSongs} />

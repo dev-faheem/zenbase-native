@@ -3,24 +3,20 @@ import { Text } from "components";
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
 import { useTheme } from "stores/theme";
-import zentLogo from "assets/logos/zent-coin.png";
+import inviteIcon from "assets/icons/invite.png";
 
-export default function ZentCoin(props) {
-  const {} = props;
+export default function InviteFriend(props) {
+  const { label = "" } = props;
   const { theme } = useTheme();
-
-  const info = "Earn 30% more with Zenbase Premium";
-  const coins = "0.02 ZENT";
-  const time = "16:07:05";
 
   return (
     <Wrapper onPress={() => console.log("Click here")}>
-      <ZentIcon source={zentLogo} />
+      <Icon source={inviteIcon} />
       <View>
-        <Info>{info}</Info>
+        <Info>Invite or join friends</Info>
         <CoinWrapper>
-          <Coins>{coins}</Coins>
-          {time && <Time>{time}</Time>}
+          <Invites>{label} With Friends</Invites>
+
           <Ionicons
             name="ios-chevron-forward"
             style={{ marginTop: 1, marginLeft: -5 }}
@@ -39,8 +35,8 @@ const Wrapper = styled.TouchableOpacity`
   align-items: center;
   margin-bottom: 20px;
 `;
-const ZentIcon = styled.Image`
-  width: 36.56px;
+const Icon = styled.Image`
+  width: 40px;
   height: 40px;
   margin-right: 13px;
 `;
@@ -55,15 +51,9 @@ const CoinWrapper = styled.View`
   align-items: center;
 `;
 
-const CoinsText = styled(Text)`
+const Invites = styled(Text)`
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
   margin-right: 9px;
-`;
-
-const Coins = styled(CoinsText)``;
-
-const Time = styled(CoinsText)`
-  color: ${({ theme }) => theme?.color?.green};
 `;

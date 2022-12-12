@@ -8,6 +8,7 @@ const CardWrapper = styled.TouchableOpacity`
   margin-top: 20px;
   margin-bottom: 50px;
   margin-right: 10px;
+  position: relative;
 `;
 
 const CardImage = styled.Image`
@@ -23,7 +24,7 @@ const OverlayWrapper = styled.View`
   bottom: 0;
   height: 40px;
   background: ${({ bgColor }) => bgColor};
-  width: 100%;
+  width: ${Dimensions.get("window").width * 0.92}px;
   display: flex;
   flex-direction: row;
   align-items: center;

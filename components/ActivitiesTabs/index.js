@@ -6,7 +6,7 @@ import { View } from "react-native";
 import { useTheme } from "stores/theme";
 
 export default function ActivitiesTabs(props) {
-  const { tabContent = [] } = props;
+  const { title = "", tabContent = [] } = props;
   const [activeTab, setActiveTab] = useState(tabContent[0]?.id);
 
   const renderTabButtons = () => (
@@ -19,15 +19,30 @@ export default function ActivitiesTabs(props) {
     </TabButtonWrapper>
   );
 
-  return <Wrapper>{renderTabButtons()}</Wrapper>;
+  const currentTab = tabContent?.filter(({ id }) => id === activeTab)[0];
+
+  return (
+    <Wrapper>
+      {title && <Title>{title}</Title>}
+      {renderTabButtons()}
+      {currentTab && currentTab?.component}
+      {/* {activeTab} */}
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.View``;
-
+const Title = styled(Text)`
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  margin-bottom: 14px;
+`;
 const TabButtonWrapper = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 20px;
 `;
 
 const TabButton = styled.TouchableOpacity`
