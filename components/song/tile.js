@@ -147,7 +147,10 @@ export default function SongTile({
     </TouchableWithoutFeedback>
   );
 }
-const CategoryHolder = styled.View``;
+const CategoryHolder = styled.View`
+  display: flex;
+  flex-direction: row;
+`;
 const CategoryWrapper = styled.View`
   background: #333333;
   border-radius: 7.5px;
