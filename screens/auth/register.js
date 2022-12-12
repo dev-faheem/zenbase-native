@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Text, Container, Canvas, Button } from "components";
 import styled from "styled-components/native";
-import { CommonActions } from "@react-navigation/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "services/axios";
+import Country from "country-state-city/lib/country";
+import State from "country-state-city/lib/state";
+import { Dropdown } from "react-native-element-dropdown";
 
 // Import Images
 import AppleIcon from "assets/vectors/apple.png";
 import GoogleIcon from "assets/vectors/google.png";
-import { DEFAULT_FALL_SPEED } from "react-native-confetti-cannon";
 
 // Styled Component
 const Header = styled.View`
@@ -75,16 +76,69 @@ const TextFlex = styled.View`
 export default function Register({ navigation }) {
   const { theme } = useTheme();
 
+  const DropdownProps = {
+    style: {
+      widht: "100%",
+      height: 40,
+      padding: 8,
+      borderRadius: 7.5,
+      backgroundColor: theme.color.hud,
+      color: theme.color.white,
+      marginTop: 5,
+    },
+    inputSearchStyle: {
+      backgroundColor: theme.color.hud,
+      borderWidth: 0,
+      marginBottom: 0,
+      color: theme.color.white,
+      fontSize: 14,
+    },
+    containerStyle: {
+      backgroundColor: theme.color.hud,
+      borderWidth: 0,
+      borderRadius: 7.5,
+    },
+    activeColor: theme.color.secondary,
+    itemTextStyle: {
+      color: theme.color.white,
+      fontSize: 14,
+    },
+    selectedTextStyle: {
+      backgroundColor: theme.color.hud,
+      color: theme.color.white,
+      fontSize: 14,
+    },
+  };
+
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [country, setCountry] = useState("");
-  const [province, setProvince] = useState("");
+  const [countryValue, setCountryValue] = useState("");
+  const [provinceValue, setProvinceValue] = useState("");
 
   const passwordInput = useRef();
+
+  // Countries List
+  const countries = [
+    {
+      label: Country.getCountryByCode("US").name,
+      value: Country.getCountryByCode("US").isoCode,
+      color: "white",
+    },
+    ...Country.getAllCountries()
+      .map((country) => {
+        return {
+          label: country.name,
+          value: country.isoCode,
+        };
+      })
+      .filter((obj) => obj.value != "US"),
+  ];
+
+  const [provincesList, setProvincesList] = useState([]);
 
   // Input Handler
   const updateInput = (setState, value) => {
@@ -146,8 +200,8 @@ export default function Register({ navigation }) {
           phone: "",
           email,
           password,
-          country,
-          state: province,
+          country: countryValue,
+          state: provinceValue,
         });
 
         let value = email;
@@ -231,13 +285,33 @@ export default function Register({ navigation }) {
               Optional
             </Text>
           </TextFlex>
-          <Input
-            returnKeyType="done"
+
+          <Dropdown
+            {...DropdownProps}
+            data={countries}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
             placeholder=""
-            selectionColor={theme.color.primary}
-            placeholderTextColor={theme.color.secondary}
-            onChangeText={(value) => updateInput(setCountry, value)}
-            value={country}
+            searchPlaceholder="Search..."
+            value={countryValue}
+            onChange={(item) => {
+              setCountryValue(item.value);
+              if (item.value == null) {
+                setProvincesList([]);
+              } else {
+                setProvincesList(
+                  State.getStatesOfCountry(item.value).map((state) => {
+                    return {
+                      label: state.name,
+                      value: state.isoCode,
+                      color: "white",
+                    };
+                  })
+                );
+              }
+            }}
           />
 
           <TextFlex style={{ marginTop: 15 }}>
@@ -246,13 +320,19 @@ export default function Register({ navigation }) {
               Optional
             </Text>
           </TextFlex>
-          <Input
-            returnKeyType="done"
+          <Dropdown
+            {...DropdownProps}
+            data={provincesList}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
             placeholder=""
-            selectionColor={theme.color.primary}
-            placeholderTextColor={theme.color.secondary}
-            onChangeText={(value) => updateInput(setProvince, value)}
-            value={province}
+            searchPlaceholder="Search..."
+            value={provinceValue}
+            onChange={(item) => {
+              setProvinceValue(item.value);
+            }}
           />
         </InputWrapper>
 
