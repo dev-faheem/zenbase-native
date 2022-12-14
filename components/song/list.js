@@ -1,6 +1,7 @@
 import React from "react";
 import Box from "components/box";
 import Text from "components/text";
+import { Ionicons } from "@expo/vector-icons";
 import { FlatList, TouchableOpacity, Platform } from "react-native";
 import { useMock } from "services/mock";
 import SongTile from "components/song/tile";
@@ -8,6 +9,12 @@ import styled from "styled-components/native";
 import Divider from "components/divider";
 import { useNavigation } from "@react-navigation/core";
 import Constants from "expo-constants";
+import { useTheme } from "stores/theme";
+
+const Wrapper = styled.View`
+  width: 100%;
+  margin-bottom: 55px;
+`;
 
 const TitleContainer = styled.View`
   display: flex;
@@ -20,27 +27,42 @@ const TitleContainer = styled.View`
   margin-bottom: 10px;
 `;
 
+const TitleWrapper = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Title = styled(Text)`
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+`;
+
 export default function SongList({ title, songs, mock = false, showDivider = true }) {
   const navigation = useNavigation();
   songs = useMock("songs", songs, mock);
+  const { theme } = useTheme();
 
   return (
-    <>
-      <TitleContainer>
-        <Text fontWeight="600" fontSize="xl" color="white">
-          {title}
-        </Text>
-
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("SongList", { songs, title });
-          }}
-        >
-          <Text fontSize="md" color="primary">
-            See All
-          </Text>
-        </TouchableOpacity>
-      </TitleContainer>
+    <Wrapper>
+      {title && (
+        <TitleContainer>
+          <TitleWrapper
+            onPress={() => {
+              navigation.navigate("SongList", { songs, title });
+            }}
+          >
+            <Title>{title}</Title>
+            <Ionicons
+              name="ios-chevron-forward"
+              style={{ marginTop: 1, marginLeft: 10 }}
+              size={18}
+              color={theme.color.information}
+            />
+          </TitleWrapper>
+        </TitleContainer>
+      )}
 
       <FlatList
         showsHorizontalScrollIndicator={false}
@@ -53,8 +75,6 @@ export default function SongList({ title, songs, mock = false, showDivider = tru
           </Box>
         )}
       />
-
-      {showDivider && <Divider />}
-    </>
+    </Wrapper>
   );
 }

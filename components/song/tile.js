@@ -53,12 +53,18 @@ const SongArtwork = styled.Image`
 const SongName = styled.Text`
   color: ${(props) => props.theme.color.white};
   font-size: ${(props) => props.theme.fontSize.sm};
-  margin-top: 6px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
 `;
 
 const SongArtistName = styled.Text`
+  margin-top: 7px;
   color: ${(props) => props.theme.color.secondary};
-  font-size: ${(props) => props.theme.fontSize.sm};
+  /* font-size: ${(props) => props.theme.fontSize.sm}; */
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
 `;
 
 const SongLength = styled.View`
@@ -127,11 +133,33 @@ export default function SongTile({
         <SongLength>
           <Text fontSize="12">{Math.round(song.duration / 60)} min</Text>
         </SongLength>
-        <SongName numberOfLines={1}>{song.name}</SongName>
+
         <SongArtistName numberOfLines={1}>
           {song.artist?.map((artist) => artist.name)?.join(", ")}
         </SongArtistName>
+        <SongName numberOfLines={1}>{song.name}</SongName>
+        <CategoryHolder>
+          <CategoryWrapper>
+            <CategoryName>Meditation Sleep</CategoryName>
+          </CategoryWrapper>
+        </CategoryHolder>
       </SongTileView>
     </TouchableWithoutFeedback>
   );
 }
+const CategoryHolder = styled.View`
+  display: flex;
+  flex-direction: row;
+`;
+const CategoryWrapper = styled.View`
+  background: #333333;
+  border-radius: 7.5px;
+  padding: 6px 14px;
+  margin-top: 7px;
+  width: auto;
+`;
+const CategoryName = styled(Text)`
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+`;

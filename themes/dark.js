@@ -7,6 +7,7 @@ const dark = {
     black: "#000000",
     white: "#ffffff",
     red: "#FF453A",
+    green: "#34C759",
     secondary: "#8F9094",
     information: "#ABABAC",
     informationBackground: "#2E2E30",
@@ -24,7 +25,8 @@ const dark = {
     lg: "16px",
     xl: "18px",
     h1: "36px",
-    h2: "24px",
+    h2: "32px",
+    h3: "24px",
   },
   spacing: {
     xs: "6px",
