@@ -1,5 +1,5 @@
 export default {
-  API_URL: "http://localhost:4000/legacy/",
+  API_URL: "https://development.zenbase.us/legacy/",
   // API_URL: "http://localhost:4000/legacy/",   // Localhost
   // API_URL: "https://development.zenbase.us/legacy/",   // Development
   GOOGLE_ADMOB_ADUNIT: "ca-app-pub-2423909336067009/1752802852",
