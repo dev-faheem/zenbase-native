@@ -10,6 +10,7 @@ import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
 import ZentbaseVectorWhite from "assets/vectors/zenbase-white.png";
 import AppleIcon from "assets/vectors/apple.png";
 import GoogleIcon from "assets/vectors/google.png";
+import { handleSignInWithApple } from "helpers/auth-apple";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -58,6 +59,10 @@ export default function Login({ navigation }) {
   // States
   const [isAppReady, setIsAppReady] = useState(false);
 
+  const handleSignInWithGoogle = async () => {
+    alert("Google Sign In is disabled.");
+  };
+
   useEffect(() => {
     setTimeout(async () => {
       setIsAppReady(true);
@@ -92,7 +97,7 @@ export default function Login({ navigation }) {
         />
 
         <Button
-          onPress={() => {}}
+          onPress={handleSignInWithApple}
           variant="secondary"
           block
           borderRadius={theme.borderRadius.lg}
@@ -122,7 +127,7 @@ export default function Login({ navigation }) {
         />
 
         <Button
-          onPress={() => {}}
+          onPress={handleSignInWithGoogle}
           variant="secondary"
           block
           borderRadius={theme.borderRadius.lg}
