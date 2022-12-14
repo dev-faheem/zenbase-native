@@ -29,7 +29,8 @@
         {
           "color": "#ffffff"
         }
-      ]
+      ],
+      ["expo-apple-authentication"]
     ],
     "updates": {
       "fallbackToCacheTimeout": 0

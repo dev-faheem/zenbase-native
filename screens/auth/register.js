@@ -8,10 +8,12 @@ import axios from "services/axios";
 import Country from "country-state-city/lib/country";
 import State from "country-state-city/lib/state";
 import { Dropdown } from "react-native-element-dropdown";
+import * as AppleAuthentication from "expo-apple-authentication";
 
 // Import Images
 import AppleIcon from "assets/vectors/apple.png";
 import GoogleIcon from "assets/vectors/google.png";
+import { handleSignInWithApple } from "helpers/auth-apple";
 
 // Styled Component
 const Header = styled.View`
@@ -75,6 +77,12 @@ const TextFlex = styled.View`
 
 export default function Register({ navigation }) {
   const { theme } = useTheme();
+  const [isAppleAuthAvailable, setIsAppleAuthAvailable] = useState(false);
+
+  useEffect(async () => {
+    const _isAppleAuthAvailable = await AppleAuthentication.isAvailableAsync();
+    setIsAppleAuthAvailable(_isAppleAuthAvailable);
+  }, []);
 
   const DropdownProps = {
     style: {
@@ -167,7 +175,11 @@ export default function Register({ navigation }) {
     }
   };
 
-  const register = async () => {
+  function parseJwt (token) {
+    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+}
+
+  const handleRegister = async () => {
     setIsEmailError(false);
     setIsPasswordError(false);
 
@@ -192,7 +204,7 @@ export default function Register({ navigation }) {
     setErrorMessage(errorMessage);
 
     if (isEmailError == false && isPasswordError == false) {
-      // Good to go for signu
+      // Good to go for signup
       try {
         const {
           data: { data },
@@ -217,6 +229,40 @@ export default function Register({ navigation }) {
         setErrorMessage(e?.response?.data?.error);
         console.log("error", e, e?.response?.data?.error);
       }
+    }
+  };
+
+  const handleSignUpWithApple = async () => {
+    const credentials = await handleSignInWithApple();
+    if (!credentials.email) {
+      console.error({ credentials });
+      return alert("Something went wrong with Apple Sign Up");
+    }
+
+    try {
+      const {
+        data: { data },
+      } = await axios.post("/auth/register", {
+        phone: "",
+        email: credentials.email,
+        password: credentials.user,
+        country: countryValue,
+        state: provinceValue,
+        apple_user_id: credentials.user,
+      });
+
+      let value = email;
+
+      navigation.navigate("OTP", {
+        type: "email",
+        value,
+        userId: data._id,
+        data,
+      });
+    } catch (e) {
+      setIsEmailError(true);
+      setErrorMessage(e?.response?.data?.error);
+      console.log("error", e, e?.response?.data?.error);
     }
   };
 
@@ -355,43 +401,44 @@ export default function Register({ navigation }) {
           block
           style={{ marginTop: 6, marginBottom: 6 }}
           onPress={() => {
-            register();
+            handleRegister();
           }}
         />
       </Container>
       <FooterWrapper>
         <Container style={{ flex: 1 }}>
           <FooterFlex>
-            <Button
-              onPress={() => {}}
-              variant="secondary"
-              block
-              borderRadius={theme.borderRadius.lg}
-              fontSize="14"
-              title="Sign in with Apple"
-              titleProps={{
-                style: {
-                  fontWeight: "600",
-                },
-              }}
-              image={
-                <Image
-                  source={AppleIcon}
-                  resizeMethod="center"
-                  style={{
-                    width: 14.17,
-                    height: 17,
-                    marginRight: 8,
-                    marginTop: -2,
-                  }}
-                />
-              }
-              style={{
-                marginTop: 5.5,
-                marginBottom: 5.5,
-              }}
-            />
-
+            {isAppleAuthAvailable && (
+              <Button
+                onPress={handleSignUpWithApple}
+                variant="secondary"
+                block
+                borderRadius={theme.borderRadius.lg}
+                fontSize="14"
+                title="Sign in with Apple"
+                titleProps={{
+                  style: {
+                    fontWeight: "600",
+                  },
+                }}
+                image={
+                  <Image
+                    source={AppleIcon}
+                    resizeMethod="center"
+                    style={{
+                      width: 14.17,
+                      height: 17,
+                      marginRight: 8,
+                      marginTop: -2,
+                    }}
+                  />
+                }
+                style={{
+                  marginTop: 5.5,
+                  marginBottom: 5.5,
+                }}
+              />
+            )}
             <Button
               onPress={() => {}}
               variant="secondary"
