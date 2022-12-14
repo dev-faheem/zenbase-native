@@ -103,14 +103,23 @@ export default function LoginForm({ navigation }) {
         password,
       });
 
-      login(data);
+      if (data.isVerified) {
+        login(data);
 
-      // Reset Stack Navigation
-      navigation.dispatch(
-        CommonActions.reset({
-          routes: [{ name: "App" }],
-        })
-      );
+        // Reset Stack Navigation
+        navigation.dispatch(
+          CommonActions.reset({
+            routes: [{ name: "App" }],
+          })
+        );
+      } else {
+        navigation.navigate("OTP", {
+          type: "email",
+          value: data.email,
+          userId: data._id,
+          data,
+        });
+      }
     } catch (e) {
       setError(e?.response?.data?.error);
     }
