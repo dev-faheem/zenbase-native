@@ -111,7 +111,7 @@ export default function Login({ navigation }) {
           image={
             <Image
               source={AppleIcon}
-              resizeMethod="center"
+              resizeMode="center"
               style={{
                 width: 14.17,
                 height: 17,
@@ -141,7 +141,7 @@ export default function Login({ navigation }) {
           image={
             <Image
               source={GoogleIcon}
-              resizeMethod="center"
+              resizeMode="center"
               style={{
                 width: 17,
                 height: 17,

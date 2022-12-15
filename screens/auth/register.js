@@ -175,9 +175,9 @@ export default function Register({ navigation }) {
     }
   };
 
-  function parseJwt (token) {
-    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-}
+  function parseJwt(token) {
+    return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+  }
 
   const handleRegister = async () => {
     setIsEmailError(false);
