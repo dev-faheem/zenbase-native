@@ -1,9 +1,10 @@
 import { Image } from "react-native";
+import config from "services/config";
 
 export const prefetchCategoryArtwork = (category) => {
-  Image.prefetch("https://opt.moovweb.net?quality=30&img=" + category?.artwork);
+  Image.prefetch(config.EDGE_IMAGE_PREFIX + category?.artwork);
 };
 
 export const prefetchSongArtwork = (song) => {
-  Image.prefetch("https://opt.moovweb.net?quality=50&img=" + song?.artwork);
+  Image.prefetch(config.EDGE_IMAGE_PREFIX + song?.artwork);
 };

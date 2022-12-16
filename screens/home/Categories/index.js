@@ -1,7 +1,7 @@
-// import Box from "components/box";
 import { FlatList } from "react-native";
 import styled from "styled-components/native";
 import Box from "components/box";
+import config from "services/config";
 
 export default function Categories({ categories }) {
   return (
@@ -15,9 +15,7 @@ export default function Categories({ categories }) {
           return (
             <Box mr={index === categories?.length - 1 ? 0 : "10px"}>
               <Item onPress={() => console.log(`Category: ${item?.name}`)}>
-                <ShortcutImage
-                  source={{ uri: "https://opt.moovweb.net?quality=30&img=" + item?.artwork }}
-                />
+                <ShortcutImage source={{ uri: config.EDGE_IMAGE_PREFIX + item?.artwork }} />
               </Item>
             </Box>
           );

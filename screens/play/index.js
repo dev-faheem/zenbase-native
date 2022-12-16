@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Text, Container, Canvas, ContextMenu, Button } from "components";
+import { Text, Canvas, ContextMenu, Button } from "components";
 import { activateKeepAwake, deactivateKeepAwake } from "expo-keep-awake";
 import { useRoute } from "@react-navigation/core";
 import styled from "styled-components";
@@ -12,8 +12,7 @@ import { Shadow } from "react-native-shadow-2";
 import Slider from "@react-native-community/slider";
 import { FontAwesome5, Foundation, Ionicons, Feather } from "@expo/vector-icons";
 import { Audio } from "expo-av";
-
-// Import Images
+import config from "services/config";
 import ZenbaseAddIcon from "assets/vectors/zenbase-white-add.png";
 import ZentokenIcon from "assets/images/zentoken-logo-border.png";
 import { playAds } from "services/playAds";
@@ -546,8 +545,7 @@ export default function Play({ navigation }) {
         <>
           <SongBackdrop
             source={{
-              uri:
-                "https://opt.moovweb.net?quality=50&img=" + song?.artwork?.replace("https", "http"),
+              uri: config.EDGE_IMAGE_PREFIX + song?.artwork?.replace("https", "http"),
             }}
             blurRadius={80}
             style={{ opacity: 0.7 }}
@@ -567,9 +565,7 @@ export default function Play({ navigation }) {
             <Shadow distance={50} radius={10}>
               <SongArtwork
                 source={{
-                  uri:
-                    "https://opt.moovweb.net?quality=50&img=" +
-                    song?.artwork?.replace("https", "http"),
+                  uri: config.EDGE_IMAGE_PREFIX + song?.artwork?.replace("https", "http"),
                 }}
                 style={{
                   shadowColor: "black",

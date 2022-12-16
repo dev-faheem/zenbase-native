@@ -6,4 +6,5 @@ export default {
   STRIPE_KEY:
     "pk_live_51KBv53KKBDWbGUnY8YFKcBbDoZfW4HLgm8zctS3c7fHkMImvWpFyICPFWofPVD09IachL5L0IBmdu58TjlYYBzex00KPykfkLI",
   STRIPE_MERCHANT_ID: "merchant.zenbase.us",
+  EDGE_IMAGE_PREFIX: "https://opt.moovweb.net?quality=50&img=",
 };

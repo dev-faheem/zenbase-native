@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useSongQueue } from "stores/song-queue";
 import Text from "components/text";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "services/config";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TILE_SIZE = (WINDOW_WIDTH - 40) * 0.5 - 10;
@@ -126,9 +127,7 @@ export default function SongTile({
             mock
               ? song.artwork
               : {
-                  uri:
-                    "https://opt.moovweb.net?quality=50&img=" +
-                    song.artwork?.replace("https", "http"),
+                  uri: config.EDGE_IMAGE_PREFIX + song.artwork?.replace("https", "http"),
                 }
           }
           inGrid={inGrid || null}
