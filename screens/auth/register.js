@@ -203,7 +203,7 @@ export default function Register({ navigation }) {
 
     setErrorMessage(errorMessage);
 
-    if (isEmailError == false && isPasswordError == false) {
+    if (errorMessage == "") {
       // Good to go for signup
       try {
         const {
@@ -424,7 +424,7 @@ export default function Register({ navigation }) {
                 image={
                   <Image
                     source={AppleIcon}
-                    resizeMode="contain"
+                    resizeMode=""
                     style={{
                       width: 14.17,
                       height: 17,
@@ -454,7 +454,7 @@ export default function Register({ navigation }) {
               image={
                 <Image
                   source={GoogleIcon}
-                  resizeMode="contain"
+                  resizeMode=""
                   style={{
                     width: 17,
                     height: 17,
