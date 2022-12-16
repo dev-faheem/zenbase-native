@@ -51,6 +51,11 @@ const FooterFlex = styled.View`
   align-items: center;
 `;
 
+const TextFlex = styled.View`
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
 export default function OneTimePassword({ route, navigation }) {
   const { theme } = useTheme();
   const { login } = useAuth();
@@ -73,16 +78,20 @@ export default function OneTimePassword({ route, navigation }) {
     }
   }, [otp]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!isForChangePassword) {
-      const generateOtp = await axios.post("/auth/generate-otp", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        username: value,
-      });
+      generateOTP();
     }
   }, []);
+
+  const generateOTP = () => {
+    axios.post("/auth/generate-otp", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      username: value,
+    });
+  };
 
   const validateOTP = async () => {
     try {
@@ -110,6 +119,7 @@ export default function OneTimePassword({ route, navigation }) {
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
+            navigation.goBack();
           }}
         >
           <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
@@ -126,12 +136,22 @@ export default function OneTimePassword({ route, navigation }) {
         >
           <Ionicons name={type == "phoneNumber" ? "call" : "mail"} size={36} color="white" />
           <Text fontSize={"24"} fontWeight="bold" style={{ marginTop: 8 }}>
-            Enter Confirmation Code
+            Confirmation Code Sent To
           </Text>
-          <Text style={{ textAlign: "center", marginTop: 8 }}>
-            Enter the 6-digit secret code we sent to
+          <Text
+            style={{
+              textAlign: "center",
+              marginTop: 20,
+              marginBottom: 20,
+              borderWidth: 1,
+              borderColor: theme.color.secondary,
+              width: "100%",
+              padding: 10,
+              borderRadius: 20,
+            }}
+          >
+            {value}
           </Text>
-          <Text style={{ textAlign: "center", marginTop: 2, marginBottom: 20 }}>{value}</Text>
           <InputWrapper>
             <Input
               selectionColor={theme.color.white}
@@ -290,16 +310,20 @@ export default function OneTimePassword({ route, navigation }) {
         <FooterWrapper>
           <Container style={{ flex: 1 }}>
             <FooterFlex>
-              <Button
-                onPress={() => {
-                  navigation.goBack();
-                  navigation.goBack();
-                }}
-                variant="silent"
-                fontSize="14"
-                title="Go back log in"
-                style={{ marginTop: 8, marginBottom: 2 }}
-              />
+              <TextFlex style={{ marginTop: 15, marginBottom: 15 }}>
+                <Text>Didn't get a code? </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    generateOTP();
+                    alert("Confirmation Code Sent!!");
+                  }}
+                >
+                  <Text color={"primary"} fontWeight="600">
+                    Resend email.
+                  </Text>
+                </TouchableOpacity>
+              </TextFlex>
+
               <Button
                 variant={isNextEnabled ? "primary" : "disabled"}
                 title="Next"
