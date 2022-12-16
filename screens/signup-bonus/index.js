@@ -107,7 +107,7 @@ export default function SignupBonus({ route, navigation }) {
           <InfoWrapper>
             <InfoBody>
               <Ionicons name="gift" size={34} style={{ marginBottom: 12 }} color="white" />
-              <Text fontSize="h2" fontWeight="bold">
+              <Text numberOfLines={1} adjustsFontSizeToFit fontSize="h2" fontWeight="bold">
                 You’ve received 0.01 ZENT
               </Text>
               <Text fontSize="md" style={{ marginTop: 5 }}>
