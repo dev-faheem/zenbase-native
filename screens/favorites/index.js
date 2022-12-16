@@ -7,12 +7,9 @@ import { BlurView } from "expo-blur";
 import Constants from "expo-constants";
 
 // Import Images
-import MeditateImage from "assets/images/favorites/meditate.png";
-import ChillImage from "assets/images/favorites/chill.png";
 import axios from "services/axios";
 import { useIsFocused } from "@react-navigation/native";
 import { useAuth } from "stores/auth";
-import useCategories from "queries/useCategories";
 
 // Styled Component
 const Header = styled.View`
@@ -51,7 +48,7 @@ export default function Favorites({ route, navigation }) {
 
   const [songs, setSongs] = useState([]);
 
-  const { data: categories } = useCategories();
+  const [categories, setCategories] = useState([]);
 
   const [likedCategories, setLikedCategories] = useState([]);
 
@@ -66,21 +63,21 @@ export default function Favorites({ route, navigation }) {
     fetchSongs();
   }, [isFocused]);
 
-  useEffect(() => {
-    const accumulatedCategories = songs
-      .map((song) => {
-        return song.categories;
-      })
-      .reduce((accumulator, current) => {
-        if (!current) return;
-        return [...accumulator, ...current];
-      }, []);
+  // useEffect(() => {
+  //   const accumulatedCategories = songs
+  //     .map((song) => {
+  //       return song?.categories;
+  //     })
+  //     .reduce((accumulator, current) => {
+  //       if (!current) return;
+  //       return [...accumulator, ...current];
+  //     }, []);
 
-    const filteredCategories = [...new Set(accumulatedCategories)].map((categoryId) => {
-      return categories.find((category) => category._id == categoryId);
-    });
-    setLikedCategories(filteredCategories);
-  }, [songs, categories]);
+  //   const filteredCategories = [...new Set(accumulatedCategories)].map((categoryId) => {
+  //     return categories.find((category) => category._id == categoryId);
+  //   });
+  //   setLikedCategories(filteredCategories);
+  // }, [songs, categories]);
 
   return (
     <Canvas>
@@ -110,7 +107,7 @@ export default function Favorites({ route, navigation }) {
               transparent
               data={likedCategories.map((category) => {
                 return {
-                  icon: <ListImage source={{ uri: category.artwork }} />,
+                  icon: <ListImage source={{ uri: category?.artwork }} />,
                   title: category.name,
                   onPress: () => {
                     navigation.navigate("SongList", {

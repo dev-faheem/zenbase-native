@@ -17,37 +17,14 @@ const ZenbaseWhiteImage = styled.Image`
   margin-right: 5px;
 `;
 
-export default function ActivelyListing() {
-  const [activelyListening, setActivelyListening] = useState(null);
-
-  useEffect(() => {
-    fetchActivelyListening();
-
-    const intervalId = setInterval(fetchActivelyListening, 60 * 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
-  const fetchActivelyListening = async () => {
-    try {
-      const {
-        data: { data },
-      } = await axios.get("/auth/active");
-      setActivelyListening(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  if (activelyListening === null) return null;
+export default function ActivelyListing({ count = null }) {
+  if (count === null) return null;
 
   return (
     <ActivelyListingView>
       <ZenbaseWhiteImage source={ZenbaseWhiteVector} />
       <Text color="white">
-        {activelyListening} {activelyListening == 1 ? "person" : "people"} listening
+        {count} {count == 1 ? "person" : "people"} listening
       </Text>
     </ActivelyListingView>
   );

@@ -1,39 +1,18 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import {
-  Text,
-  Container,
-  Box,
-  SongList,
-  CategoryList,
-  Explorables,
-  NavigationPadding,
-  Button,
-} from "components";
-import {
-  ScrollView,
-  Animated,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  StatusBar,
-  Dimensions,
-} from "react-native";
-import useSearch from "queries/useSearch";
-import useCategories from "queries/useCategories";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { Text, Container, Box, SongList, Explorables, NavigationPadding } from "components";
+import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions } from "react-native";
 import Constants from "expo-constants";
 import { useTheme } from "stores/theme";
-import Divider from "components/divider";
 import styled from "styled-components/native";
 import { BlurView } from "expo-blur";
-import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "stores/auth";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import axios from "services/axios";
 import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "helpers/notifications";
 
 // Import Images
-import zentBackground from "assets/images/wallet/zent-bg.png";
 import ActivelyListing from "components/actively-listening";
 import { TopHeader } from "components/layout";
 import ZentCoin from "components/ZentCoin";
@@ -43,6 +22,8 @@ import BrowseByTime from "./BrowseByTime";
 import Categories from "./Categories";
 import InviteFriend from "components/InviteFriend";
 import EarnMore from "components/EarnMore";
+import { useQueryHomepage } from "query/home";
+import { useLoader } from "stores/loader";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -87,68 +68,26 @@ const ZentImage = styled.Image`
 `;
 
 export default function Home({ navigation, route }) {
-  const { user, walletAmount, logout, fetchTransactions, updateUser } = useAuth();
-
-  // if (route.params?.performLogout === true) {
-  //   logout();
-  //   AsyncStorageLib.clear();
-  //   navigation.reset({
-  //     index: 0,
-  //     routes: [{ name: "Login" }],
-  //   });
-
-  //   return <></>;
-  // }
+  const { user, fetchTransactions, updateUser } = useAuth();
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
-  const bestNewSounds = useSearch();
-  const { data: categories } = useCategories();
-
   const { theme } = useTheme();
-
-  const [under10MinSongs, setUnder10MinSongs] = useState([]);
-  const [guidedMeditationSongs, setGuidedMeditationSongs] = useState([]);
-  const [chillSongs, setChillSongs] = useState([]);
 
   const [isFirstTimeModel, setIsFirstTimeModal] = useState(true);
 
   const notificationListener = useRef();
   const responseListener = useRef();
 
-  const fetchSongsUnder10Min = async () => {
-    try {
-      const { data } = await axios.get("/songs/duration/600");
-      setUnder10MinSongs(data.data.results);
-    } catch (e) {
-      axios.handleError(e);
-    }
-  };
+  const { data, isLoading } = useQueryHomepage();
 
-  const fetchGuidedMeditation = async () => {
-    try {
-      const { data } = await axios.get("/songs/category-name/guided meditation");
-      setGuidedMeditationSongs(data.data.results);
-    } catch (e) {
-      axios.handleError(e);
-    }
-  };
-
-  const fetchChill = async () => {
-    try {
-      const { data } = await axios.get("/songs/category-name/chill");
-      setChillSongs(data.data.results);
-    } catch (e) {
-      axios.handleError(e);
-    }
-  };
+  const { setLoading } = useLoader();
 
   useEffect(() => {
-    bestNewSounds.mutate({ sort: "-createdAt" });
-    fetchSongsUnder10Min();
-    fetchGuidedMeditation();
-    fetchChill();
+    setLoading(isLoading);
+  }, [isLoading]);
 
+  useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
       console.log("notification", notification);
     });
@@ -216,10 +155,6 @@ export default function Home({ navigation, route }) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   verifyZenbasePremium()
-  // }, [])
-
   useFocusEffect(
     useCallback(() => {
       fetchTransactions();
@@ -253,17 +188,31 @@ export default function Home({ navigation, route }) {
     }
   };
 
-  const tabRenderContent = () => <></>;
-
   const tabContent = [
     {
       id: "MEDITATION",
       name: "MEDITATION",
       component: (
         <>
-          <Categories isMedication />
+          <Categories isMeditation categories={data?.categories?.filter((cat) => !cat.isPodcast)} />
           <BrowseByTime />
+
+          {data?.meditation
+            ?.filter((section) => section.title !== "All Meditations")
+            ?.map((section) => (
+              <SongList title={section.title} songs={section.songs} />
+            ))}
+
+          <EarnMore />
           <InviteFriend label="Meditate" />
+          <Box mt="20px"></Box>
+          <SongList
+            title="All Meditations"
+            songs={
+              data?.meditation?.find((section) => section.title === "All Meditations")?.songs || []
+            }
+          />
+          <Box mt="20px"></Box>
         </>
       ),
     },
@@ -272,12 +221,24 @@ export default function Home({ navigation, route }) {
       name: "PODCASTS",
       component: (
         <>
-          <Categories />
+          <Categories categories={data?.categories?.filter((cat) => cat.isPodcast)} />
           <InviteFriend label="Listen" />
+          <EarnMore />
+          {data?.podcast
+            ?.filter((section) => section.title !== "All Meditations")
+            ?.map((section) => (
+              <SongList title={section.title} songs={section.songs} />
+            ))}
+          <Box mt="20px"></Box>
         </>
       ),
     },
   ];
+
+  const activelyListeningCount = useMemo(() => {
+    const randomness = Math.round(10 * Math.random());
+    return 62 + randomness;
+  }, []);
 
   return (
     <>
@@ -297,7 +258,7 @@ export default function Home({ navigation, route }) {
           <PremiumTextWrapper>{user?.isPremium && <Text>Premium</Text>}</PremiumTextWrapper>
           <TopHeader title="Explore" />
 
-          <ActivelyListing />
+          <ActivelyListing count={activelyListeningCount} />
         </Container>
 
         <Explorables />
@@ -306,54 +267,6 @@ export default function Home({ navigation, route }) {
           <ZentCoin />
           <Shortcuts />
           <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
-
-          <EarnMore />
-          {/* <>
-
-            <TouchableOpacity
-              onPress={() => {
-                if (user?.isPremium) {
-                  navigation.navigate("Wallet");
-                } else {
-                  navigation.navigate("PremiumTrailEnded");
-                }
-              }}
-            >
-              <ListWrapper>
-                <VAlignCenter style={{ marginLeft: 5 }}>
-                  <ZentImage source={zentBackground} />
-                </VAlignCenter>
-                <ListContentWrapper>
-                  <VAlignCenter>
-                    <Text color="white">{Number(walletAmount).toFixed(6)} ZENT</Text>
-                    {!user?.isPremium && (
-                      <Text color="secondary" fontSize={12} style={{ marginTop: 2 }}>
-                        Earning 10% more with Zenbase Premium
-                      </Text>
-                    )}
-                  </VAlignCenter>
-                  <VAlignCenter style={{ paddingRight: 5 }}>
-                    <Ionicons
-                      name="ios-chevron-forward"
-                      size={24}
-                      color={theme.color.information}
-                    />
-                  </VAlignCenter>
-                </ListContentWrapper>
-              </ListWrapper>
-            </TouchableOpacity>
-            <Divider style={{ marginTop: 5, marginBottom: 20 }} />
-          </> */}
-
-          {/* <CategoryList categories={categories} /> */}
-          <SongList title="Best New Meditations" songs={bestNewSounds?.data?.results || []} />
-
-          <SongList title="Under 10 Minutes" songs={under10MinSongs} />
-
-          <SongList title="Guided Meditation" songs={guidedMeditationSongs} />
-
-          <SongList title="Chill" songs={chillSongs} showDivider={false} />
-          <Box mt="20px"></Box>
         </Container>
 
         <NavigationPadding padding={50} />

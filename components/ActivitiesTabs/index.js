@@ -1,9 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components/native";
 import { Text } from "components";
-import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
-import { useTheme } from "stores/theme";
 
 export default function ActivitiesTabs(props) {
   const { title = "", tabContent = [] } = props;

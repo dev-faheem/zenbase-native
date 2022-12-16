@@ -119,6 +119,7 @@ export default function Login({ navigation }) {
   }, []);
 
   const fetchUserFromAsyncStorage = async () => {
+    console.log("Trying to fetch user from AsyncStorage");
     const serializedUser = await AsyncStorage.getItem("@zenbase_user");
     if (serializedUser !== null) {
       const _user = JSON.parse(serializedUser);

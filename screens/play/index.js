@@ -545,7 +545,10 @@ export default function Play({ navigation }) {
       {song && (
         <>
           <SongBackdrop
-            source={{ uri: song?.artwork?.replace("https", "http") }}
+            source={{
+              uri:
+                "https://opt.moovweb.net?quality=50&img=" + song?.artwork?.replace("https", "http"),
+            }}
             blurRadius={80}
             style={{ opacity: 0.7 }}
           />
@@ -563,7 +566,11 @@ export default function Play({ navigation }) {
           <SongArtworkContainer>
             <Shadow distance={50} radius={10}>
               <SongArtwork
-                source={{ uri: song?.artwork?.replace("https", "http") }}
+                source={{
+                  uri:
+                    "https://opt.moovweb.net?quality=50&img=" +
+                    song?.artwork?.replace("https", "http"),
+                }}
                 style={{
                   shadowColor: "black",
                   shadowOffset: { height: 2 },
@@ -643,9 +650,9 @@ export default function Play({ navigation }) {
                 <SongArtist>
                   {song?.artist
                     ?.map((artist) => {
-                      return artist?.name || "Unknown Artist";
+                      return artist?.name || "Zenbase";
                     })
-                    .join(", ") || "Unknown Artists"}
+                    .join(", ") || "Zenbase"}
                 </SongArtist>
               </View>
 

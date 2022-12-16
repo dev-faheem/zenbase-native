@@ -95,7 +95,6 @@ export default function LoginForm({ navigation }) {
   // Login Handler
   const loginHandler = async () => {
     try {
-      console.log("11");
       const {
         data: { data },
       } = await axios.post("/auth/login", {

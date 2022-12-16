@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "services/axios";
+import api from "services/api";
 import Transactions from "stores/transactions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const AuthContext = createContext();
@@ -37,6 +38,10 @@ export const AuthProvider = ({ children }) => {
     setUser(_user);
     setIsLoggedIn(true);
     axios.interceptors.request.use((config) => {
+      config.headers.authorization = _user?.token;
+      return config;
+    });
+    api.interceptors.request.use((config) => {
       config.headers.authorization = _user?.token;
       return config;
     });

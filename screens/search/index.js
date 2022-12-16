@@ -4,22 +4,17 @@ import {
   Container,
   Canvas,
   CategoryGrid,
-  SongListing,
   Box,
   NavigationPadding,
   ContextMenu,
 } from "components";
 import styled from "styled-components/native";
-import useSearch from "queries/useSearch";
-import { FlatList, ScrollView, Dimensions, TouchableOpacity } from "react-native";
-import useCategories from "queries/useCategories";
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { ScrollView, Dimensions, TouchableOpacity } from "react-native";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "services/axios";
-
-// Import Images
 import ReactNativeShare from "helpers/react-native-share";
 import { useAuth } from "stores/auth";
 import { useSongQueue } from "stores/song-queue";
@@ -109,8 +104,7 @@ export default function Search({ navigation }) {
 
   const { updateSongQueue } = useSongQueue();
   const [search, setSearch] = useState("");
-  const searchQuery = useSearch();
-  const categoriesQuery = useCategories();
+
   const [contextMenuSong, setContextMenuSong] = useState();
   const [songQueue, setSongQueue] = useState([]);
 
@@ -144,10 +138,6 @@ export default function Search({ navigation }) {
     setContextMenuConfig({ ...contextMenuConfig });
     setContextMenuSong();
   };
-
-  useEffect(() => {
-    if (search?.trim() !== "") searchQuery.mutate({ search });
-  }, [search]);
 
   const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
 
@@ -290,27 +280,10 @@ export default function Search({ navigation }) {
                   ))}
                 </SongListWrapper>
               ))}
-
-              {/* For more pages add SongListWrapper and SongList inside it */}
             </ScrollView>
           </>
 
-          {/* {searchQuery?.data?.results?.length > 0 && (
-            <Text fontSize="xs" color="secondary">
-              RECENT
-            </Text>
-          )}
-
-          <FlatList
-            data={searchQuery?.data?.results}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item, index }) => {
-              return <SongListing song={item} index={index} />;
-            }}
-            style={{ width: "100%" }}
-          /> */}
-
-          <CategoryGrid categories={categoriesQuery.data} />
+          {/* <CategoryGrid categories={categoriesQuery.data} /> */}
         </Container>
 
         <NavigationPadding padding={50} />

@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Text, Container, Canvas, Button } from "components";
-import { StackActions, CommonActions } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { useAuth } from "stores/auth";
 import { useTheme } from "stores/theme";
-import { ScrollView, TouchableOpacity } from "react-native";
 import axios from "services/axios";
-import SplashScreen from "screens/splash-screen";
 
 // Import Images
 import ZentbaseLogoPrimary from "assets/images/zenbase-full-primary-logo.png";

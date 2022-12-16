@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image } from "react-native";
 import SplashScreen from "screens/splash-screen";
+import { Buffer } from "buffer";
 
 // Import Images
 import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
@@ -11,6 +12,11 @@ import ZentbaseVectorWhite from "assets/vectors/zenbase-white.png";
 import AppleIcon from "assets/vectors/apple.png";
 import GoogleIcon from "assets/vectors/google.png";
 import { handleSignInWithApple } from "helpers/auth-apple";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { queryClient } from "query/client";
+import { fetchHomepage } from "query/home";
+import { useAuth } from "stores/auth";
+import { CommonActions } from "@react-navigation/native";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -55,6 +61,7 @@ const BottomView = styled.View`
 
 export default function Login({ navigation }) {
   const { theme } = useTheme();
+  const { login } = useAuth();
 
   // States
   const [isAppReady, setIsAppReady] = useState(false);
@@ -63,10 +70,47 @@ export default function Login({ navigation }) {
     alert("Google Sign In is disabled.");
   };
 
+  const fetchUserFromAsyncStorage = async () => {
+    const serializedUser = await AsyncStorage.getItem("@zenbase_user");
+    if (serializedUser !== null) {
+      const _user = JSON.parse(serializedUser);
+      console.log(`User found in AsyncStorage ${_user.name}`);
+
+      try {
+        const decoded = _user.token.split(".")[1];
+        const jwt = JSON.parse(Buffer.from(decoded, "base64").toString("utf-8"));
+
+        if (Date.now() >= jwt?.exp * 1000) {
+          console.log(`AsyncStorage Token is expired`);
+          await AsyncStorage.removeItem("@zenbase_user");
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+        return;
+      }
+
+      login(_user);
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: "App" }],
+        })
+      );
+    }
+  };
+
   useEffect(() => {
     setTimeout(async () => {
+      fetchUserFromAsyncStorage();
       setIsAppReady(true);
     }, 3000);
+  }, []);
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["home"],
+      queryFn: fetchHomepage,
+    });
   }, []);
 
   if (!isAppReady) {

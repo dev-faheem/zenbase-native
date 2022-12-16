@@ -39,9 +39,8 @@ const Title = styled(Text)`
   line-height: 29px;
 `;
 
-export default function SongList({ title, songs, mock = false, showDivider = true }) {
+export default function SongList({ title, songs, showDivider = true }) {
   const navigation = useNavigation();
-  songs = useMock("songs", songs, mock);
   const { theme } = useTheme();
 
   return (

@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Text, Container, Canvas, Divider, Button, ContextMenu } from "components";
 import styled from "styled-components/native";
-import useSearch from "queries/useSearch";
-import { FlatList, ScrollView, Dimensions, TouchableOpacity } from "react-native";
-import useCategories from "queries/useCategories";
-
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { ScrollView, Dimensions, TouchableOpacity } from "react-native";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
-
-// Import Images
 import SongImg from "assets/images/song.png";
 import ArtistImg from "assets/images/artist.png";
 import axios from "services/axios";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useAuth } from "stores/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ReactNativeShare from "helpers/react-native-share";

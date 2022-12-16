@@ -53,7 +53,6 @@ const CoinWrapper = styled.View`
 
 const Invites = styled(Text)`
   font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 24px;
   margin-right: 9px;
 `;

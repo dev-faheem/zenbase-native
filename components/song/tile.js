@@ -122,7 +122,15 @@ export default function SongTile({
     <TouchableWithoutFeedback onPress={removable ? onRemove : onPressTile}>
       <SongTileView style={style || null} inGrid={inGrid || null}>
         <SongArtwork
-          source={mock ? song.artwork : { uri: song.artwork?.replace("https", "http") }}
+          source={
+            mock
+              ? song.artwork
+              : {
+                  uri:
+                    "https://opt.moovweb.net?quality=50&img=" +
+                    song.artwork?.replace("https", "http"),
+                }
+          }
           inGrid={inGrid || null}
         />
         {removable && (
@@ -135,7 +143,7 @@ export default function SongTile({
         </SongLength>
 
         <SongArtistName numberOfLines={1}>
-          {song.artist?.map((artist) => artist.name)?.join(", ")}
+          {song.artist?.map((artist) => artist.name)?.join(", ") || "Zenbase"}
         </SongArtistName>
         <SongName numberOfLines={1}>{song.name}</SongName>
         <CategoryHolder>

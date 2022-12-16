@@ -9,7 +9,9 @@
       "screens/*": ["./screens/*"],
       "assets/*": ["./assets/*"],
       "mock/*": ["./mock/*"],
-      "helpers/*": ["./helpers/*"]
+      "helpers/*": ["./helpers/*"],
+      "query/*": ["./query/*"],
+      "deprecated/*": ["./deprecated/*"]
     }
   },
   "exclude": ["node_modules"]

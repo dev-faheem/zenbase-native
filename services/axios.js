@@ -4,7 +4,7 @@ import config from "../config";
 
 const axios = Axios;
 
-axios.defaults.baseURL = config.API_URL;
+axios.defaults.baseURL = config.LEGACY_API_URL;
 
 axios.handleError = (error) => {
   if (error?.response?.data?.error) {

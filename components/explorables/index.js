@@ -120,7 +120,7 @@ export default function Explorables() {
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item, index }) => (
-          <ExplorableCard {...item} isLast={index == cards.length - 1} />
+          <ExplorableCard key={index} {...item} isLast={index == cards.length - 1} />
         )}
       />
     </>

@@ -50,6 +50,7 @@ import ChangePassword from "screens/auth/change-password";
 import UserProfile from "screens/followers/user";
 import DeleteAccount from "screens/delete-account";
 import LoginForm from "screens/auth/login/form";
+import { useLoader } from "stores/loader";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -87,55 +88,60 @@ export function HomeStack() {
 
 // Navigation Component (Default)
 export default function Navigation() {
+  const { renderLoader } = useLoader();
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Group>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="LoginForm" component={LoginForm} />
-          <Stack.Screen name="ChangePassword" component={ChangePassword} />
-          <Stack.Screen name="App" component={HomeStack} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Journal" component={Journal} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-          <Stack.Screen name="OTP" component={OneTimePassword} />
-          <Stack.Screen name="SignupBonus" component={SignupBonus} />
-          <Stack.Screen name="ReferFriends" component={ReferFriends} />
-          <Stack.Screen name="UserProfile" component={UserProfile} />
-        </Stack.Group>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Group>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="LoginForm" component={LoginForm} />
+            <Stack.Screen name="ChangePassword" component={ChangePassword} />
+            <Stack.Screen name="App" component={HomeStack} />
+            <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="Journal" component={Journal} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            <Stack.Screen name="OTP" component={OneTimePassword} />
+            <Stack.Screen name="SignupBonus" component={SignupBonus} />
+            <Stack.Screen name="ReferFriends" component={ReferFriends} />
+            <Stack.Screen name="UserProfile" component={UserProfile} />
+          </Stack.Group>
 
-        <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
-          <Stack.Screen name="Settings" component={Settings} />
-          <Stack.Screen name="EditProfile" component={EditProfile} />
-          <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
-          <Stack.Screen name="ZentDonation" component={ZentDonation} />
-          <Stack.Screen name="DonationThanks" component={DonationThanks} />
-          <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
-          <Stack.Screen name="SearchModal" component={SearchModal} />
-          <Stack.Screen name="AddJournal" component={AddJournal} />
-          <Stack.Screen name="Play" component={Play} />
-          <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
-          <Stack.Screen name="DeleteUser" component={DeleteAccount} />
-          <Stack.Screen name="EnableNotification" component={EnableNotification} />
-          <Stack.Screen name="TotalEarnings" component={TotalEarnings} />
+          <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
+            <Stack.Screen name="ZentDonation" component={ZentDonation} />
+            <Stack.Screen name="DonationThanks" component={DonationThanks} />
+            <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
+            <Stack.Screen name="SearchModal" component={SearchModal} />
+            <Stack.Screen name="AddJournal" component={AddJournal} />
+            <Stack.Screen name="Play" component={Play} />
+            <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
+            <Stack.Screen name="DeleteUser" component={DeleteAccount} />
+            <Stack.Screen name="EnableNotification" component={EnableNotification} />
+            <Stack.Screen name="TotalEarnings" component={TotalEarnings} />
 
-          {/* CTAs */}
-          <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
-          <Stack.Screen name="PremiumTrial" component={PremiumTrial} />
-          <Stack.Screen name="PremiumTrailEnded" component={PremiumTrailEnded} />
-          <Stack.Screen name="WalletRewards" component={WalletRewards} />
-          <Stack.Screen name="WalletPremium" component={WalletPremium} />
-          <Stack.Screen name="CancelPremium" component={CancelPremium} />
-          <Stack.Screen name="PremiumUpgrade1" component={PremiumUpgrade1} />
-          <Stack.Screen name="PremiumUpgrade2" component={PremiumUpgrade2} />
-          <Stack.Screen name="JournalUpgradeToZenbase" component={JournalUpgradeToZenbase} />
-        </Stack.Group>
-      </Stack.Navigator>
-    </NavigationContainer>
+            {/* CTAs */}
+            <Stack.Screen name="RegisterRewards" component={RegisterRewards} />
+            <Stack.Screen name="PremiumTrial" component={PremiumTrial} />
+            <Stack.Screen name="PremiumTrailEnded" component={PremiumTrailEnded} />
+            <Stack.Screen name="WalletRewards" component={WalletRewards} />
+            <Stack.Screen name="WalletPremium" component={WalletPremium} />
+            <Stack.Screen name="CancelPremium" component={CancelPremium} />
+            <Stack.Screen name="PremiumUpgrade1" component={PremiumUpgrade1} />
+            <Stack.Screen name="PremiumUpgrade2" component={PremiumUpgrade2} />
+            <Stack.Screen name="JournalUpgradeToZenbase" component={JournalUpgradeToZenbase} />
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
+      {renderLoader()}
+    </>
   );
 }
