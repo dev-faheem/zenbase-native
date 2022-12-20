@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, Container, Canvas, Button } from "components";
+import { Text, Container, Canvas, Button, TextInput } from "components";
 import styled from "styled-components/native";
 import { CommonActions } from "@react-navigation/native";
 import { useTheme } from "stores/theme";
@@ -40,9 +40,6 @@ const Input = styled.TextInput`
   background-color: ${(props) => props.theme.color.hud};
   color: ${(props) => props.theme.color.white};
   margin-top: 5px;
-
-  border-left-color: ${(props) => props.theme.color.red};
-  border-left-width: 10px;
 `;
 
 const FooterWrapper = styled.View`
@@ -154,13 +151,19 @@ export default function LoginForm({ navigation }) {
         <ZenbaseLogo source={ZentbaseLogoWhite} />
         <InputWrapper>
           <Text>Email</Text>
-          <Input
+          <TextInput
+            StyledComponent={Input}
+            onFocusStyle={{
+              borderWidth: 1,
+              borderColor: "#8f9094",
+              borderLeftColor: Boolean(error) ? theme.color.red : "#8f9094",
+            }}
             style={{
-              ...(Boolean(error) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+              ...(Boolean(error) && { borderLeftWidth: 10, borderLeftColor: theme.color.red }),
             }}
             returnKeyType="done"
             autoCapitalize="none"
-            selectionColor={theme.color.primary}
+            selectionColor={theme.color.white}
             placeholder=""
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPhoneNumberOrEmail, value)}
@@ -173,13 +176,19 @@ export default function LoginForm({ navigation }) {
           />
 
           <Text style={{ marginTop: 20 }}>Password</Text>
-          <Input
+          <TextInput
+            StyledComponent={Input}
+            onFocusStyle={{
+              borderWidth: 1,
+              borderColor: "#8f9094",
+              borderLeftColor: Boolean(error) ? theme.color.red : "#8f9094",
+            }}
             style={{
-              ...(Boolean(error) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+              ...(Boolean(error) && { borderLeftWidth: 10, borderLeftColor: theme.color.red }),
             }}
             returnKeyType="done"
             placeholder=""
-            selectionColor={theme.color.primary}
+            selectionColor={theme.color.white}
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPassword, value)}
             secureTextEntry={true}

@@ -131,7 +131,7 @@ export default function Login({ navigation }) {
         <Button
           onPress={() => navigation.navigate("LoginForm")}
           variant="silent"
-          fontSize="14"
+          fontSize="16"
           title="Sign in with email."
           titleProps={{
             style: {
@@ -145,7 +145,8 @@ export default function Login({ navigation }) {
           variant="secondary"
           block
           borderRadius={theme.borderRadius.lg}
-          fontSize="14"
+          height="55"
+          fontSize="16"
           title="Sign in with Apple"
           titleProps={{
             style: {
@@ -175,7 +176,8 @@ export default function Login({ navigation }) {
           variant="secondary"
           block
           borderRadius={theme.borderRadius.lg}
-          fontSize="14"
+          height="55"
+          fontSize="16"
           title="Sign in with Google"
           titleProps={{
             style: {

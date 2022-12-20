@@ -19,6 +19,7 @@ export { default as ZentTokenBanner } from "components/zent-token-banner";
 export { default as RewardsCTA } from "components/rewards-cta";
 export { default as PremiumCTA } from "components/premium-cta";
 export { default as ContextMenu } from "components/context-menu";
+export { default as TextInput } from "components/text-input";
 export {
   default as NavigationPadding,
   NavigationPaddingInsets,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, Container, Canvas, Button } from "components";
+import { Text, Container, Canvas, Button, TextInput } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image } from "react-native";
@@ -44,13 +44,11 @@ const Input = styled.TextInput`
   background-color: ${(props) => props.theme.color.hud};
   color: ${(props) => props.theme.color.white};
   margin-top: 5px;
-
-  border-left-color: ${(props) => props.theme.color.red};
 `;
 
 const FooterWrapper = styled.View`
   width: 100%;
-  height: 180px;
+  height: 190px;
 `;
 
 const FooterFlex = styled.View`
@@ -289,13 +287,22 @@ export default function Register({ navigation }) {
         </Text>
         <InputWrapper>
           <Text>Email</Text>
-          <Input
+          <TextInput
+            StyledComponent={Input}
+            onFocusStyle={{
+              borderWidth: 1,
+              borderColor: "#8f9094",
+              borderLeftColor: Boolean(isEmailError) ? theme.color.red : "#8f9094",
+            }}
             style={{
-              ...(Boolean(isEmailError) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+              ...(Boolean(isEmailError) && {
+                borderLeftWidth: 10,
+                borderLeftColor: theme.color.red,
+              }),
             }}
             returnKeyType="done"
             autoCapitalize="none"
-            selectionColor={theme.color.primary}
+            selectionColor={theme.color.white}
             placeholder=""
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setEmail, value)}
@@ -311,14 +318,23 @@ export default function Register({ navigation }) {
           />
 
           <Text style={{ marginTop: 15 }}>Password</Text>
-          <Input
+          <TextInput
+            StyledComponent={Input}
+            onFocusStyle={{
+              borderWidth: 1,
+              borderColor: "#8f9094",
+              borderLeftColor: Boolean(isPasswordError) ? theme.color.red : "#8f9094",
+            }}
             style={{
-              ...(Boolean(isPasswordError) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+              ...(Boolean(isPasswordError) && {
+                borderLeftWidth: 10,
+                borderLeftColor: theme.color.red,
+              }),
             }}
             returnKeyType="done"
             placeholder=""
             autoCapitalize="none"
-            selectionColor={theme.color.primary}
+            selectionColor={theme.color.white}
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setPassword, value)}
             value={password}
@@ -414,7 +430,8 @@ export default function Register({ navigation }) {
                 variant="secondary"
                 block
                 borderRadius={theme.borderRadius.lg}
-                fontSize="14"
+                height="55"
+                fontSize="16"
                 title="Sign in with Apple"
                 titleProps={{
                   style: {
@@ -444,7 +461,8 @@ export default function Register({ navigation }) {
               variant="secondary"
               block
               borderRadius={theme.borderRadius.lg}
-              fontSize="14"
+              height="55"
+              fontSize="16"
               title="Sign in with Google"
               titleProps={{
                 style: {

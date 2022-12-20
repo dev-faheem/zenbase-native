@@ -73,7 +73,7 @@ const ButtonWrapper = styled.View`
       return `width: auto;`;
     }
   }}
-  height: 42px;
+  height: ${(props) => (props.height ? `${props.height}px` : "42px")};
   padding-horizontal: ${(props) =>
     props.horizontalPadding ? props.horizontalPadding + "px" : props.theme.spacing.xxl};
   border-radius: ${(props) => props.borderRadius || props.theme.borderRadius.md};
@@ -81,7 +81,6 @@ const ButtonWrapper = styled.View`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  z-index: 0;
 `;
 
 const TextWrapper = styled(Text)`

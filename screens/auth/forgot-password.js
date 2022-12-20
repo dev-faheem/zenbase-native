@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, Container, Canvas, Button } from "components";
+import { Text, Container, Canvas, Button, TextInput } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image } from "react-native";
@@ -35,9 +35,6 @@ const Input = styled.TextInput`
   background-color: ${(props) => props.theme.color.hud};
   color: ${(props) => props.theme.color.white};
   margin-top: 5px;
-
-  border-left-color: ${(props) => props.theme.color.red};
-  border-left-width: 10px;
 `;
 
 const FooterWrapper = styled.View`
@@ -94,16 +91,20 @@ export default function LoginForm({ navigation }) {
 
       const value = email;
 
-      const { data } = await axios.post("/auth/generate-otp", {
-        username: email,
-      });
+      if (value) {
+        const { data } = await axios.post("/auth/generate-otp", {
+          username: email,
+        });
 
-      navigation.navigate("OTP", {
-        type,
-        value,
-        userId: data.data.userId,
-        isForChangePassword: true,
-      });
+        navigation.navigate("OTP", {
+          type,
+          value,
+          userId: data.data.userId,
+          isForChangePassword: true,
+        });
+      } else {
+        setError("Please provide a valid email.");
+      }
     } catch (e) {
       setError(e?.response?.data?.error);
     }
@@ -137,14 +138,20 @@ export default function LoginForm({ navigation }) {
         </Text>
         <InputWrapper>
           <Text>Email</Text>
-          <Input
+          <TextInput
+            StyledComponent={Input}
+            onFocusStyle={{
+              borderWidth: 1,
+              borderColor: "#8f9094",
+              borderLeftColor: Boolean(error) ? theme.color.red : "#8f9094",
+            }}
             style={{
-              ...(Boolean(error) ? { borderLeftWidth: 10 } : { borderLeftWidth: 0 }),
+              ...(Boolean(error) && { borderLeftWidth: 10, borderLeftColor: theme.color.red }),
             }}
             returnKeyType="done"
             placeholder=""
             autoCapitalize="none"
-            selectionColor={theme.color.primary}
+            selectionColor={theme.color.white}
             placeholderTextColor={theme.color.secondary}
             onChangeText={(value) => updateInput(setEmail, value)}
             value={email}
