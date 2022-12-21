@@ -8,6 +8,10 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useAuth } from "stores/auth";
 import { CommonActions } from "@react-navigation/native";
 
+// Import Images
+import RewardsLogo from "assets/logos/rewards.png";
+import FriendsIcon from "assets/icons/friends.png";
+
 // Styled Component
 const InfoWrapper = styled.View`
   flex: 1;
@@ -15,6 +19,17 @@ const InfoWrapper = styled.View`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+`;
+
+const Rewards = styled.Image`
+  width: 120px;
+  height: 30px;
+  margin-bottom: 13px;
+`;
+
+const Friends = styled.Image`
+  width: 223px;
+  height: 250px;
 `;
 
 const InfoBody = styled.View`
@@ -58,25 +73,27 @@ export default function ReferFriends({ route, navigation }) {
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-        <ZentTokenBanner tokens={0.01} usd={0.0} />
         <InfoWrapper>
           <InfoBody>
-            <FontAwesome
-              name="user-circle-o"
-              size={34}
-              style={{ marginBottom: 12 }}
-              color="white"
-            />
-            <Text fontSize="h2" fontWeight="bold">
-              Refer a Friend
-            </Text>
-            <Text fontSize="md" style={{ marginTop: 5 }}>
-              Listen with your circle and earn more.
-            </Text>
+            <Friends source={FriendsIcon} resizeMode="contain" />
           </InfoBody>
           <InfoFooter>
+            <Rewards source={RewardsLogo} resizeMode="contain" />
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              fontSize="36"
+              fontWeight="bold"
+              style={{ marginBottom: 12 }}
+            >
+              Earn more with friends.
+            </Text>
+            <Text numberOfLines={1} adjustsFontSizeToFit fontSize="20" style={{ marginBottom: 25 }}>
+              Listen with your circle of friends to earn more.
+            </Text>
             <Button
-              title="Invite friends"
+              height="55"
+              title="Invite Friends"
               block
               onPress={() =>
                 inviteFriend(
@@ -84,8 +101,6 @@ export default function ReferFriends({ route, navigation }) {
                 )
               }
             />
-            <Box h="10px" />
-            <Button title="Skip" variant="secondary" block onPress={onPressNavigateToNextScreen} />
           </InfoFooter>
         </InfoWrapper>
       </Container>

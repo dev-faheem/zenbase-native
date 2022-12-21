@@ -343,7 +343,7 @@ export default function Register({ navigation }) {
 
           <TextFlex style={{ marginTop: 15 }}>
             <Text>Country</Text>
-            <Text color="secondary" style={{ marginLeft: 8 }}>
+            <Text color="description" style={{ marginLeft: 8 }}>
               Optional
             </Text>
           </TextFlex>
@@ -378,7 +378,7 @@ export default function Register({ navigation }) {
 
           <TextFlex style={{ marginTop: 15 }}>
             <Text>State/Province</Text>
-            <Text color="secondary" style={{ marginLeft: 8 }}>
+            <Text color="description" style={{ marginLeft: 8 }}>
               Optional
             </Text>
           </TextFlex>

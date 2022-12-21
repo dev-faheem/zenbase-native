@@ -94,7 +94,7 @@ export default function Navigation() {
     <>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Login"
+          initialRouteName="ReferFriends"
           screenOptions={{
             headerShown: false,
           }}

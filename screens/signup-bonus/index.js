@@ -16,9 +16,16 @@ import axios from "services/axios";
 
 // Styled Component
 
-const BackgroundImage = styled.ImageBackground`
+const Wrapper = styled.View`
   width: 100%;
   height: 100%;
+`;
+
+const BackgroundConfetti = styled.Image`
+  width: 100%;
+  height: 100%;
+  top: -35%;
+  position: absolute;
 `;
 
 const InfoWrapper = styled.View`
@@ -26,14 +33,13 @@ const InfoWrapper = styled.View`
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
 `;
 
 const InfoBody = styled.View`
   flex: 1;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 25px;
 `;
 
 const InfoFooter = styled.View`
@@ -85,15 +91,16 @@ export default function SignupBonus({ route, navigation }) {
 
   return (
     <Canvas>
-      {/* <BackgroundImage source={ConfettiImage} resizeMode="cover"> */}
-      <BackgroundImage>
+      <Wrapper>
+        <BackgroundConfetti source={ConfettiImage} resizeMode="cover" />
         <ConfettiCannon
+          colors={["#974EBC", "#6B26FF", "#281830", "#7C588F", "#CD94EB"]}
           count={100}
           fallSpeed={2000}
-          origin={{ x: windowWidth / 2, y: windowHeight - 100 }}
+          origin={{ x: windowWidth * 0.5, y: windowHeight - 100 }}
           fadeOut
         />
-        <Header>
+        {/* <Header>
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
@@ -101,25 +108,28 @@ export default function SignupBonus({ route, navigation }) {
           >
             <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
           </TouchableOpacity>
-        </Header>
+        </Header> */}
         <Container style={{ flex: 1 }}>
           <ZentTokenBanner tokens={0.01} usd={0.0} />
           <InfoWrapper>
             <InfoBody>
               <Ionicons name="gift" size={34} style={{ marginBottom: 12 }} color="white" />
-              <Text numberOfLines={1} adjustsFontSizeToFit fontSize="h2" fontWeight="bold">
-                You’ve received 0.01 ZENT
+              <Text numberOfLines={1} adjustsFontSizeToFit fontSize="32" fontWeight="bold">
+                You've earned it.
+              </Text>
+              <Text numberOfLines={1} adjustsFontSizeToFit fontSize="32" fontWeight="bold">
+                0.01 ZENT
               </Text>
               <Text fontSize="md" style={{ marginTop: 5 }}>
                 Thanks for creating an account!
               </Text>
             </InfoBody>
             <InfoFooter>
-              <Button title="Claim to wallet" block onPress={onPressClaimToWallet} />
+              <Button height="55" title="Claim" block onPress={onPressClaimToWallet} />
             </InfoFooter>
           </InfoWrapper>
         </Container>
-      </BackgroundImage>
+      </Wrapper>
     </Canvas>
   );
 }
