@@ -91,7 +91,7 @@ export default function TabBar({ state, descriptors, navigation }) {
                         <Ionicons
                           name="play-circle"
                           size={28}
-                          color={isFocused ? theme.color.primary : theme.color.secondary}
+                          color={isFocused ? theme.color.primary : "#939595"}
                         />
                       );
                     case "Search":
@@ -99,7 +99,7 @@ export default function TabBar({ state, descriptors, navigation }) {
                         <Ionicons
                           name="ios-search"
                           size={28}
-                          color={isFocused ? theme.color.primary : theme.color.secondary}
+                          color={isFocused ? theme.color.primary : "#939595"}
                         />
                       );
                     case "Wallet":
@@ -107,7 +107,7 @@ export default function TabBar({ state, descriptors, navigation }) {
                         <Ionicons
                           name="md-wallet"
                           size={28}
-                          color={isFocused ? theme.color.primary : theme.color.secondary}
+                          color={isFocused ? theme.color.primary : "#939595"}
                         />
                       );
                     case "Favorites":
@@ -115,7 +115,7 @@ export default function TabBar({ state, descriptors, navigation }) {
                         <Ionicons
                           name="heart"
                           size={28}
-                          color={isFocused ? theme.color.primary : theme.color.secondary}
+                          color={isFocused ? theme.color.primary : "#939595"}
                         />
                       );
                     case "Profile":
@@ -123,7 +123,7 @@ export default function TabBar({ state, descriptors, navigation }) {
                         <Ionicons
                           name="person-circle-outline"
                           size={28}
-                          color={isFocused ? theme.color.primary : theme.color.secondary}
+                          color={isFocused ? theme.color.primary : "#939595"}
                         />
                       );
                   }

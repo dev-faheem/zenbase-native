@@ -41,14 +41,14 @@ const ZentLogo = styled.Image`
 
 const ZentTokens = styled.Text`
   font-size: ${(props) => props.theme.fontSize.h1};
-  color: ${(props) => props.theme.color.header};
+  color: rgba(247, 248, 250, 0.6);
   font-weight: bold;
   margin-top: ${(props) => props.theme.spacing.md};
 `;
 
 const ZentValue = styled.Text`
   font-size: ${(props) => props.theme.fontSize.xl};
-  color: ${(props) => props.theme.color.header};
+  color: rgba(247, 248, 250, 0.6);
 `;
 
 // ZentCoin Component
