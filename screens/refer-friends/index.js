@@ -72,11 +72,7 @@ export default function ReferFriends({ route, navigation }) {
   const { user } = useAuth();
 
   const onPressNavigateToNextScreen = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        routes: [{ name: "App" }],
-      })
-    );
+    navigation.navigate("PremiumTrial");
   };
 
   // Invite Friend (React Native Share)
