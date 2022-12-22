@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import { ReactNativeShare } from "helpers";
 import styled from "styled-components/native";
+import { TouchableOpacity } from "react-native";
 
 // Import Icons
 import { FontAwesome } from "@expo/vector-icons";
@@ -9,10 +10,31 @@ import { useAuth } from "stores/auth";
 import { CommonActions } from "@react-navigation/native";
 
 // Import Images
-import RewardsLogo from "assets/logos/rewards.png";
-import FriendsIcon from "assets/icons/friends.png";
+import rewardsLogo from "assets/logos/rewards.png";
+import friendsIcon from "assets/icons/friends.png";
+import zentLogo from "assets/logos/zent-coin.png";
 
 // Styled Component
+const HeaderWrapper = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 5px;
+`;
+
+const HeaderImageWrapper = styled.View`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HeaderImage = styled.Image`
+  width: 30px;
+  height: 30px;
+  margin-bottom: 7px;
+`;
+
 const InfoWrapper = styled.View`
   flex: 1;
   width: 100%;
@@ -73,12 +95,24 @@ export default function ReferFriends({ route, navigation }) {
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
+        <HeaderWrapper>
+          <HeaderImageWrapper>
+            <Box w="35px" />
+          </HeaderImageWrapper>
+          <HeaderImageWrapper>
+            <HeaderImage source={zentLogo} resizeMode="contain" />
+            <Text fontSize="14">0.01 ZENT</Text>
+          </HeaderImageWrapper>
+          <TouchableOpacity onPress={onPressNavigateToNextScreen}>
+            <Text fontSize="16">Skip</Text>
+          </TouchableOpacity>
+        </HeaderWrapper>
         <InfoWrapper>
           <InfoBody>
-            <Friends source={FriendsIcon} resizeMode="contain" />
+            <Friends source={friendsIcon} resizeMode="contain" />
           </InfoBody>
           <InfoFooter>
-            <Rewards source={RewardsLogo} resizeMode="contain" />
+            <Rewards source={rewardsLogo} resizeMode="contain" />
             <Text
               numberOfLines={1}
               adjustsFontSizeToFit
