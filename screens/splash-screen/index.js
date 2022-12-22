@@ -57,7 +57,7 @@ export default function SplashScreen({ route, navigation }) {
             fontSize="xl"
             fontWeight="500"
             style={{ marginTop: 20, textAlign: "center" }}
-            color="header90"
+            color="white"
           >
             Today is a beautiful day to take care{" "}
           </Text>
@@ -65,7 +65,7 @@ export default function SplashScreen({ route, navigation }) {
             fontSize="xl"
             fontWeight="500"
             style={{ marginTop: 5, textAlign: "center" }}
-            color="header90"
+            color="white"
           >
             of yourself.
           </Text>

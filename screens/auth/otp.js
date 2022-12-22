@@ -102,7 +102,7 @@ export default function OneTimePassword({ route, navigation }) {
 
       if (!isForChangePassword) {
         login(originalRegisterData);
-        navigation.navigate("SignupBonus");
+        navigation.navigate("Rewards");
       } else {
         navigation.navigate("ChangePassword", {
           changePasswordToken: data.data.changePasswordToken,
