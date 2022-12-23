@@ -9,6 +9,7 @@ const dark = {
     hud: "#262626",
     secondary: "#333333",
     information: "#ABABAC",
+    description: "#8F9094",
     informationBackground: "#2E2E30",
     transparent: "rgba(0,0,0,0)",
   },

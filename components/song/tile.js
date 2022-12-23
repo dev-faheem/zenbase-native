@@ -61,7 +61,7 @@ const SongName = styled.Text`
 
 const SongArtistName = styled.Text`
   margin-top: 7px;
-  color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.description};
   /* font-size: ${(props) => props.theme.fontSize.sm}; */
   font-weight: 400;
   font-size: 14px;
@@ -79,7 +79,7 @@ const SongLength = styled.View`
   padding-left: 5px;
   padding-top: 2px;
   padding-bottom: 2px;
-  border-radius: 5px;
+  border-radius: 7.5px;
 `;
 
 const SongRemoveButton = styled.TouchableOpacity`

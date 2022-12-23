@@ -5,11 +5,22 @@ import Box from "components/box";
 import timeIcon from "assets/icons/time-tab.png";
 import { Text } from "components";
 
+import { useNavigation } from "@react-navigation/native";
+
 export default function Shortcuts() {
-  const shortcutsData = [{ time: 5 }, { time: 10 }, { time: 15 }, { time: 20 }, { time: 25 }];
+  const navigation = useNavigation();
+  const shortcutsData = [
+    { time: 5 },
+    { time: 10 },
+    { time: 15 },
+    { time: 20 },
+    { time: 30 },
+    { time: 1 },
+  ];
 
   return (
     <Wrapper>
+      <Title>Browse by Time</Title>
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={shortcutsData}
@@ -18,7 +29,7 @@ export default function Shortcuts() {
         renderItem={({ item, index }) => {
           return (
             <Box mr={index === shortcutsData?.length - 1 ? 0 : "10px"}>
-              <Item onPress={() => console.log("Click here ", item?.time)}>
+              <Item onPress={() => navigation.navigate("SongList", { title: "qwer", songs: [] })}>
                 <ShortcutImage source={timeIcon} />
                 <TimeLabelHolder>
                   <TimeLabel>{item?.time}</TimeLabel>
@@ -38,6 +49,13 @@ const Wrapper = styled.View`
   width: 100%;
   margin-bottom: 34px;
 `;
+const Title = styled(Text)`
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  margin-bottom: 14px;
+`;
+
 const Item = styled.TouchableOpacity`
   position: relative;
   margin-bottom: 14px;
@@ -67,5 +85,5 @@ const ShortcutImage = styled.Image`
 `;
 
 const BottomContent = styled(Text)`
-  color: ${({ theme }) => theme?.color?.secondary};
+  color: ${({ theme }) => theme?.color?.description};
 `;

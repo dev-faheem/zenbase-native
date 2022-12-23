@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
 import { useTheme } from "stores/theme";
 import zentLogo from "assets/logos/zent-coin.png";
+import { Entypo } from "@expo/vector-icons";
 
 export default function ZentCoin(props) {
   const {} = props;
@@ -11,7 +12,8 @@ export default function ZentCoin(props) {
 
   const info = "Earn 30% more with Zenbase Premium";
   const coins = "0.02 ZENT";
-  const time = "16:07:05";
+  // const time = "16:07:05";
+  const time = "";
 
   return (
     <Wrapper onPress={() => console.log("Click here")}>
@@ -46,7 +48,7 @@ const ZentIcon = styled.Image`
 `;
 const Info = styled(Text)`
   font-size: 14px;
-  color: ${({ theme }) => theme?.color?.secondary};
+  color: ${({ theme }) => theme?.color?.description};
 `;
 
 const CoinWrapper = styled.View`

@@ -56,7 +56,7 @@ const BackdropImage = styled.Image`
 const BackdropOverlay = styled.Image`
   position: absolute;
   width: 200%;
-  top: 330px;
+  top: 340px;
   left: 0px;
   height: 60px;
   z-index: -900;
@@ -100,9 +100,9 @@ export default function Explorables() {
     <>
       <BackgroundLoader
         source={currentBackdrop}
-        blurRadius={20}
+        blurRadius={100}
         style={{
-          height: 390,
+          height: 400,
           position: "absolute",
           zIndex: -1000,
           width: "100%",
