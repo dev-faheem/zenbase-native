@@ -4,12 +4,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
 import { useTheme } from "stores/theme";
 import friendsIcon from "assets/icons/friends.png";
+import { useNavigation } from "@react-navigation/native";
 
-export default function EarnMore(props) {
+export default function EarnMore() {
   const { theme } = useTheme();
-
+  const navigation = useNavigation();
   return (
-    <Wrapper onPress={() => console.log("Click here")}>
+    <Wrapper onPress={() => navigation.navigate("Wallet")}>
       <Icon source={friendsIcon} />
       <View>
         <CoinWrapper>

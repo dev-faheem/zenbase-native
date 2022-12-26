@@ -8,11 +8,14 @@ export default function ActivitiesTabs(props) {
 
   const renderTabButtons = () => (
     <TabButtonWrapper>
-      {tabContent?.map(({ id, name }) => (
-        <TabButton active={id === activeTab} onPress={() => setActiveTab(id)}>
-          <Text>{name}</Text>
-        </TabButton>
-      ))}
+      {tabContent?.map(({ id, name, icon = {} }) => {
+        return (
+          <TabButton active={id === activeTab} onPress={() => setActiveTab(id)}>
+            {icon && <Icon {...icon} />}
+            <Text>{name}</Text>
+          </TabButton>
+        );
+      })}
     </TabButtonWrapper>
   );
 
@@ -27,6 +30,11 @@ export default function ActivitiesTabs(props) {
     </Wrapper>
   );
 }
+const Icon = styled.Image`
+  width: ${({ width }) => width};
+  height: ${({ height = "16px" }) => height};
+  margin-right: 9px;
+`;
 
 const Wrapper = styled.View``;
 const Title = styled(Text)`

@@ -42,7 +42,7 @@ const Icon = styled.Image`
 `;
 const Info = styled(Text)`
   font-size: 14px;
-  color: ${({ theme }) => theme?.color?.secondary};
+  color: ${({ theme }) => theme?.color?.description};
 `;
 
 const CoinWrapper = styled.View`

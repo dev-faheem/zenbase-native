@@ -147,7 +147,7 @@ export default function SongTile({
         <SongName numberOfLines={1}>{song.name}</SongName>
         <CategoryHolder>
           <CategoryWrapper>
-            <CategoryName>Meditation Sleep</CategoryName>
+            <CategoryName>Meditation{"  "}Sleep</CategoryName>
           </CategoryWrapper>
         </CategoryHolder>
       </SongTileView>

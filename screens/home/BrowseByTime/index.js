@@ -15,7 +15,7 @@ export default function Shortcuts() {
     { time: 15 },
     { time: 20 },
     { time: 30 },
-    { time: 1 },
+    { time: 1, label: "HR" },
   ];
 
   return (
@@ -27,13 +27,14 @@ export default function Shortcuts() {
         horizontal
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => {
+          const { label = "MIN" } = item;
           return (
             <Box mr={index === shortcutsData?.length - 1 ? 0 : "10px"}>
               <Item onPress={() => navigation.navigate("SongList", { title: "qwer", songs: [] })}>
                 <ShortcutImage source={timeIcon} />
                 <TimeLabelHolder>
                   <TimeLabel>{item?.time}</TimeLabel>
-                  <TimeLabelMin>MIN</TimeLabelMin>
+                  <TimeLabelMin>{label}</TimeLabelMin>
                 </TimeLabelHolder>
               </Item>
             </Box>
@@ -64,7 +65,7 @@ const TimeLabelHolder = styled.View`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-20px, -20px);
+  transform: translate(-20px, -22px);
   width: 40px;
 `;
 const TimeLabel = styled(Text)`

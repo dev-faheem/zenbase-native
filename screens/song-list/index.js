@@ -5,6 +5,7 @@ import { Text, Container, Canvas, Button, IOSList, SongTile, NavigationPadding }
 import styled from "styled-components/native";
 import { BlurView } from "expo-blur";
 import Constants from "expo-constants";
+import { Entypo } from "@expo/vector-icons";
 
 // Import Icons
 import { Ionicons } from "@expo/vector-icons";
@@ -54,7 +55,7 @@ export default function SongList({ route, navigation }) {
     <>
       <HeaderButtons>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
+          <Entypo name="chevron-right" size={20} color={theme.color.information} />
         </TouchableOpacity>
       </HeaderButtons>
       <Header>

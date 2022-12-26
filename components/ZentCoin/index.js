@@ -23,12 +23,7 @@ export default function ZentCoin(props) {
         <CoinWrapper>
           <Coins>{coins}</Coins>
           {time && <Time>{time}</Time>}
-          <Ionicons
-            name="ios-chevron-forward"
-            style={{ marginTop: 1, marginLeft: -5 }}
-            size={18}
-            color={theme.color.information}
-          />
+          <Entypo name="chevron-right" size={20} color={theme.color.information} />
         </CoinWrapper>
       </View>
     </Wrapper>

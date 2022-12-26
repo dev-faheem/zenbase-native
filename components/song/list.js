@@ -1,15 +1,14 @@
 import React from "react";
 import Box from "components/box";
 import Text from "components/text";
-import { Ionicons } from "@expo/vector-icons";
 import { FlatList, TouchableOpacity, Platform } from "react-native";
-import { useMock } from "services/mock";
 import SongTile from "components/song/tile";
 import styled from "styled-components/native";
 import Divider from "components/divider";
 import { useNavigation } from "@react-navigation/core";
 import Constants from "expo-constants";
 import { useTheme } from "stores/theme";
+import { Entypo } from "@expo/vector-icons";
 
 const Wrapper = styled.View`
   width: 100%;
@@ -53,12 +52,7 @@ export default function SongList({ title, songs, showDivider = true }) {
             }}
           >
             <Title>{title}</Title>
-            <Ionicons
-              name="ios-chevron-forward"
-              style={{ marginTop: 1, marginLeft: 10 }}
-              size={18}
-              color={theme.color.information}
-            />
+            <Entypo name="chevron-right" size={24} color={theme.color.information} />
           </TitleWrapper>
         </TitleContainer>
       )}

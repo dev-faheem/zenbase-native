@@ -13,6 +13,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "helpers/notifications";
 
 // Import Images
+import meditationIcon from "assets/icons/meditation.png";
+import micIcon from "assets/icons/mic.png";
 import ActivelyListing from "components/actively-listening";
 import { TopHeader } from "components/layout";
 import ZentCoin from "components/ZentCoin";
@@ -192,6 +194,7 @@ export default function Home({ navigation, route }) {
     {
       id: "MEDITATION",
       name: "MEDITATION",
+      icon: { source: meditationIcon, width: "18px" },
       component: (
         <>
           <Categories isMeditation categories={data?.categories?.filter((cat) => !cat.isPodcast)} />
@@ -219,6 +222,7 @@ export default function Home({ navigation, route }) {
     {
       id: "PODCASTS",
       name: "PODCASTS",
+      icon: { source: micIcon, width: "10.87px" },
       component: (
         <>
           <Categories categories={data?.categories?.filter((cat) => cat.isPodcast)} />
