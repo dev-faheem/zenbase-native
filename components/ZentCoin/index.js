@@ -5,10 +5,12 @@ import { View } from "react-native";
 import { useTheme } from "stores/theme";
 import zentLogo from "assets/logos/zent-coin.png";
 import { Entypo } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ZentCoin(props) {
   const {} = props;
   const { theme } = useTheme();
+  const navigation = useNavigation();
 
   const info = "Earn 30% more with Zenbase Premium";
   const coins = "0.02 ZENT";
@@ -16,7 +18,7 @@ export default function ZentCoin(props) {
   const time = "";
 
   return (
-    <Wrapper onPress={() => console.log("Click here")}>
+    <Wrapper onPress={() => navigation.navigate("Wallet")}>
       <ZentIcon source={zentLogo} />
       <View>
         <Info>{info}</Info>
