@@ -51,6 +51,7 @@ import UserProfile from "screens/followers/user";
 import DeleteAccount from "screens/delete-account";
 import LoginForm from "screens/auth/login/form";
 import { useLoader } from "stores/loader";
+import Rewards from "screens/rewards";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -110,6 +111,7 @@ export default function Navigation() {
             <Stack.Screen name="OTP" component={OneTimePassword} />
             <Stack.Screen name="SignupBonus" component={SignupBonus} />
             <Stack.Screen name="ReferFriends" component={ReferFriends} />
+            <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
           </Stack.Group>
 

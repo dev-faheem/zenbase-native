@@ -21,6 +21,9 @@ import { useSongQueue } from "stores/song-queue";
 
 const windowsHeight = Dimensions.get("window").height;
 
+// Import Images
+import Gradient from "assets/images/search-gradient.png";
+
 // Styled Components
 const SearchInput = styled.TextInput`
   background-color: rgba(27, 28, 30, 0.9);
@@ -35,8 +38,8 @@ const SearchInput = styled.TextInput`
 
 const SongListWrapper = styled.View`
   width: ${Dimensions.get("window").width * 0.89}px;
-  padding-top: ${(props) => props.theme.spacing.md};
-  padding-bottom: ${(props) => props.theme.spacing.md};
+  padding-top: 4px;
+  padding-bottom: 8px;
 `;
 
 const SongList = styled.TouchableOpacity`
@@ -60,22 +63,24 @@ const ArtistImage = styled.Image`
 `;
 
 const SongContentWrapper = styled.View`
-  height: 48px;
+  height: 55px;
   width: 83%;
   flex-direction: row;
   justify-content: space-between;
-  border-top-color: rgba(172, 178, 155, 0.5);
-  border-top-width: 0px;
-
-  border-bottom-color: rgba(172, 178, 155, 0.5);
-  border-bottom-width: 0.5px;
 `;
 
 const SongContent = styled.View`
   flex: 1;
   flex-direction: column;
   justify-content: center;
-  padding-left: ${(props) => props.theme.spacing.sm};
+  padding-left: 8px;
+  position: relative;
+`;
+
+const SearchGradient = styled.Image`
+  position: absolute;
+  right: -5px;
+  top: 0px;
 `;
 
 const IconWrapper = styled.View`
@@ -90,12 +95,12 @@ const SearchBarWrapper = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  border-radius: ${(props) => props.theme.borderRadius.lg};
-  background-color: ${(props) => props.theme.color.hud};
-  margin-top: ${(props) => props.theme.spacing.sm};
-  margin-bottom: ${(props) => props.theme.spacing.sm};
-  padding-left: ${(props) => props.theme.spacing.sm};
-  padding-right: ${(props) => props.theme.spacing.sm};
+  border-radius: 10px;
+  background-color: rgba(38, 38, 38, 1);
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
 `;
 
 export default function Search({ navigation }) {
@@ -206,13 +211,13 @@ export default function Search({ navigation }) {
       <ScrollView>
         <Container>
           <Box mt="20px"></Box>
-          <Text fontSize="h2" fontWeight="bold">
+          <Text fontSize="32" fontWeight="bold">
             Search
           </Text>
 
           <SearchBarWrapper onPress={() => navigation.navigate("SearchModal")}>
-            <Ionicons name="search" size={25} color={theme.color.secondary} />
-            <Text color="secondary" fontSize="md" style={{ marginLeft: 5 }}>
+            <Ionicons name="search" size={20} color="rgba(143, 144, 148, 1)" />
+            <Text color="rgba(143, 144, 148, 1)" fontSize="md" style={{ marginLeft: 5 }}>
               Artists, Sounds, Friends, and More
             </Text>
           </SearchBarWrapper>
@@ -226,13 +231,8 @@ export default function Search({ navigation }) {
 
           <>
             {recentlyPlayedSongs.length > 0 && (
-              <Text
-                fontSize="sm"
-                color="secondary"
-                fontWeight="600"
-                style={{ marginTop: 5, marginBottom: 5 }}
-              >
-                RECENT
+              <Text fontSize="20" color="white" fontWeight="600" style={{ marginTop: 10 }}>
+                Recent
               </Text>
             )}
 
@@ -264,15 +264,31 @@ export default function Search({ navigation }) {
                         ]}
                       >
                         <SongContent>
-                          <Text numberOfLines={1}>{song?.name}</Text>
-                          <Text numberOfLines={1} fontSize="sm" color="secondary">
-                            Song • {song.artist?.map((artist) => artist.name).join(", ")}
+                          <Text
+                            numberOfLines={1}
+                            fontSize="14"
+                            style={{ marginBottom: 2 }}
+                            color="rgba(143, 144, 148, 1)"
+                          >
+                            {song.artist?.map((artist) => artist.name)?.join(", ") || "Zenbase"}
                           </Text>
+                          <Text
+                            numberOfLines={1}
+                            ellipsizeMode="clip"
+                            fontSize="18"
+                            fontWeight="600"
+                          >
+                            {song?.name}
+                          </Text>
+                          {/* <Text numberOfLines={1} fontSize="sm" color="secondary">
+                            Song • {song.artist?.map((artist) => artist.name).join(", ")}
+                          </Text> */}
+                          <SearchGradient source={Gradient} />
                         </SongContent>
 
                         <IconWrapper style={{ paddingLeft: 5 }}>
                           <TouchableOpacity onPress={(event) => openContextMenu(event, song)}>
-                            <Feather name="more-horizontal" size={24} color={theme.color.white} />
+                            <Feather name="more-horizontal" size={18} color={theme.color.white} />
                           </TouchableOpacity>
                         </IconWrapper>
                       </SongContentWrapper>
@@ -300,15 +316,15 @@ export default function Search({ navigation }) {
         menuList={[
           isSongLiked()
             ? {
-                title: "Delete from Library",
-                color: "primary",
-                icon: <Ionicons name="ios-trash-outline" size={16} color={theme.color.primary} />,
+                title: "Remove from Favorites",
+                color: "red",
+                icon: <Ionicons name="heart-dislike-outline" size={16} color={theme.color.red} />,
                 onPress: () => {
                   toggleLikedTrack();
                 },
               }
             : {
-                title: "Add to Library",
+                title: "Add to Favorites",
                 icon: <Ionicons name="heart-outline" size={16} color="white" />,
                 onPress: () => {
                   toggleLikedTrack();

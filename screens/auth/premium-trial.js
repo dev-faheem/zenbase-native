@@ -1,44 +1,91 @@
-import React from "react";
-import { Text, Container, Canvas, Button, Box, PremiumCTA } from "components";
+import React, { useEffect } from "react";
+import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
+import { TouchableOpacity, Dimensions } from "react-native";
+import { CommonActions } from "@react-navigation/native";
+import ConfettiCannon from "react-native-confetti-cannon";
+import * as Haptics from "expo-haptics";
 
 // Import Images
 import ConfettiImage from "assets/images/confetti.png";
-import axios from "services/axios";
-import { CommonActions } from "@react-navigation/native";
+import PremiumDescriptionImage from "assets/images/cta/premium-features.png";
+import PremiumLogo from "assets/logos/premium.png";
 
-const BackgroundImage = styled.ImageBackground`
+// Styled Component
+const Wrapper = styled.View`
   width: 100%;
   height: 100%;
 `;
 
-const FooterWrapper = styled.View`
+const BackgroundConfetti = styled.Image`
   width: 100%;
-  height: 150px;
+  height: 100%;
+  top: -60%;
+  position: absolute;
 `;
 
-const FooterFlex = styled.View`
+const InfoWrapper = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: ${(props) => props.theme.spacing.lg};
+  justify-content: space-between;
 `;
 
-export default function PremiumTrial({ navigation }) {
-  const onPressStartExploring = async () => {
-    try {
-      // await axios.post("/payments", {
-      //   amount: 0,
-      //   reason: "SIGNUP_BONUS",
-      //   valid: true,
-      //   premium: true,
-      // });
+const InfoBody = styled.View`
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 25px;
+  align-items: center;
+`;
 
-      // navigation.goBack();
-      // navigation.navigate("ZenbaseAds", { isForLogin: true });
+const InfoFooter = styled.View`
+  width: 100%;
+  flex-direction: column;
+  padding-bottom: ${(props) => props.theme.spacing.lg};
+`;
+
+const Header = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: ${(props) => props.theme.spacing.sm};
+`;
+
+const DescriptionWrapper = styled.View`
+  width: 100%;
+  height: 350px;
+  background-color: #1e1f20;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Description = styled.Image`
+  width: 267px;
+  height: 260px;
+`;
+
+const Logo = styled.Image`
+  width: 254px;
+  height: 60px;
+  margin-bottom: 43px;
+`;
+
+// PremiumTrial (Default)
+export default function PremiumTrial({ route, navigation }) {
+  const { theme } = useTheme();
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
+  useEffect(() => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  }, []);
+
+  const navigateToHome = async () => {
+    try {
       navigation.dispatch(
         CommonActions.reset({
           routes: [{ name: "App" }],
@@ -51,30 +98,36 @@ export default function PremiumTrial({ navigation }) {
 
   return (
     <Canvas>
-      <BackgroundImage source={ConfettiImage}>
+      <Wrapper>
+        <BackgroundConfetti source={ConfettiImage} resizeMode="cover" />
+        <ConfettiCannon
+          colors={["#974EBC", "#6B26FF", "#281830", "#7C588F", "#CD94EB"]}
+          count={100}
+          fallSpeed={2000}
+          origin={{ x: windowWidth * 0.5, y: windowHeight - 100 }}
+          fadeOut
+        />
         <Container style={{ flex: 1 }}>
-          <Box h="70px" />
-          <Text fontSize="22" fontWeight="600">
-            You’ve received 1 week of Zenbase Premium!
-          </Text>
-          <PremiumCTA />
-        </Container>
-        <FooterWrapper>
-          <Container style={{ flex: 1 }}>
-            <FooterFlex>
-              <Text style={{ marginBottom: 5, width: "100%" }}>
-                You will not be charged after your trial expires.
+          <InfoWrapper>
+            <InfoBody>
+              <Logo source={PremiumLogo} resizeMode="contain" />
+              <Text
+                fontWeight="600"
+                fontSize="22"
+                style={{ textAlign: "center", marginBottom: 45 }}
+              >
+                You've received 1 week of Zenbase Premium to get started!
               </Text>
-              <Button
-                style={{ marginTop: 3, marginBottom: 3 }}
-                title="Start exploring"
-                block
-                onPress={onPressStartExploring}
-              />
-            </FooterFlex>
-          </Container>
-        </FooterWrapper>
-      </BackgroundImage>
+              <DescriptionWrapper>
+                <Description source={PremiumDescriptionImage} resizeMode="contain" />
+              </DescriptionWrapper>
+            </InfoBody>
+            <InfoFooter>
+              <Button height="55" title="Start exploring" block onPress={navigateToHome} />
+            </InfoFooter>
+          </InfoWrapper>
+        </Container>
+      </Wrapper>
     </Canvas>
   );
 }

@@ -2,19 +2,56 @@ import React from "react";
 import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import { ReactNativeShare } from "helpers";
 import styled from "styled-components/native";
+import { TouchableOpacity } from "react-native";
 
 // Import Icons
 import { FontAwesome } from "@expo/vector-icons";
 import { useAuth } from "stores/auth";
 import { CommonActions } from "@react-navigation/native";
 
+// Import Images
+import rewardsLogo from "assets/logos/rewards.png";
+import friendsIcon from "assets/icons/friends.png";
+import zentLogo from "assets/logos/zent-coin.png";
+
 // Styled Component
+const HeaderWrapper = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 5px;
+`;
+
+const HeaderImageWrapper = styled.View`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HeaderImage = styled.Image`
+  width: 30px;
+  height: 30px;
+  margin-bottom: 7px;
+`;
+
 const InfoWrapper = styled.View`
   flex: 1;
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+`;
+
+const Rewards = styled.Image`
+  width: 120px;
+  height: 30px;
+  margin-bottom: 13px;
+`;
+
+const Friends = styled.Image`
+  width: 223px;
+  height: 250px;
 `;
 
 const InfoBody = styled.View`
@@ -35,11 +72,7 @@ export default function ReferFriends({ route, navigation }) {
   const { user } = useAuth();
 
   const onPressNavigateToNextScreen = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        routes: [{ name: "App" }],
-      })
-    );
+    navigation.navigate("PremiumTrial");
   };
 
   // Invite Friend (React Native Share)
@@ -58,25 +91,39 @@ export default function ReferFriends({ route, navigation }) {
   return (
     <Canvas>
       <Container style={{ flex: 1 }}>
-        <ZentTokenBanner tokens={0.01} usd={0.0} />
+        <HeaderWrapper>
+          <HeaderImageWrapper>
+            <Box w="35px" />
+          </HeaderImageWrapper>
+          <HeaderImageWrapper>
+            <HeaderImage source={zentLogo} resizeMode="contain" />
+            <Text fontSize="14">0.01 ZENT</Text>
+          </HeaderImageWrapper>
+          <TouchableOpacity onPress={onPressNavigateToNextScreen}>
+            <Text fontSize="16">Skip</Text>
+          </TouchableOpacity>
+        </HeaderWrapper>
         <InfoWrapper>
           <InfoBody>
-            <FontAwesome
-              name="user-circle-o"
-              size={34}
-              style={{ marginBottom: 12 }}
-              color="white"
-            />
-            <Text fontSize="h2" fontWeight="bold">
-              Refer a Friend
-            </Text>
-            <Text fontSize="md" style={{ marginTop: 5 }}>
-              Listen with your circle and earn more.
-            </Text>
+            <Friends source={friendsIcon} resizeMode="contain" />
           </InfoBody>
           <InfoFooter>
+            <Rewards source={rewardsLogo} resizeMode="contain" />
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              fontSize="36"
+              fontWeight="bold"
+              style={{ marginBottom: 12 }}
+            >
+              Earn more with friends.
+            </Text>
+            <Text numberOfLines={1} adjustsFontSizeToFit fontSize="20" style={{ marginBottom: 25 }}>
+              Listen with your circle of friends to earn more.
+            </Text>
             <Button
-              title="Invite friends"
+              height="55"
+              title="Invite Friends"
               block
               onPress={() =>
                 inviteFriend(
@@ -84,8 +131,6 @@ export default function ReferFriends({ route, navigation }) {
                 )
               }
             />
-            <Box h="10px" />
-            <Button title="Skip" variant="secondary" block onPress={onPressNavigateToNextScreen} />
           </InfoFooter>
         </InfoWrapper>
       </Container>

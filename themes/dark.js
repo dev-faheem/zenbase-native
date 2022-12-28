@@ -12,6 +12,7 @@ const dark = {
     description: "#8F9094",
     informationBackground: "#2E2E30",
     transparent: "rgba(0,0,0,0)",
+    description: "#8F9094",
   },
   fontSize: {
     xs: "10px",
