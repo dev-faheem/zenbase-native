@@ -16,6 +16,9 @@ import useDebounce from "services/useDebounce";
 const windowsWidth = Dimensions.get("window").width;
 const windowsHeight = Dimensions.get("window").height;
 
+// Import Images
+import Gradient from "assets/images/search-gradient.png";
+
 // Styled Components
 const SearchInput = styled.TextInput`
   color: white;
@@ -67,6 +70,13 @@ const SongContent = styled.View`
   flex-direction: column;
   justify-content: center;
   padding-left: 8px;
+  position: relative;
+`;
+
+const SearchGradient = styled.Image`
+  position: absolute;
+  right: -5px;
+  top: 0px;
 `;
 
 const IconWrapper = styled.View`
@@ -377,7 +387,12 @@ export default function SearchModal({ navigation }) {
                   <ArtistImage source={user.image ? { uri: user.image } : ArtistImg} />
                   <SongContentWrapper>
                     <SongContent>
-                      <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
+                      <Text
+                        style={{ marginBottom: 2 }}
+                        numberOfLines={1}
+                        fontSize="14"
+                        color="rgba(143, 144, 148, 1)"
+                      >
                         {user.isArtist ? "Artist" : "User"}
                       </Text>
                       <IconWrapper
@@ -393,6 +408,7 @@ export default function SearchModal({ navigation }) {
                         </Text>
                         <Entypo name="chevron-right" size={24} color="rgba(141, 141, 146, 1)" />
                       </IconWrapper>
+                      <SearchGradient source={Gradient} />
                     </SongContent>
 
                     <IconWrapper>
@@ -418,16 +434,22 @@ export default function SearchModal({ navigation }) {
                 <SongImage source={{ uri: song?.artwork }} />
                 <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
                   <SongContent>
-                    <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
-                      Song
+                    <Text
+                      style={{ marginBottom: 2 }}
+                      numberOfLines={1}
+                      fontSize="14"
+                      color="rgba(143, 144, 148, 1)"
+                    >
+                      {song.artist?.map((artist) => artist.name)?.join(", ") || "Zenbase"}
                     </Text>
-                    <Text numberOfLines={1} fontSize="18" fontWeight="600">
+                    <Text ellipsizeMode="clip" numberOfLines={1} fontSize="18" fontWeight="600">
                       {song?.name}
                     </Text>
                     {/* <Text numberOfLines={1} fontSize="sm" color="secondary">
                       Song •{" "}
                       {song.artist.map((artist) => artist?.name || "Unknown Artist").join(", ")}
                     </Text> */}
+                    <SearchGradient source={Gradient} />
                   </SongContent>
 
                   <IconWrapper style={{ paddingLeft: 5 }}>
@@ -449,7 +471,12 @@ export default function SearchModal({ navigation }) {
                   <ArtistImage source={user.image ? { uri: user.image } : ArtistImg} />
                   <SongContentWrapper>
                     <SongContent>
-                      <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
+                      <Text
+                        style={{ marginBottom: 2 }}
+                        numberOfLines={1}
+                        fontSize="14"
+                        color="rgba(143, 144, 148, 1)"
+                      >
                         {user.isArtist ? "Artist" : "User"}
                       </Text>
                       <IconWrapper
@@ -465,6 +492,7 @@ export default function SearchModal({ navigation }) {
                         </Text>
                         <Entypo name="chevron-right" size={24} color="rgba(141, 141, 146, 1)" />
                       </IconWrapper>
+                      <SearchGradient source={Gradient} />
                     </SongContent>
                   </SongContentWrapper>
                 </SongList>
@@ -484,16 +512,22 @@ export default function SearchModal({ navigation }) {
                   <SongImage source={{ uri: song?.artwork }} />
                   <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
                     <SongContent>
-                      <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
-                        Song
+                      <Text
+                        style={{ marginBottom: 2 }}
+                        numberOfLines={1}
+                        fontSize="14"
+                        color="rgba(143, 144, 148, 1)"
+                      >
+                        {song.artist?.map((artist) => artist.name)?.join(", ") || "Zenbase"}
                       </Text>
-                      <Text numberOfLines={1} fontSize="18" fontWeight="600">
+                      <Text ellipsizeMode="clip" numberOfLines={1} fontSize="18" fontWeight="600">
                         {song?.name}
                       </Text>
                       {/* <Text numberOfLines={1} fontSize="sm" color="secondary">
                         Song •{" "}
                         {song.artist.map((artist) => artist?.name || "Unknown Artist").join(", ")}
                       </Text> */}
+                      <SearchGradient source={Gradient} />
                     </SongContent>
 
                     <IconWrapper style={{ paddingLeft: 5 }}>
@@ -539,15 +573,15 @@ export default function SearchModal({ navigation }) {
         menuList={[
           isSongLiked()
             ? {
-                title: "Delete from Library",
-                color: "primary",
-                icon: <Ionicons name="ios-trash-outline" size={16} color={theme.color.primary} />,
+                title: "Remove from Favorites",
+                color: "red",
+                icon: <Ionicons name="heart-dislike-outline" size={16} color={theme.color.red} />,
                 onPress: () => {
                   toggleLikedTrack();
                 },
               }
             : {
-                title: "Add to Library",
+                title: "Add to Favorites",
                 icon: <Ionicons name="heart-outline" size={16} color="white" />,
                 onPress: () => {
                   toggleLikedTrack();

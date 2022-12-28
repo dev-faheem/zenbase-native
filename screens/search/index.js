@@ -21,6 +21,9 @@ import { useSongQueue } from "stores/song-queue";
 
 const windowsHeight = Dimensions.get("window").height;
 
+// Import Images
+import Gradient from "assets/images/search-gradient.png";
+
 // Styled Components
 const SearchInput = styled.TextInput`
   background-color: rgba(27, 28, 30, 0.9);
@@ -71,6 +74,13 @@ const SongContent = styled.View`
   flex-direction: column;
   justify-content: center;
   padding-left: 8px;
+  position: relative;
+`;
+
+const SearchGradient = styled.Image`
+  position: absolute;
+  right: -5px;
+  top: 0px;
 `;
 
 const IconWrapper = styled.View`
@@ -254,15 +264,26 @@ export default function Search({ navigation }) {
                         ]}
                       >
                         <SongContent>
-                          <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
-                            Song
+                          <Text
+                            numberOfLines={1}
+                            fontSize="14"
+                            style={{ marginBottom: 2 }}
+                            color="rgba(143, 144, 148, 1)"
+                          >
+                            {song.artist?.map((artist) => artist.name)?.join(", ") || "Zenbase"}
                           </Text>
-                          <Text numberOfLines={1} fontSize="18" fontWeight="600">
+                          <Text
+                            numberOfLines={1}
+                            ellipsizeMode="clip"
+                            fontSize="18"
+                            fontWeight="600"
+                          >
                             {song?.name}
                           </Text>
                           {/* <Text numberOfLines={1} fontSize="sm" color="secondary">
                             Song • {song.artist?.map((artist) => artist.name).join(", ")}
                           </Text> */}
+                          <SearchGradient source={Gradient} />
                         </SongContent>
 
                         <IconWrapper style={{ paddingLeft: 5 }}>
@@ -295,15 +316,15 @@ export default function Search({ navigation }) {
         menuList={[
           isSongLiked()
             ? {
-                title: "Delete from Library",
-                color: "primary",
-                icon: <Ionicons name="ios-trash-outline" size={16} color={theme.color.primary} />,
+                title: "Remove from Favorites",
+                color: "red",
+                icon: <Ionicons name="heart-dislike-outline" size={16} color={theme.color.red} />,
                 onPress: () => {
                   toggleLikedTrack();
                 },
               }
             : {
-                title: "Add to Library",
+                title: "Add to Favorites",
                 icon: <Ionicons name="heart-outline" size={16} color="white" />,
                 onPress: () => {
                   toggleLikedTrack();
