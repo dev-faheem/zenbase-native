@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Text, Container, Canvas, Divider, Button, ContextMenu } from "components";
 import styled from "styled-components/native";
 import { ScrollView, Dimensions, TouchableOpacity } from "react-native";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons, Entypo } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
 import SongImg from "assets/images/song.png";
 import ArtistImg from "assets/images/artist.png";
@@ -377,10 +377,22 @@ export default function SearchModal({ navigation }) {
                   <ArtistImage source={user.image ? { uri: user.image } : ArtistImg} />
                   <SongContentWrapper>
                     <SongContent>
-                      <Text>{user?.name}</Text>
-                      <Text fontSize="sm" color="secondary">
+                      <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
                         {user.isArtist ? "Artist" : "User"}
                       </Text>
+                      <IconWrapper
+                        style={{
+                          height: "none",
+                          flexDirection: "row",
+                          justifyContent: "flex-start",
+                          alignItems: "start",
+                        }}
+                      >
+                        <Text numberOfLines={1} fontSize="18" fontWeight="600">
+                          {user?.name}
+                        </Text>
+                        <Entypo name="chevron-right" size={24} color="rgba(141, 141, 146, 1)" />
+                      </IconWrapper>
                     </SongContent>
 
                     <IconWrapper>
@@ -437,19 +449,23 @@ export default function SearchModal({ navigation }) {
                   <ArtistImage source={user.image ? { uri: user.image } : ArtistImg} />
                   <SongContentWrapper>
                     <SongContent>
-                      <Text>{user?.name}</Text>
-                      <Text fontSize="sm" color="secondary">
+                      <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
                         {user.isArtist ? "Artist" : "User"}
                       </Text>
+                      <IconWrapper
+                        style={{
+                          height: "none",
+                          flexDirection: "row",
+                          justifyContent: "flex-start",
+                          alignItems: "start",
+                        }}
+                      >
+                        <Text numberOfLines={1} fontSize="18" fontWeight="600">
+                          {user?.name}
+                        </Text>
+                        <Entypo name="chevron-right" size={24} color="rgba(141, 141, 146, 1)" />
+                      </IconWrapper>
                     </SongContent>
-
-                    <IconWrapper>
-                      <Ionicons
-                        name="ios-chevron-forward"
-                        size={24}
-                        color={theme.color.secondary}
-                      />
-                    </IconWrapper>
                   </SongContentWrapper>
                 </SongList>
               ))}
