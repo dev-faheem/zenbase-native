@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import MeditateImage from "assets/images/favorites/meditate.png";
 import ChillImage from "assets/images/favorites/chill.png";
 import { useTheme } from "stores/theme";
+import SongListFilter from "./SongListFilter";
 
 // Styled Component
 const Header = styled.SafeAreaView`
@@ -59,7 +60,8 @@ export default function SongList({ route, navigation }) {
         </TouchableOpacity>
       </HeaderButtons>
       <Header>
-        <Text>{title}</Text>
+        <Label>{title}</Label>
+        <SongListFilter />
       </Header>
       <Canvas>
         <ScrollView style={{ flex: 1, paddingTop: 10 }} showsVerticalScrollIndicator={false}>
@@ -76,3 +78,9 @@ export default function SongList({ route, navigation }) {
     </>
   );
 }
+
+const Label = styled(Text)`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+`;

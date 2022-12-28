@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components/native";
 import { Text } from "components";
+import { FlatList } from "react-native";
 
 export default function ActivitiesTabs(props) {
   const { title = "", tabContent = [] } = props;
@@ -8,14 +9,21 @@ export default function ActivitiesTabs(props) {
 
   const renderTabButtons = () => (
     <TabButtonWrapper>
-      {tabContent?.map(({ id, name, icon = {} }) => {
-        return (
-          <TabButton active={id === activeTab} onPress={() => setActiveTab(id)}>
-            {icon && <Icon {...icon} />}
-            <Text>{name}</Text>
-          </TabButton>
-        );
-      })}
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        data={tabContent}
+        horizontal
+        keyExtractor={(item) => item._id}
+        renderItem={({ item, index }) => {
+          const { id, name, icon = {} } = item;
+          return (
+            <TabButton active={id === activeTab} onPress={() => setActiveTab(id)}>
+              {icon && <Icon {...icon} />}
+              <Text>{name}</Text>
+            </TabButton>
+          );
+        }}
+      />
     </TabButtonWrapper>
   );
 
