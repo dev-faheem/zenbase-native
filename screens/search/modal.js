@@ -56,22 +56,17 @@ const ArtistImage = styled.Image`
 `;
 
 const SongContentWrapper = styled.View`
-  height: 48px;
+  height: 55px;
   width: 86%;
   flex-direction: row;
   justify-content: space-between;
-  border-top-color: rgba(172, 178, 155, 0.5);
-  border-top-width: 0px;
-
-  border-bottom-color: rgba(172, 178, 155, 0.5);
-  border-bottom-width: 0.5px;
 `;
 
 const SongContent = styled.View`
   flex: 1;
   flex-direction: column;
   justify-content: center;
-  padding-left: ${(props) => props.theme.spacing.sm};
+  padding-left: 8px;
 `;
 
 const IconWrapper = styled.View`
@@ -85,8 +80,8 @@ const SearchBarContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: ${(props) => props.theme.spacing.sm};
-  margin-bottom: ${(props) => props.theme.spacing.sm};
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;
 
 const SearchBarWrapper = styled.View`
@@ -95,11 +90,11 @@ const SearchBarWrapper = styled.View`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  border-radius: ${(props) => props.theme.borderRadius.lg};
+  border-radius: 10px;
   background-color: ${(props) => props.theme.color.hud};
-  padding-left: ${(props) => props.theme.spacing.sm};
-  padding-right: ${(props) => props.theme.spacing.sm};
-  margin-right: ${(props) => props.theme.spacing.lg};
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-right: 16px;
 `;
 
 const HeadingWrapper = styled.View`
@@ -112,8 +107,8 @@ const HeadingWrapper = styled.View`
 
 const TrendingWrapper = styled.View`
   width: 100%;
-  margin-top: ${(props) => props.theme.spacing.lg};
-  margin-bottom: ${(props) => props.theme.spacing.sm};
+  margin-top: 16px;
+  margin-bottom: 8px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -133,8 +128,8 @@ const TrendingImageWrapper = styled.View`
 const TrendingImage = styled.Image`
   width: ${(windowsWidth / 3) * 0.8}px;
   height: ${(windowsWidth / 3) * 0.8}px;
-  border-radius: ${(props) => props.theme.borderRadius.lg};
-  margin-bottom: ${(props) => props.theme.spacing.sm};
+  border-radius: 10px;
+  margin-bottom: 8px;
 `;
 
 const TrendingFloatingArtistImage = styled.Image`
@@ -275,11 +270,11 @@ export default function SearchModal({ navigation }) {
       <Container>
         <SearchBarContainer>
           <SearchBarWrapper>
-            <Ionicons name="search" size={25} color={theme.color.secondary} />
+            <Ionicons name="search" size={20} color="rgba(143, 144, 148, 1)" />
             <SearchInput
               returnKeyType="done"
               autoFocus={true}
-              selectionColor={theme.color.primary}
+              selectionColor={theme.color.white}
               placeholder="Artists, Sounds, Friends, and More"
               placeholderTextColor="rgba(143, 144, 148, 1)"
               value={search}
@@ -291,7 +286,8 @@ export default function SearchModal({ navigation }) {
               navigation.goBack();
             }}
             horizontalPadding="0"
-            fontSize="14"
+            fontSize="16"
+            fontWeight="600"
             variant="silent"
             title="Cancel"
           />
@@ -343,7 +339,7 @@ export default function SearchModal({ navigation }) {
           )}
 
           <HeadingWrapper>
-            <Text fontSize="xl" fontWeight="600">
+            <Text fontSize="18" fontWeight="600">
               {search == "" && recentlyPlayedSongs.length > 0
                 ? "Recent"
                 : songs.length > 0 || users.length > 0
@@ -362,7 +358,7 @@ export default function SearchModal({ navigation }) {
                   }
                 }}
               >
-                <Text fontSize="md" color="primary">
+                <Text fontSize="14" color="primary" fontWeight="600">
                   Clear
                 </Text>
               </TouchableOpacity>
@@ -410,16 +406,21 @@ export default function SearchModal({ navigation }) {
                 <SongImage source={{ uri: song?.artwork }} />
                 <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
                   <SongContent>
-                    <Text numberOfLines={1}>{song?.name}</Text>
-                    <Text numberOfLines={1} fontSize="sm" color="secondary">
+                    <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
+                      Song
+                    </Text>
+                    <Text numberOfLines={1} fontSize="18" fontWeight="600">
+                      {song?.name}
+                    </Text>
+                    {/* <Text numberOfLines={1} fontSize="sm" color="secondary">
                       Song •{" "}
                       {song.artist.map((artist) => artist?.name || "Unknown Artist").join(", ")}
-                    </Text>
+                    </Text> */}
                   </SongContent>
 
                   <IconWrapper style={{ paddingLeft: 5 }}>
                     <TouchableOpacity onPress={(event) => openContextMenu(event, song)}>
-                      <Feather name="more-horizontal" size={24} color={theme.color.white} />
+                      <Feather name="more-horizontal" size={18} color={theme.color.white} />
                     </TouchableOpacity>
                   </IconWrapper>
                 </SongContentWrapper>
@@ -467,11 +468,16 @@ export default function SearchModal({ navigation }) {
                   <SongImage source={{ uri: song?.artwork }} />
                   <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
                     <SongContent>
-                      <Text numberOfLines={1}>{song?.name}</Text>
-                      <Text numberOfLines={1} fontSize="sm" color="secondary">
+                      <Text numberOfLines={1} fontSize="12" color="rgba(143, 144, 148, 1)">
+                        Song
+                      </Text>
+                      <Text numberOfLines={1} fontSize="18" fontWeight="600">
+                        {song?.name}
+                      </Text>
+                      {/* <Text numberOfLines={1} fontSize="sm" color="secondary">
                         Song •{" "}
                         {song.artist.map((artist) => artist?.name || "Unknown Artist").join(", ")}
-                      </Text>
+                      </Text> */}
                     </SongContent>
 
                     <IconWrapper style={{ paddingLeft: 5 }}>
