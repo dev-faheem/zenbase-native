@@ -52,6 +52,7 @@ import DeleteAccount from "screens/delete-account";
 import LoginForm from "screens/auth/login/form";
 import { useLoader } from "stores/loader";
 import Rewards from "screens/rewards";
+import SplashScreen from "screens/splash-screen";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -116,6 +117,7 @@ export default function Navigation() {
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
+            <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
