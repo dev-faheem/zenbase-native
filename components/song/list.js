@@ -38,9 +38,11 @@ const Title = styled(Text)`
   line-height: 29px;
 `;
 
-export default function SongList({ title, songs, showDivider = true }) {
+export default function SongList(props) {
+  const { id, title, songs, showDivider = true, ...rest } = props;
   const navigation = useNavigation();
   const { theme } = useTheme();
+  // console.log("ttt ", rest);
 
   return (
     <Wrapper>
@@ -48,7 +50,7 @@ export default function SongList({ title, songs, showDivider = true }) {
         <TitleContainer>
           <TitleWrapper
             onPress={() => {
-              navigation.navigate("SongList", { songs, title });
+              navigation.navigate("SongList", { type: "category", id, title });
             }}
           >
             <Title>{title}</Title>

@@ -6,11 +6,11 @@ import { useTheme } from "stores/theme";
 import inviteIcon from "assets/icons/invite.png";
 
 export default function InviteFriend(props) {
-  const { label = "" } = props;
+  const { label = "", onPress = () => {} } = props;
   const { theme } = useTheme();
 
   return (
-    <Wrapper onPress={() => console.log("Click here")}>
+    <Wrapper onPress={onPress}>
       <Icon source={inviteIcon} />
       <View>
         <Info>Invite or join friends</Info>

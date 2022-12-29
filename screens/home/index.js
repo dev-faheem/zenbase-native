@@ -26,6 +26,7 @@ import InviteFriend from "components/InviteFriend";
 import EarnMore from "components/EarnMore";
 import { useQueryHomepage } from "query/home";
 import { useLoader } from "stores/loader";
+import { playAds } from "services/playAds";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -82,12 +83,17 @@ export default function Home({ navigation, route }) {
   const responseListener = useRef();
 
   const { data, isLoading } = useQueryHomepage();
+  // console.log("m data", data);
 
   const { setLoading } = useLoader();
 
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
+
+  // useEffect(() => {
+  //   playAds();
+  // }, []);
 
   useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
@@ -189,7 +195,9 @@ export default function Home({ navigation, route }) {
       axios.handleError(e);
     }
   };
-
+  const meditatFriendData = data?.meditation?.find(
+    (section) => section.title === "Meditate With Friends"
+  );
   const tabContent = [
     {
       id: "MEDITATION",
@@ -201,16 +209,30 @@ export default function Home({ navigation, route }) {
           <BrowseByTime />
 
           {data?.meditation
-            ?.filter((section) => section.title !== "All Meditations")
+            ?.filter(
+              (section) =>
+                section.title !== "All Meditations" && section.title !== "Meditate With Friends"
+            )
             ?.map((section) => (
-              <SongList title={section.title} songs={section.songs} />
+              <SongList id={section?.id} title={section.title} songs={section.songs} />
             ))}
 
+          <InviteFriend
+            label="Meditate"
+            onPress={() =>
+              navigation.navigate("SongList", {
+                type: "category",
+                id: meditatFriendData?.id,
+                title: meditatFriendData?.title,
+              })
+            }
+          />
           <EarnMore />
-          <InviteFriend label="Meditate" />
+          <SongList id={meditatFriendData?.id || ""} songs={meditatFriendData?.songs || []} />
           <Box mt="20px"></Box>
           <SongList
             title="All Meditations"
+            id={data?.meditation?.find((section) => section.title === "All Meditations")?.id || ""}
             songs={
               data?.meditation?.find((section) => section.title === "All Meditations")?.songs || []
             }
@@ -231,7 +253,7 @@ export default function Home({ navigation, route }) {
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
             ?.map((section) => (
-              <SongList title={section.title} songs={section.songs} />
+              <SongList id={section?.id} title={section.title} songs={section.songs} />
             ))}
           <Box mt="20px"></Box>
         </>
