@@ -22,7 +22,12 @@ import { useSongQueue } from "stores/song-queue";
 const windowsHeight = Dimensions.get("window").height;
 
 // Import Images
+import meditationIcon from "assets/icons/meditation.png";
+import micIcon from "assets/icons/mic.png";
 import Gradient from "assets/images/search-gradient.png";
+import { useQueryCategory } from "query/categoruQuery";
+import Categories from "screens/home/Categories";
+import ActivitiesTabs from "components/ActivitiesTabs";
 
 // Styled Components
 const SearchInput = styled.TextInput`
@@ -206,6 +211,33 @@ export default function Search({ navigation }) {
     }
   };
 
+  const { data, isLoading } = useQueryCategory();
+  const tabContent = [
+    {
+      id: "MEDITATION",
+      name: "MEDITATION",
+      icon: { source: meditationIcon, width: "18px" },
+      component: (
+        <>
+          <Categories
+            vertical
+            isMeditation
+            categories={data?.categories?.filter((cat) => !cat.isPodcast)}
+          />
+        </>
+      ),
+    },
+    {
+      id: "PODCASTS",
+      name: "PODCASTS",
+      icon: { source: micIcon, width: "10.87px" },
+      component: (
+        <>
+          <Categories vertical categories={data?.categories?.filter((cat) => cat.isPodcast)} />
+        </>
+      ),
+    },
+  ];
   return (
     <Canvas>
       <ScrollView>
@@ -297,6 +329,7 @@ export default function Search({ navigation }) {
                 </SongListWrapper>
               ))}
             </ScrollView>
+            <ActivitiesTabs tabContent={tabContent} />
           </>
 
           {/* <CategoryGrid categories={categoriesQuery.data} /> */}

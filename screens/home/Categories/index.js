@@ -3,17 +3,24 @@ import styled from "styled-components/native";
 import Box from "components/box";
 import config from "services/config";
 
-export default function Categories({ categories }) {
+export default function Categories({ categories, vertical = false }) {
+  const flarListProps = vertical ? { numColumns: 2 } : {};
+
   return (
     <Wrapper>
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={categories}
-        horizontal
+        horizontal={!vertical}
         keyExtractor={(item) => item._id}
+        {...flarListProps}
         renderItem={({ item, index }) => {
           return (
-            <Box mr={index === categories?.length - 1 ? 0 : "10px"}>
+            <Box
+              ml={vertical ? "5px" : undefined}
+              mr={vertical ? "5px" : index === categories?.length - 1 ? 0 : "10px"}
+              mb={vertical ? "10px" : undefined}
+            >
               <Item onPress={() => console.log(`Category: ${item?.name}`)}>
                 <ShortcutImage source={{ uri: config.EDGE_IMAGE_PREFIX + item?.artwork }} />
               </Item>
