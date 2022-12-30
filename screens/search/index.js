@@ -329,7 +329,7 @@ export default function Search({ navigation }) {
                 </SongListWrapper>
               ))}
             </ScrollView>
-            <ActivitiesTabs tabContent={tabContent} />
+            <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
           </>
 
           {/* <CategoryGrid categories={categoriesQuery.data} /> */}
