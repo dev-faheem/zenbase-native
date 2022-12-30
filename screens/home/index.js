@@ -238,7 +238,6 @@ export default function Home({ navigation, route }) {
             id={meditatFriendData?.id || ""}
             songs={meditatFriendData?.songs || []}
           />
-          <Box mt="20px"></Box>
           <SongList
             categories={data?.categories?.filter((cat) => !cat.isPodcast)}
             title="All Meditations"
@@ -247,7 +246,6 @@ export default function Home({ navigation, route }) {
               data?.meditation?.find((section) => section.title === "All Meditations")?.songs || []
             }
           />
-          <Box mt="20px"></Box>
         </>
       ),
     },
@@ -270,7 +268,6 @@ export default function Home({ navigation, route }) {
                 songs={section.songs}
               />
             ))}
-          <Box mt="20px"></Box>
         </>
       ),
     },
