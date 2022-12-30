@@ -104,10 +104,13 @@ export default function SongTile({
   inGrid = true,
   queue = [],
   mock = false,
+  categories = [],
+  allCategories = [],
 }) {
   song = useMock("song", song, mock);
   const navigation = useNavigation();
-
+  // console.log({ d: song?.categories, allCategories });
+  console.log({ d: song?.categories, allCategories });
   const { updateSongQueue } = useSongQueue();
 
   const onPressTile = async () => {
@@ -147,7 +150,12 @@ export default function SongTile({
         <SongName numberOfLines={1}>{song.name}</SongName>
         <CategoryHolder>
           <CategoryWrapper>
-            <CategoryName>Meditation{"  "}Sleep</CategoryName>
+            {/* <CategoryName>Meditation{"  "}Sleep</CategoryName> */}
+            <CategoryName>
+              {song?.categories?.map(
+                (id) => allCategories.filter((allCat) => allCat?._id === id)[0]?.name
+              )}
+            </CategoryName>
           </CategoryWrapper>
         </CategoryHolder>
       </SongTileView>

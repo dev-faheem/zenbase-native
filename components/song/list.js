@@ -39,7 +39,7 @@ const Title = styled(Text)`
 `;
 
 export default function SongList(props) {
-  const { id, title, songs, showDivider = true, ...rest } = props;
+  const { id, title, songs, showDivider = true, categories, ...rest } = props;
   const navigation = useNavigation();
   const { theme } = useTheme();
   // console.log("ttt ", rest);
@@ -66,7 +66,7 @@ export default function SongList(props) {
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <Box mr={index === songs.length - 1 ? 0 : "10px"}>
-            <SongTile key={index} song={item} queue={songs} inGrid />
+            <SongTile allCategories={categories} key={index} song={item} queue={songs} inGrid />
           </Box>
         )}
       />

@@ -214,7 +214,12 @@ export default function Home({ navigation, route }) {
                 section.title !== "All Meditations" && section.title !== "Meditate With Friends"
             )
             ?.map((section) => (
-              <SongList id={section?.id} title={section.title} songs={section.songs} />
+              <SongList
+                categories={data?.categories?.filter((cat) => !cat.isPodcast)}
+                id={section?.id}
+                title={section.title}
+                songs={section.songs}
+              />
             ))}
 
           <InviteFriend
@@ -228,9 +233,14 @@ export default function Home({ navigation, route }) {
             }
           />
           <EarnMore />
-          <SongList id={meditatFriendData?.id || ""} songs={meditatFriendData?.songs || []} />
+          <SongList
+            categories={data?.categories?.filter((cat) => !cat.isPodcast)}
+            id={meditatFriendData?.id || ""}
+            songs={meditatFriendData?.songs || []}
+          />
           <Box mt="20px"></Box>
           <SongList
+            categories={data?.categories?.filter((cat) => !cat.isPodcast)}
             title="All Meditations"
             id={data?.meditation?.find((section) => section.title === "All Meditations")?.id || ""}
             songs={
@@ -253,7 +263,12 @@ export default function Home({ navigation, route }) {
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
             ?.map((section) => (
-              <SongList id={section?.id} title={section.title} songs={section.songs} />
+              <SongList
+                categories={data?.categories?.filter((cat) => cat.isPodcast)}
+                id={section?.id}
+                title={section.title}
+                songs={section.songs}
+              />
             ))}
           <Box mt="20px"></Box>
         </>

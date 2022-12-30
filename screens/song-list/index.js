@@ -17,6 +17,7 @@ import { useTheme } from "stores/theme";
 import SongListFilter from "./SongListFilter";
 import { fetchPagedCategorySongs, useQueryPagedCategorySongs } from "query/songsQuery";
 import { useQuery } from "@tanstack/react-query";
+import { useQueryCategory } from "query/categoruQuery";
 
 // Styled Component
 const Header = styled.SafeAreaView`
@@ -75,6 +76,7 @@ export default function SongList({ route, navigation }) {
   }, [data]);
 
   console.log("page ", activePage, data);
+  const { data: category_data, isLoading: categorie_loading } = useQueryCategory();
   return (
     <>
       <HeaderButtons>
@@ -105,7 +107,13 @@ export default function SongList({ route, navigation }) {
               keyExtractor={(item) => item._id}
               renderItem={({ item, index }) => (
                 <SongTileWrapper>
-                  <SongTile style={{ marginBottom: 20 }} inGrid song={item} queue={item} />
+                  <SongTile
+                    allCategories={category_data?.categories}
+                    style={{ marginBottom: 20 }}
+                    inGrid
+                    song={item}
+                    queue={item}
+                  />
                 </SongTileWrapper>
               )}
               onEndReachedThreshold={0.2}
