@@ -220,7 +220,7 @@ export default function Search({ navigation }) {
       component: (
         <>
           <Categories
-            vertical
+            inGrid
             isMeditation
             categories={data?.categories?.filter((cat) => !cat.isPodcast)}
           />
@@ -233,7 +233,7 @@ export default function Search({ navigation }) {
       icon: { source: micIcon, width: "10.87px" },
       component: (
         <>
-          <Categories vertical categories={data?.categories?.filter((cat) => cat.isPodcast)} />
+          <Categories inGrid categories={data?.categories?.filter((cat) => cat.isPodcast)} />
         </>
       ),
     },

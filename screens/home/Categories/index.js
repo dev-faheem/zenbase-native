@@ -1,30 +1,35 @@
-import { FlatList } from "react-native";
+import { FlatList, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import Box from "components/box";
 import config from "services/config";
 
-export default function Categories({ categories, vertical = false }) {
-  const flarListProps = vertical ? { numColumns: 2 } : {};
+const WINDOW_WIDTH = Dimensions.get("window").width;
+const TILE_SIZE = Math.min((WINDOW_WIDTH - 40) * 0.5 - 5, 182);
+
+export default function Categories({ categories, inGrid = false }) {
+  const flarListProps = inGrid ? { numColumns: 2 } : {};
+
+  console.log(TILE_SIZE);
 
   return (
     <Wrapper>
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={categories}
-        horizontal={!vertical}
+        horizontal={!inGrid}
         keyExtractor={(item) => item._id}
         {...flarListProps}
         renderItem={({ item, index }) => {
           return (
-            <Box
-              ml={vertical ? "5px" : undefined}
-              mr={vertical ? "5px" : index === categories?.length - 1 ? 0 : "10px"}
-              mb={vertical ? "10px" : undefined}
-            >
+            <>
               <Item onPress={() => console.log(`Category: ${item?.name}`)}>
-                <ShortcutImage source={{ uri: config.EDGE_IMAGE_PREFIX + item?.artwork }} />
+                <ShortcutImage
+                  source={{ uri: config.EDGE_IMAGE_PREFIX + item?.artwork }}
+                  inGrid={inGrid}
+                />
               </Item>
-            </Box>
+              <Box ml="0px" mr={inGrid ? "10px" : index === categories?.length - 1 ? 0 : "10px"} />
+            </>
           );
         }}
       />
@@ -41,7 +46,22 @@ const Wrapper = styled.View`
 const Item = styled.TouchableOpacity``;
 
 const ShortcutImage = styled.Image`
-  width: 182px;
-  height: 114px;
+  ${(props) => {
+    if (props.inGrid) {
+      const size = TILE_SIZE;
+      if (size < 182) {
+        return `
+        width: ${size}px;
+      `;
+      }
+    }
+
+    return `
+    width: 182px;
+  `;
+  }}
+  background-color: red;
+  height: ${(props) => (props.inGrid ? (114 / 182) * TILE_SIZE : "114")}px;
   border-radius: 8px;
+  margin-bottom: 10px;
 `;
