@@ -315,7 +315,6 @@ export default function Play({ navigation }) {
   const transactTokens = async (isClosingTransaction = true) => {
     if (zentokens <= 0) return;
     const lastPlayedSong = await getLastClickedSong();
-    console.log({ lastPlayedSong });
     try {
       await axios.post("/transactions", {
         amount: zentokens - zentokenMined,

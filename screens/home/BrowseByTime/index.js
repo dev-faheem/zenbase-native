@@ -15,7 +15,7 @@ export default function Shortcuts() {
     { time: 15 },
     { time: 20 },
     { time: 30 },
-    { time: 1, label: "HR" },
+    { time: 60 },
   ];
 
   return (
@@ -27,13 +27,21 @@ export default function Shortcuts() {
         horizontal
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => {
-          const { label = "MIN" } = item;
+          const minutes = item.time;
+          const time = minutes >= 60 ? Math.round(minutes / 60) : minutes;
+          const label = minutes >= 60 ? "HR" : "MIN";
+          const title = `${time} ${label === "HR" ? "Hour" : "Minutes"}`;
+
           return (
             <Box mr={index === shortcutsData?.length - 1 ? 0 : "10px"}>
-              <Item onPress={() => navigation.navigate("SongList", { title: "qwer", songs: [] })}>
+              <Item
+                onPress={() =>
+                  navigation.navigate("SongList", { title, type: "timer", query: minutes })
+                }
+              >
                 <ShortcutImage source={timeIcon} />
                 <TimeLabelHolder>
-                  <TimeLabel>{item?.time}</TimeLabel>
+                  <TimeLabel>{time}</TimeLabel>
                   <TimeLabelMin>{label}</TimeLabelMin>
                 </TimeLabelHolder>
               </Item>

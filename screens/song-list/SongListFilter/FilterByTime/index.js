@@ -32,7 +32,6 @@ export default function FilterByTime(props) {
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={timeSlots}
-        // horizontal
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => {
           const { label = "MIN", time } = item;

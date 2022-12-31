@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/core";
 import Constants from "expo-constants";
 import { useTheme } from "stores/theme";
 import { Entypo } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Wrapper = styled.View`
   width: 100%;
@@ -42,7 +43,6 @@ export default function SongList(props) {
   const { id, title, songs, showDivider = true, categories, ...rest } = props;
   const navigation = useNavigation();
   const { theme } = useTheme();
-  // console.log("ttt ", rest);
 
   return (
     <Wrapper>
@@ -50,7 +50,7 @@ export default function SongList(props) {
         <TitleContainer>
           <TitleWrapper
             onPress={() => {
-              navigation.navigate("SongList", { type: "category", id, title });
+              navigation.navigate("SongList", { type: "section", title, query: id });
             }}
           >
             <Title>{title}</Title>

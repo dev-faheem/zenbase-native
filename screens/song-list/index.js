@@ -1,23 +1,17 @@
 // Import Dependencies
-import React, { useState, useRef, useEffect } from "react";
-import { ScrollView, Platform, View, TouchableOpacity, FlatList } from "react-native";
-import { Text, Container, Canvas, Button, IOSList, SongTile, NavigationPadding } from "components";
+import React, { useState, useEffect } from "react";
+import { Platform, TouchableOpacity, FlatList } from "react-native";
+import { Text, Container, Canvas, SongTile, NavigationPadding } from "components";
 import styled from "styled-components/native";
-import { BlurView } from "expo-blur";
 import Constants from "expo-constants";
 import { Entypo } from "@expo/vector-icons";
 
-// Import Icons
-import { Ionicons } from "@expo/vector-icons";
-
 // Import Images
-import MeditateImage from "assets/images/favorites/meditate.png";
-import ChillImage from "assets/images/favorites/chill.png";
 import { useTheme } from "stores/theme";
 import SongListFilter from "./SongListFilter";
-import { fetchPagedCategorySongs, useQueryPagedCategorySongs } from "query/songsQuery";
-import { useQuery } from "@tanstack/react-query";
-import { useQueryCategory } from "query/categoruQuery";
+import { useInfiniteSearch, useSearch } from "query/songs";
+import { useQueryCategory } from "query/category";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 // Styled Component
 const Header = styled.SafeAreaView`
@@ -61,29 +55,37 @@ const ListImage = styled.Image`
 `;
 
 export default function SongList({ route, navigation }) {
-  const { title = "Explore", type, id, songs = [] } = route.params;
+  /**
+   * title: Explore
+   * type: category | section | timer
+   * query
+   */
+  const { title = "Explore", type, query } = route.params;
+  const { data: categoryData } = useQueryCategory();
   const { theme } = useTheme();
-  const [activePage, setActivePage] = useState(1);
-  const [songsData, setSongsData] = useState([]);
+  const { data, hasNextPage, fetchNextPage } = useInfiniteSearch(type, { query });
 
-  const { data, isLoading } = useQueryPagedCategorySongs(type === "category", id, activePage);
-
-  // });
-  useEffect(() => {
-    if (data) {
-      setSongsData([...songsData, ...data?.songs]);
+  const songs = data?.pages?.reduce((accumulator, page) => {
+    let pageSongs = [];
+    if (page && page.results && page.results.length > 0) {
+      pageSongs = page.results;
     }
-  }, [data]);
+    if (page && page.songs && page.songs.length > 0) {
+      pageSongs = page.songs;
+    }
+    return [...accumulator, ...pageSongs];
+  }, []);
 
-  console.log("page ", activePage, data);
-  const { data: category_data, isLoading: categorie_loading } = useQueryCategory();
+  const onEndReached = () => {
+    if (hasNextPage) fetchNextPage();
+  };
+
   return (
     <>
       <HeaderButtons>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
-            setActivePage(1);
           }}
         >
           <Entypo name="chevron-left" size={20} color={theme.color.primary} />
@@ -100,15 +102,13 @@ export default function SongList({ route, navigation }) {
             <FlatList
               columnWrapperStyle={{ justifyContent: "space-between" }}
               showsHorizontalScrollIndicator={false}
-              // horizontal
               numColumns={2}
-              data={songsData}
-              // data={songs}
-              keyExtractor={(item) => item._id}
-              renderItem={({ item, index }) => (
+              data={songs || []}
+              keyExtractor={(item, index) => index + "_" + item._id}
+              renderItem={({ item }) => (
                 <SongTileWrapper>
                   <SongTile
-                    allCategories={category_data?.categories}
+                    allCategories={categoryData?.categories}
                     style={{ marginBottom: 20 }}
                     inGrid
                     song={item}
@@ -116,8 +116,8 @@ export default function SongList({ route, navigation }) {
                   />
                 </SongTileWrapper>
               )}
-              onEndReachedThreshold={0.2}
-              onEndReached={() => setActivePage(data?.nextPage)}
+              onEndReachedThreshold={0.5}
+              onEndReached={onEndReached}
             />
             {/* {data?.songs.map((song) => (
               <SongTile style={{ marginBottom: 20 }} inGrid song={song} queue={songs} />

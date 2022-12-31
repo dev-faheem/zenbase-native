@@ -2,14 +2,20 @@ import { FlatList, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import Box from "components/box";
 import config from "services/config";
+import { useNavigation } from "@react-navigation/native";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TILE_SIZE = Math.min((WINDOW_WIDTH - 40) * 0.5 - 5, 182);
 
 export default function Categories({ categories, inGrid = false }) {
-  const flarListProps = inGrid ? { numColumns: 2 } : {};
-
-  console.log(TILE_SIZE);
+  const navigation = useNavigation();
+  const onPress = (category) => {
+    navigation.navigate("SongList", {
+      type: "category",
+      query: category.name,
+      title: category.name,
+    });
+  };
 
   return (
     <Wrapper>
@@ -18,11 +24,11 @@ export default function Categories({ categories, inGrid = false }) {
         data={categories}
         horizontal={!inGrid}
         keyExtractor={(item) => item._id}
-        {...flarListProps}
+        {...(inGrid ? { numColumns: 2 } : {})}
         renderItem={({ item, index }) => {
           return (
             <>
-              <Item onPress={() => console.log(`Category: ${item?.name}`)}>
+              <Item onPress={() => onPress(item)}>
                 <ShortcutImage
                   source={{ uri: config.EDGE_IMAGE_PREFIX + item?.artwork }}
                   inGrid={inGrid}

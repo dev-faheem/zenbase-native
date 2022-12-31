@@ -196,7 +196,6 @@ export default function Register({ navigation, route }) {
     if (/[a-zA-Z]/g.test(phoneNumberOrEmail)) {
       type = "email";
     }
-    // console.log("type of data", type);
     if (type == "phoneNumber") {
       alert("Please enter a valid email address.");
       setLoading(false);

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "services/api";
-import { prefetchCategoryArtwork, prefetchSongArtwork } from "./prefetch";
+import { prefetchCategoryArtwork } from "./prefetch";
 
 export const useQueryCategory = () => {
   return useQuery({

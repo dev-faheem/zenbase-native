@@ -25,7 +25,7 @@ const windowsHeight = Dimensions.get("window").height;
 import meditationIcon from "assets/icons/meditation.png";
 import micIcon from "assets/icons/mic.png";
 import Gradient from "assets/images/search-gradient.png";
-import { useQueryCategory } from "query/categoruQuery";
+import { useQueryCategory } from "query/category";
 import Categories from "screens/home/Categories";
 import ActivitiesTabs from "components/ActivitiesTabs";
 

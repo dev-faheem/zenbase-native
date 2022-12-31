@@ -1,6 +1,5 @@
 import React from "react";
 import { Dimensions } from "react-native";
-import { useMock } from "services/mock";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { TouchableWithoutFeedback } from "react-native";
@@ -62,7 +61,6 @@ const SongName = styled.Text`
 const SongArtistName = styled.Text`
   margin-top: 7px;
   color: ${(props) => props.theme.color.description};
-  /* font-size: ${(props) => props.theme.fontSize.sm}; */
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
@@ -103,15 +101,16 @@ export default function SongTile({
   onRemove,
   inGrid = true,
   queue = [],
-  mock = false,
-  categories = [],
   allCategories = [],
 }) {
-  song = useMock("song", song, mock);
   const navigation = useNavigation();
-  // console.log({ d: song?.categories, allCategories });
-  console.log({ d: song?.categories, allCategories });
   const { updateSongQueue } = useSongQueue();
+
+  const categoryName =
+    song?.categories
+      ?.map((categoryId) => allCategories.find((_) => _?._id == categoryId)?.name)
+      .filter((category) => !!category)
+      .join(", ") || "Uncategorized";
 
   const onPressTile = async () => {
     navigation.navigate("Play", { _id: song?._id });
@@ -126,13 +125,9 @@ export default function SongTile({
     <TouchableWithoutFeedback onPress={removable ? onRemove : onPressTile}>
       <SongTileView style={style || null} inGrid={inGrid || null}>
         <SongArtwork
-          source={
-            mock
-              ? song.artwork
-              : {
-                  uri: config.EDGE_IMAGE_PREFIX + song.artwork?.replace("https", "http"),
-                }
-          }
+          source={{
+            uri: config.EDGE_IMAGE_PREFIX + song.artwork?.replace("https", "http"),
+          }}
           inGrid={inGrid || null}
         />
         {removable && (
@@ -148,16 +143,13 @@ export default function SongTile({
           {song.artist?.map((artist) => artist.name)?.join(", ") || "Zenbase"}
         </SongArtistName>
         <SongName numberOfLines={1}>{song.name}</SongName>
-        <CategoryHolder>
-          <CategoryWrapper>
-            {/* <CategoryName>Meditation{"  "}Sleep</CategoryName> */}
-            <CategoryName>
-              {song?.categories?.map(
-                (id) => allCategories.filter((allCat) => allCat?._id === id)[0]?.name
-              )}
-            </CategoryName>
-          </CategoryWrapper>
-        </CategoryHolder>
+        {categoryName && (
+          <CategoryHolder>
+            <CategoryWrapper>
+              <CategoryName>{categoryName}</CategoryName>
+            </CategoryWrapper>
+          </CategoryHolder>
+        )}
       </SongTileView>
     </TouchableWithoutFeedback>
   );

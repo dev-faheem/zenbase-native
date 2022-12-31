@@ -195,9 +195,10 @@ export default function Home({ navigation, route }) {
       axios.handleError(e);
     }
   };
-  const meditatFriendData = data?.meditation?.find(
+  const meditateFriendData = data?.meditation?.find(
     (section) => section.title === "Meditate With Friends"
   );
+
   const tabContent = [
     {
       id: "MEDITATION",
@@ -227,16 +228,16 @@ export default function Home({ navigation, route }) {
             onPress={() =>
               navigation.navigate("SongList", {
                 type: "category",
-                id: meditatFriendData?.id,
-                title: meditatFriendData?.title,
+                id: meditateFriendData?.id,
+                title: meditateFriendData?.title,
               })
             }
           />
           <EarnMore />
           <SongList
             categories={data?.categories?.filter((cat) => !cat.isPodcast)}
-            id={meditatFriendData?.id || ""}
-            songs={meditatFriendData?.songs || []}
+            id={meditateFriendData?.id || ""}
+            songs={meditateFriendData?.songs || []}
           />
           <SongList
             categories={data?.categories?.filter((cat) => !cat.isPodcast)}
