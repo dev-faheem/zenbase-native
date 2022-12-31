@@ -66,7 +66,6 @@ const ShortcutImage = styled.Image`
     width: 182px;
   `;
   }}
-  background-color: red;
   height: ${(props) => (props.inGrid ? (114 / 182) * TILE_SIZE : "114")}px;
   border-radius: 8px;
   margin-bottom: 10px;
