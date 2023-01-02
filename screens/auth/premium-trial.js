@@ -99,7 +99,7 @@ export default function PremiumTrial({ route, navigation }) {
   return (
     <Canvas>
       <Wrapper>
-        <BackgroundConfetti source={ConfettiImage} resizeMode="cover" />
+        {/* <BackgroundConfetti source={ConfettiImage} resizeMode="cover" /> */}
         <ConfettiCannon
           colors={["#974EBC", "#6B26FF", "#281830", "#7C588F", "#CD94EB"]}
           count={100}

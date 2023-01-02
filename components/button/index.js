@@ -76,7 +76,7 @@ const ButtonWrapper = styled.View`
   height: ${(props) => (props.height ? `${props.height}px` : "42px")};
   padding-horizontal: ${(props) =>
     props.horizontalPadding ? props.horizontalPadding + "px" : props.theme.spacing.xxl};
-  border-radius: ${(props) => props.borderRadius || props.theme.borderRadius.md};
+  border-radius: ${(props) => (props.borderRadius ? props.borderRadius + "px" : "7.5px")};
   display: flex;
   justify-content: center;
   align-items: center;

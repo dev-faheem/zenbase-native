@@ -114,6 +114,7 @@ export default function Register({ navigation }) {
       color: theme.color.white,
       fontSize: 14,
     },
+    backgroundColor: "rgba(0,0,0,0.3)",
   };
 
   const [isEmailError, setIsEmailError] = useState(false);
@@ -429,7 +430,7 @@ export default function Register({ navigation }) {
                 onPress={handleSignUpWithApple}
                 variant="secondary"
                 block
-                borderRadius={theme.borderRadius.lg}
+                borderRadius="10"
                 height="55"
                 fontSize="16"
                 title="Sign in with Apple"
@@ -460,7 +461,7 @@ export default function Register({ navigation }) {
               onPress={() => {}}
               variant="secondary"
               block
-              borderRadius={theme.borderRadius.lg}
+              borderRadius="10"
               height="55"
               fontSize="16"
               title="Sign in with Google"
@@ -487,33 +488,43 @@ export default function Register({ navigation }) {
             />
             <FooterText>
               <TextFlex>
-                <Text color="secondary" fontSize="12">
-                  By signing in you accept our{" "}
+                <Text color="description" fontSize="12">
+                  By tapping Sign up, you are agree to our{" "}
                 </Text>
                 <TouchableOpacity>
                   <Text
-                    color="secondary"
+                    color="description"
                     fontWeight="bold"
                     fontSize="12"
-                    style={{ textDecorationLine: "underline" }}
+                    style={{ textDecorationLine: "none" }}
                   >
-                    Terms of use
+                    Terms,
                   </Text>
                 </TouchableOpacity>
               </TextFlex>
 
               <TextFlex style={{ marginTop: 2 }}>
-                <Text color="secondary" fontSize="12">
+                <TouchableOpacity>
+                  <Text
+                    color="description"
+                    fontWeight="bold"
+                    fontSize="12"
+                    style={{ textDecorationLine: "none" }}
+                  >
+                    Data Policy{" "}
+                  </Text>
+                </TouchableOpacity>
+                <Text color="description" fontSize="12">
                   and{" "}
                 </Text>
                 <TouchableOpacity>
                   <Text
-                    color="secondary"
+                    color="description"
                     fontWeight="bold"
                     fontSize="12"
-                    style={{ textDecorationLine: "underline" }}
+                    style={{ textDecorationLine: "none" }}
                   >
-                    Privacy Policy
+                    Cookies Policy.
                   </Text>
                 </TouchableOpacity>
               </TextFlex>

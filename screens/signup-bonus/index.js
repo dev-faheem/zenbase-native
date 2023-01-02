@@ -5,14 +5,15 @@ import { useTheme } from "stores/theme";
 import { TouchableOpacity, Dimensions } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
 import * as Haptics from "expo-haptics";
+import { useAuth } from "stores/auth";
+import axios from "services/axios";
 
 // Import Icons
 import { Ionicons } from "@expo/vector-icons";
 
 // Import Images
 import ConfettiImage from "assets/images/confetti.png";
-import { useAuth } from "stores/auth";
-import axios from "services/axios";
+import giftIcon from "assets/icons/gift.png";
 
 // Styled Component
 
@@ -56,6 +57,12 @@ const Header = styled.View`
   margin-left: ${(props) => props.theme.spacing.sm};
 `;
 
+const GiftImage = styled.Image`
+  width: 32px;
+  height: 32px;
+  margin-bottom: 12px;
+`;
+
 // SignupBonus (Default)
 export default function SignupBonus({ route, navigation }) {
   const { theme } = useTheme();
@@ -92,7 +99,7 @@ export default function SignupBonus({ route, navigation }) {
   return (
     <Canvas>
       <Wrapper>
-        <BackgroundConfetti source={ConfettiImage} resizeMode="cover" />
+        {/* <BackgroundConfetti source={ConfettiImage} resizeMode="cover" /> */}
         <ConfettiCannon
           colors={["#974EBC", "#6B26FF", "#281830", "#7C588F", "#CD94EB"]}
           count={100}
@@ -113,7 +120,7 @@ export default function SignupBonus({ route, navigation }) {
           <ZentTokenBanner tokens={0.01} usd={0.0} />
           <InfoWrapper>
             <InfoBody>
-              <Ionicons name="gift" size={34} style={{ marginBottom: 12 }} color="white" />
+              <GiftImage source={giftIcon} resizeMode="contain" />
               <Text numberOfLines={1} adjustsFontSizeToFit fontSize="32" fontWeight="bold">
                 You've earned it.
               </Text>
@@ -125,7 +132,13 @@ export default function SignupBonus({ route, navigation }) {
               </Text>
             </InfoBody>
             <InfoFooter>
-              <Button height="55" title="Claim" block onPress={onPressClaimToWallet} />
+              <Button
+                borderRadius="10"
+                height="55"
+                title="Claim"
+                block
+                onPress={onPressClaimToWallet}
+              />
             </InfoFooter>
           </InfoWrapper>
         </Container>

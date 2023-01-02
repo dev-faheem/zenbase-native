@@ -127,7 +127,13 @@ export default function Rewards({ route, navigation }) {
             <Text fontSize="16" style={{ marginBottom: 25 }}>
               Meditate to earn and redeem for Zenbase Premium, wellness products, NFTs, and more.
             </Text>
-            <Button height="55" title="Earn for free" block onPress={onPressNavigateToNextScreen} />
+            <Button
+              borderRadius="10"
+              height="55"
+              title="Earn for free"
+              block
+              onPress={onPressNavigateToNextScreen}
+            />
           </InfoFooter>
         </InfoWrapper>
       </Container>

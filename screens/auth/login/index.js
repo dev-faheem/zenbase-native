@@ -132,7 +132,7 @@ export default function Login({ navigation }) {
           onPress={() => navigation.navigate("LoginForm")}
           variant="silent"
           fontSize="16"
-          title="Sign in with email."
+          title="Sign in with email"
           titleProps={{
             style: {
               fontWeight: "600",
@@ -144,7 +144,7 @@ export default function Login({ navigation }) {
           onPress={handleSignInWithApple}
           variant="secondary"
           block
-          borderRadius={theme.borderRadius.lg}
+          borderRadius="10"
           height="55"
           fontSize="16"
           title="Sign in with Apple"
@@ -175,7 +175,7 @@ export default function Login({ navigation }) {
           onPress={handleSignInWithGoogle}
           variant="secondary"
           block
-          borderRadius={theme.borderRadius.lg}
+          borderRadius="10"
           height="55"
           fontSize="16"
           title="Sign in with Google"
@@ -214,7 +214,10 @@ export default function Login({ navigation }) {
             <FotterText>
               <FooterTextFlex>
                 <Text>Don't have an account? </Text>
-                <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Register")}
+                  style={{ marginLeft: 3 }}
+                >
                   <Text color="primary" fontWeight="bold">
                     Sign Up.
                   </Text>

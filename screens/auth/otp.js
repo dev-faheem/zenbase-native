@@ -317,6 +317,7 @@ export default function OneTimePassword({ route, navigation }) {
                     generateOTP();
                     alert("Confirmation Code Sent!!");
                   }}
+                  style={{ marginLeft: 3 }}
                 >
                   <Text color={"primary"} fontWeight="600">
                     Resend email.

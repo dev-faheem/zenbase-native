@@ -100,7 +100,9 @@ export default function ReferFriends({ route, navigation }) {
             <Text fontSize="14">0.01 ZENT</Text>
           </HeaderImageWrapper>
           <TouchableOpacity onPress={onPressNavigateToNextScreen}>
-            <Text fontSize="16">Skip</Text>
+            <Text fontWeight="600" fontSize="16">
+              Skip
+            </Text>
           </TouchableOpacity>
         </HeaderWrapper>
         <InfoWrapper>
