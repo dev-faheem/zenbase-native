@@ -289,7 +289,7 @@ export default function Search({ navigation }) {
                       <SongImage source={{ uri: song?.artwork }} />
                       <SongContentWrapper
                         style={[
-                          { borderTopWidth: 0.5 },
+                          { borderTopWidth: 0 },
                           recentlyPlayedSongs.length - 1 == index && {
                             width: "85%",
                           },

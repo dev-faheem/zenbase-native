@@ -132,10 +132,15 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
 
         <ProfileHeaderSafeArea>
           <ProfileHeaderImage source={imageSource} resizeMode="cover" />
-          <Text color="secondary" fontSize="30" fontWeight="bold" style={{ marginTop: 8 }}>
+          <Text
+            color="rgba(247, 248, 250, 0.75)"
+            fontSize="30"
+            fontWeight="bold"
+            style={{ marginTop: 8 }}
+          >
             {user?.name}
           </Text>
-          <Text color="secondary" fontSize="xl" style={{ marginTop: 8 }}>
+          <Text color="rgba(247, 248, 250, 0.35)" fontSize="xl" style={{ marginTop: 8 }}>
             @{user?.username}
           </Text>
           <PlayTime>
@@ -151,7 +156,7 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
                 navigation.navigate("EditProfile", { profilePicture: imageSource });
               }}
             >
-              <Text color="white" fontSize="md">
+              <Text color="white" fontSize="14">
                 EDIT
               </Text>
             </ProfileHeaderEditButton>
