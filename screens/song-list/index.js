@@ -12,6 +12,7 @@ import SongListFilter from "./SongListFilter";
 import { useInfiniteSearch, useSearch } from "query/songs";
 import { useQueryCategory } from "query/category";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { BlurView } from "expo-blur";
 
 // Styled Component
 const Header = styled.SafeAreaView`
@@ -60,10 +61,29 @@ export default function SongList({ route, navigation }) {
    * type: category | section | timer
    * query
    */
+
+  const timeSlots = [
+    { time: "1-10", timeStart: 0, timeEnd: 600 },
+    { time: "10-20", timeStart: 600, timeEnd: 20 * 60 },
+    { time: "20-45", timeStart: 20 * 60, timeEnd: 45 * 60 },
+    { time: "1+", label: "HR", timeStart: 60 * 60 },
+  ];
+
+  const [activeslot, setActiveSlot] = useState("");
+
+  const timeFilterProps = { timeSlots, activeslot, setActiveSlot };
+
   const { title = "Explore", type, query } = route.params;
   const { data: categoryData } = useQueryCategory();
   const { theme } = useTheme();
-  const { data, hasNextPage, fetchNextPage } = useInfiniteSearch(type, { query });
+
+  const activeslotIndex = timeSlots.findIndex((d) => d.time === activeslot);
+  const timeQueryProps = activeslot !== "" ? { ...timeSlots[activeslotIndex] } : {};
+
+  const { data, hasNextPage, fetchNextPage } = useInfiniteSearch(type, {
+    query,
+    ...timeQueryProps,
+  });
 
   const songs = data?.pages?.reduce((accumulator, page) => {
     let pageSongs = [];
@@ -82,24 +102,27 @@ export default function SongList({ route, navigation }) {
 
   return (
     <>
-      <HeaderButtons>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Entypo name="chevron-left" size={20} color={theme.color.primary} />
-        </TouchableOpacity>
-      </HeaderButtons>
-      <Header>
-        <Label>{title}</Label>
-        <SongListFilter />
-      </Header>
-      <Canvas>
+      <HeaderWrapper intensity={200} tint="dark">
+        <HeaderButtons>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Entypo name="chevron-left" size={20} color={theme.color.primary} />
+          </TouchableOpacity>
+        </HeaderButtons>
+        <Header>
+          <Label>{title}</Label>
+          <SongListFilter {...timeFilterProps} />
+        </Header>
+      </HeaderWrapper>
+      <Canvas style={{ position: "relative", zIndex: 1 }}>
         {/* <ScrollView style={{ flex: 1, paddingTop: 10 }} showsVerticalScrollIndicator={false}> */}
         <Container style={{ flex: 1 }}>
-          <SongListWrapper style={{ marginTop: 20 }}>
+          <SongListWrapper>
             <FlatList
+              style={{ paddingTop: 20 }}
               columnWrapperStyle={{ justifyContent: "space-between" }}
               showsHorizontalScrollIndicator={false}
               numColumns={2}
@@ -130,6 +153,14 @@ export default function SongList({ route, navigation }) {
     </>
   );
 }
+
+const HeaderWrapper = styled(BlurView)`
+  /* position: absolute;
+  zindex: 9999;
+  width: 100%;
+  height: 34px;
+  top: 10px; */
+`;
 
 const Label = styled(Text)`
   font-weight: 500;

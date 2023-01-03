@@ -9,20 +9,12 @@ import FilterByTime from "./FilterByTime";
 import { BlurView } from "expo-blur";
 
 export default function SongListFilter(props) {
+  const { timeSlots, activeslot, setActiveSlot } = props;
   const { theme } = useTheme();
   const [visible, setVisible] = useState(false);
 
   const toggleModal = () => setVisible((pre) => !pre);
   const closeModal = () => setVisible(false);
-
-  const [activeslot, setActiveSlot] = useState("");
-
-  const timeSlots = [
-    { time: "1-10" },
-    { time: "10-20" },
-    { time: "20-45" },
-    { time: "1+", label: "HR" },
-  ];
 
   const filterProps = { closeModal, timeSlots, activeslot, setActiveSlot };
 
@@ -42,7 +34,12 @@ export default function SongListFilter(props) {
             {/* <BlurView intensity={150}> */}
             <Label>Filter</Label>
             <FilterByTime {...filterProps} />
-            <ClearWrapper onPress={() => setActiveSlot("")}>
+            <ClearWrapper
+              onPress={() => {
+                setActiveSlot("");
+                closeModal();
+              }}
+            >
               <ClearText>Clear</ClearText>
             </ClearWrapper>
           </ModalContentBlur>
