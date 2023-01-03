@@ -140,13 +140,13 @@ export default function EditProfile({ route, navigation }) {
         quality: 1,
       });
 
-      if (!result.cancelled) {
-        setImage(result.uri);
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
 
         // Form Data to Save Photo
         let formData = new FormData();
         formData.append("image", {
-          uri: result.uri,
+          uri: result.assets[0].uri,
           name: "image.jpg",
           type: "image/jpeg",
         });

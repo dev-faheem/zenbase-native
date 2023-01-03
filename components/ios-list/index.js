@@ -2,7 +2,7 @@
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import { Ionicons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
 import Text from "components/text";
 
@@ -15,15 +15,13 @@ const ListWrapper = styled.View`
 const ListContentWrapper = styled.View`
   flex: 1;
   flex-direction: row;
-  justify-content: space-between;
-  border-bottom-width: 1px;
-  border-bottom-color: ${(props) => props.theme.color.informationBackground};
-  margin-left: ${(props) => props.theme.spacing.lg};
+  justify-content: flex-start;
+  margin-left: 16px;
 `;
 
 const VAlignCenter = styled.View`
-  padding-top: ${(props) => props.theme.spacing.md};
-  padding-bottom: ${(props) => props.theme.spacing.md};
+  padding-top: 12px;
+  padding-bottom: 12px;
   flex-direction: column;
   justify-content: center;
 `;
@@ -66,14 +64,17 @@ export default function IOSList({ data = [], transparent, notDefault, withoutChe
                 }
               >
                 <VAlignCenter>
-                  <Text color={obj.color || "white"}>{obj.title}</Text>
+                  <Text color={obj.color || "white"} fontSize="18">
+                    {obj.title}
+                  </Text>
                 </VAlignCenter>
-                <VAlignCenter style={{ paddingRight: 5 }}>
+                <VAlignCenter style={{ paddingLeft: 2 }}>
                   {withoutChevron || (
-                    <Ionicons
-                      name="ios-chevron-forward"
-                      size={24}
-                      color={theme.color.information}
+                    <Entypo
+                      name="chevron-right"
+                      size={20}
+                      color={theme.color.description}
+                      style={{ marginTop: 2 }}
                     />
                   )}
                 </VAlignCenter>
