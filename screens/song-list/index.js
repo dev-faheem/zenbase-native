@@ -102,7 +102,7 @@ export default function SongList({ route, navigation }) {
 
   return (
     <>
-      <HeaderWrapper intensity={200} tint="dark">
+      <HeaderWrapper intensity={150} tint="dark">
         <HeaderButtons>
           <TouchableOpacity
             onPress={() => {
@@ -119,12 +119,13 @@ export default function SongList({ route, navigation }) {
       </HeaderWrapper>
       <Canvas style={{ position: "relative", zIndex: 1 }}>
         {/* <ScrollView style={{ flex: 1, paddingTop: 10 }} showsVerticalScrollIndicator={false}> */}
-        <Container style={{ flex: 1 }}>
+        <Container style={{ flex: 1, position: "relative", zIndex: 2 }}>
           <SongListWrapper>
             <FlatList
-              style={{ paddingTop: 20 }}
+              style={{ paddingTop: 34 + 15 }}
               columnWrapperStyle={{ justifyContent: "space-between" }}
               showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
               numColumns={2}
               data={songs || []}
               keyExtractor={(item, index) => index + "_" + item._id}
@@ -155,11 +156,12 @@ export default function SongList({ route, navigation }) {
 }
 
 const HeaderWrapper = styled(BlurView)`
-  /* position: absolute;
-  zindex: 9999;
+  position: absolute;
+  z-index: 2;
   width: 100%;
   height: 34px;
-  top: 10px; */
+  top: 0px;
+  display: flex;
 `;
 
 const Label = styled(Text)`
