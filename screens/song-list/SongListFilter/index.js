@@ -10,8 +10,7 @@ import { BlurView } from "expo-blur";
 
 export default function SongListFilter(props) {
   const { theme } = useTheme();
-  // const [visible, setVisible] = useState(false);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const toggleModal = () => setVisible((pre) => !pre);
   const closeModal = () => setVisible(false);
