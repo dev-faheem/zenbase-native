@@ -1,3 +1,10 @@
+import {
+  AppOpenAd,
+  InterstitialAd,
+  RewardedAd,
+  BannerAd,
+  TestIds,
+} from "react-native-google-mobile-ads";
 import React, { useEffect } from "react";
 import { AuthProvider } from "stores/auth";
 import { ThemeProvider } from "stores/theme";
