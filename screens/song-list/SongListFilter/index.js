@@ -6,12 +6,10 @@ import { Modal } from "react-native";
 import { Dimensions } from "react-native";
 import Text from "components/text";
 import FilterByTime from "./FilterByTime";
-import { BlurView } from "expo-blur";
 
 export default function SongListFilter(props) {
   const { theme } = useTheme();
-  // const [visible, setVisible] = useState(false);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const toggleModal = () => setVisible((pre) => !pre);
   const closeModal = () => setVisible(false);
@@ -39,15 +37,11 @@ export default function SongListFilter(props) {
       <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={closeModal}>
         <ModalContentBackDrop onPress={closeModal} />
         <ModalContentWrapper>
-          <ModalContentBlur intensity={200} tint="dark">
-            {/* <BlurView intensity={150}> */}
-            <Label>Filter</Label>
-            <FilterByTime {...filterProps} />
-            <ClearWrapper onPress={() => setActiveSlot("")}>
-              <ClearText>Clear</ClearText>
-            </ClearWrapper>
-          </ModalContentBlur>
-          {/* </BlurView> */}
+          <Label>Filter</Label>
+          <FilterByTime {...filterProps} />
+          <ClearWrapper onPress={() => setActiveSlot("")}>
+            <ClearText>Clear</ClearText>
+          </ClearWrapper>
         </ModalContentWrapper>
       </Modal>
     </>
@@ -75,19 +69,14 @@ const ModalContentWrapper = styled.View`
   position: absolute;
   right: 7px;
   top: 100px;
-  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.08);
+
   width: 181px;
-  border-radius: 30px;
-  overflow: hidden;
-`;
-const ModalContentBlur = styled(BlurView)`
-  width: 100%;
   /* height: 511px; */
 
-  /* background: rgba(38, 38, 38, 0.9); */
-
-  /* backdrop-filter: blur(12.5px); */
-
+  background: rgba(38, 38, 38, 0.9);
+  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12.5px);
+  border-radius: 30px;
   padding-top: 15px;
   padding-bottom: 16px;
 `;
