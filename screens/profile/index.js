@@ -19,10 +19,6 @@ import { useTheme } from "stores/theme";
 
 // Import Images
 import profileImage from "assets/images/artist.png";
-import journalIcon from "assets/icons/journal.png";
-import zentokenIcon from "assets/icons/zentoken.png";
-import followingIcon from "assets/icons/following.png";
-import followersIcon from "assets/icons/followers.png";
 
 // Import Profile Header
 import ProfileHeader from "screens/profile/header";
@@ -38,8 +34,6 @@ const SongListWrapper = styled.View`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
-
-const Icon = styled.Image``;
 
 export default function Profile({ route, navigation }) {
   const { theme } = useTheme();
@@ -81,7 +75,7 @@ export default function Profile({ route, navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <ProfileHeader profilePicture={profileImage} route={route} navigation={navigation} />
-      <View style={{ flex: 1, backgroundColor: theme.color.background }}>
+      <View style={{ flex: 1, backgroundColor: theme.color.black }}>
         <ScrollView>
           <Container>
             <IOSList
@@ -97,35 +91,21 @@ export default function Profile({ route, navigation }) {
                 //   }
                 // },
                 {
-                  icon: (
-                    <Icon
-                      style={{ width: 24, height: 24 }}
-                      source={journalIcon}
-                      resizeMode="contain"
-                    />
-                  ),
-                  title: "My Journal",
+                  icon: <FontAwesome5 name="users" size={20} color={theme.color.primary} />,
+                  title: "Followers",
                   onPress: () => {
-                    navigation.navigate("Journal");
+                    navigation.navigate("Followers", {
+                      title: "Followers",
+                    });
                   },
                 },
                 {
                   icon: (
-                    <Icon
-                      style={{ width: 24, height: 24 }}
-                      source={zentokenIcon}
-                      resizeMode="contain"
-                    />
-                  ),
-                  title: "Earning Team",
-                  onPress: () => {},
-                },
-                {
-                  icon: (
-                    <Icon
-                      style={{ width: 24, height: 22 }}
-                      source={followingIcon}
-                      resizeMode="contain"
+                    <FontAwesome5
+                      name="user-alt"
+                      size={19}
+                      color={theme.color.primary}
+                      style={{ marginLeft: 2, marginRight: 3 }}
                     />
                   ),
                   title: "Following",
@@ -136,26 +116,18 @@ export default function Profile({ route, navigation }) {
                   },
                 },
                 {
-                  icon: (
-                    <Icon
-                      style={{ width: 34, height: 24, marginLeft: -10 }}
-                      source={followersIcon}
-                      resizeMode="contain"
-                    />
-                  ),
-                  title: "Followers",
+                  icon: <Ionicons name="ios-journal" size={24} color={theme.color.primary} />,
+                  title: "My Journal",
                   onPress: () => {
-                    navigation.navigate("Followers", {
-                      title: "Followers",
-                    });
+                    navigation.navigate("Journal");
                   },
                 },
               ]}
             />
 
             {recentlyPlayedSongs.length > 0 && (
-              <Text fontSize="24" fontWeight="600" style={{ marginTop: 22, marginBottom: 22 }}>
-                Wellness Activity
+              <Text fontSize="20" style={{ marginTop: 22, marginBottom: 22 }}>
+                Recently Played
               </Text>
             )}
 
