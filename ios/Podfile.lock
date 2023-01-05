@@ -111,7 +111,7 @@ PODS:
     - expo-dev-menu/GestureHandler
     - expo-dev-menu/Reanimated
     - expo-dev-menu/SafeAreaView
-  - ExpoAdapterGoogleSignIn (9.0.0):
+  - ExpoAdapterGoogleSignIn (9.0.2):
     - ExpoModulesCore
     - GoogleSignIn (~> 6.2)
     - React-Core
@@ -495,7 +495,7 @@ PODS:
     - Google-Mobile-Ads-SDK (= 9.12.0)
     - GoogleUserMessagingPlatform (= 2.0.0)
     - React-Core
-  - RNGoogleSignin (9.0.0):
+  - RNGoogleSignin (9.0.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
   - RNImageColors (1.5.1):
@@ -529,7 +529,7 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
-  - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/ios`)"
+  - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/expo/ios`)"
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
@@ -639,7 +639,7 @@ EXTERNAL SOURCES:
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
   ExpoAdapterGoogleSignIn:
-    :path: "../node_modules/@react-native-google-signin/google-signin/ios"
+    :path: "../node_modules/@react-native-google-signin/google-signin/expo/ios"
   ExpoHaptics:
     :path: "../node_modules/expo-haptics/ios"
   ExpoImagePicker:
@@ -761,7 +761,7 @@ SPEC CHECKSUMS:
   expo-dev-launcher: 953f564f7d006f1af50b119cacb48cafcad40c73
   expo-dev-menu: fa9e67b193032700e2908b4737d9d199c0b43c30
   expo-dev-menu-interface: 45581093393dacd51ce5e7f641cf9ed5064a2e3f
-  ExpoAdapterGoogleSignIn: a0a63817cdd847f98e087bc114e92f9686c5a06c
+  ExpoAdapterGoogleSignIn: 98a113d9c0ed1ce7cf6259f0907d3f93209b0d7f
   ExpoHaptics: 5a56d30a87ea213dd00b09566dc4b441a4dff97f
   ExpoImagePicker: d2a1cea4023008ae2fb0d95f33422b80772cc76e
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
@@ -815,7 +815,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
   RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
   RNGoogleMobileAds: 6e399a1b02f3d493f6b0ec7cf7f37623cc997034
-  RNGoogleSignin: f9cb4c904c63dae74dc850aaabcf3fbdc9d16218
+  RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
   RNImageColors: fd9777591fc765780e035f4bec7a42edabc86eb4
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
