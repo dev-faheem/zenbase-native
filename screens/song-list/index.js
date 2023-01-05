@@ -1,11 +1,11 @@
 // Import Dependencies
 import React, { useState, useEffect } from "react";
 import { Platform, TouchableOpacity, FlatList } from "react-native";
-import { Text, Container, Canvas, SongTile, NavigationPadding } from "components";
+import { Text, Container, Canvas, SongTile, NavigationPadding, Box } from "components";
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import { Entypo } from "@expo/vector-icons";
-
+import { Dimensions } from "react-native";
 // Import Images
 import { useTheme } from "stores/theme";
 import SongListFilter from "./SongListFilter";
@@ -16,7 +16,7 @@ import { BlurView } from "expo-blur";
 
 // Styled Component
 const Header = styled.SafeAreaView`
-  background-color: #0f0f10;
+  /* background-color: #0f0f10; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -122,18 +122,25 @@ export default function SongList({ route, navigation }) {
         <Container style={{ flex: 1, position: "relative", zIndex: 2 }}>
           <SongListWrapper>
             <FlatList
-              style={{ paddingTop: 34 + 15 }}
+              style={{
+                paddingTop: 34 + 15,
+                marginBottom: -100,
+
+                // marginTop: -100,
+                // height: Dimensions?.get("window").height - 100,
+                // backgroundColor: "red",
+              }}
               columnWrapperStyle={{ justifyContent: "space-between" }}
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
               numColumns={2}
               data={songs || []}
               keyExtractor={(item, index) => index + "_" + item._id}
-              renderItem={({ item }) => (
+              renderItem={({ item, index }) => (
                 <SongTileWrapper>
                   <SongTile
                     allCategories={categoryData?.categories}
-                    style={{ marginBottom: 20 }}
+                    style={{ marginBottom: index === songs?.length - 1 ? 160 : 20 }}
                     inGrid
                     song={item}
                     queue={item}
@@ -143,6 +150,7 @@ export default function SongList({ route, navigation }) {
               onEndReachedThreshold={0.5}
               onEndReached={onEndReached}
             />
+
             {/* {data?.songs.map((song) => (
               <SongTile style={{ marginBottom: 20 }} inGrid song={song} queue={songs} />
             ))} */}
@@ -159,7 +167,7 @@ const HeaderWrapper = styled(BlurView)`
   position: absolute;
   z-index: 2;
   width: 100%;
-  height: 34px;
+  height: 90px;
   top: 0px;
   display: flex;
 `;
