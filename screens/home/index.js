@@ -26,7 +26,6 @@ import InviteFriend from "components/InviteFriend";
 import EarnMore from "components/EarnMore";
 import { useQueryHomepage } from "query/home";
 import { useLoader } from "stores/loader";
-import { playAds } from "services/playAds";
 
 const windowHeight = Dimensions.get("window").height;
 
