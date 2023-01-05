@@ -26,7 +26,7 @@ import InviteFriend from "components/InviteFriend";
 import EarnMore from "components/EarnMore";
 import { useQueryHomepage } from "query/home";
 import { useLoader } from "stores/loader";
-import { playAds } from "services/playAds";
+import { useInterstitialAd, TestIds } from "react-native-google-mobile-ads";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -73,6 +73,18 @@ const ZentImage = styled.Image`
 export default function Home({ navigation, route }) {
   const { user, fetchTransactions, updateUser } = useAuth();
 
+  const ad = useInterstitialAd("ca-app-pub-2423909336067009/1752802852", {
+    requestNonPersonalizedAdsOnly: true,
+  });
+
+  useEffect(() => {
+    ad.load();
+  }, [ad.load]);
+
+  useEffect(() => {
+    ad.isLoaded && ad.show();
+  }, [ad.isLoaded]);
+
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const { theme } = useTheme();
@@ -83,7 +95,6 @@ export default function Home({ navigation, route }) {
   const responseListener = useRef();
 
   const { data, isLoading } = useQueryHomepage();
-  // console.log("m data", data);
 
   const { setLoading } = useLoader();
 
