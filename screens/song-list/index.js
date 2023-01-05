@@ -100,9 +100,11 @@ export default function SongList({ route, navigation }) {
     if (hasNextPage) fetchNextPage();
   };
 
+  const [refreshHeaderZindex, setRefreshHeaderZindex] = useState(0);
+
   return (
     <>
-      <HeaderWrapper intensity={150} tint="dark">
+      <HeaderWrapper intensity={150} tint="dark" z={refreshHeaderZindex}>
         <HeaderButtons>
           <TouchableOpacity
             onPress={() => {
@@ -130,6 +132,7 @@ export default function SongList({ route, navigation }) {
                 // height: Dimensions?.get("window").height - 100,
                 // backgroundColor: "red",
               }}
+              onScroll={() => setRefreshHeaderZindex((p) => 1 - p)}
               columnWrapperStyle={{ justifyContent: "space-between" }}
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
@@ -168,7 +171,7 @@ export default function SongList({ route, navigation }) {
 
 const HeaderWrapper = styled(BlurView)`
   position: absolute;
-  z-index: 2;
+  z-index: ${({ z = 0 }) => z + 2};
   width: 100%;
   height: 90px;
   top: 0px;
