@@ -36,7 +36,7 @@ const HeaderButtons = styled.View`
 `;
 
 const SongListWrapper = styled.View`
-  width: 100%;
+  width: 105%;
   /* flex-direction: row; */
   flex-wrap: wrap;
   justify-content: space-between;
@@ -138,6 +138,9 @@ export default function SongList({ route, navigation }) {
               keyExtractor={(item, index) => index + "_" + item._id}
               renderItem={({ item, index }) => (
                 <SongTileWrapper>
+                  {/* <Label>
+                    {index} {index % 2}
+                  </Label> */}
                   <SongTile
                     allCategories={categoryData?.categories}
                     style={{ marginBottom: index === songs?.length - 1 ? 160 : 20 }}

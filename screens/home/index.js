@@ -222,18 +222,20 @@ export default function Home({ navigation, route }) {
                 songs={section.songs}
               />
             ))}
+          <Container>
+            <InviteFriend
+              label="Meditate"
+              onPress={() =>
+                navigation.navigate("SongList", {
+                  type: "category",
+                  id: meditateFriendData?.id,
+                  title: meditateFriendData?.title,
+                })
+              }
+            />
 
-          <InviteFriend
-            label="Meditate"
-            onPress={() =>
-              navigation.navigate("SongList", {
-                type: "category",
-                id: meditateFriendData?.id,
-                title: meditateFriendData?.title,
-              })
-            }
-          />
-          <EarnMore />
+            <EarnMore />
+          </Container>
           <SongList
             categories={data?.categories?.filter((cat) => !cat.isPodcast)}
             id={meditateFriendData?.id || ""}
@@ -304,9 +306,9 @@ export default function Home({ navigation, route }) {
 
         <Container>
           <ZentCoin />
-          <Shortcuts />
-          <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
         </Container>
+        <Shortcuts />
+        <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
 
         <NavigationPadding padding={50} />
       </Animated.ScrollView>
@@ -348,7 +350,8 @@ export default function Home({ navigation, route }) {
             style={{
               position: "absolute",
               width: "100%",
-              height: windowHeight - (Platform.OS == "ios" ? Constants.statusBarHeight : 15) - 310,
+              height:
+                windowHeight - (Platform.OS == "ios" ? Constants.statusBarHeight : 15) - 310 - 30,
               bottom: 0,
               left: 0,
               zIndex: 99999,

@@ -10,6 +10,7 @@ import Constants from "expo-constants";
 import { useTheme } from "stores/theme";
 import { Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Container } from "..";
 
 const Wrapper = styled.View`
   width: 100%;
@@ -44,28 +45,32 @@ export default function SongList(props) {
   const navigation = useNavigation();
   const { theme } = useTheme();
 
+  const songsData = songs.slice(0, 5);
+
   return (
     <Wrapper>
-      {title && (
-        <TitleContainer>
-          <TitleWrapper
-            onPress={() => {
-              navigation.navigate("SongList", { type: "section", title, query: id });
-            }}
-          >
-            <Title>{title}</Title>
-            <Entypo name="chevron-right" size={24} color={theme.color.information} />
-          </TitleWrapper>
-        </TitleContainer>
-      )}
+      <Container>
+        {title && (
+          <TitleContainer>
+            <TitleWrapper
+              onPress={() => {
+                navigation.navigate("SongList", { type: "section", title, query: id });
+              }}
+            >
+              <Title>{title}</Title>
+              <Entypo name="chevron-right" size={24} color={theme.color.information} />
+            </TitleWrapper>
+          </TitleContainer>
+        )}
+      </Container>
 
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={songs.slice(0, 5)}
+        data={songsData}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
-          <Box mr={index === songs.length - 1 ? 0 : "10px"}>
+          <Box pl={index == 0 ? 20 : null} mr={index === songsData?.length - 1 ? "20px" : "10px"}>
             <SongTile allCategories={categories} key={index} song={item} queue={songs} inGrid />
           </Box>
         )}
