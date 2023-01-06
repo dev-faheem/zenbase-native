@@ -82,7 +82,9 @@ export default function Home({ navigation, route }) {
   }, [ad.load]);
 
   useEffect(() => {
-    ad.isLoaded && ad.show();
+    if (ad.isLoaded && !user?.isPremium) {
+      ad.show();
+    }
   }, [ad.isLoaded]);
 
   const scrollY = useRef(new Animated.Value(0)).current;
