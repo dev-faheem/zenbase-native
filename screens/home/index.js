@@ -28,6 +28,7 @@ import { useQueryHomepage } from "query/home";
 import { useLoader } from "stores/loader";
 import { useInterstitialAd, TestIds } from "react-native-google-mobile-ads";
 import mixpanel from "services/mixpanel";
+import config from "../../config";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -74,7 +75,7 @@ const ZentImage = styled.Image`
 export default function Home({ navigation, route }) {
   const { user, fetchTransactions, updateUser } = useAuth();
 
-  const ad = useInterstitialAd("ca-app-pub-2423909336067009/1752802852", {
+  const ad = useInterstitialAd(config.GOOGLE_ADMOB_ADUNIT, {
     requestNonPersonalizedAdsOnly: true,
   });
 
@@ -85,6 +86,7 @@ export default function Home({ navigation, route }) {
   useEffect(() => {
     if (ad.isLoaded && !user?.isPremium) {
       ad.show();
+      mixpanel.track("Advertisement");
     }
   }, [ad.isLoaded]);
 
