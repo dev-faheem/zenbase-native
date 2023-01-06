@@ -1,13 +1,15 @@
 import { Platform, Dimensions } from "react-native";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import "react-native-get-random-values"; // Dep for uuid
+import { v4 } from "uuid";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
 
 import { Buffer } from "buffer";
 
 const MIXPANEL_API_URL = "https://api.mixpanel.com";
+
+const sessionId = v4();
 
 export class ExpoMixpanelAnalytics {
   ready = false;
@@ -21,6 +23,7 @@ export class ExpoMixpanelAnalytics {
   constants: { [key: string]: string | number | void } = {};
   superProps: any = {};
   brand?: string;
+  session?: string;
 
   constructor(token, storageKey = "mixpanel:super:props") {
     this.storageKey = storageKey;
@@ -36,6 +39,7 @@ export class ExpoMixpanelAnalytics {
       device_name: Constants.deviceName,
       expo_app_ownership: Constants.appOwnership || undefined,
       os_version: Platform.Version,
+      session: sessionId,
     };
 
     Constants.getWebViewUserAgentAsync().then((userAgent) => {
