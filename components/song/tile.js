@@ -8,6 +8,7 @@ import { useSongQueue } from "stores/song-queue";
 import Text from "components/text";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "services/config";
+import mixpanel from "services/mixpanel";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TILE_SIZE = (WINDOW_WIDTH - 40) * 0.5 - 10;
@@ -119,6 +120,9 @@ export default function SongTile({
       song?._id,
       queue.map((v) => v?._id)
     );
+    mixpanel.track("Select Item", {
+      song,
+    });
   };
 
   return (

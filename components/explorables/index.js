@@ -5,6 +5,7 @@ import CardImage2 from "assets/images/explorable/card-2.png";
 import CardImage3 from "assets/images/explorable/card-3.png";
 import CardImage4 from "assets/images/explorable/card-4.png";
 import CardImage5 from "assets/images/explorable/start-here.png";
+import CardBackgroung5 from "assets/images/explorable/card-5-bg.png";
 import ExplorableLinearGradient from "assets/images/explorable-gradient.png";
 import { FlatList, Animated, Dimensions } from "react-native";
 import styled from "styled-components/native";
@@ -16,6 +17,8 @@ const cards = [
     duration: "5 min",
     link: "625d48892ca51b231dbd8bc5",
     lableColor: "#6F39C6",
+    background: CardBackgroung5,
+    index: 0,
   },
   {
     name: "Daily Meditation",
@@ -23,6 +26,7 @@ const cards = [
     duration: "5 min",
     link: "627544e7f89098380d986d08",
     lableColor: "#3A74A2",
+    index: 1,
   },
   {
     name: "Morning Gratitude",
@@ -30,6 +34,7 @@ const cards = [
     duration: "5 min",
     link: "62ed5109ad097570d6c9101e",
     lableColor: "#C96971",
+    index: 2,
   },
   {
     name: "Deep Sleep",
@@ -37,6 +42,7 @@ const cards = [
     duration: "5 min",
     link: "62754606f89098380d986d09",
     lableColor: "#B89726",
+    index: 3,
   },
   {
     name: "Guided Meditation",
@@ -44,6 +50,7 @@ const cards = [
     duration: "5 min",
     link: "627546e4f89098380d986d0a",
     lableColor: "#0096A0",
+    index: 4,
   },
 ];
 
@@ -68,16 +75,8 @@ function BackgroundLoader(props) {
 
   const onLoad = () => {
     Animated.sequence([
-      Animated.timing(opacity, {
-        toValue: 0.2,
-        duration: 0,
-        useNativeDriver: true,
-      }),
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 700,
-        useNativeDriver: true,
-      }),
+      Animated.timing(opacity, { toValue: 0.2, duration: 0, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 1, duration: 700, useNativeDriver: true }),
     ]).start();
   };
 
@@ -85,11 +84,13 @@ function BackgroundLoader(props) {
 }
 
 export default function Explorables() {
-  const [currentBackdrop, setCurrentBackdrop] = useState(CardImage1);
+  const [currentBackdrop, setCurrentBackdrop] = useState(CardBackgroung5);
+  const [currentBackdropIndex, setCurrentBackdropIndex] = useState(0);
 
-  const onViewableItemsChangedRef = useRef(({ viewableItems }) => {
+  const onViewableItemsChangedRef = useRef(({ viewableItems, index }) => {
     if (viewableItems.length > 0) {
-      setCurrentBackdrop(viewableItems[0]?.item?.image);
+      setCurrentBackdropIndex(viewableItems[0]?.item?.index);
+      setCurrentBackdrop(viewableItems[0]?.item?.background || viewableItems[0]?.item?.image);
     }
   });
   const viewabilityConfigRef = useRef({
@@ -100,7 +101,7 @@ export default function Explorables() {
     <>
       <BackgroundLoader
         source={currentBackdrop}
-        blurRadius={100}
+        blurRadius={currentBackdropIndex !== 0 ? 100 : 0}
         style={{
           height: 400,
           position: "absolute",

@@ -3,9 +3,10 @@ import { FlatList } from "react-native";
 import styled from "styled-components/native";
 import Box from "components/box";
 import timeIcon from "assets/icons/time-tab.png";
-import { Text } from "components";
+import { Container, Text } from "components";
 
 import { useNavigation } from "@react-navigation/native";
+import mixpanel from "services/mixpanel";
 
 export default function Shortcuts() {
   const navigation = useNavigation();
@@ -20,7 +21,9 @@ export default function Shortcuts() {
 
   return (
     <Wrapper>
-      <Title>Browse by Time</Title>
+      <Container>
+        <Title>Browse by Time</Title>
+      </Container>
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={shortcutsData}
@@ -33,11 +36,16 @@ export default function Shortcuts() {
           const title = `${time} ${label === "HR" ? "Hour" : "Minutes"}`;
 
           return (
-            <Box mr={index === shortcutsData?.length - 1 ? 0 : "10px"}>
+            <Box
+              pl={index == 0 ? 20 : null}
+              mr={index === shortcutsData?.length - 1 ? "20px" : "10px"}
+            >
               <Item
-                onPress={() =>
-                  navigation.navigate("SongList", { title, type: "timer", query: minutes })
-                }
+                onPress={() => {
+                  const props = { title, type: "timer", query: minutes };
+                  mixpanel.track("Select Item List", props);
+                  navigation.navigate("SongList", props);
+                }}
               >
                 <ShortcutImage source={timeIcon} />
                 <TimeLabelHolder>
@@ -49,7 +57,11 @@ export default function Shortcuts() {
           );
         }}
       />
-      <BottomContent>Tell us how much time you have and we’ll recommend you content.</BottomContent>
+      <Container>
+        <BottomContent>
+          Tell us how much time you have and we’ll recommend you content.
+        </BottomContent>
+      </Container>
     </Wrapper>
   );
 }

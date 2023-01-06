@@ -25,7 +25,12 @@ export default function ZentCoin(props) {
         <CoinWrapper>
           <Coins>{coins}</Coins>
           {time && <Time>{time}</Time>}
-          <Entypo name="chevron-right" size={20} color={theme.color.information} />
+          <Entypo
+            style={{ marginLeft: -6, marginTop: 2 }}
+            name="chevron-right"
+            size={20}
+            color={theme.color.information}
+          />
         </CoinWrapper>
       </View>
     </Wrapper>
@@ -46,6 +51,7 @@ const ZentIcon = styled.Image`
 const Info = styled(Text)`
   font-size: 14px;
   color: ${({ theme }) => theme?.color?.description};
+  margin-right: 9px;
 `;
 
 const CoinWrapper = styled.View`
