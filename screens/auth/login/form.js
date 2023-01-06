@@ -10,6 +10,7 @@ import axios from "services/axios";
 // Import Images
 import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
 import { useAuth } from "stores/auth";
+import mixpanel from "services/mixpanel";
 
 // Styled Component
 const Header = styled.View`
@@ -101,6 +102,7 @@ export default function LoginForm({ navigation }) {
 
       if (data.isVerified) {
         login(data);
+        mixpanel.track("Login", data);
 
         // Reset Stack Navigation
         navigation.dispatch(
@@ -128,6 +130,10 @@ export default function LoginForm({ navigation }) {
       setIsLoginEnabled(true);
     }
   }, [phoneNumberOrEmail, password]);
+
+  useEffect(() => {
+    mixpanel.screen("Login");
+  }, []);
 
   return (
     <Canvas>

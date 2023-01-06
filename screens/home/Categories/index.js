@@ -4,6 +4,7 @@ import Box from "components/box";
 import config from "services/config";
 import { Container } from "components";
 import { useNavigation } from "@react-navigation/native";
+import mixpanel from "services/mixpanel";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const sizeReduce = (WINDOW_WIDTH - 40) / 414;
@@ -12,11 +13,13 @@ const TILE_SIZE = Math.min((WINDOW_WIDTH - 40) * 0.5 - 5, 182);
 export default function Categories({ categories, inGrid = false }) {
   const navigation = useNavigation();
   const onPress = (category) => {
-    navigation.navigate("SongList", {
+    const props = {
       type: "category",
       query: category.name,
       title: category.name,
-    });
+    };
+    mixpanel.track("Select Item List", props);
+    navigation.navigate("SongList", props);
   };
 
   return (

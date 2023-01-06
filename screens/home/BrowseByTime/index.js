@@ -6,6 +6,7 @@ import timeIcon from "assets/icons/time-tab.png";
 import { Container, Text } from "components";
 
 import { useNavigation } from "@react-navigation/native";
+import mixpanel from "services/mixpanel";
 
 export default function Shortcuts() {
   const navigation = useNavigation();
@@ -40,9 +41,11 @@ export default function Shortcuts() {
               mr={index === shortcutsData?.length - 1 ? "20px" : "10px"}
             >
               <Item
-                onPress={() =>
-                  navigation.navigate("SongList", { title, type: "timer", query: minutes })
-                }
+                onPress={() => {
+                  const props = { title, type: "timer", query: minutes };
+                  mixpanel.track("Select Item List", props);
+                  navigation.navigate("SongList", props);
+                }}
               >
                 <ShortcutImage source={timeIcon} />
                 <TimeLabelHolder>

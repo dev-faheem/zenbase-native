@@ -26,6 +26,7 @@ import InviteFriend from "components/InviteFriend";
 import EarnMore from "components/EarnMore";
 import { useQueryHomepage } from "query/home";
 import { useLoader } from "stores/loader";
+import mixpanel from "services/mixpanel";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -89,6 +90,10 @@ export default function Home({ navigation, route }) {
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
+
+  useEffect(() => {
+    !isLoading && mixpanel.screen("Home", data);
+  }, [data, isLoading]);
 
   // useEffect(() => {
   //   playAds();
@@ -224,13 +229,16 @@ export default function Home({ navigation, route }) {
           <Container>
             <InviteFriend
               label="Meditate"
-              onPress={() =>
-                navigation.navigate("SongList", {
+              onPress={() => {
+                const props = {
                   type: "category",
                   id: meditateFriendData?.id,
                   title: meditateFriendData?.title,
-                })
-              }
+                };
+
+                mixpanel.track("Select Item List", props);
+                navigation.navigate("SongList", props);
+              }}
             />
 
             <EarnMore />

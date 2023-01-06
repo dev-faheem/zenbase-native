@@ -13,6 +13,7 @@ import { useInfiniteSearch, useSearch } from "query/songs";
 import { useQueryCategory } from "query/category";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
+import mixpanel from "services/mixpanel";
 
 // Styled Component
 const Header = styled.SafeAreaView`
@@ -95,6 +96,19 @@ export default function SongList({ route, navigation }) {
     }
     return [...accumulator, ...pageSongs];
   }, []);
+
+  useEffect(() => {
+    mixpanel.track("View Item List", {
+      type,
+      query: {
+        query,
+        ...timeQueryProps,
+      },
+      pages: data?.pages?.length,
+      songs,
+      title,
+    });
+  }, [data]);
 
   const onEndReached = () => {
     if (hasNextPage) fetchNextPage();

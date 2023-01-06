@@ -14,6 +14,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import AppleIcon from "assets/vectors/apple.png";
 import GoogleIcon from "assets/vectors/google.png";
 import { handleSignInWithApple } from "helpers/auth-apple";
+import mixpanel from "services/mixpanel";
 
 // Styled Component
 const Header = styled.View`
@@ -249,6 +250,8 @@ export default function Register({ navigation }) {
         state: provinceValue,
         apple_user_id: credentials.user,
       });
+
+      mixpanel.track("Register", data);
 
       let value = email;
 
