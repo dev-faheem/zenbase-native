@@ -7,6 +7,7 @@ const dark = {
     white: "#ffffff",
     red: "#FF453A",
     hud: "#262626",
+    secondaryDark: "#1E1F20",
     secondary: "#333333",
     information: "#ABABAC",
     description: "#8F9094",

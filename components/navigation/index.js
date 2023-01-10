@@ -114,11 +114,11 @@ export default function Navigation() {
             <Stack.Screen name="ReferFriends" component={ReferFriends} />
             <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
+            <Stack.Screen name="Settings" component={Settings} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
-            <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
             <Stack.Screen name="ZentDonation" component={ZentDonation} />
