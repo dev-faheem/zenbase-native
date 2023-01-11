@@ -53,6 +53,7 @@ import LoginForm from "screens/auth/login/form";
 import { useLoader } from "stores/loader";
 import Rewards from "screens/rewards";
 import SplashScreen from "screens/splash-screen";
+import Timer from "screens/timer";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -114,6 +115,7 @@ export default function Navigation() {
             <Stack.Screen name="ReferFriends" component={ReferFriends} />
             <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
+            <Stack.Screen name="Timer" component={Timer} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
