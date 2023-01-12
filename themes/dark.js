@@ -6,6 +6,7 @@ const dark = {
     black: "#000000",
     white: "#ffffff",
     red: "#FF453A",
+    green: "#34C759",
     hud: "#262626",
     secondaryDark: "#1E1F20",
     secondary: "#333333",
