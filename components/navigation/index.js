@@ -54,6 +54,7 @@ import { useLoader } from "stores/loader";
 import Rewards from "screens/rewards";
 import SplashScreen from "screens/splash-screen";
 import EarningTeam from "screens/earning-team";
+import UpgradePremium from "../../screens/upgrade-premium";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -117,6 +118,7 @@ export default function Navigation() {
             <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>

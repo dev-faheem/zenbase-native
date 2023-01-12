@@ -117,16 +117,33 @@ export default function Settings({ route }) {
               Settings
             </Text>
             <SwitchList>
+              {!user?.isPremium && (
+                <>
+                  <SwitchWrapper style={{ height: 50 }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("UpgradePremium", {
+                          previousScreenName: "Settings",
+                        });
+                      }}
+                    >
+                      <Text color="primary" numberOfLines={1} fontWeight="600">
+                        Upgrade to Zenbase Premium
+                      </Text>
+                    </TouchableOpacity>
+                  </SwitchWrapper>
+                  <Divider />
+                </>
+              )}
+
               <SwitchWrapper style={{ height: 50 }}>
-                <TouchableOpacity>
-                  <Text color="primary" numberOfLines={1} fontWeight="600">
-                    Upgrade to Zenbase Premium
-                  </Text>
-                </TouchableOpacity>
-              </SwitchWrapper>
-              <Divider />
-              <SwitchWrapper style={{ height: 50 }}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    inviteFriend(
+                      `${user?.name} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`
+                    );
+                  }}
+                >
                   <Text color="primary" numberOfLines={1} fontWeight="600">
                     Invite Friends
                   </Text>
