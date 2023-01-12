@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components/native";
-import { Text } from "components";
+import { Text, Container, Box } from "components";
 import { FlatList } from "react-native";
 
 export default function ActivitiesTabs(props) {
@@ -17,10 +17,15 @@ export default function ActivitiesTabs(props) {
         renderItem={({ item, index }) => {
           const { id, name, icon = {} } = item;
           return (
-            <TabButton active={id === activeTab} onPress={() => setActiveTab(id)}>
-              {icon && <Icon {...icon} />}
-              <Text>{name}</Text>
-            </TabButton>
+            <Box
+              pl={index == 0 ? 20 : null}
+              mr={index === tabContent?.length - 1 ? "20px" : "10px"}
+            >
+              <TabButton active={id === activeTab} onPress={() => setActiveTab(id)}>
+                {icon && <Icon {...icon} />}
+                <Text>{name}</Text>
+              </TabButton>
+            </Box>
           );
         }}
       />
@@ -31,7 +36,7 @@ export default function ActivitiesTabs(props) {
 
   return (
     <Wrapper>
-      {title && <Title>{title}</Title>}
+      <Container>{title && <Title>{title}</Title>}</Container>
       {renderTabButtons()}
       {currentTab && currentTab?.component}
       {/* {activeTab} */}

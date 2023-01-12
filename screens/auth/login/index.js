@@ -17,6 +17,7 @@ import { queryClient } from "query/client";
 import { fetchHomepage } from "query/home";
 import { useAuth } from "stores/auth";
 import { CommonActions } from "@react-navigation/native";
+import mixpanel from "services/mixpanel";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -90,6 +91,7 @@ export default function Login({ navigation }) {
         return;
       }
 
+      mixpanel.track("Auto Login", _user);
       login(_user);
       navigation.dispatch(
         CommonActions.reset({
@@ -111,6 +113,8 @@ export default function Login({ navigation }) {
       queryKey: ["home"],
       queryFn: fetchHomepage,
     });
+
+    mixpanel.screen("Prelogin");
   }, []);
 
   if (!isAppReady) {

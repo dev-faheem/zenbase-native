@@ -26,7 +26,7 @@ import InviteFriend from "components/InviteFriend";
 import EarnMore from "components/EarnMore";
 import { useQueryHomepage } from "query/home";
 import { useLoader } from "stores/loader";
-import { playAds } from "services/playAds";
+import mixpanel from "services/mixpanel";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -90,6 +90,10 @@ export default function Home({ navigation, route }) {
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
+
+  useEffect(() => {
+    !isLoading && mixpanel.screen("Home", data);
+  }, [data, isLoading]);
 
   // useEffect(() => {
   //   playAds();
@@ -222,18 +226,23 @@ export default function Home({ navigation, route }) {
                 songs={section.songs}
               />
             ))}
+          <Container>
+            <InviteFriend
+              label="Meditate"
+              onPress={() => {
+                const props = {
+                  type: "category",
+                  id: meditateFriendData?.id,
+                  title: meditateFriendData?.title,
+                };
 
-          <InviteFriend
-            label="Meditate"
-            onPress={() =>
-              navigation.navigate("SongList", {
-                type: "category",
-                id: meditateFriendData?.id,
-                title: meditateFriendData?.title,
-              })
-            }
-          />
-          <EarnMore />
+                mixpanel.track("Select Item List", props);
+                navigation.navigate("SongList", props);
+              }}
+            />
+
+            <EarnMore />
+          </Container>
           <SongList
             categories={data?.categories?.filter((cat) => !cat.isPodcast)}
             id={meditateFriendData?.id || ""}
@@ -304,9 +313,9 @@ export default function Home({ navigation, route }) {
 
         <Container>
           <ZentCoin />
-          <Shortcuts />
-          <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
         </Container>
+        <Shortcuts />
+        <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
 
         <NavigationPadding padding={50} />
       </Animated.ScrollView>
@@ -348,7 +357,8 @@ export default function Home({ navigation, route }) {
             style={{
               position: "absolute",
               width: "100%",
-              height: windowHeight - (Platform.OS == "ios" ? Constants.statusBarHeight : 15) - 310,
+              height:
+                windowHeight - (Platform.OS == "ios" ? Constants.statusBarHeight : 15) - 310 - 30,
               bottom: 0,
               left: 0,
               zIndex: 99999,
