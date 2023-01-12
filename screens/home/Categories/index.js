@@ -33,8 +33,8 @@ export default function Categories({ categories, inGrid = false }) {
         renderItem={({ item, index }) => {
           return (
             <Box
-              pl={index == 0 ? 20 : null}
-              mr={index === categories?.length - 1 ? "20px" : "10px"}
+              pl={inGrid ? 20 : index == 0 ? 20 : null}
+              mr={index === categories?.length - 1 ? "10px" : "10px"}
             >
               <Item onPress={() => onPress(item)}>
                 <ShortcutImage
