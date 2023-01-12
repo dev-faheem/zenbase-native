@@ -27,6 +27,7 @@ const Wrapper = styled.TouchableOpacity`
   align-items: center;
   justify-content: space-between;
   padding: ${({ theme: { getSize } }) => `0 ${getSize(25 - 7)}px 0 ${getSize(20.5)}px`}};
+  margin-bottom: ${({ theme: { getSize } }) => getSize(40)}px;
 `;
 const Title = styled(Text)`
   font-size: ${({ theme: { getSize } }) => getSize(20)}px;

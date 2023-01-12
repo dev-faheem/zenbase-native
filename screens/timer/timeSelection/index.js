@@ -5,19 +5,6 @@ import NumberPlease from "react-native-number-please";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 export default function TimeSelection(props) {
-  const initialBirthday = [
-    { id: "day", value: 16 },
-    { id: "month", value: 4 },
-    { id: "year", value: 1970 },
-  ];
-
-  const [birthday, setBirtday] = useState(initialBirthday);
-
-  const date = [
-    { id: "day", label: "", min: 0, max: 31 },
-    { id: "month", label: "", min: 0, max: 12 },
-    { id: "year", label: "", min: 1900, max: new Date().getFullYear() },
-  ];
   return (
     <Wrapper>
       <Title>Time</Title>
