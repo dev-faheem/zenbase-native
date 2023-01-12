@@ -20,6 +20,7 @@ export { default as RewardsCTA } from "components/rewards-cta";
 export { default as PremiumCTA } from "components/premium-cta";
 export { default as ContextMenu } from "components/context-menu";
 export { default as TextInput } from "components/text-input";
+export { default as AnimatedHeaderView } from "components/animated-header-view";
 export {
   default as NavigationPadding,
   NavigationPaddingInsets,

@@ -72,6 +72,6 @@ const TabButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   border-radius: 10px;
-  margin-right: 10px;
-  ${({ active }) => (active ? `border: 1.5px solid #8D8D92;` : "")}
+  border-color: ${({ active }) => (active ? "#8D8D92" : "transparent")};
+  border-width: 1.5px;
 `;

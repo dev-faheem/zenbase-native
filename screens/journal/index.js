@@ -4,6 +4,10 @@ import { ScrollView, TouchableHighlight, TouchableOpacity, View } from "react-na
 import { useTheme } from "stores/theme";
 import { SwipeListView } from "react-native-swipe-list-view";
 import styled from "styled-components/native";
+import { useAuth } from "stores/auth";
+import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
+import axios from "services/axios";
 
 // Import Images
 import SongImage from "assets/images/song.png";
@@ -11,10 +15,6 @@ import ZenbaseVectorGrey from "assets/vectors/zenbase-grey.png";
 
 // Import Icons
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "stores/auth";
-import { useIsFocused } from "@react-navigation/native";
-import { useEffect } from "react";
-import axios from "services/axios";
 
 // Styled Component
 const JournalHeader = styled.View`

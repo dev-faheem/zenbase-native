@@ -54,6 +54,7 @@ import { useLoader } from "stores/loader";
 import Rewards from "screens/rewards";
 import SplashScreen from "screens/splash-screen";
 import Timer from "screens/timer";
+import EarningTeam from "screens/earning-team";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -85,6 +86,7 @@ export function HomeStack() {
       <Tabs.Screen name="Profile" component={Profile} />
       <Tabs.Screen name="Followers" component={Followers} />
       <Tabs.Screen name="Sounds" component={Sounds} />
+      <Tabs.Screen name="EarningTeam" component={EarningTeam} />
     </Tabs.Navigator>
   );
 }
@@ -116,11 +118,11 @@ export default function Navigation() {
             <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="Timer" component={Timer} />
+            <Stack.Screen name="Settings" component={Settings} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
-            <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
             <Stack.Screen name="ZentDonation" component={ZentDonation} />
