@@ -8,10 +8,13 @@ import IntervalBell from "./intervalBell";
 import TimerBellList from "./timerBellList";
 import Actions from "./actions";
 import TimeSelection from "./timeSelection";
+import { useNavigation } from "@react-navigation/core";
 
 export default function Timer() {
+  const navigation = useNavigation();
   return (
     <Canvas>
+      <TempHome onPress={() => navigation.navigate("Home")} />
       <TimerContext.Provider value={{}}>
         <Wrapper>
           <TimerBellList timerBellListData={timerBellListData} />
@@ -28,3 +31,10 @@ export default function Timer() {
 }
 
 const Wrapper = styled.View``;
+
+//Will Remove
+const TempHome = styled.TouchableOpacity`
+  width: 20px;
+  height: 20px;
+  background: red;
+`;

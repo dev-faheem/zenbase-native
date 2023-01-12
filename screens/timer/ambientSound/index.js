@@ -19,7 +19,7 @@ export default function AmbientSound(props) {
 
 const Wrapper = styled.TouchableOpacity`
   width: 100%;
-  background: #1e1f20;
+  background:${({ theme: { color } }) => color?.card};
   border-radius: ${({ theme: { getSize } }) => getSize(15)}px;
   height: ${({ theme: { getSize } }) => getSize(64)}px;
   display: flex;

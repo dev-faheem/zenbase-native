@@ -11,15 +11,15 @@ import ThadobatiIcon from "assets/images/timerBells/Thadobati.png";
 import ZhadaIcon from "assets/images/timerBells/Zhada.png";
 
 export const timerBellListData = [
-  { inon: Shurong1Icon, title: "Shurong" },
-  { inon: SilentMeditationIcon, title: "Silent Meditation" },
-  { inon: ShurongIcon, title: "Shurong" },
-  { inon: BasuIcon, title: "Basu" },
-  { inon: DengzeIcon, title: "Dengze" },
-  { inon: SakyaIcon, title: "Sakya" },
-  { inon: OmbuIcon, title: "Ombu" },
-  { inon: KangseIcon, title: "Kangse" },
-  { inon: ZhadaIcon, title: "Zhada" },
-  { inon: JambatiIcon, title: "Jambati" },
-  { inon: ThadobatiIcon, title: "Thadobati" },
+  { icon: Shurong1Icon, title: "Shurong" },
+  { icon: SilentMeditationIcon, title: "Silent Meditation" },
+  { icon: ShurongIcon, title: "Shurong" },
+  { icon: BasuIcon, title: "Basu" },
+  { icon: DengzeIcon, title: "Dengze" },
+  { icon: SakyaIcon, title: "Sakya" },
+  { icon: OmbuIcon, title: "Ombu" },
+  { icon: KangseIcon, title: "Kangse" },
+  { icon: ZhadaIcon, title: "Zhada" },
+  { icon: JambatiIcon, title: "Jambati" },
+  { icon: ThadobatiIcon, title: "Thadobati" },
 ];
