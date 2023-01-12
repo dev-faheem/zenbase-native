@@ -63,12 +63,14 @@ export default function Settings({ route }) {
   const navigation = useNavigation();
   const { user, updateUser, logout } = useAuth();
   // States
-  const [appleHealth, setAppleHealth] = useState(true);
-  const [displayWellnessActivity, setDisplayWellnessActivity] = useState(true);
-  const [currentWellnessActivity, setCurrentWellnessActivity] = useState(true);
+  const [setting, setSetting] = useState({
+    appleHealth: true,
+    displayWellnessActivity: true,
+    currentWellnessActivity: true,
+  });
 
-  const toggle = (setter, value) => {
-    setter(!value);
+  const handleSwitch = (key, value) => {
+    setSetting({ ...setting, [key]: value });
   };
 
   // useEffect(() => {
@@ -157,9 +159,9 @@ export default function Settings({ route }) {
                 </SwitchMediaFlex>
                 <Switch
                   onValueChange={() => {
-                    toggle(setAppleHealth, appleHealth);
+                    handleSwitch("appleHealth", !setting.appleHealth);
                   }}
-                  value={appleHealth}
+                  value={setting.appleHealth}
                 />
               </SwitchWrapper>
               <Divider />
@@ -168,9 +170,9 @@ export default function Settings({ route }) {
                 <Text numberOfLines={1}>Display Wellness Activity on Profile</Text>
                 <Switch
                   onValueChange={() => {
-                    toggle(setDisplayWellnessActivity, displayWellnessActivity);
+                    handleSwitch("displayWellnessActivity", !setting.displayWellnessActivity);
                   }}
-                  value={displayWellnessActivity}
+                  value={setting.displayWellnessActivity}
                 />
               </SwitchWrapper>
               <Divider />
@@ -179,9 +181,9 @@ export default function Settings({ route }) {
                 <Text numberOfLines={1}>Allow Current Wellness Activity</Text>
                 <Switch
                   onValueChange={() => {
-                    toggle(setCurrentWellnessActivity, currentWellnessActivity);
+                    handleSwitch("currentWellnessActivity", !setting.currentWellnessActivity);
                   }}
-                  value={currentWellnessActivity}
+                  value={setting.currentWellnessActivity}
                 />
               </SwitchWrapper>
             </SwitchList>
