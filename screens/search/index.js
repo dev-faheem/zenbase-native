@@ -235,7 +235,9 @@ export default function Search({ navigation }) {
       icon: { source: micIcon, width: "10.87px" },
       component: (
         <>
-          <Categories inGrid categories={data?.categories?.filter((cat) => cat.isPodcast)} />
+          <Container>
+            <Categories inGrid categories={data?.categories?.filter((cat) => cat.isPodcast)} />
+          </Container>
         </>
       ),
     },
