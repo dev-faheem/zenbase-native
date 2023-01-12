@@ -79,6 +79,8 @@ const ShortcutImage = styled.Image`
 
   width: ${WINDOW_WIDTH < 414 ? 182 * sizeReduce : 182}px;
   height: ${WINDOW_WIDTH < 414 ? 114 * sizeReduce : 114}px;
+  /* width: ${({ theme: { getSize } }) => getSize(182)}px;
+  height:${({ theme: { getSize } }) => getSize(182)}px; */
   border-radius: 8px;
   margin-bottom: 10px;
 `;
