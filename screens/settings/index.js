@@ -63,12 +63,14 @@ export default function Settings({ route }) {
   const navigation = useNavigation();
   const { user, updateUser, logout } = useAuth();
   // States
-  const [appleHealth, setAppleHealth] = useState(true);
-  const [displayWellnessActivity, setDisplayWellnessActivity] = useState(true);
-  const [currentWellnessActivity, setCurrentWellnessActivity] = useState(true);
+  const [setting, setSetting] = useState({
+    appleHealth: true,
+    displayWellnessActivity: true,
+    currentWellnessActivity: true,
+  });
 
-  const toggle = (setter, value) => {
-    setter(!value);
+  const handleSwitch = (key, value) => {
+    setSetting({ ...setting, [key]: value });
   };
 
   // useEffect(() => {
@@ -115,16 +117,33 @@ export default function Settings({ route }) {
               Settings
             </Text>
             <SwitchList>
+              {!user?.isPremium && (
+                <>
+                  <SwitchWrapper style={{ height: 50 }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("UpgradePremium", {
+                          previousScreenName: "Settings",
+                        });
+                      }}
+                    >
+                      <Text color="primary" numberOfLines={1} fontWeight="600">
+                        Upgrade to Zenbase Premium
+                      </Text>
+                    </TouchableOpacity>
+                  </SwitchWrapper>
+                  <Divider />
+                </>
+              )}
+
               <SwitchWrapper style={{ height: 50 }}>
-                <TouchableOpacity>
-                  <Text color="primary" numberOfLines={1} fontWeight="600">
-                    Upgrade to Zenbase Premium
-                  </Text>
-                </TouchableOpacity>
-              </SwitchWrapper>
-              <Divider />
-              <SwitchWrapper style={{ height: 50 }}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    inviteFriend(
+                      `${user?.name} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`
+                    );
+                  }}
+                >
                   <Text color="primary" numberOfLines={1} fontWeight="600">
                     Invite Friends
                   </Text>
@@ -157,9 +176,9 @@ export default function Settings({ route }) {
                 </SwitchMediaFlex>
                 <Switch
                   onValueChange={() => {
-                    toggle(setAppleHealth, appleHealth);
+                    handleSwitch("appleHealth", !setting.appleHealth);
                   }}
-                  value={appleHealth}
+                  value={setting.appleHealth}
                 />
               </SwitchWrapper>
               <Divider />
@@ -168,9 +187,9 @@ export default function Settings({ route }) {
                 <Text numberOfLines={1}>Display Wellness Activity on Profile</Text>
                 <Switch
                   onValueChange={() => {
-                    toggle(setDisplayWellnessActivity, displayWellnessActivity);
+                    handleSwitch("displayWellnessActivity", !setting.displayWellnessActivity);
                   }}
-                  value={displayWellnessActivity}
+                  value={setting.displayWellnessActivity}
                 />
               </SwitchWrapper>
               <Divider />
@@ -179,9 +198,9 @@ export default function Settings({ route }) {
                 <Text numberOfLines={1}>Allow Current Wellness Activity</Text>
                 <Switch
                   onValueChange={() => {
-                    toggle(setCurrentWellnessActivity, currentWellnessActivity);
+                    handleSwitch("currentWellnessActivity", !setting.currentWellnessActivity);
                   }}
-                  value={currentWellnessActivity}
+                  value={setting.currentWellnessActivity}
                 />
               </SwitchWrapper>
             </SwitchList>

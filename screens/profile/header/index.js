@@ -101,7 +101,7 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
   }
 
   return (
-    <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == "android" ? 35 : 100}>
+    <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == "android" ? 35 : 200}>
       <ProfileHeaderOverlay>
         <ProfileHeaderButtons style={[editable ? { justifyContent: "flex-start" } : {}]}>
           {editable ? (
