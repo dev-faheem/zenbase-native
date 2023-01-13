@@ -11,15 +11,15 @@ import ThadobatiIcon from "assets/images/timerBells/Thadobati.png";
 import ZhadaIcon from "assets/images/timerBells/Zhada.png";
 
 export const timerBellListData = [
-  { icon: Shurong1Icon, title: "Shurong" },
-  { icon: SilentMeditationIcon, title: "Silent Meditation" },
-  { icon: ShurongIcon, title: "Shurong" },
-  { icon: BasuIcon, title: "Basu" },
-  { icon: DengzeIcon, title: "Dengze" },
-  { icon: SakyaIcon, title: "Sakya" },
-  { icon: OmbuIcon, title: "Ombu" },
-  { icon: KangseIcon, title: "Kangse" },
-  { icon: ZhadaIcon, title: "Zhada" },
-  { icon: JambatiIcon, title: "Jambati" },
-  { icon: ThadobatiIcon, title: "Thadobati" },
+  { icon: Shurong1Icon, title: "Shurong", width: 80, height: 80, width: 80, height: 80 },
+  { icon: SilentMeditationIcon, title: "Silent Meditation", width: 60.04, height: 60 },
+  { icon: ShurongIcon, title: "Shurong", width: 117.31, height: 70 },
+  { icon: BasuIcon, title: "Basu", width: 146, height: 55 },
+  { icon: DengzeIcon, title: "Dengze", width: 130.2, height: 70 },
+  { icon: SakyaIcon, title: "Sakya", width: 143.93, height: 70 },
+  { icon: OmbuIcon, title: "Ombu", width: 135, height: 71 },
+  { icon: KangseIcon, title: "Kangse", width: 131.34, height: 70 },
+  { icon: ZhadaIcon, title: "Zhada", width: 125.73, height: 70 },
+  { icon: JambatiIcon, title: "Jambati", width: 110.27, height: 70 },
+  { icon: ThadobatiIcon, title: "Thadobati", width: 103, height: 70 },
 ];

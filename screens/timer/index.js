@@ -14,7 +14,7 @@ export default function Timer() {
   const navigation = useNavigation();
   return (
     <Canvas>
-      <TempHome onPress={() => navigation.navigate("Home")} />
+      {/* <TempHome onPress={() => navigation.navigate("Login")} /> */}
       <TimerContext.Provider value={{}}>
         <Wrapper>
           <TimerBellList timerBellListData={timerBellListData} />
