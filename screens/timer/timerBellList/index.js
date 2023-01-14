@@ -6,9 +6,7 @@ import BellCard from "./bellCard";
 export default function TimerBellList(props) {
   const { timerBellListData = [] } = props;
 
-  const viewabilityConfigRef = useRef({
-    viewAreaCoveragePercentThreshold: 55,
-  });
+  // const viewabilityConfigRef = useRef({ viewAreaCoveragePercentThreshold: 55 });
 
   const [scrollViewWidth, setScrollViewWidth] = useState(0);
   const boxWidth = scrollViewWidth * 0.5;
@@ -31,15 +29,12 @@ export default function TimerBellList(props) {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={1}
-        viewabilityConfig={viewabilityConfigRef.current}
+        // viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item, index }) => (
           <BellCard key={index} {...item} isLast={index == timerBellListData.length - 1} />
         )}
         snapToInterval={boxWidth}
-        contentInset={{
-          left: halfBoxDistance,
-          right: halfBoxDistance,
-        }}
+        contentInset={{ left: halfBoxDistance, right: halfBoxDistance }}
         contentOffset={{ x: halfBoxDistance * -1, y: 0 }}
         onLayout={(e) => {
           setScrollViewWidth(e.nativeEvent.layout.width);
