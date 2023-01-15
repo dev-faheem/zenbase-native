@@ -15,7 +15,7 @@
     "@react-native-community/datetimepicker": "6.5.2",
     "@react-native-community/slider": "4.2.4",
     "@react-native-google-signin/google-signin": "^9.0.0",
-    "@react-native-picker/picker": "2.4.8",
+    "@react-native-picker/picker": "^2.4.8",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.4",
@@ -65,7 +65,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
-    "babel-plugin-module-resolver": "^4.1.0"
+    "babel-plugin-module-resolver": "^4.1.0",
+    "immer": "^9.0.17",
+    "lodash.find": "^4.6.0",
+    "lodash.findindex": "^4.6.0"
   },
   "private": true,
   "name": "zenbase-native",
