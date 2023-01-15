@@ -36,7 +36,7 @@ export default function Timer() {
     >
       <Header />
       <Container>
-        <Title>Timer{selectedBell}</Title>
+        <Title>Timer</Title>
       </Container>
       <Wrapper>
         <TimerBellList />
