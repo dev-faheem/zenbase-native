@@ -1,6 +1,4 @@
-import Canvas from "components/canvas";
 import styled from "styled-components/native";
-import { Container } from "components";
 import AmbientSound from "./ambientSound";
 import { timerBellListData } from "./config";
 import { TimerContext } from "./contex";
@@ -9,13 +7,27 @@ import TimerBellList from "./timerBellList";
 import Actions from "./actions";
 import TimeSelection from "./timeSelection";
 import { useNavigation } from "@react-navigation/core";
+import { useState } from "react";
+import { TIMER_STATUS_INITIAL } from "./keys";
+import { Text, AnimatedHeaderView, Container } from "components";
+import Header from "./header";
 
 export default function Timer() {
   const navigation = useNavigation();
+
+  const [timerStatus, setTimerStatus] = useState(TIMER_STATUS_INITIAL);
+
   return (
-    <Canvas>
-      {/* <TempHome onPress={() => navigation.navigate("Login")} /> */}
-      <TimerContext.Provider value={{}}>
+    <AnimatedHeaderView
+      previousScreenName="Timer"
+      header={<Header title={"Timer"} />}
+      inputRange={[10, 50]}
+    >
+      <Header />
+      <Container>
+        <Title>Timer</Title>
+      </Container>
+      <TimerContext.Provider value={{ timerStatus, setTimerStatus }}>
         <Wrapper>
           <TimerBellList timerBellListData={timerBellListData} />
           <Container>
@@ -26,15 +38,15 @@ export default function Timer() {
           </Container>
         </Wrapper>
       </TimerContext.Provider>
-    </Canvas>
+    </AnimatedHeaderView>
   );
 }
 
 const Wrapper = styled.View``;
 
-//Will Remove
-const TempHome = styled.TouchableOpacity`
-  width: 20px;
-  height: 20px;
-  background: red;
+const Title = styled(Text)`
+  font-weight: 700;
+  font-size: ${({ theme: { getSize } }) => getSize(32)}px;
+  line-height: ${({ theme: { getSize } }) => getSize(38)}px;
+  margin-bottom: ${({ theme: { getSize } }) => getSize(17)}px;
 `;

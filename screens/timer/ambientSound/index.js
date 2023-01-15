@@ -2,12 +2,15 @@ import Text from "components/text";
 import styled from "styled-components/native";
 import { Entypo } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
+import { useNavigation } from "@react-navigation/core";
 
 export default function AmbientSound(props) {
   const { selsctedSound = "" } = props;
   const { theme } = useTheme();
+  const navigation = useNavigation();
+
   return (
-    <Wrapper>
+    <Wrapper onPress={() => navigation.navigate("AmbientSoundSelection")}>
       <Title>Ambient Sound</Title>
       <SelectedWrapper>
         <SelectedSound>{selsctedSound || "None"}</SelectedSound>
@@ -30,6 +33,7 @@ const Wrapper = styled.TouchableOpacity`
   margin-bottom: ${({ theme: { getSize } }) => getSize(40)}px;
 `;
 const Title = styled(Text)`
+  font-weight: 600;
   font-size: ${({ theme: { getSize } }) => getSize(20)}px;
   line-height: ${({ theme: { getSize } }) => getSize(19)}px;
 `;

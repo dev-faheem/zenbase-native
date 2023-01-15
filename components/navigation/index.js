@@ -56,6 +56,7 @@ import SplashScreen from "screens/splash-screen";
 import Timer from "screens/timer";
 import EarningTeam from "screens/earning-team";
 import UpgradePremium from "../../screens/upgrade-premium";
+import AmbientSoundSelection from "../../screens/timer/ambientSoundSelection";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -119,6 +120,7 @@ export default function Navigation() {
             <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="Timer" component={Timer} />
+            <Stack.Screen name="AmbientSoundSelection" component={AmbientSoundSelection} />
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
           </Stack.Group>

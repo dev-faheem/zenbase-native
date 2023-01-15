@@ -1,35 +1,52 @@
 import Text from "components/text";
 import styled from "styled-components/native";
+import { useTimer } from "../contex";
+import { TIMER_STATUS_INITIAL, TIMER_STATUS_ON_GOING, TIMER_STATUS_PAUSED } from "../keys";
 
 export default function Actions(props) {
   // const { status = "" } = props;
 
-  const temp = [{ status: "initial" }, { status: "onGoing" }, { status: "paused" }];
+  const { timerStatus, setTimerStatus } = useTimer();
+
+  const temp = [
+    { status: TIMER_STATUS_INITIAL },
+    { status: TIMER_STATUS_ON_GOING },
+    { status: TIMER_STATUS_PAUSED },
+  ];
+
+  const cancleDisable = timerStatus === TIMER_STATUS_INITIAL;
+
+  function handleCancel() {
+    setTimerStatus(TIMER_STATUS_INITIAL);
+  }
+
+  function handleAction() {
+    if (timerStatus === TIMER_STATUS_INITIAL) setTimerStatus(TIMER_STATUS_ON_GOING);
+    if (timerStatus === TIMER_STATUS_ON_GOING) setTimerStatus(TIMER_STATUS_PAUSED);
+    if (timerStatus === TIMER_STATUS_PAUSED) setTimerStatus(TIMER_STATUS_ON_GOING);
+  }
 
   return (
     <Wrapper>
-      {temp.map(({ status }, index) => {
-        const cancleDisable = index === 0;
-
-        return (
-          <ButtonHolder>
-            <CancleButton>
-              {!cancleDisable && <ButtonLine />}
-              <ButtonText color={cancleDisable ? "rgba(143, 144, 148, 0.75)" : "#fff"}>
-                Cancel
-              </ButtonText>
-            </CancleButton>
-            <ActionButton color={status === "onGoing" ? "rgba(107, 38, 255, 0.35)" : "#003C14"}>
-              <ButtonLine />
-              <ButtonText color={status === "onGoing" ? "#E1D2FF" : "#00D444"}>
-                {status === "initial" && "Start"}
-                {status === "onGoing" && "Pause"}
-                {status === "paused" && "Resume"}
-              </ButtonText>
-            </ActionButton>
-          </ButtonHolder>
-        );
-      })}
+      <ButtonHolder>
+        <CancleButton onPress={handleCancel}>
+          {!cancleDisable && <ButtonLine />}
+          <ButtonText color={cancleDisable ? "rgba(143, 144, 148, 0.75)" : "#fff"}>
+            Cancel
+          </ButtonText>
+        </CancleButton>
+        <ActionButton
+          onPress={handleAction}
+          color={timerStatus === TIMER_STATUS_ON_GOING ? "rgba(107, 38, 255, 0.35)" : "#003C14"}
+        >
+          <ButtonLine />
+          <ButtonText color={timerStatus === TIMER_STATUS_ON_GOING ? "#E1D2FF" : "#00D444"}>
+            {timerStatus === TIMER_STATUS_INITIAL && "Start"}
+            {timerStatus === TIMER_STATUS_ON_GOING && "Pause"}
+            {timerStatus === TIMER_STATUS_PAUSED && "Resume"}
+          </ButtonText>
+        </ActionButton>
+      </ButtonHolder>
     </Wrapper>
   );
 }
