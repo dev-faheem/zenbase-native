@@ -1,17 +1,16 @@
 import { useRef, useState } from "react";
 import { Animated, Dimensions, FlatList } from "react-native";
 import styled from "styled-components/native";
+import { useTimer } from "../contex";
 import BellCard from "./bellCard";
 
 export default function TimerBellList(props) {
-  const { timerBellListData = [] } = props;
+  const { timerBellListData = [] } = useTimer();
 
   const [scrollViewWidth, setScrollViewWidth] = useState(0);
   const boxWidth = scrollViewWidth * 0.5;
   const boxDistance = scrollViewWidth - boxWidth;
   const halfBoxDistance = boxDistance / 2;
-
-  const pan = useRef(new Animated.ValueXY()).current;
 
   return (
     <Wrapper>

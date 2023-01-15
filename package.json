@@ -12,6 +12,7 @@
   "dependencies": {
     "@miblanchard/react-native-slider": "^2.1.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
+    "@react-native-community/datetimepicker": "6.5.2",
     "@react-native-community/slider": "4.2.4",
     "@react-native-google-signin/google-signin": "^9.0.0",
     "@react-native-picker/picker": "2.4.8",
@@ -60,8 +61,7 @@
     "react-native-web": "~0.18.7",
     "styled-components": "^5.3.1",
     "typescript": "^4.6.3",
-    "uuid": "^9.0.0",
-    "@react-native-community/datetimepicker": "6.5.2"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

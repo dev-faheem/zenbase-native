@@ -11,13 +11,24 @@ import { useState } from "react";
 import { TIMER_STATUS_INITIAL } from "./keys";
 import { Text, AnimatedHeaderView, Container } from "components";
 import Header from "./header";
+import Counter from "./counter";
+import Canvas from "../../components/canvas";
 
 export default function Timer() {
   const navigation = useNavigation();
+  const [selectedBell, setSelectedBell] = useState(timerBellListData[1]?.id);
 
   const [timerStatus, setTimerStatus] = useState(TIMER_STATUS_INITIAL);
 
-  return (
+  const contextProps = {
+    timerBellListData,
+    selectedBell,
+    setSelectedBell,
+    timerStatus,
+    setTimerStatus,
+  };
+
+  const mainView = () => (
     <AnimatedHeaderView
       previousScreenName="Timer"
       header={<Header title={"Timer"} />}
@@ -25,20 +36,34 @@ export default function Timer() {
     >
       <Header />
       <Container>
-        <Title>Timer</Title>
+        <Title>Timer{selectedBell}</Title>
       </Container>
-      <TimerContext.Provider value={{ timerStatus, setTimerStatus }}>
-        <Wrapper>
-          <TimerBellList timerBellListData={timerBellListData} />
-          <Container>
-            <TimeSelection />
-            <IntervalBell />
-            <AmbientSound />
-            <Actions />
-          </Container>
-        </Wrapper>
-      </TimerContext.Provider>
+      <Wrapper>
+        <TimerBellList />
+        <Container>
+          <TimeSelection />
+          <IntervalBell />
+          <AmbientSound />
+          <Actions />
+        </Container>
+      </Wrapper>
     </AnimatedHeaderView>
+  );
+  const startedView = () => (
+    <Canvas>
+      <Wrapper>
+        <Container>
+          <Counter />
+          <Actions />
+        </Container>
+      </Wrapper>
+    </Canvas>
+  );
+
+  return (
+    <TimerContext.Provider value={contextProps}>
+      {timerStatus === TIMER_STATUS_INITIAL ? mainView() : startedView()}
+    </TimerContext.Provider>
   );
 }
 
