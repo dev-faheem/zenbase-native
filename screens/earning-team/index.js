@@ -7,6 +7,7 @@ import {
   NavigationPaddingInsetsWithSafeArea,
   AnimatedHeaderView,
   Box,
+  Header,
 } from "components";
 import {
   ScrollView,
@@ -43,7 +44,7 @@ const HeaderWrapper = styled.View`
 `;
 
 const HeaderTitle = styled.View`
-  width: 106%;
+  width: 107%;
   height: 100%;
   position: absolute;
   top: 5px;
@@ -154,38 +155,6 @@ const JoinNowButtton = styled.TouchableOpacity`
   margin-top: 15px;
 `;
 
-const Header = ({ title = "", route, navigation }) => {
-  const { theme } = useTheme();
-  const { previousScreenName } = route.params;
-  return (
-    <>
-      <HeaderWrapper>
-        <HeaderTitle>
-          <Text>{title}</Text>
-        </HeaderTitle>
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Ionicons name="ios-chevron-back" size={24} color={theme.color.primary} />
-          <Text color="primary" fontSize={14} fontWeight={600}>
-            {previousScreenName}
-          </Text>
-        </TouchableOpacity>
-
-        <HeaderIconWrapper onPress={() => {}}>
-          <HeaderIcon source={personAddIcon} resizeMode="contain" />
-        </HeaderIconWrapper>
-      </HeaderWrapper>
-    </>
-  );
-};
-
 const InvitedYou = () => {
   return (
     <>
@@ -264,13 +233,24 @@ const YourTeam = () => {
 // EarningTeam Component (Default)
 export default function EarningTeam({ route, navigation }) {
   const [isYourTeam, setIsYourTeam] = useState(false);
+  const { previousScreenName } = route.params;
   return (
     <>
       <AnimatedHeaderView
-        header={<Header title={"Earning Team"} navigation={navigation} route={route} />}
+        header={
+          <Header
+            title={"Earning Team"}
+            previousScreenName={previousScreenName}
+            addon={
+              <HeaderIconWrapper onPress={() => {}}>
+                <HeaderIcon source={personAddIcon} resizeMode="contain" />
+              </HeaderIconWrapper>
+            }
+          />
+        }
         inputRange={[10, 50]}
       >
-        <Header navigation={navigation} route={route} />
+        <Header previousScreenName={previousScreenName} />
         <Container>
           <Text fontSize="30" fontWeight="bold">
             Earning Team
