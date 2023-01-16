@@ -101,6 +101,7 @@ export default function Navigation() {
     <>
       <NavigationContainer>
         <Stack.Navigator
+          // initialRouteName="Timer"
           initialRouteName="Login"
           screenOptions={{
             headerShown: false,
