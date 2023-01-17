@@ -4,20 +4,24 @@ import { Entypo } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
 import { useNavigation } from "@react-navigation/core";
 import { useTimer } from "../contex";
+import { ambientSoundData } from "../config";
 
 export default function AmbientSound(props) {
   const { selsctedSound = "" } = props;
   const { theme } = useTheme();
   const navigation = useNavigation();
 
-  const { setAmbientSoundSelection } = useTimer();
+  const { selectedAmbientSound, setAmbientSoundSelection } = useTimer();
+  const selectedIndex = ambientSoundData?.findIndex(
+    ({ _id }) => selectedAmbientSound && _id === selectedAmbientSound
+  );
+  const selectedSound = selectedIndex != -1 ? ambientSoundData[selectedIndex]?.title : "None";
 
   return (
     <Wrapper onPress={() => setAmbientSoundSelection(true)}>
-      {/* <Wrapper onPress={() => navigation.navigate("AmbientSoundSelection")}> */}
       <Title>Ambient Sound</Title>
       <SelectedWrapper>
-        <SelectedSound>{selsctedSound || "None"}</SelectedSound>
+        <SelectedSound>{selectedSound}</SelectedSound>
         <Entypo name="chevron-right" size={20} color={theme.color.information} />
       </SelectedWrapper>
     </Wrapper>

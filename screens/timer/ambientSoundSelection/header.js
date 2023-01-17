@@ -3,8 +3,6 @@ import { TouchableOpacity } from "react-native";
 import { useTheme } from "stores/theme";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
-
-import personAddIcon from "assets/icons/person-add.png";
 import { useNavigation } from "@react-navigation/core";
 import { useTimer } from "../contex";
 

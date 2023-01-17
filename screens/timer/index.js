@@ -26,7 +26,6 @@ export default function Timer() {
 
   const [ambientSoundSelection, setAmbientSoundSelection] = useState(false);
   const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
-  // const [tempSelectedAmbientSound, setTempSlectedAmbientSound] = useState(null);
 
   const contextProps = {
     timerBellListData,
@@ -38,8 +37,6 @@ export default function Timer() {
     setAmbientSoundSelection,
     selectedAmbientSound,
     setselectedAmbientSound,
-    // tempSelectedAmbientSound,
-    // setTempSlectedAmbientSound,
   };
 
   const audioUrl = "https://development.zenbase.us/uploads/1669332859414-924275594.mp3";

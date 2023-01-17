@@ -17,7 +17,7 @@ export default function AmbientSoundSelection(props) {
   const { selectedAmbientSound } = useTimer();
   const [tempSelectedAmbientSound, setTempSlectedAmbientSound] = useState(selectedAmbientSound);
 
-  const cardWidth = width / 2 - 28;
+  const cardWidth = width / 2 - 25;
 
   return (
     <>
@@ -33,6 +33,7 @@ export default function AmbientSoundSelection(props) {
         />
         <Container style={{ flex: 1, position: "relative", zIndex: 2 }}>
           <Title>Ambient Sound</Title>
+
           <Wrapper>
             <FlatList
               columnWrapperStyle={{ justifyContent: "space-between" }}
@@ -42,16 +43,20 @@ export default function AmbientSoundSelection(props) {
               data={ambientSoundData || []}
               keyExtractor={(item, index) => index + "_" + item._id}
               renderItem={({ item, index }) => (
-                <Box pl={20} mr={index === ambientSoundData?.length - 1 ? "10px" : "10px"}>
-                  <CardWrapper width={cardWidth}>
-                    <SoundCard
-                      {...item}
-                      cardWidth={cardWidth}
-                      tempSelectedAmbientSound={tempSelectedAmbientSound}
-                      setTempSlectedAmbientSound={setTempSlectedAmbientSound}
-                    />
-                  </CardWrapper>
-                </Box>
+                // <Box
+                // // pl={10}
+                // // ml={}
+                // //  mr={index === ambientSoundData?.length - 1 ? "10px" : "10px"}
+                // >
+                <CardWrapper width={cardWidth} style={{ marginRight: index % 2 == 0 ? 10 : 0 }}>
+                  <SoundCard
+                    {...item}
+                    cardWidth={cardWidth}
+                    tempSelectedAmbientSound={tempSelectedAmbientSound}
+                    setTempSlectedAmbientSound={setTempSlectedAmbientSound}
+                  />
+                </CardWrapper>
+                // </Box>
               )}
               onEndReachedThreshold={0.5}
               // onEndReached={onEndReached}
