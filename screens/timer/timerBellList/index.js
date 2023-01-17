@@ -33,6 +33,7 @@ export default function TimerBellList(props) {
           setScrollViewWidth(e.nativeEvent.layout.width);
         }}
         onScroll={(e) => {
+          console.log(e.nativeEvent.contentOffset.x);
           // Animated.event([{ nativeEvent: { contentOffset: { x: pan.x } } }], {
           //   useNativeDriver: false,
           // });

@@ -15,7 +15,7 @@ export default function TimeSelection(props) {
   const timeList = [
     { id: "day", label: "hours", min: 0, max: 31 },
     { id: "min", label: "min", min: 0, max: 12 },
-    { id: "year", label: "sec", min: 0, max: 60 },
+    { id: "second", label: "second", min: 0, max: 60 },
   ];
 
   return (
@@ -23,14 +23,14 @@ export default function TimeSelection(props) {
       <PickerWrapper>
         <NumberPlease
           pickerStyle={{
-            width: "32%",
-            background: "#fff",
-            picker: {
-              // height: 200,
-              // width: "100%",
-              color: "#fff",
-            },
+            width: "33%",
+            // backgroundColor: "red",
+            marginRight: -9,
+            marginLeft: -9,
+            marginLeft: -9,
+            // fontSize: 12,
           }}
+          // itemStyle={{ backgroundColor: "red" }}
           digits={timeList}
           values={time}
           onChange={(values) => setTime(values)}

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import _, { find } from "lodash";
-import produce from "immer";
+import { find } from "lodash";
 import range from "./utils/range";
 import { Picker } from "@react-native-picker/picker";
 
@@ -17,20 +16,23 @@ const PickerFactory = ({ pickerProps, selectedValue, onChange, pickerStyle, item
       itemStyle={itemStyle}
     >
       {numbers.map((number, index) => (
-        <Picker.Item key={`${id}-${number}-${index}`} value={number} label={`${number} ${label}`} />
+        <Picker.Item
+          color="#fff"
+          key={`${id}-${number}-${index}`}
+          value={number}
+          label={`${number} ${label}`}
+        />
       ))}
     </Picker>
   );
 };
 
 const NumberPlease = ({ digits, values, onChange, ...rest }) => {
-  const onChangeHandle = (value) => {
-    const nextValues = produce(values, (draft) => {
-      const index = _?.findIndex(draft, { id: value.id });
-      draft[index] = value;
-    });
-
-    onChange(nextValues);
+  const onChangeHandle = (value, index) => {
+    const temp = JSON.parse(JSON.stringify(values));
+    console.log({ value });
+    temp[index] = value;
+    onChange(temp);
   };
 
   return (
@@ -42,7 +44,7 @@ const NumberPlease = ({ digits, values, onChange, ...rest }) => {
             key={`${picker.id}-picker-${index}`}
             pickerProps={picker}
             selectedValue={pickerValues?.value}
-            onChange={onChangeHandle}
+            onChange={(e) => onChangeHandle(e, index)}
             {...rest}
           />
         );
@@ -58,10 +60,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  picker: {
-    height: "100%",
-    width: 90,
-  },
+
+  // picker: { height: "100%", width: 90 },
 });
 
 export default NumberPlease;

@@ -12,7 +12,14 @@ import ZhadaIcon from "assets/images/timerBells/Zhada.png";
 
 export const timerBellListData = [
   { id: 1, icon: Shurong1Icon, title: "Shurong", width: 80, height: 80, width: 80, height: 80 },
-  { id: 2, icon: SilentMeditationIcon, title: "Silent Meditation", width: 60.04, height: 60 },
+  {
+    id: 2,
+    icon: SilentMeditationIcon,
+    title: "Silent Meditation",
+    viewTitle: "Silent",
+    width: 60.04,
+    height: 60,
+  },
   { id: 3, icon: ShurongIcon, title: "Shurong", width: 117.31, height: 70 },
   { id: 4, icon: BasuIcon, title: "Basu", width: 146, height: 55 },
   { id: 5, icon: DengzeIcon, title: "Dengze", width: 130.2, height: 70 },
