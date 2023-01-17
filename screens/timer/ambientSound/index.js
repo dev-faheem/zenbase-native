@@ -3,14 +3,18 @@ import styled from "styled-components/native";
 import { Entypo } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
 import { useNavigation } from "@react-navigation/core";
+import { useTimer } from "../contex";
 
 export default function AmbientSound(props) {
   const { selsctedSound = "" } = props;
   const { theme } = useTheme();
   const navigation = useNavigation();
 
+  const { setAmbientSoundSelection } = useTimer();
+
   return (
-    <Wrapper onPress={() => navigation.navigate("AmbientSoundSelection")}>
+    <Wrapper onPress={() => setAmbientSoundSelection(true)}>
+      {/* <Wrapper onPress={() => navigation.navigate("AmbientSoundSelection")}> */}
       <Title>Ambient Sound</Title>
       <SelectedWrapper>
         <SelectedSound>{selsctedSound || "None"}</SelectedSound>

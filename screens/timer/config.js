@@ -10,6 +10,15 @@ import ShurongIcon from "assets/images/timerBells/Shurong.png";
 import ThadobatiIcon from "assets/images/timerBells/Thadobati.png";
 import ZhadaIcon from "assets/images/timerBells/Zhada.png";
 
+import BirdsIcon from "assets/images/ambientSound/Birds.png";
+import DeepOmIcon from "assets/images/ambientSound/DeepOm.png";
+import LightRainIcon from "assets/images/ambientSound/LightRain.png";
+import OceanWavesIcon from "assets/images/ambientSound/OceanWaves.png";
+import PeacefulPondIcon from "assets/images/ambientSound/PeacefulPond.png";
+import RainforestIcon from "assets/images/ambientSound/Rainforest.png";
+
+import tempSongTile from "assets/images/song.png";
+
 export const timerBellListData = [
   { id: 1, icon: Shurong1Icon, title: "Shurong", width: 80, height: 80, width: 80, height: 80 },
   {
@@ -29,4 +38,25 @@ export const timerBellListData = [
   { id: 9, icon: ZhadaIcon, title: "Zhada", width: 125.73, height: 70 },
   { id: 10, icon: JambatiIcon, title: "Jambati", width: 110.27, height: 70 },
   { id: 11, icon: ThadobatiIcon, title: "Thadobati", width: 103, height: 70 },
+];
+
+export const ambientSoundData = [
+  { _id: 1, title: "Birds", file: "/uploads/timer/Birds.mp3", songImage: BirdsIcon },
+  { _id: 2, title: "Deep Om", file: "/uploads/timer/Deep Om.mp3", songImage: DeepOmIcon },
+  { _id: 3, title: "Light Rain", file: "/uploads/timer/Light Rain.mp3", songImage: LightRainIcon },
+  {
+    _id: 4,
+    title: "Ocean Waves",
+    file: "/uploads/timer/Ocean Waves.mp3",
+    songImage: OceanWavesIcon,
+  },
+  {
+    _id: 5,
+    title: "Peaceful Pond",
+    file: "/uploads/timer/Peaceful Pond.mp3",
+    songImage: PeacefulPondIcon,
+  },
+  { _id: 6, title: "Rainforest", file: "/uploads/timer/Rainforest.mp3", songImage: RainforestIcon },
+  { _id: 7, title: "River", file: "/uploads/timer/River.mp3", songImage: tempSongTile },
+  { _id: 8, title: "Storm", file: "/uploads/timer/Storm.mp3", songImage: tempSongTile },
 ];

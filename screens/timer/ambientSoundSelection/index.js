@@ -9,20 +9,13 @@ import { Dimensions, FlatList, TouchableOpacity } from "react-native";
 import tempSongTile from "assets/images/song.png";
 import { Container, Box } from "components";
 import Header from "./header";
+import { ambientSoundData } from "../config";
+import { useTimer } from "../contex";
 
 export default function AmbientSoundSelection(props) {
   const { width } = Dimensions.get("window");
-
-  const soundListData = [
-    { _id: 1, title: "Birds", songImage: tempSongTile },
-    { _id: 2, title: "Ocean Waves", songImage: tempSongTile },
-    { _id: 3, title: "Birds", songImage: tempSongTile },
-    { _id: 4, title: "Ocean Waves", songImage: tempSongTile },
-    { _id: 5, title: "Birds", songImage: tempSongTile },
-    { _id: 6, title: "Ocean Waves", songImage: tempSongTile },
-    { _id: 7, title: "Birds", songImage: tempSongTile },
-    { _id: 8, title: "Ocean Waves", songImage: tempSongTile },
-  ];
+  const { selectedAmbientSound } = useTimer();
+  const [tempSelectedAmbientSound, setTempSlectedAmbientSound] = useState(selectedAmbientSound);
 
   const cardWidth = width / 2 - 28;
 
@@ -33,7 +26,11 @@ export default function AmbientSoundSelection(props) {
         header={<Header previousScreenName="Timer" title={"Ambient Sound"} />}
         inputRange={[10, 50]}
       >
-        <Header previousScreenName="Timer" inputRange={[10, 50]} />
+        <Header
+          previousScreenName="Timer"
+          inputRange={[10, 50]}
+          tempSelectedAmbientSound={tempSelectedAmbientSound}
+        />
         <Container style={{ flex: 1, position: "relative", zIndex: 2 }}>
           <Title>Ambient Sound</Title>
           <Wrapper>
@@ -42,12 +39,17 @@ export default function AmbientSoundSelection(props) {
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
               numColumns={2}
-              data={soundListData || []}
+              data={ambientSoundData || []}
               keyExtractor={(item, index) => index + "_" + item._id}
               renderItem={({ item, index }) => (
-                <Box pl={20} mr={index === soundListData?.length - 1 ? "10px" : "10px"}>
+                <Box pl={20} mr={index === ambientSoundData?.length - 1 ? "10px" : "10px"}>
                   <CardWrapper width={cardWidth}>
-                    <SoundCard {...item} cardWidth={cardWidth} />
+                    <SoundCard
+                      {...item}
+                      cardWidth={cardWidth}
+                      tempSelectedAmbientSound={tempSelectedAmbientSound}
+                      setTempSlectedAmbientSound={setTempSlectedAmbientSound}
+                    />
                   </CardWrapper>
                 </Box>
               )}

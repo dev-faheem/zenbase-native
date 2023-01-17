@@ -3,11 +3,19 @@ import { Text } from "components";
 import checkIcon from "assets/icons/active-circle-check.png";
 
 export default function soundCard(props) {
-  const { title = "", songImage, cardWidth } = props;
+  const {
+    _id,
+    title = "",
+    songImage,
+    cardWidth,
+    tempSelectedAmbientSound,
+    setTempSlectedAmbientSound,
+  } = props;
 
+  const current = tempSelectedAmbientSound && _id === tempSelectedAmbientSound;
   return (
-    <Wrapper>
-      <CheckIcon source={checkIcon} />
+    <Wrapper onPress={() => setTempSlectedAmbientSound(current ? null : _id)}>
+      {current && <CheckIcon source={checkIcon} />}
       <SongImage source={songImage} cardWidth={cardWidth} />
       <Title>{title}</Title>
     </Wrapper>

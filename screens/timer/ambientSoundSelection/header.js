@@ -6,13 +6,20 @@ import { Ionicons } from "@expo/vector-icons";
 
 import personAddIcon from "assets/icons/person-add.png";
 import { useNavigation } from "@react-navigation/core";
+import { useTimer } from "../contex";
 
-export default function Header({ title = "", previousScreenName = "" }) {
+export default function Header(props) {
+  const { title = "", previousScreenName = "", tempSelectedAmbientSound } = props;
   const { theme } = useTheme();
   const navigation = useNavigation();
 
+  const { setAmbientSoundSelection, selectedAmbientSound, setselectedAmbientSound } = useTimer();
+  const goBack = () => {
+    setAmbientSoundSelection(false);
+  };
   const onDone = () => {
-    navigation.goBack();
+    setselectedAmbientSound(tempSelectedAmbientSound);
+    setAmbientSoundSelection(false);
   };
 
   return (
@@ -23,7 +30,8 @@ export default function Header({ title = "", previousScreenName = "" }) {
         </HeaderTitle>
         <TouchableOpacity
           style={{ flexDirection: "row", alignItems: "center" }}
-          onPress={() => navigation.goBack()}
+          // onPress={() => navigation.goBack()}
+          onPress={goBack}
         >
           <Ionicons name="ios-chevron-back" size={24} color={theme.color.primary} />
           <Text color="primary" fontSize={14} fontWeight={600}>

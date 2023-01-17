@@ -1,4 +1,4 @@
-export default {
+const config = {
   API_URL: "https://development.zenbase.us/",
   // API_URL: "http://localhost:4000/",
   LEGACY_API_URL: "https://development.zenbase.us/legacy/",
@@ -10,3 +10,5 @@ export default {
   MIXPANEL_PROJECT_TOKEN: "da6528c1f7f37050520b593c0c4a9faf",
   MIXPANEL_API_SECRET: "f516775b334b5e9e21cf220a00f9154c",
 };
+
+export default config;

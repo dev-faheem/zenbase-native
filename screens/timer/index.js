@@ -14,6 +14,8 @@ import Header from "./header";
 import Counter from "./counter";
 import Canvas from "../../components/canvas";
 import { Audio } from "expo-av";
+import config from "../../config";
+import AmbientSoundSelection from "./ambientSoundSelection";
 let audio = new Audio.Sound();
 
 export default function Timer() {
@@ -22,12 +24,22 @@ export default function Timer() {
 
   const [timerStatus, setTimerStatus] = useState(TIMER_STATUS_INITIAL);
 
+  const [ambientSoundSelection, setAmbientSoundSelection] = useState(false);
+  const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
+  // const [tempSelectedAmbientSound, setTempSlectedAmbientSound] = useState(null);
+
   const contextProps = {
     timerBellListData,
     selectedBell,
     setSelectedBell,
     timerStatus,
     setTimerStatus,
+    ambientSoundSelection,
+    setAmbientSoundSelection,
+    selectedAmbientSound,
+    setselectedAmbientSound,
+    // tempSelectedAmbientSound,
+    // setTempSlectedAmbientSound,
   };
 
   const audioUrl = "https://development.zenbase.us/uploads/1669332859414-924275594.mp3";
@@ -91,9 +103,18 @@ export default function Timer() {
     </Canvas>
   );
 
+  // alert(config.API_URL);
+  // console.log({ test: config.API_URLM });
+
   return (
     <TimerContext.Provider value={contextProps}>
-      {timerStatus === TIMER_STATUS_INITIAL ? mainView() : startedView()}
+      {ambientSoundSelection ? (
+        <AmbientSoundSelection />
+      ) : timerStatus === TIMER_STATUS_INITIAL ? (
+        mainView()
+      ) : (
+        startedView()
+      )}
     </TimerContext.Provider>
   );
 }
