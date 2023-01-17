@@ -8,7 +8,9 @@ export default function BellCard(props) {
   const { setSelectedBell = () => {} } = useTimer();
   return (
     <Wrapper width={Dimensions.get("window").width * 0.5}>
-      <ContentWrapper onPress={() => setSelectedBell(id)}>
+      <ContentWrapper
+      //  onPress={() => setSelectedBell(id)}
+      >
         <BellIconCard {...props} />
       </ContentWrapper>
     </Wrapper>
@@ -21,4 +23,4 @@ const Wrapper = styled.View`
   flex-direction: row;
   justify-content: center;
 `;
-const ContentWrapper = styled.TouchableOpacity``;
+const ContentWrapper = styled.View``;
