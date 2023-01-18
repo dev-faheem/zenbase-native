@@ -11,7 +11,7 @@ import axios from "services/axios";
 
 // Import Images
 import SongImage from "assets/images/song.png";
-import ZenbaseVectorGrey from "assets/vectors/zenbase-grey.png";
+import ZenbaseVectorGrey from "assets/vectors/zenbase-dark-grey.png";
 import pinIcon from "assets/icons/pin.png";
 import unpinIcon from "assets/icons/unpin.png";
 
@@ -47,12 +47,12 @@ const JournalListImg = styled.Image`
 `;
 
 const JournalListImgLoading = styled.View`
-  width: 50px;
-  height: 50px;
+  width: 90px;
+  height: 89px;
   border-radius: 10px;
   margin-left: 8px;
   margin-right: 8px;
-  background: #8b57ff;
+  background: ${(props) => props.theme.color.hud};
 `;
 
 const JournalDeleteWrapper = styled.TouchableOpacity`
@@ -103,6 +103,16 @@ const months = [
   "December",
 ];
 
+// Group Array
+const groupBy = (array, key) => {
+  return array.reduce((acc, obj) => {
+    const property = obj[key];
+    acc[property] = acc[property] || [];
+    acc[property].push(obj);
+    return acc;
+  }, {});
+};
+
 // Journal Component (Default)
 export default function Journal({ route, navigation }) {
   // Theme Configuration
@@ -116,6 +126,7 @@ export default function Journal({ route, navigation }) {
         //id: 1,
         title: item.title,
         date: `${months[createdAt.getMonth()]} ${createdAt.getDate()}`,
+        year: `${months[createdAt.getMonth()]} ${createdAt.getFullYear()}`,
         description: item.description,
         type: item.emotion,
         zentValue: item.zentValue,
@@ -123,6 +134,8 @@ export default function Journal({ route, navigation }) {
       };
     })
   );
+
+  const [groupedJournals, setGroupedJournal] = useState(groupBy(journals, "year"));
 
   const [songs, setSongs] = useState([]);
 
@@ -133,6 +146,8 @@ export default function Journal({ route, navigation }) {
     if (updatedSongIds.length > 0) {
       fetchSongs(updatedSongIds);
     }
+
+    setGroupedJournal(groupBy(journals, "year"));
   }, [journals]);
 
   const fetchSongs = async (ids) => {
@@ -158,23 +173,48 @@ export default function Journal({ route, navigation }) {
           <ScrollView style={{ width: "100%" }} showsVerticalScrollIndicator={false}>
             <Header previousScreenName={"Profile"} />
             <Container>
-              <Text fontSize="h2" fontWeight="bold" style={{ marginBottom: 18 }}>
+              <Text fontSize="32" fontWeight="bold" style={{ marginBottom: 18 }}>
                 My Journal
               </Text>
-              {false && !user.isPremium && (
+              {/* <Ionicons name="ios-chevron-forward" size={20} color={theme.color.information} /> */}
+              {!user.isPremium ? (
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("JournalUpgradeToZenbase");
+                    navigation.navigate("UpgradePremium", { previousScreenName: "My Journal" });
                   }}
-                  style={{ marginBottom: 20 }}
+                  style={{
+                    width: "100%",
+                    marginBottom: 20,
+                    marginTop: 5,
+                  }}
                 >
                   <JournalList
-                    style={{ borderRadius: 10, paddingBottom: 3, backgroundColor: theme.color.hud }}
+                    style={{
+                      paddingTop: 3,
+                      borderRadius: 10,
+                      backgroundColor: theme.color.hud,
+                      height: 64,
+                    }}
                   >
-                    <JournalListImg source={ZenbaseVectorGrey} resizeMode="cover" />
-                    <JournalListContent style={{ borderBottomWidth: 0 }}>
-                      <View style={{ width: "88%" }}>
-                        <Text style={{ marginTop: 6, lineHeight: 18 }} fontSize="13">
+                    <JournalListContent style={{ height: 64 }}>
+                      <JournalListImg
+                        source={ZenbaseVectorGrey}
+                        style={{
+                          width: 35,
+                          height: 35,
+                          marginLeft: 0,
+                          marginRight: 15,
+                          borderRadius: 0,
+                        }}
+                        resizeMode="contain"
+                      />
+                      <View style={{ width: "79%" }}>
+                        <Text
+                          numberOfLines={2}
+                          adjustsFontSizeToFit
+                          style={{ lineHeight: 18 }}
+                          fontSize="13"
+                        >
                           Save all of your journal entries with Zenbase Premium and earn more.
                         </Text>
                       </View>
@@ -195,87 +235,102 @@ export default function Journal({ route, navigation }) {
                     </JournalListContent>
                   </JournalList>
                 </TouchableOpacity>
-              )}
+              ) : null}
             </Container>
 
-            {journals.length > 0 && (
-              <SwipeListView
-                closeOnRowOpen={true}
-                data={journals}
-                renderItem={(data, rowMap) => {
-                  const song = songs.find((x) => {
-                    return x._id == data.item.item.song;
-                  });
+            {journals.length > 0 &&
+              Object.keys(groupedJournals).map((key) => {
+                return (
+                  <>
+                    <Container>
+                      <Text fontSize="24" fontWeight="bold" style={{ marginBottom: 8 }}>
+                        {key}
+                      </Text>
+                    </Container>
+                    <SwipeListView
+                      closeOnRowOpen={true}
+                      data={groupedJournals[key]}
+                      renderItem={(data, rowMap) => {
+                        const song = songs.find((x) => {
+                          return x._id == data.item.item.song;
+                        });
 
-                  return (
-                    <TouchableHighlight onPress={() => {}}>
-                      <JournalList>
-                        {song ? (
-                          <JournalListImg source={{ uri: song?.artwork }} resizeMode="cover" />
-                        ) : (
-                          <JournalListImgLoading />
-                        )}
-                        <JournalListContent
-                          style={
-                            data.index == journals.length - 1 ? { borderBottomWidth: 0 } : null
-                          }
-                        >
-                          <View style={{ width: "100%" }}>
-                            <Text numberOfLines={1} color="primary" fontWeight="600">
-                              {data.item.date} • {Number(data.item.zentValue).toFixed(3) || "0"}{" "}
-                              ZENT
-                            </Text>
-                            <Text
-                              numberOfLines={1}
-                              style={{
-                                marginTop: 8,
-                                textTransform: "capitalize",
+                        return (
+                          <TouchableHighlight onPress={() => {}}>
+                            <JournalList>
+                              {song ? (
+                                <JournalListImg
+                                  source={{ uri: song?.artwork }}
+                                  resizeMode="cover"
+                                />
+                              ) : (
+                                <JournalListImgLoading />
+                              )}
+                              <JournalListContent
+                                style={
+                                  data.index == journals.length - 1
+                                    ? { borderBottomWidth: 0 }
+                                    : null
+                                }
+                              >
+                                <View style={{ width: "100%" }}>
+                                  <Text numberOfLines={1} color="primary" fontWeight="600">
+                                    {data.item.date} •{" "}
+                                    {Number(data.item.zentValue).toFixed(3) || "0"} ZENT
+                                  </Text>
+                                  <Text
+                                    numberOfLines={1}
+                                    style={{
+                                      marginTop: 8,
+                                      textTransform: "capitalize",
+                                    }}
+                                    fontSize="16"
+                                    fontWeight="500"
+                                  >
+                                    {data.item.title || data.item.type}
+                                  </Text>
+                                  <Text color="description" numberOfLines={1} fontSize="16">
+                                    {data.item.description}
+                                  </Text>
+                                </View>
+                              </JournalListContent>
+                            </JournalList>
+                          </TouchableHighlight>
+                        );
+                      }}
+                      renderHiddenItem={(data, rowMap) => {
+                        return (
+                          <JournalDeleteWrapper>
+                            <JournalPinButton>
+                              <PinImage source={pinIcon} resizeMode="contain" />
+                            </JournalPinButton>
+                            <JournalDeleteButton
+                              onPress={() => {
+                                rowMap[data.index].closeRow();
+                                navigation.navigate("DeleteJournal", {
+                                  journal: data.item,
+                                  index: data.index,
+                                  deleteFunction: deleteJournal,
+                                });
                               }}
-                              fontSize="16"
-                              fontWeight="500"
                             >
-                              {data.item.title || data.item.type}
-                            </Text>
-                            <Text color="description" numberOfLines={1} fontSize="16">
-                              {data.item.description}
-                            </Text>
-                          </View>
-                        </JournalListContent>
-                      </JournalList>
-                    </TouchableHighlight>
-                  );
-                }}
-                renderHiddenItem={(data, rowMap) => {
-                  return (
-                    <JournalDeleteWrapper>
-                      <JournalPinButton>
-                        <PinImage source={pinIcon} resizeMode="contain" />
-                      </JournalPinButton>
-                      <JournalDeleteButton
-                        onPress={() => {
-                          rowMap[data.index].closeRow();
-                          navigation.navigate("DeleteJournal", {
-                            journal: data.item,
-                            index: data.index,
-                            deleteFunction: deleteJournal,
-                          });
-                        }}
-                      >
-                        <Ionicons name="trash" size={24} color={theme.color.white} />
-                      </JournalDeleteButton>
-                    </JournalDeleteWrapper>
-                  );
-                }}
-                keyExtractor={(data, index) => {
-                  return `${index}`;
-                }}
-                leftOpenValue={109}
-                stopLeftwipe={120}
-                rightOpenValue={-109}
-                stopRightSwipe={-120}
-                style={{ marginBottom: 18 }}
-              />
-            )}
+                              <Ionicons name="trash" size={24} color={theme.color.white} />
+                            </JournalDeleteButton>
+                          </JournalDeleteWrapper>
+                        );
+                      }}
+                      keyExtractor={(data, index) => {
+                        return `${index}`;
+                      }}
+                      leftOpenValue={109}
+                      stopLeftwipe={120}
+                      rightOpenValue={-109}
+                      stopRightSwipe={-120}
+                      style={{ marginBottom: 18 }}
+                    />
+                  </>
+                );
+              })}
           </ScrollView>
         </Canvas>
       </AnimatedHeaderView>
