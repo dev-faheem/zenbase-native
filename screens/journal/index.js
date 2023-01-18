@@ -23,6 +23,7 @@ const JournalList = styled.View`
   flex-direction: row;
   justify-content: flex-start;
   padding-top: 8px;
+  padding-bottom: 10px;
   padding-left: 12px;
   padding-right: 20px;
   background-color: ${(props) => props.theme.color.background};
@@ -256,7 +257,7 @@ export default function Journal({ route, navigation }) {
                         });
 
                         return (
-                          <TouchableHighlight onPress={() => {}}>
+                          <TouchableHighlight onPress={() => {}} style={{ marginBottom: 2 }}>
                             <JournalList>
                               {song ? (
                                 <JournalListImg
