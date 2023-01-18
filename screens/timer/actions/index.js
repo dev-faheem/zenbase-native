@@ -26,15 +26,22 @@ export default function Actions(props) {
     if (timerStatus === TIMER_STATUS_PAUSED) setTimerStatus(TIMER_STATUS_ON_GOING);
   }
 
+  const canceButtonContent = () => (
+    <>
+      {!cancleDisable && <ButtonLine />}
+      <ButtonText color={cancleDisable ? "rgba(143, 144, 148, 0.75)" : "#fff"}>Cancel</ButtonText>
+    </>
+  );
+
   return (
     <Wrapper>
       <ButtonHolder>
-        <CancleButton onPress={handleCancel}>
-          {!cancleDisable && <ButtonLine />}
-          <ButtonText color={cancleDisable ? "rgba(143, 144, 148, 0.75)" : "#fff"}>
-            Cancel
-          </ButtonText>
-        </CancleButton>
+        {cancleDisable ? (
+          <NormalCancleButton>{canceButtonContent()}</NormalCancleButton>
+        ) : (
+          <CancleButton onPress={handleCancel}>{canceButtonContent()}</CancleButton>
+        )}
+
         <ActionButton
           onPress={handleAction}
           color={timerStatus === TIMER_STATUS_ON_GOING ? "rgba(107, 38, 255, 0.35)" : "#003C14"}
@@ -62,6 +69,16 @@ const ButtonHolder = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
+
+const NormalButton = styled.View`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  width: ${({ theme: { getSize } }) => getSize(90)}px;
+  height: ${({ theme: { getSize } }) => getSize(90)}px;
+`;
 const Button = styled.TouchableOpacity`
   position: relative;
 
@@ -81,6 +98,9 @@ const ButtonLine = styled.View`
   left: ${({ theme: { getSize } }) => getSize(0)}px;
   width: ${({ theme: { getSize } }) => getSize(84)}px;
   height: ${({ theme: { getSize } }) => getSize(84)}px;
+`;
+const NormalCancleButton = styled(NormalButton)`
+  background: #1e1f20;
 `;
 const CancleButton = styled(Button)`
   background: #1e1f20;

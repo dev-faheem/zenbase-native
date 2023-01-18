@@ -19,11 +19,8 @@ import AmbientSoundSelection from "./ambientSoundSelection";
 let audio = new Audio.Sound();
 
 export default function Timer() {
-  const navigation = useNavigation();
   const [selectedBell, setSelectedBell] = useState(timerBellListData[1]?.id);
-
   const [timerStatus, setTimerStatus] = useState(TIMER_STATUS_INITIAL);
-
   const [ambientSoundSelection, setAmbientSoundSelection] = useState(false);
   const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
 

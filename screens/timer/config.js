@@ -17,10 +17,30 @@ import OceanWavesIcon from "assets/images/ambientSound/OceanWaves.png";
 import PeacefulPondIcon from "assets/images/ambientSound/PeacefulPond.png";
 import RainforestIcon from "assets/images/ambientSound/Rainforest.png";
 
+//Bell Sounds
+
+import BasuSound from "assets/sounds/BellSounds/Basu.wav";
+import DengzeSound from "assets/sounds/BellSounds/Dengze.wav";
+import GongHanchiSound from "assets/sounds/BellSounds/Gong-Hanchi.wav";
+import KangseSound from "assets/sounds/BellSounds/Kangse.wav";
+import OmbuSound from "assets/sounds/BellSounds/Ombu.wav";
+import SakyaSound from "assets/sounds/BellSounds/Sakya.wav";
+import ShurongSound from "assets/sounds/BellSounds/Shurong.wav";
+import ZhadaSound from "assets/sounds/BellSounds/Zhada.wav";
+
 import tempSongTile from "assets/images/song.png";
 
 export const timerBellListData = [
-  { id: 1, icon: Shurong1Icon, title: "Shurong", width: 80, height: 80, width: 80, height: 80 },
+  {
+    id: 1,
+    icon: Shurong1Icon,
+    title: "Shurong",
+    width: 80,
+    height: 80,
+    width: 80,
+    height: 80,
+    sound: ShurongSound,
+  },
   {
     id: 2,
     icon: SilentMeditationIcon,
@@ -29,13 +49,13 @@ export const timerBellListData = [
     width: 60.04,
     height: 60,
   },
-  { id: 3, icon: ShurongIcon, title: "Shurong", width: 117.31, height: 70 },
-  { id: 4, icon: BasuIcon, title: "Basu", width: 146, height: 55 },
-  { id: 5, icon: DengzeIcon, title: "Dengze", width: 130.2, height: 70 },
-  { id: 6, icon: SakyaIcon, title: "Sakya", width: 143.93, height: 70 },
-  { id: 7, icon: OmbuIcon, title: "Ombu", width: 135, height: 71 },
-  { id: 8, icon: KangseIcon, title: "Kangse", width: 131.34, height: 70 },
-  { id: 9, icon: ZhadaIcon, title: "Zhada", width: 125.73, height: 70 },
+  { id: 3, icon: ShurongIcon, title: "Shurong", width: 117.31, height: 70, sound: ShurongSound },
+  { id: 4, icon: BasuIcon, title: "Basu", width: 146, height: 55, sound: BasuSound },
+  { id: 5, icon: DengzeIcon, title: "Dengze", width: 130.2, height: 70, sound: DengzeSound },
+  { id: 6, icon: SakyaIcon, title: "Sakya", width: 143.93, height: 70, sound: SakyaSound },
+  { id: 7, icon: OmbuIcon, title: "Ombu", width: 135, height: 71, sound: OmbuSound },
+  { id: 8, icon: KangseIcon, title: "Kangse", width: 131.34, height: 70, sound: KangseSound },
+  { id: 9, icon: ZhadaIcon, title: "Zhada", width: 125.73, height: 70, sound: ZhadaSound },
   { id: 10, icon: JambatiIcon, title: "Jambati", width: 110.27, height: 70 },
   { id: 11, icon: ThadobatiIcon, title: "Thadobati", width: 103, height: 70 },
 ];

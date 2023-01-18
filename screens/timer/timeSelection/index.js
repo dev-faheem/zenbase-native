@@ -13,7 +13,7 @@ export default function TimeSelection(props) {
   const [time, setTime] = useState(initial);
 
   const timeList = [
-    { id: "day", label: "hours", min: 0, max: 31 },
+    { id: "hour", label: "hours", min: 0, max: 31 },
     { id: "min", label: "min", min: 0, max: 12 },
     { id: "second", label: "second", min: 0, max: 60 },
   ];
@@ -23,11 +23,12 @@ export default function TimeSelection(props) {
       <PickerWrapper>
         <NumberPlease
           pickerStyle={{
-            width: "33%",
+            width: "33.33%",
             // backgroundColor: "red",
             marginRight: -9,
             marginLeft: -9,
             marginLeft: -9,
+
             // fontSize: 12,
           }}
           // itemStyle={{ backgroundColor: "red" }}
