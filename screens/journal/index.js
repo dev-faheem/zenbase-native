@@ -48,7 +48,6 @@ const SearchBarWrapper = styled.View`
   background-color: ${(props) => props.theme.color.hud};
   padding-left: 8px;
   padding-right: 8px;
-  margin-right: 16px;
   margin-bottom: 20px;
 `;
 const JournalList = styled.View`
