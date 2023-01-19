@@ -134,15 +134,8 @@ export default function UpgradePremium({
 
       updateUserLocal("isPremium", true);
 
-      Alert.alert(
-        "You are now a Zenbase Premium user!",
-        "Zenbase Premium is the ultimate meditation-crypto rewards package on the market.",
-        [{ text: "Done", onPress: () => {} }],
-        {
-          userInterfaceStyle: "dark",
-        }
-      );
       navigation.goBack();
+      navigation.navigate("UpgradePremiumSuccessfully");
     } catch (e) {
       console.log({ applePayError: e });
     }
