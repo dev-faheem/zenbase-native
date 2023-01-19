@@ -6,7 +6,18 @@ import { TIMER_STATUS_INITIAL, TIMER_STATUS_ON_GOING, TIMER_STATUS_PAUSED } from
 export default function Actions(props) {
   // const { status = "" } = props;
 
-  const { timerStatus, setTimerStatus } = useTimer();
+  const {
+    timerStatus,
+    setTimerStatus,
+    ambient_playAudio,
+    ambient_pauseAudio,
+    ambient_resumeAudio,
+    ambient_exitAudio,
+    allSeconds,
+    timeLib,
+  } = useTimer();
+
+  const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = timeLib;
 
   const temp = [
     { status: TIMER_STATUS_INITIAL },
@@ -18,12 +29,29 @@ export default function Actions(props) {
 
   function handleCancel() {
     setTimerStatus(TIMER_STATUS_INITIAL);
+    ambient_exitAudio();
+    restart();
   }
 
   function handleAction() {
-    if (timerStatus === TIMER_STATUS_INITIAL) setTimerStatus(TIMER_STATUS_ON_GOING);
-    if (timerStatus === TIMER_STATUS_ON_GOING) setTimerStatus(TIMER_STATUS_PAUSED);
-    if (timerStatus === TIMER_STATUS_PAUSED) setTimerStatus(TIMER_STATUS_ON_GOING);
+    if (timerStatus === TIMER_STATUS_INITIAL) {
+      setTimerStatus(TIMER_STATUS_ON_GOING);
+      ambient_playAudio();
+
+      const time = new Date();
+      time.setSeconds(time.getSeconds() + allSeconds);
+      restart(time);
+    }
+    if (timerStatus === TIMER_STATUS_ON_GOING) {
+      setTimerStatus(TIMER_STATUS_PAUSED);
+      ambient_pauseAudio();
+      pause();
+    }
+    if (timerStatus === TIMER_STATUS_PAUSED) {
+      setTimerStatus(TIMER_STATUS_ON_GOING);
+      ambient_resumeAudio();
+      resume();
+    }
   }
 
   const canceButtonContent = () => (

@@ -3,27 +3,23 @@ import Text from "components/text";
 import styled from "styled-components/native";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import NumberPlease from "components/lib/number-please/NumberPlease";
+import { useTimer } from "../contex";
 export default function TimeSelection(props) {
-  const initial = [
-    { id: "hour", value: 1 },
-    { id: "min", value: 0 },
-    { id: "second", value: 0 },
-  ];
-
-  const [time, setTime] = useState(initial);
+  const { selectedTime, setSelectedTime, timeLib } = useTimer();
 
   const timeList = [
-    { id: "hour", label: "hours", min: 0, max: 31 },
-    { id: "min", label: "min", min: 0, max: 12 },
-    { id: "second", label: "second", min: 0, max: 60 },
+    { id: "hour", label: "", min: 0, max: 23, title: "hours" },
+    { id: "min", label: "", min: 0, max: 59, title: "min" },
+    { id: "second", label: "", min: 0, max: 59, title: "sec" },
   ];
 
+  console.log("Time: ", selectedTime);
   return (
     <Wrapper>
       <PickerWrapper>
         <NumberPlease
           pickerStyle={{
-            width: "33.33%",
+            width: 90,
             // backgroundColor: "red",
             marginRight: -9,
             marginLeft: -9,
@@ -33,8 +29,8 @@ export default function TimeSelection(props) {
           }}
           // itemStyle={{ backgroundColor: "red" }}
           digits={timeList}
-          values={time}
-          onChange={(values) => setTime(values)}
+          values={selectedTime}
+          onChange={(values) => setSelectedTime(values)}
         />
       </PickerWrapper>
       {/* <RNDateTimePicker

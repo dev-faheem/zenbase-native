@@ -4,12 +4,34 @@ import { useTimer } from "../contex";
 import BellIconCard from "../timerBellList/bellIconCard";
 import { Octicons } from "@expo/vector-icons";
 import logo from "assets/logos/zentoken-flat-circle-logo.png";
+import { useEffect, useState } from "react";
+import { useTime } from "react-timer-hook";
+
+function CurrentTime() {
+  const { seconds, minutes, hours, ampm } = useTime({ format: "12-hour" });
+
+  return (
+    <BellTime>
+      {hours}:{minutes} {ampm.toUpperCase()}
+    </BellTime>
+  );
+}
 
 export default function Counter() {
-  const { timerBellListData = [], selectedBell, setSelectedBell = () => {} } = useTimer();
+  const {
+    timerBellListData = [],
+    selectedBell,
+    setSelectedBell = () => {},
+    time,
+    timeLib,
+    allSeconds,
+  } = useTimer();
+  const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = timeLib;
+
   const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
   return (
     <Wrapper>
+      {/* {tempTest()} */}
       <ContentWrapper>
         <ZenTokenWrapper>
           <Logo source={logo} />
@@ -18,10 +40,16 @@ export default function Counter() {
         <BellIconWrapper>
           <BellIconCard {...timerBellListData[selectedBellListIndex]} />
         </BellIconWrapper>
-        <CounterTime>00:58:00</CounterTime>
+        <CounterTime>
+          {hours < 10 && "0"}
+          {hours}:{minutes < 10 && "0"}
+          {minutes}:{seconds < 10 && "0"}
+          {seconds}
+        </CounterTime>
         <BellTimeWrapper>
           <Octicons name="bell-fill" style={{ marginRight: 10 }} size={20} color="#8d8d92" />
-          <BellTime>3:24 PM</BellTime>
+          <CurrentTime />
+          {/* <BellTime>3:24 PM</BellTime> */}
         </BellTimeWrapper>
       </ContentWrapper>
     </Wrapper>
@@ -59,6 +87,7 @@ const ZenTokenText = styled(Text)`
 `;
 
 const CounterTime = styled(Text)`
+  text-align: center;
   font-weight: 400;
   font-size: ${({ theme: { getSize } }) => getSize(80)}px;
   line-height: ${({ theme: { getSize } }) => getSize(95)}px;
@@ -79,4 +108,12 @@ const BellTime = styled(Text)`
   font-weight: 400;
   font-size: ${({ theme: { getSize } }) => getSize(20)}px;
   line-height: ${({ theme: { getSize } }) => getSize(24)}px;
+`;
+
+const Test = styled.TouchableOpacity`
+  width: 100px;
+  height: 20px;
+  background: red;
+  margin-top: 50px;
+  margin-left: 30px;
 `;

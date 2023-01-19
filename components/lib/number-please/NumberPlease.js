@@ -3,6 +3,8 @@ import { View, StyleSheet } from "react-native";
 import { find } from "lodash";
 import range from "./utils/range";
 import { Picker } from "@react-native-picker/picker";
+import styled from "styled-components/native";
+import { Text } from "components";
 
 const PickerFactory = ({ pickerProps, selectedValue, onChange, pickerStyle, itemStyle }) => {
   const { id, label = "", min, max } = pickerProps;
@@ -40,13 +42,16 @@ const NumberPlease = ({ digits, values, onChange, ...rest }) => {
       {digits.map((picker, index) => {
         const pickerValues = find(values, { id: picker.id });
         return (
-          <PickerFactory
-            key={`${picker.id}-picker-${index}`}
-            pickerProps={picker}
-            selectedValue={pickerValues?.value}
-            onChange={(e) => onChangeHandle(e, index)}
-            {...rest}
-          />
+          <>
+            <PickerFactory
+              key={`${picker.id}-picker-${index}`}
+              pickerProps={picker}
+              selectedValue={pickerValues?.value}
+              onChange={(e) => onChangeHandle(e, index)}
+              {...rest}
+            />
+            <Text>{picker?.title}</Text>
+          </>
         );
       })}
     </View>
@@ -65,3 +70,7 @@ const styles = StyleSheet.create({
 });
 
 export default NumberPlease;
+const Title = styled(Text)`
+  font-size: ${({ theme: { getSize } }) => getSize(24)}px;
+  line-height: ${({ theme: { getSize } }) => getSize(28.64)}px;
+`;
