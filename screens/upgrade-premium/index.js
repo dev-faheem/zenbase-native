@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
-import { TouchableOpacity, Dimensions } from "react-native";
+import { TouchableOpacity, Dimensions, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useApplePay } from "@stripe/stripe-react-native";
+import { useAuth } from "stores/auth";
+import axios from "services/axios";
 
 // Import Images
 import ConfettiImage from "assets/images/confetti.png";
@@ -77,8 +80,73 @@ export default function UpgradePremium({
   text = "Upgrade your account to Zenbase Premium.",
   navigation,
 }) {
+  const { isApplePaySupported, presentApplePay, confirmApplePayPayment } = useApplePay();
   const { previousScreenName } = route.params;
+  const { updateUserLocal } = useAuth();
   const { theme } = useTheme();
+
+  const onPressGet = async () => {
+    try {
+      const { error, paymentMethod } = await presentApplePay({
+        cartItems: [{ label: "Zenbase Premium", amount: "4.99", paymentType: "Immediate" }],
+        country: "US",
+        currency: "USD",
+
+        requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
+      });
+
+      if (error) {
+        console.log({ applePayError: error });
+        Alert.alert("Something Went Wrong!", error.message, [{ text: "OK", onPress: () => {} }], {
+          userInterfaceStyle: "dark",
+        });
+        return;
+      }
+
+      // Fetch Client Secret from Server
+
+      const response = await axios.post("/stripe");
+
+      const clientSecret = response.data.data.clientSecret;
+
+      const { error: confirmError } = await confirmApplePayPayment(clientSecret);
+
+      if (confirmError) {
+        console.log({ applePayConfirmError: confirmError });
+        Alert.alert(
+          "Something Went Wrong!",
+          confirmError.message,
+          [{ text: "OK", onPress: () => {} }],
+          {
+            userInterfaceStyle: "dark",
+          }
+        );
+        return;
+      }
+
+      // Payment Success
+      await axios.post("/payments", {
+        amount: 499,
+        reason: "PREMIUM",
+        valid: true,
+        premium: true,
+      });
+
+      updateUserLocal("isPremium", true);
+
+      Alert.alert(
+        "You are now a Zenbase Premium user!",
+        "Zenbase Premium is the ultimate meditation-crypto rewards package on the market.",
+        [{ text: "Done", onPress: () => {} }],
+        {
+          userInterfaceStyle: "dark",
+        }
+      );
+      navigation.goBack();
+    } catch (e) {
+      console.log({ applePayError: e });
+    }
+  };
   return (
     <Canvas>
       <Wrapper>
@@ -113,7 +181,7 @@ export default function UpgradePremium({
               </DescriptionWrapper>
             </InfoBody>
             <InfoFooter>
-              <Button height="55" title="Buy ($4.99 per month)" block onPress={() => {}} />
+              <Button height="55" title="Buy ($4.99 per month)" block onPress={onPressGet} />
             </InfoFooter>
           </InfoWrapper>
         </Container>

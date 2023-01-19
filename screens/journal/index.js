@@ -18,6 +18,39 @@ import unpinIcon from "assets/icons/unpin.png";
 // Import Icons
 import { Ionicons } from "@expo/vector-icons";
 
+const SearchInput = styled.TextInput`
+  color: white;
+  width: 100%;
+  border-radius: 10px;
+  padding-left: 5px;
+  padding-right: 15px;
+  height: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: ${(props) => props.theme.fontSize.md};
+`;
+const SearchBarContainer = styled.View`
+  height: 30px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+`;
+
+const SearchBarWrapper = styled.View`
+  flex: 1;
+  height: 32px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.color.hud};
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-right: 16px;
+  margin-bottom: 20px;
+`;
 const JournalList = styled.View`
   width: 100%;
   flex-direction: row;
@@ -61,6 +94,7 @@ const JournalDeleteWrapper = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
   padding-top: 8px;
+  padding-bottom: 10px;
 `;
 
 const JournalPinButton = styled.TouchableOpacity`
@@ -118,25 +152,30 @@ const groupBy = (array, key) => {
 export default function Journal({ route, navigation }) {
   // Theme Configuration
   const { theme } = useTheme();
+  const [search, setSearch] = useState("");
   const { user, updateUser } = useAuth();
   const isFocused = useIsFocused();
-  const [journals, setJournals] = useState(
-    user.journal.map((item) => {
+
+  const createJournalList = () => {
+    return user.journal.map((item, index) => {
       const createdAt = new Date(item.created);
       return {
         //id: 1,
+        index,
         title: item.title,
         date: `${months[createdAt.getMonth()]} ${createdAt.getDate()}`,
-        year: `${months[createdAt.getMonth()]} ${createdAt.getFullYear()}`,
+        group: item.isPin ? "Pinned" : `${months[createdAt.getMonth()]} ${createdAt.getFullYear()}`,
         description: item.description,
         type: item.emotion,
         zentValue: item.zentValue,
+        isPin: item.isPin,
         item,
       };
-    })
-  );
+    });
+  };
+  const [journals, setJournals] = useState(createJournalList());
 
-  const [groupedJournals, setGroupedJournal] = useState(groupBy(journals, "year"));
+  const [groupedJournals, setGroupedJournal] = useState(groupBy(journals, "group"));
 
   const [songs, setSongs] = useState([]);
 
@@ -148,8 +187,21 @@ export default function Journal({ route, navigation }) {
       fetchSongs(updatedSongIds);
     }
 
-    setGroupedJournal(groupBy(journals, "year"));
+    setGroupedJournal(groupBy(journals, "group"));
   }, [journals]);
+
+  useEffect(() => {
+    const text = `${search}`.trim();
+    if (text) {
+      let result = journals.filter((item) => {
+        return new RegExp(text, "gi").test(item.title);
+      });
+
+      setGroupedJournal(groupBy(result, "group"));
+    } else {
+      setGroupedJournal(groupBy(journals, "group"));
+    }
+  }, [search]);
 
   const fetchSongs = async (ids) => {
     const response = await axios.get("/songs/ids?ids=" + ids.join(","));
@@ -160,11 +212,16 @@ export default function Journal({ route, navigation }) {
   const deleteJournal = (journal, journalIndex) => {
     // Delete Logic...
     user.journal.splice(journalIndex, 1);
-    updateUser("journal", [...user.journal]);
+    setJournals(createJournalList());
 
-    // Remove Journal from the `journals` list
-    journals.splice(journalIndex, 1);
-    setJournals([...journals]);
+    updateUser("journal", [...user.journal]);
+  };
+
+  const togglePin = (journalIndex) => {
+    user.journal[journalIndex].isPin = !user.journal[journalIndex]?.isPin;
+    setJournals(createJournalList());
+
+    updateUser("journal", [...user.journal]);
   };
 
   return (
@@ -236,11 +293,28 @@ export default function Journal({ route, navigation }) {
                     </JournalListContent>
                   </JournalList>
                 </TouchableOpacity>
-              ) : null}
+              ) : (
+                <SearchBarContainer>
+                  <SearchBarWrapper>
+                    <Ionicons name="search" size={20} color="rgba(143, 144, 148, 1)" />
+                    <SearchInput
+                      returnKeyType="done"
+                      selectionColor={theme.color.white}
+                      placeholder="Search"
+                      placeholderTextColor="rgba(143, 144, 148, 1)"
+                      value={search}
+                      onChangeText={(value) => setSearch(value)}
+                    />
+                  </SearchBarWrapper>
+                </SearchBarContainer>
+              )}
             </Container>
 
             {journals.length > 0 &&
-              Object.keys(groupedJournals).map((key) => {
+              (groupedJournals["Pinned"]
+                ? [...new Set(["Pinned", ...Object.keys(groupedJournals)])]
+                : Object.keys(groupedJournals)
+              ).map((key) => {
                 return (
                   <>
                     <Container>
@@ -302,15 +376,24 @@ export default function Journal({ route, navigation }) {
                       renderHiddenItem={(data, rowMap) => {
                         return (
                           <JournalDeleteWrapper>
-                            <JournalPinButton>
-                              <PinImage source={pinIcon} resizeMode="contain" />
+                            <JournalPinButton
+                              onPress={() => {
+                                setSearch("");
+                                rowMap[data.index].closeRow();
+                                togglePin(data.item.index);
+                              }}
+                            >
+                              <PinImage
+                                source={data.item.isPin ? unpinIcon : pinIcon}
+                                resizeMode="contain"
+                              />
                             </JournalPinButton>
                             <JournalDeleteButton
                               onPress={() => {
                                 rowMap[data.index].closeRow();
                                 navigation.navigate("DeleteJournal", {
                                   journal: data.item,
-                                  index: data.index,
+                                  index: data.item.index,
                                   deleteFunction: deleteJournal,
                                 });
                               }}

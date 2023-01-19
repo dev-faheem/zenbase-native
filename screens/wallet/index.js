@@ -168,7 +168,12 @@ function History({ ZentBanner }) {
                   <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="primary">
                     {transaction.meta?.song}
                   </Text>
-                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="secondary">
+                  <Text
+                    fontSize="md"
+                    numberOfLines={1}
+                    style={{ marginTop: 2 }}
+                    color="description"
+                  >
                     {transaction.meta?.artist}
                   </Text>
                 </WalletHistoryListText>
