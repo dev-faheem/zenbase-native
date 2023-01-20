@@ -34,7 +34,9 @@ export default function useAudioSound(audioUrl) {
   };
 
   const exitAudio = async (data) => {
-    await audio.pauseAsync();
+    await audio.stopAsync();
+    await audio.unloadAsync();
+
     // alert("exit");
   };
 

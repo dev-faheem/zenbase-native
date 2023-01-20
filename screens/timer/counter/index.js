@@ -25,6 +25,8 @@ export default function Counter() {
     time,
     timeLib,
     allSeconds,
+    timeInput,
+    setTimeInput,
   } = useTimer();
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = timeLib;
 

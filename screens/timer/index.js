@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import AmbientSound from "./ambientSound";
-import { timerBellListData } from "./config";
+import { ambientSoundData, timerBellListData } from "./config";
 import { TimerContext } from "./contex";
 import IntervalBell from "./intervalBell";
 import TimerBellList from "./timerBellList";
@@ -31,8 +31,13 @@ export default function Timer() {
 
   const [selectedTime, setSelectedTime] = useState(initial);
 
+  const [timeInput, setTimeInput] = useState(["01", "00", "00"]);
+  const [intervltimeInput, setIntervlTimeInput] = useState(["00", "15", "00"]);
+
+  // const allSeconds =
+  //   selectedTime[0].value * 60 * 60 + selectedTime[1].value * 60 + selectedTime[2].value;
   const allSeconds =
-    selectedTime[0].value * 60 * 60 + selectedTime[1].value * 60 + selectedTime[2].value;
+    parseInt(timeInput[0]) * 60 * 60 + parseInt(timeInput[1]) * 60 + parseInt(timeInput[2]);
   const time = new Date();
   time.setSeconds(time.getSeconds() + allSeconds);
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = useTimerLib({
@@ -40,7 +45,13 @@ export default function Timer() {
     onExpire: () => console.log("onExpire called"),
   });
 
-  const audioUrl = "http://development.zenbase.us/uploads/1669332859414-924275594.mp3";
+  const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
+
+  const currentAmbientSound = selectedAmbientSound
+    ? config.API_URLM + ambientSoundData.filter(({ _id }) => _id === selectedAmbientSound)[0].file
+    : "";
+
+  const audioUrl = currentAmbientSound;
 
   const {
     playAudio: ambient_playAudio,
@@ -49,23 +60,9 @@ export default function Timer() {
     exitAudio: ambient_exitAudio,
   } = useAudioSound(audioUrl);
 
-  // const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = useTimer({
-  //   expiryTimestamp: time,
-  //   onExpire: () => console.log("onExpire called"),
-  // });
-
-  // console.log(
-  //   JSON.stringify(
-  //     { seconds, minutes, hours, days, isRunning, start, pause, resume, restart },
-  //     null,
-  //     2
-  //   )
-  // );
-
   const [selectedBell, setSelectedBell] = useState(timerBellListData[1]?.id);
   const [timerStatus, setTimerStatus] = useState(TIMER_STATUS_INITIAL);
   const [ambientSoundSelection, setAmbientSoundSelection] = useState(false);
-  const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
 
   const contextProps = {
     timerBellListData,
@@ -86,6 +83,10 @@ export default function Timer() {
     timeLib: { seconds, minutes, hours, days, isRunning, start, pause, resume, restart },
     selectedTime,
     setSelectedTime,
+    timeInput,
+    setTimeInput,
+    intervltimeInput,
+    setIntervlTimeInput,
   };
 
   const mainView = () => (
@@ -143,7 +144,7 @@ export default function Timer() {
 }
 
 const Wrapper = styled.View``;
-const Test = styled.TouchableOpacity`
+const Test = styled.Text`
   width: 100px;
   height: 20px;
   background: red;
