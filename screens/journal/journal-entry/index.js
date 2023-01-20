@@ -63,7 +63,7 @@ const FotterTextWrapper = styled.View`
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 10px;
-  padding-right: 20px;
+  padding-right: 25px;
 `;
 
 const IconWrapper = styled.View`
@@ -109,12 +109,7 @@ export default function JournalEntry({ route, navigation }) {
               </JournalType>
             </HeaderWrapper>
             <Container style={{ flex: 1 }}>
-              <Text
-                numberOfLines={1}
-                fontSize="h2"
-                fontWeight="bold"
-                style={{ marginTop: 8, marginBottom: 18 }}
-              >
+              <Text fontSize="h2" fontWeight="bold" style={{ marginTop: 8, marginBottom: 18 }}>
                 {journal.title}
               </Text>
               <Text>{journal.description}</Text>
@@ -157,7 +152,7 @@ export default function JournalEntry({ route, navigation }) {
               <Icon
                 source={isPin ? unpinIcon : pinIcon}
                 resizeMode="contain"
-                style={{ marginTop: 9 }}
+                style={{ marginTop: 9, marginRight: 5 }}
               />
             </TouchableOpacity>
           </IconWrapper>
