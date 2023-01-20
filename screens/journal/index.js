@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { Container, Canvas, Text, Header, AnimatedHeaderView } from "components";
-import { ScrollView, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import {
+  Container,
+  Canvas,
+  Text,
+  Header,
+  AnimatedHeaderView,
+  NavigationPaddingInsetsWithSafeArea,
+} from "components";
+import { ScrollView, TouchableHighlight, TouchableOpacity, View, Modal } from "react-native";
 import { useTheme } from "stores/theme";
 import { SwipeListView } from "react-native-swipe-list-view";
 import styled from "styled-components/native";
@@ -17,6 +24,8 @@ import unpinIcon from "assets/icons/unpin.png";
 
 // Import Icons
 import { Ionicons } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
+import DeleteJournal from "./delete";
 
 const SearchInput = styled.TextInput`
   color: white;
@@ -150,10 +159,15 @@ const groupBy = (array, key) => {
 // Journal Component (Default)
 export default function Journal({ route, navigation }) {
   // Theme Configuration
-  const { theme } = useTheme();
-  const [search, setSearch] = useState("");
-  const { user, updateUser } = useAuth();
   const isFocused = useIsFocused();
+
+  const { theme } = useTheme();
+  const { user, updateUser } = useAuth();
+
+  const [search, setSearch] = useState("");
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
+  const [deleteJournalIndex, setDeleteJournalIndex] = useState(null);
 
   const createJournalList = () => {
     return user.journal.map((item, index) => {
@@ -172,6 +186,7 @@ export default function Journal({ route, navigation }) {
       };
     });
   };
+
   const [journals, setJournals] = useState(createJournalList());
 
   const [groupedJournals, setGroupedJournal] = useState(groupBy(journals, "group"));
@@ -208,12 +223,17 @@ export default function Journal({ route, navigation }) {
   };
 
   // Function to delete Journal
-  const deleteJournal = (journal, journalIndex) => {
+  const deleteJournal = () => {
     // Delete Logic...
-    user.journal.splice(journalIndex, 1);
-    setJournals(createJournalList());
+    if (deleteJournalIndex != null) {
+      user.journal.splice(deleteJournalIndex, 1);
+      setJournals(createJournalList());
 
-    updateUser("journal", [...user.journal]);
+      updateUser("journal", [...user.journal]);
+    }
+
+    setDeleteJournalIndex(null);
+    setDeleteModalVisible(false);
   };
 
   const togglePin = (journalIndex) => {
@@ -225,9 +245,20 @@ export default function Journal({ route, navigation }) {
 
   return (
     <>
+      <Modal animationType="fade" transparent={true} visible={deleteModalVisible}>
+        <DeleteJournal
+          onDelete={deleteJournal}
+          onClose={() => {
+            setDeleteModalVisible(false);
+          }}
+        />
+      </Modal>
       <AnimatedHeaderView header={<Header previousScreenName={"Profile"} />} inputRange={[10, 50]}>
         <Canvas>
-          <ScrollView style={{ width: "100%" }} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={{ width: "100%", paddingBottom: NavigationPaddingInsetsWithSafeArea() + 30 }}
+            showsVerticalScrollIndicator={false}
+          >
             <Header previousScreenName={"Profile"} />
             <Container>
               <Text fontSize="32" fontWeight="bold" style={{ marginBottom: 18 }}>
@@ -390,11 +421,8 @@ export default function Journal({ route, navigation }) {
                             <JournalDeleteButton
                               onPress={() => {
                                 rowMap[data.index].closeRow();
-                                navigation.navigate("DeleteJournal", {
-                                  journal: data.item,
-                                  index: data.item.index,
-                                  deleteFunction: deleteJournal,
-                                });
+                                setDeleteJournalIndex(data.item.index);
+                                setDeleteModalVisible(true);
                               }}
                             >
                               <Ionicons name="trash" size={24} color={theme.color.white} />
@@ -417,6 +445,24 @@ export default function Journal({ route, navigation }) {
           </ScrollView>
         </Canvas>
       </AnimatedHeaderView>
+      <BlurView
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          height: NavigationPaddingInsetsWithSafeArea(),
+          width: "100%",
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          paddingTop: 20,
+        }}
+        intensity={200}
+        tint="dark"
+      >
+        <Text>{journals.length} Journal Entries</Text>
+      </BlurView>
     </>
   );
 }
