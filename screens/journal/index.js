@@ -361,7 +361,17 @@ export default function Journal({ route, navigation }) {
                         });
 
                         return (
-                          <TouchableHighlight onPress={() => {}} style={{ marginBottom: 2 }}>
+                          <TouchableHighlight
+                            onPress={() => {
+                              navigation.navigate("JournalEntry", {
+                                journal: data.item,
+                                journalIndex: data.item.index,
+                                togglePin,
+                                song,
+                              });
+                            }}
+                            style={{ marginBottom: 2 }}
+                          >
                             <JournalList>
                               {song ? (
                                 <JournalListImg
@@ -461,7 +471,9 @@ export default function Journal({ route, navigation }) {
         intensity={200}
         tint="dark"
       >
-        <Text>{journals.length} Journal Entries</Text>
+        <Text>
+          {journals.length} Journal {journals.length > 1 ? "Entries" : "Entry"}
+        </Text>
       </BlurView>
     </>
   );
