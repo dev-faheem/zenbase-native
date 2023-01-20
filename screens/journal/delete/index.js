@@ -36,8 +36,8 @@ const DeleteMessage = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 16.64px;
+  padding-right: 16.64px;
 `;
 
 const DeleteButton = styled.View`
