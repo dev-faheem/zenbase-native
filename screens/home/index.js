@@ -316,7 +316,7 @@ export default function Home({ navigation, route }) {
         <Container>
           <ZentCoin />
         </Container>
-        {/* <Shortcuts /> */}
+        <Shortcuts />
         <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
 
         <NavigationPadding padding={50} />

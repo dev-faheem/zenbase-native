@@ -14,6 +14,7 @@ const dark = {
     description: "#8F9094",
     informationBackground: "#2E2E30",
     transparent: "rgba(0,0,0,0)",
+    card: "#1E1F20",
   },
   fontSize: {
     xs: "10px",

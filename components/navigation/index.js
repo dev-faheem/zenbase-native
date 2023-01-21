@@ -53,8 +53,10 @@ import LoginForm from "screens/auth/login/form";
 import { useLoader } from "stores/loader";
 import Rewards from "screens/rewards";
 import SplashScreen from "screens/splash-screen";
+import Timer from "screens/timer";
 import EarningTeam from "screens/earning-team";
 import UpgradePremium from "../../screens/upgrade-premium";
+import AmbientSoundSelection from "../../screens/timer/ambientSoundSelection";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -99,6 +101,7 @@ export default function Navigation() {
     <>
       <NavigationContainer>
         <Stack.Navigator
+          // initialRouteName="Timer"
           initialRouteName="Login"
           screenOptions={{
             headerShown: false,
@@ -117,6 +120,8 @@ export default function Navigation() {
             <Stack.Screen name="ReferFriends" component={ReferFriends} />
             <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
+            <Stack.Screen name="Timer" component={Timer} />
+            <Stack.Screen name="AmbientSoundSelection" component={AmbientSoundSelection} />
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
           </Stack.Group>
