@@ -21,7 +21,6 @@ import Sounds from "screens/sounds";
 import Settings from "screens/settings";
 import EditProfile from "screens/edit-profile";
 import Journal from "screens/journal";
-import DeleteJournal from "screens/journal/delete";
 import ZentDonation from "screens/zent-donation";
 import DonationThanks from "screens/zent-donation/donation-thanks";
 import FavoritesType from "screens/favorites/favorites-type";
@@ -55,8 +54,10 @@ import Rewards from "screens/rewards";
 import SplashScreen from "screens/splash-screen";
 import Timer from "screens/timer";
 import EarningTeam from "screens/earning-team";
-import UpgradePremium from "../../screens/upgrade-premium";
-import AmbientSoundSelection from "../../screens/timer/ambientSoundSelection";
+import AmbientSoundSelection from "screens/timer/ambientSoundSelection";
+import UpgradePremium from "screens/upgrade-premium";
+import UpgradePremiumSuccessfully from "screens/upgrade-premium/success";
+import JournalEntry from "screens/journal/journal-entry";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -124,12 +125,16 @@ export default function Navigation() {
             <Stack.Screen name="AmbientSoundSelection" component={AmbientSoundSelection} />
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
+            <Stack.Screen name="JournalEntry" component={JournalEntry} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
+            <Stack.Screen
+              name="UpgradePremiumSuccessfully"
+              component={UpgradePremiumSuccessfully}
+            />
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
-            <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
             <Stack.Screen name="ZentDonation" component={ZentDonation} />
             <Stack.Screen name="DonationThanks" component={DonationThanks} />
             <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
