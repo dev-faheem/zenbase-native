@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Canvas, Text, Button } from "components";
 import styled from "styled-components/native";
-import { TouchableOpacity } from "react-native";
+import { Alert, TouchableOpacity } from "react-native";
 import { useTheme } from "stores/theme";
 import * as ImagePicker from "expo-image-picker";
 import Filter from "bad-words";
@@ -158,6 +158,7 @@ export default function EditProfile({ route, navigation }) {
       }
     } catch (err) {
       // Error Handling
+      console.log("Rupinder", err);
     }
   };
 
@@ -171,29 +172,34 @@ export default function EditProfile({ route, navigation }) {
       if (isProfileUpdated) {
         setIsProfileUpdated(false);
         setIsUpdating(true);
-        // Logic to save profile changes
-        if (user?.name != fullname) {
-          await updateUser("name", fullname, false);
-          setUser({
-            ...user,
-            name: fullname,
-          });
-        }
         try {
-          if (user?.username != username) {
-            await updateUser("username", username, false);
+          // Logic to save profile changes
+          if (user?.name != fullname) {
+            await updateUser("name", fullname, false, true);
             setUser({
               ...user,
               name: fullname,
-              username,
             });
           }
+
+          if (user?.username != username) {
+          }
+          await updateUser("username", username, false, true);
+          setUser({
+            ...user,
+            name: fullname,
+            username,
+          });
+
+          setIsUpdating(false);
+          // Close Edit Profile Model after updating profile
+          navigation.goBack();
         } catch (e) {
-          alert("Username already exists.");
+          Alert.alert("", e?.response?.data?.error, [{ text: "OK", onPress: () => {} }], {
+            userInterfaceStyle: "dark",
+          });
+          setIsUpdating(false);
         }
-        setIsUpdating(false);
-        // Close Edit Profile Model after updating profile
-        navigation.goBack();
       }
     } else {
       setIsProfileUpdated(false);
@@ -255,6 +261,7 @@ export default function EditProfile({ route, navigation }) {
               placeholderTextColor={theme.color.secondary}
               onChangeText={(value) => updateInput(setUsername, value)}
               value={username}
+              autoCapitalize="none"
             />
           </InputGroup>
           {/* Username - End*/}
