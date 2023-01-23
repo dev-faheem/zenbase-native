@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const updateUser = async (field, value, updateState = true) => {
+  const updateUser = async (field, value, updateState = true, throwError = false) => {
     if (!isLoggedIn) return;
     try {
       if (updateState) {
@@ -77,8 +77,19 @@ export const AuthProvider = ({ children }) => {
       }
       await axios.patch("/auth/" + field, { value });
     } catch (e) {
-      axios.handleError(e);
+      if (throwError) {
+        throw e;
+      } else {
+        axios.handleError(e);
+      }
     }
+  };
+
+  const refresh = async () => {
+    const {
+      data: { data },
+    } = await axios.get("/auth/refresh");
+    await login(data);
   };
 
   const updateUserLocal = async (field, value) => {
@@ -102,6 +113,7 @@ export const AuthProvider = ({ children }) => {
         zenTransactions: transactions,
         fetchTransactions,
         fetchLatestTokenWorth,
+        refresh,
       }}
     >
       {children}

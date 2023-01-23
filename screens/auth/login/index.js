@@ -62,7 +62,7 @@ const BottomView = styled.View`
 
 export default function Login({ navigation }) {
   const { theme } = useTheme();
-  const { login } = useAuth();
+  const { login, refresh } = useAuth();
 
   // States
   const [isAppReady, setIsAppReady] = useState(false);
@@ -92,20 +92,24 @@ export default function Login({ navigation }) {
       }
 
       mixpanel.track("Auto Login", _user);
-      login(_user);
-      navigation.dispatch(
-        CommonActions.reset({
-          routes: [{ name: "App" }],
-        })
-      );
+      await login(_user);
     }
   };
 
   useEffect(() => {
-    setTimeout(async () => {
-      fetchUserFromAsyncStorage();
-      setIsAppReady(true);
-    }, 3000);
+    (async () => {
+      try {
+        await fetchUserFromAsyncStorage();
+        await refresh();
+        navigation.dispatch(
+          CommonActions.reset({
+            routes: [{ name: "App" }],
+          })
+        );
+      } catch (e) {
+        setIsAppReady(true);
+      }
+    })();
   }, []);
 
   useEffect(() => {
