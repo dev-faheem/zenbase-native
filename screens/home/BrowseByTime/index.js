@@ -42,7 +42,7 @@ export default function Shortcuts() {
             >
               <Item
                 onPress={() => {
-                  const props = { title, type: "timer", query: minutes };
+                  const props = { title, type: "timer", query: minutes, noTimeFilter: true };
                   mixpanel.track("Select Item List", props);
                   navigation.navigate("SongList", props);
                 }}

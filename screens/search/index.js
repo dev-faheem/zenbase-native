@@ -219,11 +219,13 @@ export default function Search({ navigation }) {
       icon: { source: meditationIcon, width: "18px" },
       component: (
         <>
-          <Categories
-            inGrid
-            isMeditation
-            categories={data?.categories?.filter((cat) => !cat.isPodcast)}
-          />
+          <Container>
+            <Categories
+              inGrid
+              isMeditation
+              categories={data?.categories?.filter((cat) => !cat.isPodcast)}
+            />
+          </Container>
         </>
       ),
     },
@@ -233,7 +235,9 @@ export default function Search({ navigation }) {
       icon: { source: micIcon, width: "10.87px" },
       component: (
         <>
-          <Categories inGrid categories={data?.categories?.filter((cat) => cat.isPodcast)} />
+          <Container>
+            <Categories inGrid categories={data?.categories?.filter((cat) => cat.isPodcast)} />
+          </Container>
         </>
       ),
     },
@@ -329,12 +333,11 @@ export default function Search({ navigation }) {
                 </SongListWrapper>
               ))}
             </ScrollView>
-            <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
           </>
 
           {/* <CategoryGrid categories={categoriesQuery.data} /> */}
         </Container>
-
+        <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
         <NavigationPadding padding={50} />
       </ScrollView>
 

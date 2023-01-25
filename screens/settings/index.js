@@ -1,36 +1,61 @@
 // Import Dependencies
 import React, { useState, useEffect } from "react";
-import { Alert, ScrollView, View, Image, Switch } from "react-native";
+import { Alert, ScrollView, View, Image, Switch, TouchableOpacity } from "react-native";
 import { Text, Container, Canvas, Button, IOSList, SongTile, Box } from "components";
 import styled from "styled-components/native";
 import { Ionicons, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import { useTheme } from "stores/theme";
-
-// Import Images
-import ZenbaseVector from "assets/vectors/zenbase.png";
-import AdVector from "assets/vectors/Ad.png";
-import ZentTokenVector from "assets/vectors/zen-token.png";
-import profileImage from "assets/images/artist.png";
-
-// Import Profile Header
-import ProfileHeader from "screens/profile/header";
 import { useAuth } from "stores/auth";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import ReactNativeShare from "helpers/react-native-share";
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
 
+// Import Images
+
+import profileImage from "assets/images/artist.png";
+import appleHealthIcon from "assets/icons/apple-health.png";
+
+// Import Profile Header
+import ProfileHeader from "screens/profile/header";
+
 // Styled Component
-const SwitchWrapper = styled.View`
-  height: 47px;
+const SwitchList = styled.View`
+  border-radius: 15px;
+  background-color: ${(props) => props.theme.color.secondaryDark};
+  margin-top: 16px;
   width: 100%;
-  border-radius: ${(props) => props.theme.borderRadius.xl};
-  background-color: ${(props) => props.theme.color.hud};
-  margin-top: ${(props) => props.theme.spacing.lg};
-  padding-left: ${(props) => props.theme.spacing.md};
-  padding-right: ${(props) => props.theme.spacing.md};
+`;
+
+const SwitchMediaFlex = styled.View`
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const SwitchImage = styled.Image`
+  width: 31px;
+  height: 31px;
+  margin-right: 10px;
+`;
+
+const SwitchWrapper = styled.View`
+  height: 55px;
+  width: 100%;
+  border-radius: 15px;
+  background-color: ${(props) => props.theme.color.secondaryDark};
+  padding-left: 12px;
+  padding-right: 12px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const Divider = styled.View`
+  height: 0.5px;
+  background-color: rgba(172, 178, 155, 0.35);
+  width: 95%;
+  position: relative;
+  left: 5%;
 `;
 
 export default function Settings({ route }) {
@@ -38,17 +63,21 @@ export default function Settings({ route }) {
   const navigation = useNavigation();
   const { user, updateUser, logout } = useAuth();
   // States
-  const [autoRenew, setAutoRenew] = useState(user?.renewZenbasePremiumAutomatically || false);
+  const [setting, setSetting] = useState({
+    appleHealth: true,
+    displayWellnessActivity: true,
+    currentWellnessActivity: true,
+  });
 
-  const toggleAutoRenew = () => {
-    setAutoRenew(!autoRenew);
+  const handleSwitch = (key, value) => {
+    setSetting({ ...setting, [key]: value });
   };
 
-  useEffect(() => {
-    if (user?.renewZenbasePremiumAutomatically != autoRenew) {
-      updateUser("renewZenbasePremiumAutomatically", autoRenew);
-    }
-  }, [autoRenew]);
+  // useEffect(() => {
+  //   if (user?.renewZenbasePremiumAutomatically != autoRenew) {
+  //     updateUser("renewZenbasePremiumAutomatically", autoRenew);
+  //   }
+  // }, [autoRenew]);
 
   const inviteFriend = (message) => {
     ReactNativeShare(
@@ -65,146 +94,184 @@ export default function Settings({ route }) {
     );
   };
 
+  const signOut = async () => {
+    await AsyncStorageLib.removeItem("recents");
+    await AsyncStorageLib.removeItem("@zenbase_user");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
+    });
+  };
+
+  const deleteUser = () => {
+    navigation.navigate("DeleteUser");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <ProfileHeader editable profilePicture={profileImage} route={route} navigation={navigation} />
       <View style={{ flex: 1, backgroundColor: theme.color.black }}>
         <ScrollView>
-          <Container>
-            <IOSList
-              style={{ marginTop: 20, borderRadius: 10, paddingLeft: 10 }}
-              data={[
-                // {
-                //   icon: <Ionicons name="ios-add-circle" size={24} color={theme.color.primary} />,
-                //   title: 'Post new sound',
-                //   onPress: () => {
-
-                //   }
-                // },
-                {
-                  icon: (
-                    <FontAwesome5
-                      name="user-plus"
-                      size={19}
-                      color={theme.color.primary}
-                      style={{ marginLeft: 2 }}
-                    />
-                  ),
-                  title: "Invite Friends",
-                  onPress: () =>
-                    inviteFriend(
-                      `${user?.name} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`
-                    ),
-                },
-                // user?.isPremium
-                //   ? {
-                //       icon: (
-                //         <Image
-                //           source={ZenbaseVector}
-                //           style={{ marginRight: 3, width: 23, height: 23 }}
-                //           resizeMode="contain"
-                //         />
-                //       ),
-                //       title: user?.isPremium
-                //         ? "Cancel Zenbase Premium"
-                //         : "Zenbase Premium",
-                //       onPress: () => {
-                //         if (user?.isPremium) {
-                //           navigation.navigate("CancelPremium");
-                //         } else {
-                //           navigation.navigate("");
-                //         }
-                //       },
-                //     }
-                //   : null,
-                // {
-                //   icon: (
-                //     <Image
-                //       source={AdVector}
-                //       style={{ marginRight: 3, width: 23, height: 23 }}
-                //       resizeMode="contain"
-                //     />
-                //   ),
-                //   title: "Zenbase Ads",
-                //   onPress: () => {
-                //     navigation.navigate("ZenbaseAds", { isForLogin: false });
-                //   },
-                // },
-                // {
-                //   icon: (
-                //     <Image
-                //       source={ZentTokenVector}
-                //       style={{ marginRight: 3, width: 21, height: 21 }}
-                //       resizeMode="cover"
-                //     />
-                //   ),
-                //   title: "Rewards",
-                //   onPress: () => {},
-                // },
-                {
-                  icon: (
-                    <View
-                      style={{
-                        marginRight: 3,
-                        width: 21,
-                        height: 21,
-                        borderRadius: 50,
-                        backgroundColor: theme.color.primary,
-                        flexDirection: "row",
-                        justifyContent: "flex-start",
-                        alignItems: "center",
+          <Container style={{ paddingBottom: 70 }}>
+            <Text fontSize="24" fontWeight="600" style={{ marginTop: 27, marginLeft: 15 }}>
+              Settings
+            </Text>
+            <SwitchList>
+              {!user?.isPremium && (
+                <>
+                  <SwitchWrapper style={{ height: 50 }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("UpgradePremium", {
+                          previousScreenName: "Settings",
+                        });
                       }}
                     >
-                      <Ionicons
-                        name="arrow-forward"
-                        size={20}
-                        color={theme.color.hud}
-                        style={{ marginLeft: -4 }}
-                      />
-                    </View>
-                  ),
-                  title: "Sign Out",
-                  onPress: async () => {
-                    await AsyncStorageLib.removeItem("recents");
-                    await AsyncStorageLib.removeItem("@zenbase_user");
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "Login" }],
-                    });
-                    return;
-                    navigation.navigate("Home", {
-                      performLogout: true,
-                    });
-                  },
-                },
-                {
-                  icon: (
-                    <AntDesign
-                      name="delete"
-                      size={19}
-                      color={theme.color.primary}
-                      style={{ marginLeft: 2 }}
-                    />
-                  ),
-                  title: <Text style={{ color: "red" }}>Delete Account</Text>,
-                  onPress: () => {
-                    navigation.navigate("DeleteUser");
-                  },
-                },
-              ].filter((_) => _ != null)}
-            />
-            {/* <SwitchWrapper>
-              <Text numberOfLines={1}>Renew Zenbase Premium Automatically</Text>
-              <Switch onValueChange={toggleAutoRenew} value={autoRenew} />
-            </SwitchWrapper>
+                      <Text color="primary" numberOfLines={1} fontWeight="600">
+                        Upgrade to Zenbase Premium
+                      </Text>
+                    </TouchableOpacity>
+                  </SwitchWrapper>
+                  <Divider />
+                </>
+              )}
+
+              <SwitchWrapper style={{ height: 50 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    inviteFriend(
+                      `${user?.name} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`
+                    );
+                  }}
+                >
+                  <Text color="primary" numberOfLines={1} fontWeight="600">
+                    Invite Friends
+                  </Text>
+                </TouchableOpacity>
+              </SwitchWrapper>
+              <Divider />
+              <SwitchWrapper style={{ height: 50 }}>
+                <TouchableOpacity>
+                  <Text color="primary" numberOfLines={1} fontWeight="600">
+                    I have an idea
+                  </Text>
+                </TouchableOpacity>
+              </SwitchWrapper>
+            </SwitchList>
+
+            {/*
+             **********
+             * Accounts
+             * ********
+             * */}
+            <Text fontSize="20" fontWeight="600" style={{ marginTop: 27, marginLeft: 15 }}>
+              Account
+            </Text>
+            <SwitchList>
+              {/* Apple Health Toggle */}
+              <SwitchWrapper>
+                <SwitchMediaFlex>
+                  <SwitchImage source={appleHealthIcon} resizeMode="contain" />
+                  <Text numberOfLines={1}>Apple Health Mindful Minutes</Text>
+                </SwitchMediaFlex>
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("appleHealth", !setting.appleHealth);
+                  }}
+                  value={setting.appleHealth}
+                />
+              </SwitchWrapper>
+              <Divider />
+              {/* Display Wellness Activity Toggle */}
+              <SwitchWrapper>
+                <Text numberOfLines={1}>Display Wellness Activity on Profile</Text>
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("displayWellnessActivity", !setting.displayWellnessActivity);
+                  }}
+                  value={setting.displayWellnessActivity}
+                />
+              </SwitchWrapper>
+              <Divider />
+              {/* Wellness Activity Toggle */}
+              <SwitchWrapper>
+                <Text numberOfLines={1}>Allow Current Wellness Activity</Text>
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("currentWellnessActivity", !setting.currentWellnessActivity);
+                  }}
+                  value={setting.currentWellnessActivity}
+                />
+              </SwitchWrapper>
+            </SwitchList>
             <Text
-              fontSize="sm"
-              color="information"
-              style={{ marginTop: 8, paddingLeft: 8 }}
+              fontSize="14"
+              color="description"
+              style={{ marginTop: 8, paddingLeft: 15, paddingRight: 15 }}
             >
-              When you have enough Zentoken your tokens will be redeemed for
-              Zenbase Premium automatically.
-            </Text> */}
+              People on your Earning Team may see you doing wellness activities in real time.
+            </Text>
+
+            {/*
+             ***************
+             * Notifications
+             * *************
+             * */}
+            <Text fontSize="20" fontWeight="600" style={{ marginTop: 27, marginLeft: 15 }}>
+              Notifications
+            </Text>
+            <SwitchList>
+              <SwitchWrapper>
+                <Text numberOfLines={1}>Hourly Bell of Mindfulness</Text>
+                <Switch />
+              </SwitchWrapper>
+              <Divider />
+              <SwitchWrapper>
+                <Text numberOfLines={1}>Grounding Reminders</Text>
+                <Switch />
+              </SwitchWrapper>
+              <Divider />
+              <SwitchWrapper>
+                <Text numberOfLines={1}>Daily Affirmations</Text>
+                <Switch />
+              </SwitchWrapper>
+              <Divider />
+              <SwitchWrapper>
+                <Text numberOfLines={1}>Full Moon Alerts</Text>
+                <Switch />
+              </SwitchWrapper>
+              <Divider />
+              <SwitchWrapper>
+                <Text numberOfLines={1}>New Music Releases</Text>
+                <Switch value={true} />
+              </SwitchWrapper>
+              <Divider />
+              <SwitchWrapper>
+                <Text numberOfLines={1}>Invites to Wellness Activities</Text>
+                <Switch value={true} />
+              </SwitchWrapper>
+              <Divider />
+              <SwitchWrapper>
+                <Text numberOfLines={1}>Passive Earning Sessions</Text>
+                <Switch value={true} />
+              </SwitchWrapper>
+            </SwitchList>
+
+            <SwitchList style={{ marginTop: 40 }}>
+              <SwitchWrapper style={{ height: 50 }}>
+                <TouchableOpacity onPress={signOut}>
+                  <Text numberOfLines={1}>Sign Out</Text>
+                </TouchableOpacity>
+              </SwitchWrapper>
+              <Divider />
+              <SwitchWrapper style={{ height: 50 }}>
+                <TouchableOpacity onPress={deleteUser}>
+                  <Text color="red" numberOfLines={1}>
+                    Delete Account
+                  </Text>
+                </TouchableOpacity>
+              </SwitchWrapper>
+            </SwitchList>
           </Container>
         </ScrollView>
       </View>

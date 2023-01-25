@@ -432,7 +432,7 @@ export default function SearchModal({ navigation }) {
                 }}
               >
                 <SongImage source={{ uri: song?.artwork }} />
-                <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
+                <SongContentWrapper>
                   <SongContent>
                     <Text
                       style={{ marginBottom: 2 }}
@@ -510,7 +510,7 @@ export default function SearchModal({ navigation }) {
                   }}
                 >
                   <SongImage source={{ uri: song?.artwork }} />
-                  <SongContentWrapper style={{ borderTopWidth: 0.5 }}>
+                  <SongContentWrapper>
                     <SongContent>
                       <Text
                         style={{ marginBottom: 2 }}

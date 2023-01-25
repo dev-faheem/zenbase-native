@@ -72,7 +72,6 @@ const ZentImage = styled.Image`
 
 export default function Home({ navigation, route }) {
   const { user, fetchTransactions, updateUser } = useAuth();
-
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const { theme } = useTheme();
@@ -266,8 +265,10 @@ export default function Home({ navigation, route }) {
       component: (
         <>
           <Categories categories={data?.categories?.filter((cat) => cat.isPodcast)} />
-          <InviteFriend label="Listen" />
-          <EarnMore />
+          <Container>
+            <InviteFriend label="Listen" />
+            <EarnMore />
+          </Container>
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
             ?.map((section) => (

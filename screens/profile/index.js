@@ -118,7 +118,11 @@ export default function Profile({ route, navigation }) {
                     />
                   ),
                   title: "Earning Team",
-                  onPress: () => {},
+                  onPress: () => {
+                    navigation.navigate("EarningTeam", {
+                      previousScreenName: "Profile",
+                    });
+                  },
                 },
                 {
                   icon: (
