@@ -17,6 +17,7 @@ const TabBarWrapper = styled.View`
 
 export default function StackNavigatorTabBar({
   labels = ["Home", "Search", "Wallet", "Favorites", "Profile"],
+  style = {},
 }) {
   const { theme } = useTheme();
   const navigation = useNavigation();
@@ -25,16 +26,19 @@ export default function StackNavigatorTabBar({
     <BlurView
       intensity={200}
       tint="dark"
-      style={{
-        position: "absolute",
-        width: "100%",
-        bottom: 0,
-        left: 0,
-        height: useSafeAreaInsets().bottom + 50,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+      style={[
+        {
+          position: "absolute",
+          width: "100%",
+          bottom: 0,
+          left: 0,
+          height: useSafeAreaInsets().bottom + 50,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+        style,
+      ]}
     >
       <TabBarWrapper>
         {labels.map((label, index) => {

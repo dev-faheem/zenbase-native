@@ -81,7 +81,7 @@ export function HomeStack() {
       backBehavior="history"
     >
       <Tabs.Screen name="Home" component={Home} />
-      <Tabs.Screen name="SongList" component={SongList} />
+      {/* <Tabs.Screen name="SongList" component={SongList} /> */}
       <Tabs.Screen name="Search" component={Search} />
       <Tabs.Screen name="Wallet" component={Wallet} />
       <Tabs.Screen name="Favorites" component={Favorites} />
@@ -109,6 +109,7 @@ export default function Navigation() {
           }}
         >
           <Stack.Group>
+            <Stack.Screen name="SongList" component={SongList} />
             <Stack.Screen name="Followers" component={Followers} />
             <Stack.Screen name="EarningTeam" component={EarningTeam} />
             <Stack.Screen name="Login" component={Login} />
