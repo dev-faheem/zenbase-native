@@ -37,7 +37,8 @@
           "color": "#ffffff"
         }
       ],
-      ["expo-apple-authentication"]
+      ["expo-apple-authentication"],
+      ["@react-native-google-signin/google-signin"]
     ],
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -47,6 +48,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "us.zenbase.native",
       "buildNumber": "0.2.2",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2423909336067009~1752802852"
       },
@@ -57,6 +59,7 @@
     "android": {
       "package": "us.zenbase.native",
       "versionCode": 1,
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
