@@ -54,7 +54,12 @@ export default function SongList(props) {
           <TitleContainer>
             <TitleWrapper
               onPress={() => {
-                navigation.navigate("SongList", { type: "section", title, query: id });
+                navigation.navigate("SongList", {
+                  type: "section",
+                  title,
+                  query: id,
+                  noTimeFilter: title === "Under 10 Minutes",
+                });
               }}
             >
               <Title>{title}</Title>

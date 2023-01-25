@@ -9,6 +9,7 @@ import Text from "components/text";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "services/config";
 import mixpanel from "services/mixpanel";
+import { useQueryCategory } from "../../query/category";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TILE_SIZE = (WINDOW_WIDTH - 40) * 0.5 - 10;
@@ -95,17 +96,11 @@ const SongRemoveButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export default function SongTile({
-  style,
-  song,
-  removable,
-  onRemove,
-  inGrid = true,
-  queue = [],
-  allCategories = [],
-}) {
+export default function SongTile({ style, song, removable, onRemove, inGrid = true, queue = [] }) {
   const navigation = useNavigation();
   const { updateSongQueue } = useSongQueue();
+  const { data } = useQueryCategory();
+  const allCategories = data?.categories || [];
 
   const categoryName =
     song?.categories

@@ -1,14 +1,15 @@
 // Import Dependencies
 import React from "react";
-import { Dimensions, Platform, View } from "react-native";
+import { Dimensions, Platform, TouchableOpacity, View } from "react-native";
 import { Text, Button } from "components";
 import styled from "styled-components/native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Entypo } from "@expo/vector-icons";
 import Constants from "expo-constants";
+import { useAuth } from "stores/auth";
 
 // Import Images
 import ZenbaseWhiteVector from "assets/vectors/zenbase-white.png";
-import { useAuth } from "stores/auth";
+import { useTheme } from "styled-components";
 
 // Styled Component
 /**
@@ -17,7 +18,7 @@ import { useAuth } from "stores/auth";
  * **************
  */
 const ProfileHeaderWrapper = styled.ImageBackground`
-  background-color: ${(props) => props.theme.color.hud};
+  background-color: #262626;
   width: 100%;
   height: ${(Platform.OS == "ios" ? Constants.statusBarHeight : 5) + 270}px;
 `;
@@ -43,7 +44,6 @@ const ProfileHeaderButtons = styled.View`
   z-index: 1;
   position: absolute;
   top: ${() => (Platform.OS == "android" ? "15px" : Constants.statusBarHeight + 5 + "px")};
-  /* top: ${() => (Platform.OS == "android" ? "25px" : "55px")}; */
   justify-content: flex-end;
   flex-direction: row;
   width: 100%;
@@ -62,18 +62,18 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
 const ProfileHeaderEditButton = styled.TouchableOpacity`
   padding-top: 2px;
   padding-bottom: 2px;
-  padding-left: ${(props) => props.theme.spacing.md};
-  padding-right: ${(props) => props.theme.spacing.md};
+  padding-left: 12px;
+  padding-right: 12px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: ${(props) => props.theme.spacing.lg};
-  background-color: ${(props) => props.theme.color.primary};
-  border-radius: ${(props) => props.theme.borderRadius.lg};
+  margin-top: 16px;
+  background-color: rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
 `;
 
 const PlayTime = styled.View`
-  margin-top: ${(props) => props.theme.spacing.md};
+  margin-top: 12px;
   flex-direction: row;
 `;
 
@@ -94,24 +94,25 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
   let imageSource = typeof profilePicture == "string" ? { uri: profilePicture } : profilePicture;
 
   const { user } = useAuth();
+  const theme = useTheme();
 
   if (user.image) {
     imageSource = { uri: user.image };
   }
 
   return (
-    <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == "android" ? 35 : 100}>
+    <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == "android" ? 35 : 200}>
       <ProfileHeaderOverlay>
-        <ProfileHeaderButtons>
+        <ProfileHeaderButtons style={[editable ? { justifyContent: "flex-start" } : {}]}>
           {editable ? (
-            <Button
-              variant="silent"
-              title="Done"
-              style={{ right: 0, top: -5 }}
+            <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
               }}
-            />
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="ios-chevron-back" size={26} color={theme.color.white} />
+            </TouchableOpacity>
           ) : (
             <>
               {/* <ProfileHeaderIconWrapper style={{ right: 28 }}>
@@ -143,12 +144,14 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
           <Text color="rgba(247, 248, 250, 0.35)" fontSize="xl" style={{ marginTop: 8 }}>
             @{user?.username}
           </Text>
-          <PlayTime>
-            <ZenbaseWhiteImage source={ZenbaseWhiteVector} />
-            <Text color="white" fontSize="lg">
-              {user?.hours || 0} Hour{user?.hours != 1 && "s"}
-            </Text>
-          </PlayTime>
+          {!editable && (
+            <PlayTime>
+              <ZenbaseWhiteImage source={ZenbaseWhiteVector} />
+              <Text color="white" fontSize="lg">
+                {user?.hours || 0} Hour{user?.hours != 1 && "s"}
+              </Text>
+            </PlayTime>
+          )}
           {editable && (
             <ProfileHeaderEditButton
               onPress={() => {

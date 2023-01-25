@@ -282,8 +282,10 @@ export default function Home({ navigation, route }) {
       component: (
         <>
           <Categories categories={data?.categories?.filter((cat) => cat.isPodcast)} />
-          <InviteFriend label="Listen" />
-          <EarnMore />
+          <Container>
+            <InviteFriend label="Listen" />
+            <EarnMore />
+          </Container>
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
             ?.map((section) => (

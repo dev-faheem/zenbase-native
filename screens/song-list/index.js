@@ -74,7 +74,7 @@ export default function SongList({ route, navigation }) {
 
   const timeFilterProps = { timeSlots, activeslot, setActiveSlot };
 
-  const { title = "Explore", type, query } = route.params;
+  const { title = "Explore", type, query, noTimeFilter = false } = route.params;
   const { data: categoryData } = useQueryCategory();
   const { theme } = useTheme();
 
@@ -130,7 +130,7 @@ export default function SongList({ route, navigation }) {
         </HeaderButtons>
         <Header>
           <Label>{title}</Label>
-          <SongListFilter {...timeFilterProps} />
+          {!noTimeFilter && <SongListFilter {...timeFilterProps} />}
         </Header>
       </HeaderWrapper>
       <Canvas style={{ position: "relative", zIndex: 1 }}>

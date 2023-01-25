@@ -6,10 +6,12 @@ import groundingIcon from "assets/images/shortcuts/grounding.png";
 import timerIcon from "assets/images/shortcuts/timer.png";
 import visualizationIcon from "assets/images/shortcuts/visualization.png";
 import Box from "components/box";
+import { useNavigation } from "@react-navigation/native";
 
 export default function BrowseByTime() {
+  const navigation = useNavigation();
   const shortcutsData = [
-    { image: timerIcon },
+    { image: timerIcon, to: "Timer" },
     { image: groundingIcon },
     { image: visualizationIcon },
   ];
@@ -25,12 +27,13 @@ export default function BrowseByTime() {
         horizontal
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => {
+          // const { to = "" } = itme;
           return (
             <Box
               pl={index == 0 ? 20 : null}
               mr={index === shortcutsData?.length - 1 ? "20px" : "10px"}
             >
-              <Item onPress={() => console.log("Click here")}>
+              <Item onPress={() => (item?.to ? navigation.navigate(item?.to) : null)}>
                 <ShortcutImage source={item?.image} />
               </Item>
             </Box>

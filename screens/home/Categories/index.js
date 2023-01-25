@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import mixpanel from "services/mixpanel";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
-const sizeReduce = (WINDOW_WIDTH - 40) / 414;
+const sizeReduce = (WINDOW_WIDTH - 20) / 414;
 const TILE_SIZE = Math.min((WINDOW_WIDTH - 40) * 0.5 - 5, 182);
 
 export default function Categories({ categories, inGrid = false }) {
@@ -33,8 +33,8 @@ export default function Categories({ categories, inGrid = false }) {
         renderItem={({ item, index }) => {
           return (
             <Box
-              pl={index == 0 ? 20 : null}
-              mr={index === categories?.length - 1 ? "20px" : "10px"}
+              pl={inGrid ? 20 : index == 0 ? 20 : null}
+              mr={index === categories?.length - 1 ? "10px" : "10px"}
             >
               <Item onPress={() => onPress(item)}>
                 <ShortcutImage
@@ -61,7 +61,7 @@ const Wrapper = styled.View`
 const Item = styled.TouchableOpacity``;
 
 const ShortcutImage = styled.Image`
-  /* ${(props) => {
+  /*${(props) => {
     if (props.inGrid) {
       const size = TILE_SIZE;
       if (size < 182) {
@@ -74,11 +74,13 @@ const ShortcutImage = styled.Image`
     return `
     width: 182px;
   `;
-  }} */
-  /* height: ${(props) => (props.inGrid ? (114 / 182) * TILE_SIZE : "114")}px; */
+  }}
+  height: ${(props) => (props.inGrid ? (114 / 182) * TILE_SIZE : "114")}px;*/
 
   width: ${WINDOW_WIDTH < 414 ? 182 * sizeReduce : 182}px;
   height: ${WINDOW_WIDTH < 414 ? 114 * sizeReduce : 114}px;
+  /* width: ${({ theme: { getSize } }) => getSize(182)}px;
+  height:${({ theme: { getSize } }) => getSize(182)}px; */
   border-radius: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 `;

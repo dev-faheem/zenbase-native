@@ -14,6 +14,8 @@ import { SongQueueProvider } from "stores/song-queue";
 import * as Notifications from "helpers/notifications";
 import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import { queryClient, QueryClientProvider } from "query/client";
+import { StripeProvider } from "@stripe/stripe-react-native";
+import config from "./config";
 
 Notifications.init();
 
@@ -26,16 +28,21 @@ export default function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <SongQueueProvider>
-          <AuthProvider>
-            <LoaderProvider>
-              <Navigation />
-            </LoaderProvider>
-          </AuthProvider>
-        </SongQueueProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <StripeProvider
+      publishableKey={config.STRIPE_KEY}
+      merchantIdentifier={config.STRIPE_MERCHANT_ID} // required for Apple Pay
+    >
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <SongQueueProvider>
+            <AuthProvider>
+              <LoaderProvider>
+                <Navigation />
+              </LoaderProvider>
+            </AuthProvider>
+          </SongQueueProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </StripeProvider>
   );
 }

@@ -12,9 +12,9 @@ import styled from "styled-components/native";
 
 const cards = [
   {
-    name: "Start Here",
+    name: "Introduction to Meditation",
     image: CardImage5,
-    duration: "5 min",
+    duration: "10 min",
     link: "625d48892ca51b231dbd8bc5",
     lableColor: "#6F39C6",
     background: CardBackgroung5,

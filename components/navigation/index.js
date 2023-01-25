@@ -21,7 +21,6 @@ import Sounds from "screens/sounds";
 import Settings from "screens/settings";
 import EditProfile from "screens/edit-profile";
 import Journal from "screens/journal";
-import DeleteJournal from "screens/journal/delete";
 import ZentDonation from "screens/zent-donation";
 import DonationThanks from "screens/zent-donation/donation-thanks";
 import FavoritesType from "screens/favorites/favorites-type";
@@ -53,6 +52,12 @@ import LoginForm from "screens/auth/login/form";
 import { useLoader } from "stores/loader";
 import Rewards from "screens/rewards";
 import SplashScreen from "screens/splash-screen";
+import Timer from "screens/timer";
+import EarningTeam from "screens/earning-team";
+import AmbientSoundSelection from "screens/timer/ambientSoundSelection";
+import UpgradePremium from "screens/upgrade-premium";
+import UpgradePremiumSuccessfully from "screens/upgrade-premium/success";
+import JournalEntry from "screens/journal/journal-entry";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -84,6 +89,7 @@ export function HomeStack() {
       <Tabs.Screen name="Profile" component={Profile} />
       <Tabs.Screen name="Followers" component={Followers} />
       <Tabs.Screen name="Sounds" component={Sounds} />
+      <Tabs.Screen name="EarningTeam" component={EarningTeam} />
     </Tabs.Navigator>
   );
 }
@@ -96,6 +102,7 @@ export default function Navigation() {
     <>
       <NavigationContainer>
         <Stack.Navigator
+          // initialRouteName="Timer"
           initialRouteName="Login"
           screenOptions={{
             headerShown: false,
@@ -114,13 +121,20 @@ export default function Navigation() {
             <Stack.Screen name="ReferFriends" component={ReferFriends} />
             <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
+            <Stack.Screen name="Timer" component={Timer} />
+            <Stack.Screen name="AmbientSoundSelection" component={AmbientSoundSelection} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
+            <Stack.Screen name="JournalEntry" component={JournalEntry} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
+            <Stack.Screen
+              name="UpgradePremiumSuccessfully"
+              component={UpgradePremiumSuccessfully}
+            />
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
-            <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
-            <Stack.Screen name="DeleteJournal" component={DeleteJournal} />
             <Stack.Screen name="ZentDonation" component={ZentDonation} />
             <Stack.Screen name="DonationThanks" component={DonationThanks} />
             <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
