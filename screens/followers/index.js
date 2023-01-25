@@ -89,7 +89,7 @@ export default function Followers({ route, navigation }) {
                     }}
                   >
                     <UserImage source={user?.image || profileImage} />
-                    <Text color="secondary">{user.name}</Text>
+                    <Text color="description">{user.name}</Text>
                   </UserWrapper>
                 );
               })}
