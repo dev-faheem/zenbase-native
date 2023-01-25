@@ -130,32 +130,32 @@ export default function Login({ navigation }) {
 
       mixpanel.track("Auto Login", _user);
       await login(_user);
+      await refresh();
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: "App" }],
+        })
+      );
+    } else {
+      throw new Error("User data not found in Async Storage");
     }
   };
 
   useEffect(() => {
     (async () => {
+      mixpanel.screen("Prelogin");
       try {
+        await queryClient.prefetchQuery({
+          queryKey: ["home"],
+          queryFn: fetchHomepage,
+        });
         await fetchUserFromAsyncStorage();
-        await refresh();
-        navigation.dispatch(
-          CommonActions.reset({
-            routes: [{ name: "App" }],
-          })
-        );
       } catch (e) {
-        setIsAppReady(true);
+        setTimeout(() => {
+          setIsAppReady(true);
+        }, 3000);
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    queryClient.prefetchQuery({
-      queryKey: ["home"],
-      queryFn: fetchHomepage,
-    });
-
-    mixpanel.screen("Prelogin");
   }, []);
 
   if (!isAppReady) {

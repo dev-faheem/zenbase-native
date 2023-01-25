@@ -56,6 +56,7 @@ export default function Followers({ route, navigation }) {
 
   useFocusEffect(
     React.useCallback(() => {
+      setUsers([]);
       fetchUsers();
     }, [title])
   );
@@ -72,7 +73,7 @@ export default function Followers({ route, navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <MiniProfileHeader profilePicture={profileImage} route={route} navigation={navigation} />
-      <View style={{ flex: 1, backgroundColor: theme.color.black }}>
+      <View style={{ flex: 1, backgroundColor: theme.color.background }}>
         <ScrollView style={{ flex: 1 }}>
           <Container style={{ flex: 1 }}>
             <Text fontWeight="bold" fontSize="h2" style={{ marginTop: 22, marginBottom: 22 }}>

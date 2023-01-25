@@ -100,7 +100,7 @@ export default function MiniProfileHeader({
               <Ionicons
                 name="ios-chevron-back"
                 size={32}
-                color={theme.color.primary}
+                color={theme.color.white}
                 style={{ marginLeft: 10, top: -5 }}
               />
             )}
