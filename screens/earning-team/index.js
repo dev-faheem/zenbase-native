@@ -8,6 +8,7 @@ import {
   AnimatedHeaderView,
   Box,
   Header,
+  StackNavigatorTabBar,
 } from "components";
 import {
   ScrollView,
@@ -307,6 +308,7 @@ export default function EarningTeam({ route, navigation }) {
           }}
         />
       </BlurView>
+      <StackNavigatorTabBar />
     </>
   );
 }

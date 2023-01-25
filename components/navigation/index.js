@@ -87,9 +87,9 @@ export function HomeStack() {
       <Tabs.Screen name="Favorites" component={Favorites} />
       <Tabs.Screen name="FavoritesType" component={FavoritesType} />
       <Tabs.Screen name="Profile" component={Profile} />
-      <Tabs.Screen name="Followers" component={Followers} />
+      {/* <Tabs.Screen name="Followers" component={Followers} /> */}
       <Tabs.Screen name="Sounds" component={Sounds} />
-      <Tabs.Screen name="EarningTeam" component={EarningTeam} />
+      {/* <Tabs.Screen name="EarningTeam" component={EarningTeam} /> */}
     </Tabs.Navigator>
   );
 }
@@ -109,6 +109,8 @@ export default function Navigation() {
           }}
         >
           <Stack.Group>
+            <Stack.Screen name="Followers" component={Followers} />
+            <Stack.Screen name="EarningTeam" component={EarningTeam} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="LoginForm" component={LoginForm} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} />
