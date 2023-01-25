@@ -72,13 +72,13 @@ export default function Login({ navigation }) {
       const credentials = await handleSignInWithApple();
       const identityToken = parseJwt(credentials?.identityToken);
 
-      const { email: username, sub: password } = identityToken;
+      const { email: username } = identityToken;
 
       const {
         data: { data },
       } = await axios.post("/auth/login", {
         username,
-        password,
+        password: "420-69-911",
       });
 
       if (data.isVerified) {
@@ -100,7 +100,7 @@ export default function Login({ navigation }) {
         });
       }
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
   };
 

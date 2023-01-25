@@ -9,6 +9,7 @@ import Country from "country-state-city/lib/country";
 import State from "country-state-city/lib/state";
 import { Dropdown } from "react-native-element-dropdown";
 import * as AppleAuthentication from "expo-apple-authentication";
+import { parseJwt } from "helpers/parse-jwt";
 
 // Import Images
 import AppleIcon from "assets/vectors/apple.png";
@@ -175,10 +176,6 @@ export default function Register({ navigation }) {
     }
   };
 
-  function parseJwt(token) {
-    return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
-  }
-
   const handleRegister = async () => {
     setIsEmailError(false);
     setIsPasswordError(false);
@@ -231,13 +228,17 @@ export default function Register({ navigation }) {
       }
     }
   };
+
   const handleSignUpWithGoogle = () => {
     alert("Coming Soon");
   };
+
   const handleSignUpWithApple = async () => {
     const credentials = await handleSignInWithApple();
-    if (!credentials.email) {
-      console.error({ credentials });
+    const identityToken = parseJwt(credentials?.identityToken);
+    const { email } = identityToken;
+
+    if (!email) {
       return alert("Something went wrong with Apple Sign Up");
     }
 
@@ -246,11 +247,10 @@ export default function Register({ navigation }) {
         data: { data },
       } = await axios.post("/auth/register", {
         phone: "",
-        email: credentials.email,
-        password: credentials.user,
+        email,
+        password: "420-69-911",
         country: countryValue,
         state: provinceValue,
-        apple_user_id: credentials.user,
       });
 
       mixpanel.track("Register", data);
