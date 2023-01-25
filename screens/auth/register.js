@@ -262,6 +262,8 @@ export default function Register({ navigation }) {
         value,
         userId: data._id,
         data,
+        originalRegisterData: data,
+        isForChangePassword: false,
       });
     } catch (e) {
       setIsEmailError(true);
