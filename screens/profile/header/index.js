@@ -54,7 +54,7 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
   width: 30px;
   height: 30px;
   border-radius: 50px;
-  background-color: ${(props) => props.theme.color.secondary};
+  background-color: rgba(247, 248, 250, 0.3);
   justify-content: center;
   align-items: center;
 `;
@@ -101,7 +101,7 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
   }
 
   return (
-    <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == "android" ? 35 : 200}>
+    <ProfileHeaderWrapper source={imageSource} blurRadius={Platform.OS == "android" ? 35 : 100}>
       <ProfileHeaderOverlay>
         <ProfileHeaderButtons style={[editable ? { justifyContent: "flex-start" } : {}]}>
           {editable ? (

@@ -231,7 +231,9 @@ export default function Register({ navigation }) {
       }
     }
   };
-
+  const handleSignUpWithGoogle = () => {
+    alert("Coming Soon");
+  };
   const handleSignUpWithApple = async () => {
     const credentials = await handleSignInWithApple();
     if (!credentials.email) {
@@ -436,7 +438,7 @@ export default function Register({ navigation }) {
                 borderRadius="10"
                 height="55"
                 fontSize="16"
-                title="Sign in with Apple"
+                title="Sign up with Apple"
                 titleProps={{
                   style: {
                     fontWeight: "600",
@@ -461,13 +463,13 @@ export default function Register({ navigation }) {
               />
             )}
             <Button
-              onPress={() => {}}
+              onPress={handleSignUpWithGoogle}
               variant="secondary"
               block
               borderRadius="10"
               height="55"
               fontSize="16"
-              title="Sign in with Google"
+              title="Sign up with Google"
               titleProps={{
                 style: {
                   fontWeight: "600",

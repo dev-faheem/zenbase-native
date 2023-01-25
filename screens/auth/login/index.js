@@ -18,6 +18,8 @@ import { fetchHomepage } from "query/home";
 import { useAuth } from "stores/auth";
 import { CommonActions } from "@react-navigation/native";
 import mixpanel from "services/mixpanel";
+import { parseJwt } from "helpers/parse-jwt";
+import axios from "services/axios";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -63,9 +65,44 @@ const BottomView = styled.View`
 export default function Login({ navigation }) {
   const { theme } = useTheme();
   const { login, refresh } = useAuth();
-
-  // States
   const [isAppReady, setIsAppReady] = useState(false);
+
+  const handleAppleLogin = async () => {
+    try {
+      const credentials = await handleSignInWithApple();
+      const identityToken = parseJwt(credentials?.identityToken);
+
+      const { email: username, sub: password } = identityToken;
+
+      const {
+        data: { data },
+      } = await axios.post("/auth/login", {
+        username,
+        password,
+      });
+
+      if (data.isVerified) {
+        login(data);
+        mixpanel.track("Login", data);
+
+        // Reset Stack Navigation
+        navigation.dispatch(
+          CommonActions.reset({
+            routes: [{ name: "App" }],
+          })
+        );
+      } else {
+        navigation.navigate("OTP", {
+          type: "email",
+          value: data.email,
+          userId: data._id,
+          data,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const handleSignInWithGoogle = async () => {
     alert("Google Sign In is disabled.");
@@ -93,32 +130,32 @@ export default function Login({ navigation }) {
 
       mixpanel.track("Auto Login", _user);
       await login(_user);
+      await refresh();
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: "App" }],
+        })
+      );
+    } else {
+      throw new Error("User data not found in Async Storage");
     }
   };
 
   useEffect(() => {
     (async () => {
+      mixpanel.screen("Prelogin");
       try {
+        await queryClient.prefetchQuery({
+          queryKey: ["home"],
+          queryFn: fetchHomepage,
+        });
         await fetchUserFromAsyncStorage();
-        await refresh();
-        navigation.dispatch(
-          CommonActions.reset({
-            routes: [{ name: "App" }],
-          })
-        );
       } catch (e) {
-        setIsAppReady(true);
+        setTimeout(() => {
+          setIsAppReady(true);
+        }, 3000);
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    queryClient.prefetchQuery({
-      queryKey: ["home"],
-      queryFn: fetchHomepage,
-    });
-
-    mixpanel.screen("Prelogin");
   }, []);
 
   if (!isAppReady) {
@@ -149,7 +186,7 @@ export default function Login({ navigation }) {
         />
 
         <Button
-          onPress={handleSignInWithApple}
+          onPress={handleAppleLogin}
           variant="secondary"
           block
           borderRadius="10"

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useRef } from "react";
 import axios from "services/axios";
 import api from "services/api";
 import Transactions from "stores/transactions";
@@ -52,9 +52,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    setUser();
+    // setUser();
     setIsLoggedIn(false);
-    // Remove user from async storage
+    axios.interceptors.request.handlers = [];
+    api.interceptors.request.handlers = [];
     await AsyncStorage.removeItem("@zenbase_user");
   };
 
