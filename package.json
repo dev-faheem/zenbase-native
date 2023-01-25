@@ -1,13 +1,17 @@
 {
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "start:production": "expo start --no-dev --minify",
     "eject": "expo eject",
-    "production": "expo start --no-dev --minify",
+    "build": "expo publish",
     "build:ios": "npx eas build --platform=ios",
-    "build:android": "npx eas build --platform=android"
+    "build:ios:local": "npx eas build --platform=ios --local",
+    "build:android": "npx eas build --platform=android",
+    "build:android:local": "npx eas build --platform=android --local",
+    "ios": "npm run build:ios",
+    "ios:local": "npm run build:ios:local",
+    "android:local": "npm run build:android",
+    "android": "npm run build:android:local"
   },
   "dependencies": {
     "@miblanchard/react-native-slider": "^2.1.0",
