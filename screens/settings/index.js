@@ -96,7 +96,7 @@ export default function Settings({ route }) {
 
   const signOut = async () => {
     await AsyncStorageLib.removeItem("recents");
-    await AsyncStorageLib.removeItem("@zenbase_user");
+    logout();
     navigation.reset({
       index: 0,
       routes: [{ name: "Login" }],

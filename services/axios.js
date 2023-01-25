@@ -16,7 +16,8 @@ axios.interceptors.request.use((request) => {
   console.log(
     `Request: ${request.method?.toUpperCase()} ${request.url} ${
       JSON.stringify(request.data, null, 2) || ""
-    }`
+    }`,
+    request.headers.authorization
   );
   return request;
 });
