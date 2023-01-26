@@ -19,6 +19,7 @@ import AmbientSoundSelection from "./ambientSoundSelection";
 
 import { useTimer as useTimerLib } from "react-timer-hook";
 import useAudioSound from "hooks/useAudioSound";
+import TimerEarned from "./timerEarned";
 
 let audio = new Audio.Sound();
 
@@ -28,6 +29,8 @@ export default function Timer() {
     { id: "min", value: 0 },
     { id: "second", value: 0 },
   ];
+
+  const [earnView, setEarnView] = useState(false);
 
   const [selectedTime, setSelectedTime] = useState(initial);
 
@@ -42,17 +45,17 @@ export default function Timer() {
   time.setSeconds(time.getSeconds() + allSeconds);
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = useTimerLib({
     expiryTimestamp: time,
-    onExpire: () => console.log("onExpire called"),
+    onExpire: () => setEarnView(true),
   });
 
   const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
 
   const currentAmbientSound = selectedAmbientSound
-    ? config.API_URLM + ambientSoundData.filter(({ _id }) => _id === selectedAmbientSound)[0].file
+    ? config.API_URL + ambientSoundData.filter(({ _id }) => _id === selectedAmbientSound)[0].file
     : "";
 
   const audioUrl = currentAmbientSound;
-
+  // console.log({ audioUrl });
   const {
     playAudio: ambient_playAudio,
     pauseAudio: ambient_pauseAudio,
@@ -65,6 +68,8 @@ export default function Timer() {
   const [ambientSoundSelection, setAmbientSoundSelection] = useState(false);
 
   const contextProps = {
+    earnView,
+    setEarnView,
     timerBellListData,
     selectedBell,
     setSelectedBell,
@@ -127,17 +132,20 @@ export default function Timer() {
   // console.log({ test: config.API_URLM });
   // start, pause, resume, restart;
 
+  const timerViews = () =>
+    ambientSoundSelection ? (
+      <AmbientSoundSelection />
+    ) : timerStatus === TIMER_STATUS_INITIAL ? (
+      mainView()
+    ) : (
+      startedView()
+    );
+
   return (
     <>
       {/* <Test onPress={playAudio} /> */}
       <TimerContext.Provider value={contextProps}>
-        {ambientSoundSelection ? (
-          <AmbientSoundSelection />
-        ) : timerStatus === TIMER_STATUS_INITIAL ? (
-          mainView()
-        ) : (
-          startedView()
-        )}
+        {earnView ? <TimerEarned /> : timerViews()}
       </TimerContext.Provider>
     </>
   );

@@ -6,19 +6,23 @@ import { useTheme } from "stores/theme";
 import zentLogo from "assets/logos/zent-coin.png";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../stores/auth";
 
 export default function ZentCoin(props) {
   const {} = props;
+  const { user } = useAuth();
   const { theme } = useTheme();
   const navigation = useNavigation();
 
-  const info = "Earn 30% more with Zenbase Premium";
+  const info = user.isPremium
+    ? "Earning 30% more with Zenbase Premium"
+    : "Earn 30% more with Zenbase Premium";
   const coins = "0.02 ZENT";
   // const time = "16:07:05";
   const time = "";
 
   return (
-    <Wrapper onPress={() => navigation.navigate("Wallet")}>
+    <Wrapper onPress={() => navigation.navigate(user.isPremium ? "Wallet" : "CTA")}>
       <ZentIcon source={zentLogo} />
       <View>
         <Info>{info}</Info>

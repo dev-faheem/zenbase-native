@@ -52,8 +52,8 @@ const ZentExpandIconWrapper = styled.View`
 `;
 
 const ZentLogo = styled.Image`
-  width: 117px;
-  height: 128px;
+  width: ${({ theme: { getSize } }) => getSize(117)}px;
+  height: ${({ theme: { getSize } }) => getSize(128)}px;
   position: relative;
 `;
 
