@@ -4,7 +4,7 @@ import { Platform, TouchableOpacity, FlatList } from "react-native";
 import { Text, Container, Canvas, SongTile, NavigationPadding, Box } from "components";
 import styled from "styled-components/native";
 import Constants from "expo-constants";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 // Import Images
 import { useTheme } from "stores/theme";
@@ -14,6 +14,7 @@ import { useQueryCategory } from "query/category";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import mixpanel from "services/mixpanel";
+import StackNavigatorTabBar from "../../components/tab-bar/stack-navigator";
 
 // Styled Component
 const Header = styled.SafeAreaView`
@@ -28,7 +29,7 @@ const HeaderButtons = styled.View`
   z-index: 1;
 
   position: absolute;
-  top: ${() => (Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 15 + "px")};
+  top: ${() => (Platform.OS == "android" ? "12px" : Constants.statusBarHeight + 8.5 + "px")};
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
@@ -125,7 +126,7 @@ export default function SongList({ route, navigation }) {
               navigation.goBack();
             }}
           >
-            <Entypo name="chevron-left" size={20} color={theme.color.primary} />
+            <Ionicons name="ios-chevron-back" size={26} color={theme.color.primary} />
           </TouchableOpacity>
         </HeaderButtons>
         <Header>
@@ -139,8 +140,8 @@ export default function SongList({ route, navigation }) {
           <SongListWrapper>
             <FlatList
               style={{
-                paddingTop: 34 + 15,
-                marginBottom: -100,
+                paddingTop: 34 + 25,
+                marginBottom: -70,
 
                 // marginTop: -100,
                 // height: Dimensions?.get("window").height - 100,
@@ -178,6 +179,7 @@ export default function SongList({ route, navigation }) {
         </Container>
         <NavigationPadding />
         {/* </ScrollView> */}
+        <StackNavigatorTabBar style={{ zIndex: 9 }} />
       </Canvas>
     </>
   );
