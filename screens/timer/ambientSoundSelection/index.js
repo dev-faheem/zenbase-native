@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import { Text, AnimatedHeaderView } from "components";
 
 import styled from "styled-components/native";
-import { useNavigation } from "@react-navigation/core";
 import Canvas from "components/canvas";
 import SoundCard from "./soundCard";
 import { Dimensions, FlatList, TouchableOpacity } from "react-native";
