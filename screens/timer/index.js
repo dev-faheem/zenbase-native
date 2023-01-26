@@ -56,7 +56,7 @@ export default function Timer() {
     pauseAudio: bell_pauseAudio,
     resumeAudio: bell_resumeAudio,
     exitAudio: bell_exitAudio,
-  } = useAudioSound(bellUrl);
+  } = useAudioSound(bellUrl, 2);
 
   const intervalTime = new Date();
 
