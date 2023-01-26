@@ -16,6 +16,8 @@ import LightRainIcon from "assets/images/ambientSound/LightRain.png";
 import OceanWavesIcon from "assets/images/ambientSound/OceanWaves.png";
 import PeacefulPondIcon from "assets/images/ambientSound/PeacefulPond.png";
 import RainforestIcon from "assets/images/ambientSound/Rainforest.png";
+import Lightning from "assets/images/ambientSound/Lightning.jpg";
+import River from "assets/images/ambientSound/River.jpg";
 
 //Bell Sounds
 
@@ -180,13 +182,13 @@ export const ambientSoundData = [
     title: "River",
 
     file: "uploads/timer/River.mp3",
-    songImage: tempSongTile,
+    songImage: River,
   },
   {
     _id: 8,
     title: "Storm",
 
     file: "uploads/timer/Storm.mp3",
-    songImage: tempSongTile,
+    songImage: Lightning,
   },
 ];

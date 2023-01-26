@@ -48,6 +48,48 @@ export default function Timer() {
     onExpire: () => setEarnView(true),
   });
 
+  const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
+
+  const bellUrl = timerBellListData[selectedBellListIndex]?.sound || "";
+  const {
+    playAudio: bell_playAudio,
+    pauseAudio: bell_pauseAudio,
+    resumeAudio: bell_resumeAudio,
+    exitAudio: bell_exitAudio,
+  } = useAudioSound(bellUrl);
+
+  const intervalTime = new Date();
+
+  const allIntervalSeconds =
+    parseInt(intervltimeInput[0]) * 60 * 60 +
+    parseInt(intervltimeInput[1]) * 60 +
+    parseInt(intervltimeInput[2]);
+
+  intervalTime.setSeconds(time.getSeconds() + allIntervalSeconds);
+
+  const intervalTimeLib = useTimerLib({
+    expiryTimestamp: time,
+    onExpire: () => {
+      if (bellUrl) {
+        bell_playAudio();
+
+        setTimeout(() => {
+          exitAudio();
+        }, 5000);
+
+        setTimeout(() => {
+          resetInterval();
+        }, 100);
+      }
+    },
+  });
+
+  const resetInterval = () => {
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + allIntervalSeconds);
+    intervalTimeLib?.restart(time);
+  };
+
   const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
 
   const currentAmbientSound = selectedAmbientSound
@@ -79,13 +121,22 @@ export default function Timer() {
     setAmbientSoundSelection,
     selectedAmbientSound,
     setselectedAmbientSound,
+
     ambient_playAudio,
     ambient_pauseAudio,
     ambient_resumeAudio,
     ambient_exitAudio,
+
+    bell_playAudio,
+    bell_pauseAudio,
+    bell_resumeAudio,
+    bell_exitAudio,
+
     time,
     allSeconds,
     timeLib: { seconds, minutes, hours, days, isRunning, start, pause, resume, restart },
+    allIntervalSeconds,
+    intervalTimeLib,
     selectedTime,
     setSelectedTime,
     timeInput,

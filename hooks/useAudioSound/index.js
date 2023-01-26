@@ -1,8 +1,22 @@
 import { Audio } from "expo-av";
 
-let audio = new Audio.Sound();
+let audio1 = new Audio.Sound();
+let audio2 = new Audio.Sound();
 
-export default function useAudioSound(audioUrl) {
+function selectAudio(sound) {
+  switch (sound) {
+    case 1:
+      return audio1;
+    case 2:
+      return audio2;
+
+    default:
+      return audio1;
+  }
+}
+
+export default function useAudioSound(audioUrl, sound = 1) {
+  let audio = selectAudio(sound);
   const playAudio = async (data) => {
     try {
       console.log({ audioUrl });
@@ -10,31 +24,31 @@ export default function useAudioSound(audioUrl) {
       await audio.loadAsync({ uri: audioUrl });
       await audio.playAsync();
 
-      alert("***qwererwr" + audioUrl);
+      // alert("***qwererwr" + audioUrl);
 
       // await audio.setVolumeAsync(previousVolumeRef.current);
       // await audio.setVolumeAsync(1.0);
     } catch (e) {
       console.log({ e });
-      alert("Something went wrong!");
+      // alert("Something went wrong!");
       // navigation.goBack();
     }
   };
   const resumeAudio = async () => {
     await audio.playAsync();
-    alert("Resume");
+    // alert("Resume");
   };
 
   const pauseAudio = async (data) => {
     await audio.pauseAsync();
-    alert("Pause");
+    // alert("Pause");
   };
 
   const exitAudio = async (data) => {
     await audio.stopAsync();
     await audio.unloadAsync();
 
-    alert("exit");
+    // alert("exit");
   };
 
   return { playAudio, pauseAudio, resumeAudio, exitAudio };

@@ -27,9 +27,11 @@ export default function Counter() {
     allSeconds,
     timeInput,
     setTimeInput,
+    intervalTimeLib,
   } = useTimer();
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = timeLib;
 
+  console.log("intervalTimeLib", intervalTimeLib?.seconds);
   const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
   return (
     <Wrapper>
