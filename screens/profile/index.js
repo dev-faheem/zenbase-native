@@ -55,17 +55,41 @@ export default function Profile({ route, navigation }) {
   const { theme } = useTheme();
   const { user } = useAuth();
   const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
   const scrollY = useRef(new Animated.Value(0)).current;
 
   useFocusEffect(
     React.useCallback(() => {
       fetchRecentlyPlayedSongs();
+      fetchFollowers();
+      fetchFollowing();
     }, [])
   );
 
   useEffect(() => {
     fetchRecentlyPlayedSongs();
+    fetchFollowers();
+    fetchFollowing();
   }, []);
+
+  const fetchFollowers = async () => {
+    try {
+      const { data } = await axios.get(`/auth/me/followers`);
+      setFollowers(data.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const fetchFollowing = async () => {
+    try {
+      const { data } = await axios.get(`/auth/me/following`);
+      setFollowing(data.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const fetchRecentlyPlayedSongs = async () => {
     try {
@@ -150,25 +174,43 @@ export default function Profile({ route, navigation }) {
                     />
                   ),
                   title: "Following",
+                  chevronColor:
+                    following.length > 0 ? theme.color.description : "rgba(141, 141, 146, 0.35);",
+                  color: following.length > 0 ? theme.color.white : "rgba(255, 255, 255, 0.55)",
                   onPress: () => {
-                    navigation.navigate("Followers", {
-                      title: "Following",
-                    });
+                    if (following.length > 0) {
+                      navigation.navigate("Followers", {
+                        title: "Following",
+                        users: following,
+                      });
+                    }
                   },
                 },
                 {
                   icon: (
                     <Icon
-                      style={{ width: 34, height: 24, marginLeft: -10 }}
+                      style={{
+                        width: 34,
+                        height: 24,
+                        marginLeft: -10,
+                        tintColor:
+                          followers.length > 0 ? theme.color.primary : "rgba(255, 255, 255, 0.35)",
+                      }}
                       source={followersIcon}
                       resizeMode="contain"
                     />
                   ),
+                  color: followers.length > 0 ? theme.color.white : "rgba(255, 255, 255, 0.55)",
+                  chevronColor:
+                    followers.length > 0 ? theme.color.description : "rgba(141, 141, 146, 0.35);",
                   title: "Followers",
                   onPress: () => {
-                    navigation.navigate("Followers", {
-                      title: "Followers",
-                    });
+                    if (followers.length > 0) {
+                      navigation.navigate("Followers", {
+                        title: "Followers",
+                        users: followers,
+                      });
+                    }
                   },
                 },
               ]}

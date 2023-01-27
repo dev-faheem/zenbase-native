@@ -73,7 +73,7 @@ export default function IOSList({ data = [], transparent, notDefault, withoutChe
                     <Entypo
                       name="chevron-right"
                       size={20}
-                      color={theme.color.description}
+                      color={obj.chevronColor || theme.color.description}
                       style={{ marginTop: 2 }}
                     />
                   )}
