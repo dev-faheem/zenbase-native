@@ -168,47 +168,47 @@ export default function EditProfile({ route, navigation }) {
   };
 
   const saveChanges = async () => {
-    let isExistFullNameBadWord = badWords.includes(fullname.toLowerCase());
-    let isExistUserNameBadWord = badWords.includes(username.toLowerCase());
+    if (!isUpdating) {
+      let isExistFullNameBadWord = badWords.includes(fullname.toLowerCase());
+      let isExistUserNameBadWord = badWords.includes(username.toLowerCase());
+      if (!isExistFullNameBadWord && !isExistUserNameBadWord) {
+        setIsValidUserName(false);
+        if (isProfileUpdated) {
+          setIsUpdating(true);
+          try {
+            // Logic to save profile changes
+            if (user?.name != fullname) {
+              await updateUser("name", fullname, false, true);
+              setUser({
+                ...user,
+                name: fullname,
+              });
+            }
 
-    if (!isExistFullNameBadWord && !isExistUserNameBadWord) {
-      setIsProfileUpdated(true);
-      setIsValidUserName(false);
-      if (isProfileUpdated) {
-        setIsProfileUpdated(false);
-        setIsUpdating(true);
-        try {
-          // Logic to save profile changes
-          if (user?.name != fullname) {
-            await updateUser("name", fullname, false, true);
+            if (user?.username != username) {
+            }
+            await updateUser("username", username, false, true);
             setUser({
               ...user,
               name: fullname,
+              username,
             });
-          }
 
-          if (user?.username != username) {
+            setIsUpdating(false);
+            // Close Edit Profile Model after updating profile
+            navigation.goBack();
+          } catch (e) {
+            Alert.alert("", e?.response?.data?.error, [{ text: "OK", onPress: () => {} }], {
+              userInterfaceStyle: "dark",
+            });
+            setIsUpdating(false);
           }
-          await updateUser("username", username, false, true);
-          setUser({
-            ...user,
-            name: fullname,
-            username,
-          });
-
-          setIsUpdating(false);
-          // Close Edit Profile Model after updating profile
+        } else {
           navigation.goBack();
-        } catch (e) {
-          Alert.alert("", e?.response?.data?.error, [{ text: "OK", onPress: () => {} }], {
-            userInterfaceStyle: "dark",
-          });
-          setIsUpdating(false);
         }
+      } else {
+        setIsValidUserName(true);
       }
-    } else {
-      setIsProfileUpdated(false);
-      setIsValidUserName(true);
     }
   };
 
@@ -220,10 +220,10 @@ export default function EditProfile({ route, navigation }) {
             navigation.goBack();
           }}
         >
-          <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} />
+          {/* <Ionicons name="ios-chevron-back" size={30} color={theme.color.primary} /> */}
         </TouchableOpacity>
         <Button
-          variant={isProfileUpdated ? "silent" : "silentDisabled"}
+          variant={"silent"}
           title={isUpdating ? "Loading..." : "Done"}
           onPress={saveChanges}
         />

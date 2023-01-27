@@ -131,6 +131,7 @@ export default function Navigation() {
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
             <Stack.Screen name="JournalEntry" component={JournalEntry} />
             <Stack.Screen name="Redeem" component={Redeem} />
+            <Stack.Screen name="DeleteUser" component={DeleteAccount} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
@@ -147,7 +148,6 @@ export default function Navigation() {
             <Stack.Screen name="AddJournal" component={AddJournal} />
             <Stack.Screen name="Play" component={Play} />
             <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
-            <Stack.Screen name="DeleteUser" component={DeleteAccount} />
             <Stack.Screen name="EnableNotification" component={EnableNotification} />
             <Stack.Screen name="TotalEarnings" component={TotalEarnings} />
 

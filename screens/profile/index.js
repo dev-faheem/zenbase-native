@@ -194,7 +194,7 @@ export default function Profile({ route, navigation }) {
               <>
                 <WellnessActivityWrapper>
                   <Icon
-                    style={{ width: 32, height: 32 }}
+                    style={{ width: 32, height: 32, marginBottom: 15 }}
                     source={wellnessIcon}
                     resizeMode="contain"
                   />

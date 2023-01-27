@@ -71,6 +71,14 @@ export default function Settings({ route }) {
     appleHealth: true,
     displayWellnessActivity: true,
     currentWellnessActivity: true,
+
+    hourlyBell: false,
+    groundingReminders: false,
+    dailyAffirmations: false,
+    fullMoon: false,
+    newMusicRelease: true,
+    invitesToWellness: true,
+    passiveEarningSesssion: true,
   });
 
   const handleSwitch = (key, value) => {
@@ -113,7 +121,7 @@ export default function Settings({ route }) {
 
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: theme.color.black }}>
+      <View style={{ flex: 1, backgroundColor: theme.color.background }}>
         <Animated.ScrollView
           onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
             useNativeDriver: true,
@@ -239,37 +247,72 @@ export default function Settings({ route }) {
             <SwitchList>
               <SwitchWrapper>
                 <Text numberOfLines={1}>Hourly Bell of Mindfulness</Text>
-                <Switch />
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("hourlyBell", !setting.hourlyBell);
+                  }}
+                  value={setting.hourlyBell}
+                />
               </SwitchWrapper>
               <Divider />
               <SwitchWrapper>
                 <Text numberOfLines={1}>Grounding Reminders</Text>
-                <Switch />
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("groundingReminders", !setting.groundingReminders);
+                  }}
+                  value={setting.groundingReminders}
+                />
               </SwitchWrapper>
               <Divider />
               <SwitchWrapper>
                 <Text numberOfLines={1}>Daily Affirmations</Text>
-                <Switch />
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("dailyAffirmations", !setting.dailyAffirmations);
+                  }}
+                  value={setting.dailyAffirmations}
+                />
               </SwitchWrapper>
               <Divider />
               <SwitchWrapper>
                 <Text numberOfLines={1}>Full Moon Alerts</Text>
-                <Switch />
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("fullMoon", !setting.fullMoon);
+                  }}
+                  value={setting.fullMoon}
+                />
               </SwitchWrapper>
               <Divider />
               <SwitchWrapper>
                 <Text numberOfLines={1}>New Music Releases</Text>
-                <Switch value={true} />
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("newMusicRelease", !setting.newMusicRelease);
+                  }}
+                  value={setting.newMusicRelease}
+                />
               </SwitchWrapper>
               <Divider />
               <SwitchWrapper>
                 <Text numberOfLines={1}>Invites to Wellness Activities</Text>
-                <Switch value={true} />
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("invitesToWellness", !setting.invitesToWellness);
+                  }}
+                  value={setting.invitesToWellness}
+                />
               </SwitchWrapper>
               <Divider />
               <SwitchWrapper>
                 <Text numberOfLines={1}>Passive Earning Sessions</Text>
-                <Switch value={true} />
+                <Switch
+                  onValueChange={() => {
+                    handleSwitch("passiveEarningSesssion", !setting.passiveEarningSesssion);
+                  }}
+                  value={setting.passiveEarningSesssion}
+                />
               </SwitchWrapper>
             </SwitchList>
 
