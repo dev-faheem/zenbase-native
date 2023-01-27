@@ -1,6 +1,6 @@
 // Import Dependencies
-import React, { useState, useEffect } from "react";
-import { Alert, ScrollView, View, Image, Switch, TouchableOpacity } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { Alert, ScrollView, View, Image, Switch, TouchableOpacity, Animated } from "react-native";
 import { Text, Container, Canvas, Button, IOSList, SongTile, Box } from "components";
 import styled from "styled-components/native";
 import { Ionicons, FontAwesome5, AntDesign } from "@expo/vector-icons";
@@ -9,6 +9,7 @@ import { useAuth } from "stores/auth";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import ReactNativeShare from "helpers/react-native-share";
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
+import MiniProfileHeader from "screens/profile/header/mini";
 
 // Import Images
 
@@ -62,6 +63,9 @@ export default function Settings({ route }) {
   const { theme } = useTheme();
   const navigation = useNavigation();
   const { user, updateUser, logout } = useAuth();
+
+  const scrollY = useRef(new Animated.Value(0)).current;
+
   // States
   const [setting, setSetting] = useState({
     appleHealth: true,
@@ -108,10 +112,22 @@ export default function Settings({ route }) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <ProfileHeader editable profilePicture={profileImage} route={route} navigation={navigation} />
+    <>
       <View style={{ flex: 1, backgroundColor: theme.color.black }}>
-        <ScrollView>
+        <Animated.ScrollView
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+            useNativeDriver: true,
+          })}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+        >
+          <ProfileHeader
+            editable
+            profilePicture={profileImage}
+            route={route}
+            navigation={navigation}
+            backButtonText="Profile"
+          />
           <Container style={{ paddingBottom: 70 }}>
             <Text fontSize="24" fontWeight="600" style={{ marginTop: 27, marginLeft: 15 }}>
               Settings
@@ -273,8 +289,31 @@ export default function Settings({ route }) {
               </SwitchWrapper>
             </SwitchList>
           </Container>
-        </ScrollView>
+        </Animated.ScrollView>
       </View>
-    </View>
+      <Animated.View
+        style={{
+          position: "absolute",
+          width: "100%",
+          top: 0,
+          left: 0,
+          opacity: scrollY.interpolate({
+            inputRange: [120, 200],
+            outputRange: [0, 1],
+          }),
+          zIndex: scrollY.interpolate({
+            inputRange: [120, 200],
+            outputRange: [-1, 1],
+          }),
+        }}
+      >
+        <MiniProfileHeader
+          profilePicture={profileImage}
+          route={route}
+          navigation={navigation}
+          backButtonText={"Profile"}
+        />
+      </Animated.View>
+    </>
   );
 }

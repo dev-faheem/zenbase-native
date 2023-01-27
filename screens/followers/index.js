@@ -85,7 +85,12 @@ export default function Followers({ route, navigation }) {
   return (
     <>
       <View style={{ flex: 1 }}>
-        <MiniProfileHeader profilePicture={profileImage} route={route} navigation={navigation} />
+        <MiniProfileHeader
+          profilePicture={profileImage}
+          route={route}
+          navigation={navigation}
+          backButtonText="Profile"
+        />
         <View style={{ flex: 1, backgroundColor: theme.color.background }}>
           <ScrollView style={{ flex: 1 }}>
             <Container style={{ flex: 1 }}>

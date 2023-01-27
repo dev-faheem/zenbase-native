@@ -83,6 +83,10 @@ const ZenbaseWhiteImage = styled.Image`
   margin-right: 5px;
 `;
 
+const BackButtonWrapper = styled.View`
+  flex-direction: row;
+`;
+
 /**
  * **********
  * Components
@@ -90,7 +94,13 @@ const ZenbaseWhiteImage = styled.Image`
  */
 
 // Profile Header
-export default function ProfileHeader({ profilePicture, editable, route, navigation }) {
+export default function ProfileHeader({
+  profilePicture,
+  editable,
+  route,
+  navigation,
+  backButtonText = "",
+}) {
   let imageSource = typeof profilePicture == "string" ? { uri: profilePicture } : profilePicture;
 
   const { user } = useAuth();
@@ -111,7 +121,10 @@ export default function ProfileHeader({ profilePicture, editable, route, navigat
               }}
               style={{ marginLeft: 10 }}
             >
-              <Ionicons name="ios-chevron-back" size={26} color={theme.color.white} />
+              <BackButtonWrapper>
+                <Ionicons name="ios-chevron-back" size={26} color={theme.color.white} />
+                <Text style={{ marginTop: 5 }}>{backButtonText}</Text>
+              </BackButtonWrapper>
             </TouchableOpacity>
           ) : (
             <>
