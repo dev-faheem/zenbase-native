@@ -168,7 +168,12 @@ export default function Profile({ route, navigation }) {
                 {
                   icon: (
                     <Icon
-                      style={{ width: 24, height: 22 }}
+                      style={{
+                        width: 24,
+                        height: 22,
+                        tintColor:
+                          following.length > 0 ? theme.color.primary : "rgba(255, 255, 255, 0.35)",
+                      }}
                       source={followingIcon}
                       resizeMode="contain"
                     />
