@@ -128,6 +128,7 @@ export default function EditProfile({ route, navigation }) {
 
   const editProfile = async () => {
     try {
+      setIsUpdating(true);
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         alert("Sorry, we need camera roll permissions to make this work!");
@@ -155,10 +156,14 @@ export default function EditProfile({ route, navigation }) {
         } = await axios.patch("/auth/profile-image", formData);
         updateUserLocal("image", imageURL);
         setIsProfileUpdated(true);
+        setIsUpdating(false);
+      } else {
+        setIsUpdating(false);
       }
     } catch (err) {
       // Error Handling
       console.log("Rupinder", err);
+      setIsUpdating(false);
     }
   };
 
@@ -228,7 +233,7 @@ export default function EditProfile({ route, navigation }) {
           <ProfileImage source={image ? { uri: image } : profileImage} resizeMode="cover" />
           <EditButton onPress={editProfile}>
             <Text color="white" fontSize="md">
-              EDIT
+              EDIT PHOTO
             </Text>
           </EditButton>
         </ProfileImageWrapper>
