@@ -58,6 +58,7 @@ import AmbientSoundSelection from "screens/timer/ambientSoundSelection";
 import UpgradePremium from "screens/upgrade-premium";
 import UpgradePremiumSuccessfully from "screens/upgrade-premium/success";
 import JournalEntry from "screens/journal/journal-entry";
+import Redeem from "screens/redeem";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -129,6 +130,7 @@ export default function Navigation() {
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
             <Stack.Screen name="JournalEntry" component={JournalEntry} />
+            <Stack.Screen name="Redeem" component={Redeem} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
