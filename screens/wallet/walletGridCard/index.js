@@ -6,7 +6,6 @@ import { useAuth } from "stores/auth";
 import { Text } from "components";
 import { Fragment } from "react";
 import { useNavigation } from "@react-navigation/native";
-
 export default function WalletGridCard(props) {
   const navigation = useNavigation();
   const { walletAmount, zenTransactions, fetchTransactions } = useAuth();
@@ -17,37 +16,39 @@ export default function WalletGridCard(props) {
   const zenClickableProps = started ? {} : { onPress: () => {} };
 
   return (
-    <Wrapper>
-      <ColWrapper>
-        <ZenCardIsClickable>
-          <ZenCard>
-            <ZenIcon source={zentokenIcon} disabled={!started} />
-            <HeadText disabled={!started}>{Number(walletAmount).toFixed(6)}</HeadText>
-            <EarnZen>Earning ZENT/hr.</EarnZen>
-            {!started ? (
-              <UseZen>Use Zenbase to earn passively for 24-hours</UseZen>
-            ) : (
-              <>
-                <PassiveEarning>Passive earning ends in</PassiveEarning>
-                <PassiveEarningTime>16:07:05</PassiveEarningTime>
-              </>
-            )}
-          </ZenCard>
-        </ZenCardIsClickable>
-      </ColWrapper>
-      <ColWrapper>
-        <ActionWrapper>
-          <CryptoCard>
-            <BitCoinIcon source={bitCoinIcon} />
-            <HeadText disabled>Crypto Wallet</HeadText>
-          </CryptoCard>
-          <RedeemCard onPress={() => navigation.navigate("Redeem")}>
-            <GiftIcon source={giftIcon} />
-            <HeadText>Redeem</HeadText>
-          </RedeemCard>
-        </ActionWrapper>
-      </ColWrapper>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <ColWrapper>
+          <ZenCardIsClickable onPress={passiveEarningStart}>
+            <ZenCard>
+              <ZenIcon source={zentokenIcon} disabled={!started} />
+              <HeadText disabled={!started}>{Number(walletAmount).toFixed(6)}</HeadText>
+              <EarnZen>Earning ZENT/hr.</EarnZen>
+              {!started ? (
+                <UseZen>Use Zenbase to earn passively for 24-hours</UseZen>
+              ) : (
+                <>
+                  <PassiveEarning>Passive earning ends in</PassiveEarning>
+                  <PassiveEarningTime>16:07:05</PassiveEarningTime>
+                </>
+              )}
+            </ZenCard>
+          </ZenCardIsClickable>
+        </ColWrapper>
+        <ColWrapper>
+          <ActionWrapper>
+            <CryptoCard>
+              <BitCoinIcon source={bitCoinIcon} />
+              <HeadText disabled>Crypto Wallet</HeadText>
+            </CryptoCard>
+            <RedeemCard onPress={() => navigation.navigate("Redeem")}>
+              <GiftIcon source={giftIcon} />
+              <HeadText>Redeem</HeadText>
+            </RedeemCard>
+          </ActionWrapper>
+        </ColWrapper>
+      </Wrapper>
+    </>
   );
 }
 const Wrapper = styled.View`
@@ -123,7 +124,7 @@ const EarnZen = styled(Text)`
   margin-bottom: ${({ theme: { getSize } }) => getSize(13)}px;
 `;
 const UseZen = styled(Text)`
-  font-size: ${({ theme: { getSize } }) => getSize(15)}px;
+  font-size: ${({ theme: { getSize } }) => getSize(14.5)}px;
   line-height: ${({ theme: { getSize } }) => getSize(19)}px;
 `;
 

@@ -21,6 +21,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Import Images
 import zentBackground from "assets/images/wallet/zent-bg.png";
+import zenCoinLogo from "assets/logos/zent-coin.png";
 import historyIcon from "assets/icons/history.png";
 
 // import wallpaper1 from "assets/images/wallpapers/wallpaper-1.png";
@@ -91,9 +92,10 @@ const HeaderWrapper = styled.View`
 
 const HeaderImage = styled.Image`
   height: 30px;
-  width: 51px;
-  margin-bottom: ${(props) => props.theme.spacing.sm};
+  width: 27.42px;
+  margin-bottom: 7px;
   border-radius: 2px;
+  object-fit: contain;
 `;
 
 const transactionListenDuration = (transaction) => {
@@ -199,7 +201,7 @@ function History({ ZentBanner }) {
           tint="dark"
         >
           <HeaderWrapper>
-            <HeaderImage source={zentBackground} resizeMode="cover" />
+            <HeaderImage source={zenCoinLogo} resizeMode="cover" />
             <Text style={{ marginBottom: 15 }}>{ZentBanner.props.tokens} Zent</Text>
           </HeaderWrapper>
         </BlurView>

@@ -82,11 +82,12 @@ export default function Redeem({ route, navigation }) {
   };
 
   return (
-    <AnimatedHeaderView
-      previousScreenName="Timer"
-      header={<Header title={"Redeem"} />}
-      inputRange={[10, 50]}
-    >
+    // <AnimatedHeaderView
+    //   previousScreenName="Timer"
+    //   header={<Header title={"Redeem"} />}
+    //   inputRange={[10, 50]}
+    // >
+    <Canvas>
       <Wrapper>
         <Header previousScreenName="Timer" inputRange={[10, 50]} />
         <SemiCircle />
@@ -132,6 +133,7 @@ export default function Redeem({ route, navigation }) {
           </InfoWrapper>
         </Container>
       </Wrapper>
-    </AnimatedHeaderView>
+    </Canvas>
+    // </AnimatedHeaderView>
   );
 }
