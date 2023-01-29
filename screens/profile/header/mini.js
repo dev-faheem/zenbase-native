@@ -58,9 +58,13 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
   width: 30px;
   height: 30px;
   border-radius: 50px;
-  background-color: ${(props) => props.theme.color.secondary};
+  background-color: rgba(247, 248, 250, 0.3);
   justify-content: center;
   align-items: center;
+`;
+
+const BackButtonWrapper = styled.View`
+  flex-direction: row;
 `;
 
 /**
@@ -72,9 +76,9 @@ const ProfileHeaderIconWrapper = styled.TouchableOpacity`
 // Profile Header
 export default function MiniProfileHeader({
   profilePicture,
-  secondaryButton,
-  secondaryButtonOnPress,
+  settingButton,
   backButton = true,
+  backButtonText = " ",
 }) {
   const { theme } = useTheme();
   const navigation = useNavigation();
@@ -97,30 +101,36 @@ export default function MiniProfileHeader({
             }}
           >
             {backButton && (
-              <Ionicons
-                name="ios-chevron-back"
-                size={32}
-                color={theme.color.white}
-                style={{ marginLeft: 10, top: -5 }}
-              />
+              <BackButtonWrapper>
+                <Ionicons
+                  name="ios-chevron-back"
+                  size={24}
+                  color={theme.color.white}
+                  style={{ marginLeft: 10, top: -5 }}
+                />
+                <Text>{backButtonText}</Text>
+              </BackButtonWrapper>
             )}
           </TouchableOpacity>
 
-          {/* Text Button */}
-          {secondaryButton && (
-            <Button
-              variant="silent"
-              title={secondaryButton}
-              style={{ top: -2 }}
-              onPress={secondaryButtonOnPress || null}
-            />
+          {settingButton && (
+            <ProfileHeaderIconWrapper
+              style={{ right: 20 }}
+              onPress={() => {
+                navigation.navigate("Settings");
+              }}
+            >
+              <Ionicons name="settings-sharp" style={{ marginLeft: 1 }} size={16} color="white" />
+            </ProfileHeaderIconWrapper>
           )}
         </ProfileHeaderButtons>
 
         <ProfileHeaderSafeArea>
           <ProfileHeaderImageWrapper>
             <ProfileHeaderImage source={imageSource} resizeMode="cover" />
-            <Text style={{ marginTop: 4 }}>{user.name}</Text>
+            <Text style={{ marginTop: 4 }} color="rgba(247, 248, 250, 0.6)">
+              {user.name}
+            </Text>
           </ProfileHeaderImageWrapper>
         </ProfileHeaderSafeArea>
       </ProfileHeaderOverlay>

@@ -58,9 +58,9 @@ const UserImage = styled.Image`
 
 export default function Followers({ route, navigation }) {
   const { theme } = useTheme();
-  const { title } = route.params;
+  const { title, users } = route.params;
 
-  const [users, setUsers] = useState([]);
+  // const users = route?.params?.users || [];
 
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -69,23 +69,28 @@ export default function Followers({ route, navigation }) {
   //   }, [title])
   // );
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  // useEffect(() => {
+  //   fetchUsers();
+  // }, []);
 
-  const fetchUsers = async () => {
-    try {
-      const { data } = await axios.get(`/auth/me/${title.toLowerCase()}`);
-      setUsers(data.data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const fetchUsers = async () => {
+  //   try {
+  //     const { data } = await axios.get(`/auth/me/${title.toLowerCase()}`);
+  //     setUsers(data.data);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   return (
     <>
       <View style={{ flex: 1 }}>
-        <MiniProfileHeader profilePicture={profileImage} route={route} navigation={navigation} />
+        <MiniProfileHeader
+          profilePicture={profileImage}
+          route={route}
+          navigation={navigation}
+          backButtonText="Profile"
+        />
         <View style={{ flex: 1, backgroundColor: theme.color.background }}>
           <ScrollView style={{ flex: 1 }}>
             <Container style={{ flex: 1 }}>
