@@ -22,7 +22,15 @@ export default function ZentCoin(props) {
   const time = "";
 
   return (
-    <Wrapper onPress={() => navigation.navigate(user.isPremium ? "Wallet" : "CTA")}>
+    <Wrapper
+      onPress={() => {
+        user.isPremium
+          ? navigation.navigate("Wallet")
+          : navigation.navigate("UpgradePremium", {
+              previousScreenName: "Home",
+            });
+      }}
+    >
       <ZentIcon source={zentLogo} />
       <View>
         <Info>{info}</Info>
