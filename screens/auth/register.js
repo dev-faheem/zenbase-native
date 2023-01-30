@@ -16,6 +16,7 @@ import AppleIcon from "assets/vectors/apple.png";
 import GoogleIcon from "assets/vectors/google.png";
 import { handleSignInWithApple } from "helpers/auth-apple";
 import mixpanel from "services/mixpanel";
+import { handleSignInWithGoogle } from "../../helpers/auth-google";
 
 // Styled Component
 const Header = styled.View`
@@ -230,7 +231,8 @@ export default function Register({ navigation }) {
   };
 
   const handleSignUpWithGoogle = () => {
-    alert("Coming Soon");
+    const data = handleSignInWithGoogle();
+    console.log("GOOGLE", { data });
   };
 
   const handleSignUpWithApple = async () => {

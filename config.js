@@ -1,5 +1,5 @@
 const config = {
-  API_URL: "https://development.zenbase.us/",
+  API_URL: "http://44.206.38.126:3000/",
   // API_URL: "http://localhost:4000/",
   LEGACY_API_URL: "http://44.206.38.126:3000/legacy/",
   GOOGLE_ADMOB_ADUNIT: "ca-app-pub-2423909336067009/1752802852",

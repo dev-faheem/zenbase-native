@@ -20,6 +20,7 @@ import { CommonActions } from "@react-navigation/native";
 import mixpanel from "services/mixpanel";
 import { parseJwt } from "helpers/parse-jwt";
 import axios from "services/axios";
+import { handleSignInWithGoogle } from "../../../helpers/auth-google";
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -104,8 +105,9 @@ export default function Login({ navigation }) {
     }
   };
 
-  const handleSignInWithGoogle = async () => {
-    alert("Google Sign In is disabled.");
+  const handleGoogle = async () => {
+    const data = await handleSignInWithGoogle();
+    console.log("GOOOOG", { data });
   };
 
   const fetchUserFromAsyncStorage = async () => {
@@ -217,7 +219,7 @@ export default function Login({ navigation }) {
         />
 
         <Button
-          onPress={handleSignInWithGoogle}
+          onPress={handleGoogle}
           variant="secondary"
           block
           borderRadius="10"
