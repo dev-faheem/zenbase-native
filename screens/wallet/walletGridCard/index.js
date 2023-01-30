@@ -19,9 +19,7 @@ export default function WalletGridCard(props) {
     <>
       <Wrapper>
         <ColWrapper>
-          <ZenCardIsClickable
-          // onPress={passiveEarningStart}
-          >
+          <ZenCardIsClickable onPress={passiveEarningStart}>
             <ZenCard>
               <ZenIcon source={zentokenIcon} disabled={!started} />
               <HeadText disabled={!started}>{Number(walletAmount).toFixed(6)}</HeadText>
