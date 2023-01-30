@@ -144,29 +144,30 @@ export default function Timer() {
     setIntervlTimeInput,
   };
 
-  const mainView = () => (
-    <AnimatedHeaderView
-      previousScreenName="Timer"
-      header={<Header title={"Timer"} />}
-      inputRange={[10, 50]}
-    >
-      <Header />
-      <Container>
-        {/* <Test onPress={() => playSong()} />
-        <Test onPress={() => pause()} /> */}
-        <Title>Timer</Title>
-      </Container>
-      <Wrapper>
-        <TimerBellList />
-        <Container>
-          <TimeSelection />
-          <IntervalBell />
-          <AmbientSound />
-          <Actions />
-        </Container>
-      </Wrapper>
-    </AnimatedHeaderView>
-  );
+  const mainView = ({ hide = false }) => {
+    return (
+      <AnimatedHeaderView
+        previousScreenName="Timer"
+        header={<Header title={"Timer"} />}
+        inputRange={[10, 50]}
+        hide={hide}
+      >
+        <Wrapper>
+          <Header />
+          <Container>
+            <Title>Timer</Title>
+          </Container>
+          <TimerBellList />
+          <Container>
+            <TimeSelection />
+            <IntervalBell />
+            <AmbientSound />
+            <Actions />
+          </Container>
+        </Wrapper>
+      </AnimatedHeaderView>
+    );
+  };
   const startedView = () => (
     <Canvas>
       <Wrapper>
@@ -178,14 +179,18 @@ export default function Timer() {
     </Canvas>
   );
 
-  const timerViews = () =>
-    ambientSoundSelection ? (
-      <AmbientSoundSelection />
-    ) : timerStatus === TIMER_STATUS_INITIAL ? (
-      mainView()
-    ) : (
-      startedView()
-    );
+  const timerViews = () => (
+    <>
+      {ambientSoundSelection ? (
+        <AmbientSoundSelection />
+      ) : timerStatus === TIMER_STATUS_INITIAL ? (
+        <></>
+      ) : (
+        startedView()
+      )}
+      {mainView({ hide: ambientSoundSelection || timerStatus !== TIMER_STATUS_INITIAL })}
+    </>
+  );
 
   return (
     <>
