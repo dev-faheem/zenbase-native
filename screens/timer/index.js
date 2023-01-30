@@ -6,8 +6,7 @@ import IntervalBell from "./intervalBell";
 import TimerBellList from "./timerBellList";
 import Actions from "./actions";
 import TimeSelection from "./timeSelection";
-import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TIMER_STATUS_INITIAL } from "./keys";
 import { Text, AnimatedHeaderView, Container } from "components";
 import Header from "./header";
@@ -97,7 +96,7 @@ export default function Timer() {
     : "";
 
   const audioUrl = currentAmbientSound;
-  // console.log({ audioUrl });
+
   const {
     playAudio: ambient_playAudio,
     pauseAudio: ambient_pauseAudio,
@@ -179,10 +178,6 @@ export default function Timer() {
     </Canvas>
   );
 
-  // alert(config.API_URL);
-  // console.log({ test: config.API_URLM });
-  // start, pause, resume, restart;
-
   const timerViews = () =>
     ambientSoundSelection ? (
       <AmbientSoundSelection />
@@ -194,7 +189,6 @@ export default function Timer() {
 
   return (
     <>
-      {/* <Test onPress={playAudio} /> */}
       <TimerContext.Provider value={contextProps}>
         {earnView ? <TimerEarned /> : timerViews()}
       </TimerContext.Provider>
