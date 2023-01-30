@@ -6,7 +6,7 @@ import { useTimer } from "../contex";
 import BellCard from "./bellCard";
 
 export default function TimerBellList(props) {
-  const { timerBellListData = [], selectedBell, setSelectedBell = () => {} } = useTimer();
+  const { timerBellListData = [], setSelectedBell = () => {} } = useTimer();
 
   const [scrollViewWidth, setScrollViewWidth] = useState(0);
   const boxWidth = scrollViewWidth * 0.5;
@@ -60,11 +60,8 @@ export default function TimerBellList(props) {
           keyExtractor={(item, index) => `${index}-${item}`}
         />
       </Wrapper>
-      <Temp>{JSON.stringify({ firstXDistance }, null, 2)}</Temp>
     </>
   );
 }
 
 const Wrapper = styled.View``;
-
-const Temp = styled(Text)``;

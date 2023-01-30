@@ -89,7 +89,7 @@ export default function Timer() {
     intervalTimeLib?.restart(time);
   };
 
-  const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
+  const [selectedAmbientSound, setSelectedAmbientSound] = useState(2);
 
   const currentAmbientSound = selectedAmbientSound
     ? config.API_URL + ambientSoundData.filter(({ _id }) => _id === selectedAmbientSound)[0].file
@@ -119,7 +119,7 @@ export default function Timer() {
     ambientSoundSelection,
     setAmbientSoundSelection,
     selectedAmbientSound,
-    setselectedAmbientSound,
+    setSelectedAmbientSound,
 
     ambient_playAudio,
     ambient_pauseAudio,
@@ -199,7 +199,7 @@ export default function Timer() {
 const Wrapper = styled.View``;
 const Test = styled.Text`
   width: 100px;
-  height: 20px;
+
   background: red;
   margin-top: 50px;
   margin-left: 30px;
