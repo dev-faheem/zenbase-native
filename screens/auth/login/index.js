@@ -101,13 +101,43 @@ export default function Login({ navigation }) {
         });
       }
     } catch (e) {
-      console.log(e);
+      axios.handleError(e);
     }
   };
 
   const handleGoogle = async () => {
-    const data = await handleSignInWithGoogle();
-    console.log("GOOOOG", { data });
+    try {
+      const { user } = await handleSignInWithGoogle();
+      const username = user?.email;
+
+      const {
+        data: { data },
+      } = await axios.post("/auth/login", {
+        username,
+        password: "420-69-911",
+      });
+
+      if (data.isVerified) {
+        login(data);
+        mixpanel.track("Login", data);
+
+        // Reset Stack Navigation
+        navigation.dispatch(
+          CommonActions.reset({
+            routes: [{ name: "App" }],
+          })
+        );
+      } else {
+        navigation.navigate("OTP", {
+          type: "email",
+          value: data.email,
+          userId: data._id,
+          data,
+        });
+      }
+    } catch (e) {
+      axios.handleError(e);
+    }
   };
 
   const fetchUserFromAsyncStorage = async () => {

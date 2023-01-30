@@ -9,6 +9,8 @@ const config = {
   EDGE_IMAGE_PREFIX: "https://opt.moovweb.net?quality=50&img=",
   MIXPANEL_PROJECT_TOKEN: "da6528c1f7f37050520b593c0c4a9faf",
   MIXPANEL_API_SECRET: "f516775b334b5e9e21cf220a00f9154c",
+  GOOGLE_WEB_CLIENT_ID: "837510432480-9kk8n5tu3vu20otnh5acs3lodbn32sn1.apps.googleusercontent.com",
+  GOOGLE_IOS_CLIENT_ID: "837510432480-rgqp215phkljsblt5l15mvbl5es5o0rj.apps.googleusercontent.com",
 };
 
 export default config;

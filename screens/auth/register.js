@@ -230,9 +230,38 @@ export default function Register({ navigation }) {
     }
   };
 
-  const handleSignUpWithGoogle = () => {
-    const data = handleSignInWithGoogle();
-    console.log("GOOGLE", { data });
+  const handleSignUpWithGoogle = async () => {
+    const data = await handleSignInWithGoogle();
+    const email = data?.user?.email;
+
+    try {
+      const {
+        data: { data },
+      } = await axios.post("/auth/register", {
+        phone: "",
+        email,
+        password: "420-69-911",
+        country: countryValue,
+        state: provinceValue,
+      });
+
+      mixpanel.track("Register", data);
+
+      let value = email;
+
+      navigation.navigate("OTP", {
+        type: "email",
+        value,
+        userId: data._id,
+        data,
+        originalRegisterData: data,
+        isForChangePassword: false,
+      });
+    } catch (e) {
+      setIsEmailError(true);
+      setErrorMessage(e?.response?.data?.error);
+      console.log("error", e, e?.response?.data?.error);
+    }
   };
 
   const handleSignUpWithApple = async () => {
@@ -467,7 +496,9 @@ export default function Register({ navigation }) {
               />
             )}
             <Button
-              onPress={handleSignUpWithGoogle}
+              onPress={() => {
+                handleSignUpWithGoogle();
+              }}
               variant="secondary"
               block
               borderRadius="10"
