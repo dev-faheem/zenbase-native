@@ -5,10 +5,11 @@ import Constants from "expo-constants";
 import { BlurView } from "expo-blur";
 
 // EarningTeam Component (Default)
-export default function AnimatedHeaderView({ children, header = null, inputRange }) {
+export default function AnimatedHeaderView({ children, header = null, inputRange, hide = false }) {
   const scrollY = useRef(new Animated.Value(0)).current;
+  const mainStyle = hide ? { display: "none" } : {};
   return (
-    <Canvas>
+    <Canvas style={mainStyle}>
       <Animated.ScrollView
         style={{ width: "100%" }}
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {

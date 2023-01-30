@@ -14,7 +14,10 @@ import { useTimer } from "../contex";
 export default function AmbientSoundSelection(props) {
   const { width } = Dimensions.get("window");
   const { selectedAmbientSound } = useTimer();
-  const [tempSelectedAmbientSound, setTempSlectedAmbientSound] = useState(selectedAmbientSound);
+
+  const [tempSelectedAmbientSound, setTempSlectedAmbientSound] = useState(
+    selectedAmbientSound || null
+  );
 
   const cardWidth = width / 2 - 25;
 
@@ -22,7 +25,13 @@ export default function AmbientSoundSelection(props) {
     <>
       <AnimatedHeaderView
         previousScreenName="Timer"
-        header={<Header previousScreenName="Timer" title={"Ambient Sound"} />}
+        header={
+          <Header
+            previousScreenName="Timer"
+            title={"Ambient Sound"}
+            tempSelectedAmbientSound={tempSelectedAmbientSound}
+          />
+        }
         inputRange={[10, 50]}
       >
         <Header

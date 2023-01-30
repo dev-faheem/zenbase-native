@@ -11,12 +11,13 @@ export default function Header(props) {
   const { theme } = useTheme();
   const navigation = useNavigation();
 
-  const { setAmbientSoundSelection, selectedAmbientSound, setselectedAmbientSound } = useTimer();
+  const { setAmbientSoundSelection, setSelectedAmbientSound } = useTimer();
   const goBack = () => {
     setAmbientSoundSelection(false);
   };
+
   const onDone = () => {
-    setselectedAmbientSound(tempSelectedAmbientSound);
+    setSelectedAmbientSound(tempSelectedAmbientSound);
     setAmbientSoundSelection(false);
   };
 
@@ -26,11 +27,7 @@ export default function Header(props) {
         <HeaderTitle>
           <Text>{title}</Text>
         </HeaderTitle>
-        <TouchableOpacity
-          style={{ flexDirection: "row", alignItems: "center" }}
-          // onPress={() => navigation.goBack()}
-          onPress={goBack}
-        >
+        <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={goBack}>
           <Ionicons name="ios-chevron-back" size={24} color={theme.color.primary} />
           <Text color="primary" fontSize={14} fontWeight={600}>
             {previousScreenName}
