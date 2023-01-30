@@ -6,20 +6,24 @@ import { useAuth } from "stores/auth";
 import { Text } from "components";
 import { Fragment } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { usePassiveEarning } from "stores/passiveEarning";
+const TT = styled(Text)``;
 export default function WalletGridCard(props) {
   const navigation = useNavigation();
+  const { passiveEarningStart, timerLib, passiEarningRunning } = usePassiveEarning();
   const { walletAmount, zenTransactions, fetchTransactions } = useAuth();
-  const started = false;
+  const started = passiEarningRunning;
 
   const ZenCardIsClickable = started ? Fragment : ZenCardClickWrapper;
 
-  const zenClickableProps = started ? {} : { onPress: () => {} };
+  const zenClickableProps = started ? {} : { onPress: () => passiveEarningStart() };
 
   return (
     <>
+      {/* <TT>{JSON.stringify({ timerLib, passiEarningRunning }, null, 2)}</TT> */}
       <Wrapper>
         <ColWrapper>
-          <ZenCardIsClickable onPress={passiveEarningStart}>
+          <ZenCardIsClickable {...zenClickableProps}>
             <ZenCard>
               <ZenIcon source={zentokenIcon} disabled={!started} />
               <HeadText disabled={!started}>{Number(walletAmount).toFixed(6)}</HeadText>
@@ -29,7 +33,9 @@ export default function WalletGridCard(props) {
               ) : (
                 <>
                   <PassiveEarning>Passive earning ends in</PassiveEarning>
-                  <PassiveEarningTime>16:07:05</PassiveEarningTime>
+                  <PassiveEarningTime>
+                    {timerLib?.hours}:{timerLib?.minutes}:{timerLib?.seconds}
+                  </PassiveEarningTime>
                 </>
               )}
             </ZenCard>
