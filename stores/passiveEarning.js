@@ -4,13 +4,17 @@ import api from "services/api";
 import Transactions from "stores/transactions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTimer as useTimerLib } from "react-timer-hook";
+import { useAuth } from "./auth";
 const PassiveEarning = createContext();
 
 export const usePassiveEarning = () => {
   return useContext(PassiveEarning);
 };
 
+const passiveEarnEndDateEnum = "passiveEarnEndDate";
+
 export const PassiveEarningProvider = ({ children }) => {
+  const { secondsWorth } = useAuth();
   const [startDateState, setStartDateState] = useState("");
   const [endDateState, setEndDateState] = useState("");
   const [passiEarningRunning, setPassiEarningRunning] = useState(false);
@@ -24,10 +28,24 @@ export const PassiveEarningProvider = ({ children }) => {
   let allSeconds = 0;
   const start = new Date();
 
+  const AMOUNT_OF_ZENTOKENS_TO_GIVE = secondsWorth * 60 * 60 * 0.025;
+
+  const CURRENT_VALUE_OF_SECONDS_WORTH = "Passive earning";
+
+  const transactions = async () => {
+    await axios.post("/transactions", {
+      amount: AMOUNT_OF_ZENTOKENS_TO_GIVE,
+      appreciatedFor: CURRENT_VALUE_OF_SECONDS_WORTH,
+      type: "PASSIVE_EARNING",
+      remarks: "",
+    });
+  };
+
   const timerLib = useTimerLib({
     expiryTimestamp: start + 86400,
     onExpire: () => {
       if (endDateState) {
+        transactions();
         passiveEarningEndWithToken();
       }
     },
@@ -57,23 +75,21 @@ export const PassiveEarningProvider = ({ children }) => {
     // setStartDateState(startDate);
     const finalEndDate = JSON.parse(JSON.stringify(endDate));
     setEndDateState(finalEndDate);
-    await AsyncStorage.setItem("passiveEarnEndDate", finalEndDate);
+    await AsyncStorage.setItem(passiveEarnEndDateEnum, finalEndDate);
     initialStart(finalEndDate);
     setPassiEarningRunning(true);
   };
 
-  // const passiveEarningEnd = async () => {
-  //   await AsyncStorage.removeItem("passiveEarnEndDate");
-  // };
   const passiveEarningEndWithToken = async () => {
-    await AsyncStorage.removeItem("passiveEarnEndDate");
+    await AsyncStorage.removeItem(passiveEarnEndDateEnum);
   };
 
   useEffect(() => {
     (async () => {
       try {
-        let passiveEarnEndDate = await AsyncStorage.getItem("passiveEarnEndDate");
-        if (await AsyncStorage.getItem(passiveEarnEndDate)) {
+        let passiveEarnEndDate = await AsyncStorage.getItem(passiveEarnEndDateEnum);
+        if (passiveEarnEndDate) {
+          // alert("qwer" + passiveEarnEndDate + " poiuy " + "" + passiEarningRunning);
           setEndDateState(passiveEarnEndDate);
           setPassiEarningRunning(true);
         }
@@ -85,8 +101,15 @@ export const PassiveEarningProvider = ({ children }) => {
 
   useEffect(() => {
     if (endDateState && passiEarningRunning) {
+      // alert("ras" + endDateState + " fg " + "" + passiEarningRunning);
       // alert("endDateState" + endDateState + " passiEarningRunning " + passiEarningRunning);
-      initialStart(endDateState);
+      const currentDate = new Date();
+      const storeDate = new Date(endDateState);
+      if (currentDate.getTime() < storeDate.getTime()) {
+        initialStart(endDateState);
+      } else {
+        passiveEarningEndWithToken();
+      }
     }
   }, [endDateState, passiEarningRunning]);
 
