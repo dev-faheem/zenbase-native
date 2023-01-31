@@ -130,7 +130,6 @@ export default function Navigation() {
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
             <Stack.Screen name="JournalEntry" component={JournalEntry} />
-            <Stack.Screen name="Redeem" component={Redeem} />
             <Stack.Screen name="DeleteUser" component={DeleteAccount} />
           </Stack.Group>
 
@@ -139,6 +138,7 @@ export default function Navigation() {
               name="UpgradePremiumSuccessfully"
               component={UpgradePremiumSuccessfully}
             />
+            <Stack.Screen name="Redeem" component={Redeem} />
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="ZentDonation" component={ZentDonation} />

@@ -11,7 +11,7 @@ import rewardsProcess from "assets/icons/rewards-process.png";
 import zentLogo from "assets/logos/zent-coin.png";
 import { askPermissions } from "helpers/notifications";
 import AnimatedHeaderView from "components/animated-header-view";
-import Header from "./header";
+import Header from "components/header";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const WINDOW_HEIGHT = Dimensions.get("window").height;
@@ -88,51 +88,49 @@ export default function Redeem({ route, navigation }) {
     //   inputRange={[10, 50]}
     // >
     <Canvas>
-      <Wrapper>
-        <Header previousScreenName="Timer" inputRange={[10, 50]} />
-        <SemiCircle />
-        <RewardProcessImage source={rewardsProcess} resizeMode="contain" />
-        <Container style={{ flex: 1 }}>
-          {/* <HeaderWrapper>
+      <Header previousScreenName="Wallet" inputRange={[10, 50]} />
+      <SemiCircle />
+      <RewardProcessImage source={rewardsProcess} resizeMode="contain" />
+      <Container style={{ flex: 1 }}>
+        {/* <HeaderWrapper>
           <TouchableOpacity onPress={onPressNavigateToNextScreen}>
             <Text fontSize="16">Skip</Text>
           </TouchableOpacity>
         </HeaderWrapper> */}
-          <InfoWrapper>
-            <InfoBody>
-              <RewardsEmojis source={rewardsEmojis} resizeMode="contain" />
-            </InfoBody>
-            <InfoFooter>
-              <RowFlex>
-                <RewardsImage source={rewardsLogo} resizeMode="contain" />
-                <Text style={{ marginTop: 3 }} fontSize="21" color="rgba(247, 248, 250, 0.75)">
-                  {" "}
-                  (Coming Soon)
-                </Text>
-              </RowFlex>
-              <Text
-                numberOfLines={2}
-                adjustsFontSizeToFit
-                fontSize="32"
-                fontWeight="bold"
-                style={{ marginBottom: 12 }}
-              >
-                Redeem Zentoken for Prizes.
+        <InfoWrapper>
+          <InfoBody>
+            <RewardsEmojis source={rewardsEmojis} resizeMode="contain" />
+          </InfoBody>
+          <InfoFooter>
+            <RowFlex>
+              <RewardsImage source={rewardsLogo} resizeMode="contain" />
+              <Text style={{ marginTop: 3 }} fontSize="21" color="rgba(247, 248, 250, 0.75)">
+                {" "}
+                (Coming Soon)
               </Text>
-              <Text fontSize="16" style={{ marginBottom: 25 }}>
-                Meditate to earn and redeem for Zenbase Premium, wellness products, NFTs, and more.
-              </Text>
-              <Button
-                borderRadius="10"
-                height="55"
-                title="Get updates"
-                block
-                onPress={() => askPermissions()}
-              />
-            </InfoFooter>
-          </InfoWrapper>
-        </Container>
-      </Wrapper>
+            </RowFlex>
+            <Text
+              numberOfLines={2}
+              adjustsFontSizeToFit
+              fontSize="32"
+              fontWeight="bold"
+              style={{ marginBottom: 12 }}
+            >
+              Redeem Zentoken for Prizes.
+            </Text>
+            <Text fontSize="16" style={{ marginBottom: 25 }}>
+              Meditate to earn and redeem for Zenbase Premium, wellness products, NFTs, and more.
+            </Text>
+            <Button
+              borderRadius="10"
+              height="55"
+              title="Get updates"
+              block
+              onPress={() => askPermissions()}
+            />
+          </InfoFooter>
+        </InfoWrapper>
+      </Container>
     </Canvas>
     // </AnimatedHeaderView>
   );
