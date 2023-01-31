@@ -20,7 +20,7 @@ import { useTimer as useTimerLib } from "react-timer-hook";
 import useAudioSound from "hooks/useAudioSound";
 import TimerEarned from "./timerEarned";
 
-let audio = new Audio.Sound();
+// let audio = new Audio.Sound();
 
 export default function Timer() {
   const initial = [
@@ -145,13 +145,16 @@ export default function Timer() {
   };
 
   const mainView = ({ hide = false }) => {
+    const mainStyle = hide ? { display: "none" } : {};
     return (
-      <AnimatedHeaderView
+      <Canvas style={mainStyle}>
+        {/* <AnimatedHeaderView
         previousScreenName="Timer"
         header={<Header title={"Timer"} />}
         inputRange={[10, 50]}
         hide={hide}
-      >
+      > */}
+
         <Wrapper>
           <Header />
           <Container>
@@ -165,7 +168,8 @@ export default function Timer() {
             <Actions />
           </Container>
         </Wrapper>
-      </AnimatedHeaderView>
+        {/* </AnimatedHeaderView> */}
+      </Canvas>
     );
   };
   const startedView = () => (
