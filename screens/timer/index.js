@@ -38,8 +38,13 @@ export default function Timer() {
 
   // const allSeconds =
   //   selectedTime[0].value * 60 * 60 + selectedTime[1].value * 60 + selectedTime[2].value;
-  const allSeconds =
-    parseInt(timeInput[0]) * 60 * 60 + parseInt(timeInput[1]) * 60 + parseInt(timeInput[2]);
+
+  const TotalHours = parseInt(timeInput[0]);
+  const TotalMin = parseInt(timeInput[1]);
+  const TotalSeconds = parseInt(timeInput[2]);
+
+  const allSeconds = TotalHours * 60 * 60 + TotalMin * 60 + TotalSeconds;
+
   const time = new Date();
   time.setSeconds(time.getSeconds() + allSeconds);
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = useTimerLib({
@@ -59,10 +64,12 @@ export default function Timer() {
 
   const intervalTime = new Date();
 
+  const TotalIntervalHours = parseInt(intervltimeInput[0]);
+  const TotalIntervalMin = parseInt(intervltimeInput[1]);
+  const TotalIntervalSeconds = parseInt(intervltimeInput[2]);
+
   const allIntervalSeconds =
-    parseInt(intervltimeInput[0]) * 60 * 60 +
-    parseInt(intervltimeInput[1]) * 60 +
-    parseInt(intervltimeInput[2]);
+    TotalIntervalHours * 60 * 60 + TotalIntervalMin * 60 + TotalIntervalSeconds;
 
   intervalTime.setSeconds(time.getSeconds() + allIntervalSeconds);
 
@@ -134,6 +141,10 @@ export default function Timer() {
     time,
     allSeconds,
     timeLib: { seconds, minutes, hours, days, isRunning, start, pause, resume, restart },
+    TotalHours,
+    TotalMin,
+    TotalSeconds,
+
     allIntervalSeconds,
     intervalTimeLib,
     selectedTime,

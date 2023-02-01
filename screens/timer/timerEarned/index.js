@@ -13,24 +13,54 @@ import { Container } from "components";
 import { Dimensions } from "react-native";
 import { Box } from "../../../components";
 import { TIMER_STATUS_INITIAL } from "../keys";
+import axios from "axios";
 
 const windowHeight = Dimensions.get("window").height;
 
 export default function TimerEarned(props) {
-  const { walletAmount, zenTransactions, fetchTransactions } = useAuth();
+  const { secondsWorth, user, walletAmount, zenTransactions, fetchTransactions } = useAuth();
+
+  const timerValues = useTimer();
   const {
     timerBellListData = [],
     selectedBell,
     setSelectedBell = () => {},
     time,
     timeLib,
-    allSeconds,
+
     timeInput,
     setTimeInput,
     setTimerStatus,
     setEarnView,
-  } = useTimer();
+    TotalHours,
+    TotalMin,
+    TotalSeconds,
+    allSeconds,
+  } = timerValues;
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = timeLib;
+
+  const amount = secondsWorth * allSeconds;
+
+  const AMOUNT_OF_ZENTOKENS_TO_GIVE = user?.isPremium ? amount * 1.3 : amount;
+
+  const transact = async () => {
+    await axios.post("/transactions", {
+      amount: AMOUNT_OF_ZENTOKENS_TO_GIVE,
+      appreciatedFor: secondsWorth,
+      type: "TIMER",
+      remarks: "",
+    });
+    fetchTransactions();
+  };
+
+  const allTime =
+    TotalHours > 0
+      ? `${TotalHours} hours`
+      : "" + TotalMin > 0
+      ? `${TotalMin} min`
+      : "" + TotalSeconds > 0
+      ? `${TotalSeconds} sec`
+      : "";
 
   const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
   return (
@@ -46,16 +76,20 @@ export default function TimerEarned(props) {
           />
 
           <BellIconWrapper>
-            <BellIconCard {...timerBellListData[selectedBellListIndex]} title="Timer • 52 min" />
+            <BellIconCard
+              {...timerBellListData[selectedBellListIndex]}
+              title={`Timer • ${allTime}`}
+            />
           </BellIconWrapper>
           <NormalView>
             <YouEarned>You’ve earned it.</YouEarned>
-            <YouEarned style={{ marginBottom: 12 }}>0.0255 ZENT</YouEarned>
+            <YouEarned style={{ marginBottom: 12 }}>{amount} ZENT</YouEarned>
 
             <Button
               title={"Claim to wallet"}
               block
               onPress={() => {
+                transact();
                 setEarnView(false);
                 setTimerStatus(TIMER_STATUS_INITIAL);
               }}

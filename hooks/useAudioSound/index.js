@@ -23,7 +23,7 @@ export default function useAudioSound(audioUrl, sound = 1) {
       // await audio.unloadAsync();
       await audio.loadAsync({ uri: audioUrl });
       await audio.playAsync();
-
+      await audio.setVolumeAsync(previousVolumeRef.current);
       // alert("***qwererwr" + audioUrl);
 
       // await audio.setVolumeAsync(previousVolumeRef.current);

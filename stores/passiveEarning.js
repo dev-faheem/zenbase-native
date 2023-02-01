@@ -14,38 +14,31 @@ export const usePassiveEarning = () => {
 const passiveEarnEndDateEnum = "passiveEarnEndDate";
 
 export const PassiveEarningProvider = ({ children }) => {
-  const { secondsWorth } = useAuth();
+  const { secondsWorth, user, fetchTransactions } = useAuth();
   const [startDateState, setStartDateState] = useState("");
   const [endDateState, setEndDateState] = useState("");
   const [passiEarningRunning, setPassiEarningRunning] = useState(false);
 
-  // const secondsInOneDay = 86400;
-  // const allSeconds = secondsInOneDay;
-
-  // const time = new Date();
-  // time.setSeconds(time.getSeconds() + allSeconds);
-  // const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = useTimerLib({
-  let allSeconds = 0;
   const start = new Date();
+  const amount = secondsWorth * 60 * 60 * 0.025;
 
-  const AMOUNT_OF_ZENTOKENS_TO_GIVE = secondsWorth * 60 * 60 * 0.025;
+  const AMOUNT_OF_ZENTOKENS_TO_GIVE = user?.isPremium ? amount * 1.3 : amount;
 
-  const CURRENT_VALUE_OF_SECONDS_WORTH = "Passive earning";
-
-  const transactions = async () => {
+  const transact = async () => {
     await axios.post("/transactions", {
       amount: AMOUNT_OF_ZENTOKENS_TO_GIVE,
-      appreciatedFor: CURRENT_VALUE_OF_SECONDS_WORTH,
+      appreciatedFor: secondsWorth,
       type: "PASSIVE_EARNING",
       remarks: "",
     });
+    fetchTransactions();
   };
 
   const timerLib = useTimerLib({
     expiryTimestamp: start + 86400,
     onExpire: () => {
       if (endDateState) {
-        transactions();
+        transact();
         passiveEarningEndWithToken();
       }
     },
