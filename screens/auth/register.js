@@ -9,6 +9,7 @@ import Country from "country-state-city/lib/country";
 import State from "country-state-city/lib/state";
 import { Dropdown } from "react-native-element-dropdown";
 import * as AppleAuthentication from "expo-apple-authentication";
+import * as Linking from "expo-linking";
 
 // Import Images
 import AppleIcon from "assets/vectors/apple.png";
@@ -496,7 +497,11 @@ export default function Register({ navigation }) {
                 <Text color="description" fontSize="12">
                   By tapping Sign up, you are agree to our{" "}
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    Linking.openURL("https://www.zenbase.us/terms-of-service/");
+                  }}
+                >
                   <Text
                     color="description"
                     fontWeight="bold"
@@ -509,7 +514,11 @@ export default function Register({ navigation }) {
               </TextFlex>
 
               <TextFlex style={{ marginTop: 2 }}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    Linking.openURL("https://www.zenbase.us/privacy-policy");
+                  }}
+                >
                   <Text
                     color="description"
                     fontWeight="bold"
@@ -522,7 +531,11 @@ export default function Register({ navigation }) {
                 <Text color="description" fontSize="12">
                   and{" "}
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    Linking.openURL("https://www.zenbase.us/privacy-policy");
+                  }}
+                >
                   <Text
                     color="description"
                     fontWeight="bold"

@@ -153,16 +153,18 @@ export default function Profile({ route, navigation }) {
                 {
                   icon: (
                     <Icon
-                      style={{ width: 24, height: 24 }}
+                      style={{ width: 24, height: 24, tintColor: "rgba(255, 255, 255, 0.35)" }}
                       source={zentokenIcon}
                       resizeMode="contain"
                     />
                   ),
+                  chevronColor: "rgba(141, 141, 146, 0.35);",
+                  color: "rgba(255, 255, 255, 0.55)",
                   title: "Earning Team",
                   onPress: () => {
-                    navigation.navigate("EarningTeam", {
-                      previousScreenName: "Profile",
-                    });
+                    // navigation.navigate("EarningTeam", {
+                    //   previousScreenName: "Profile",
+                    // });
                   },
                 },
                 {
