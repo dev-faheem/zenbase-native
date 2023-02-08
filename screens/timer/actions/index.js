@@ -11,6 +11,7 @@ export default function Actions(props) {
     timerStatus,
     setTimerStatus,
     ambient_playAudio,
+    ambient_Play,
     ambient_pauseAudio,
     ambient_resumeAudio,
     ambient_exitAudio,
@@ -72,7 +73,7 @@ export default function Actions(props) {
     }
     if (timerStatus === TIMER_STATUS_ON_GOING) {
       setTimerStatus(TIMER_STATUS_PAUSED);
-      ambient_pauseAudio();
+      ambient_Play();
       if (bellUrl) {
         intervalTimeLib?.pause();
       }

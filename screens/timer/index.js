@@ -6,7 +6,7 @@ import IntervalBell from "./intervalBell";
 import TimerBellList from "./timerBellList";
 import Actions from "./actions";
 import TimeSelection from "./timeSelection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TIMER_STATUS_INITIAL } from "./keys";
 import { Text, AnimatedHeaderView, Container } from "components";
 import Header from "./header";
@@ -20,6 +20,8 @@ import { useTimer as useTimerLib } from "react-timer-hook";
 import useAudioSound from "hooks/useAudioSound";
 import TimerEarned from "./timerEarned";
 
+let bellAudio = new Audio.Sound();
+let ambientAudio = new Audio.Sound();
 // let audio = new Audio.Sound();
 
 export default function Timer() {
@@ -55,12 +57,40 @@ export default function Timer() {
   const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
 
   const bellUrl = timerBellListData[selectedBellListIndex]?.sound || "";
-  const {
-    playAudio: bell_playAudio,
-    pauseAudio: bell_pauseAudio,
-    resumeAudio: bell_resumeAudio,
-    exitAudio: bell_exitAudio,
-  } = useAudioSound(bellUrl, 2);
+
+  const bell_playAudio = async (data) => {
+    try {
+      console.log({ bellUrl });
+      // await audio.unloadAsync();
+      await bellAudio.loadAsync({ uri: bellUrl });
+      await bellAudio.playAsync();
+      await bellAudio.setVolumeAsync(previousVolumeRef.current);
+      // alert("***qwererwr" + bellUrl);
+
+      // await bellAudio.setVolumeAsync(previousVolumeRef.current);
+      // await bellAudio.setVolumeAsync(1.0);
+    } catch (e) {
+      console.log({ e });
+      // alert("Something went wrong!");
+      // navigation.goBack();
+    }
+  };
+  const bell_resumeAudio = async () => {
+    await bellAudio.playAsync();
+    // alert("Resume");
+  };
+
+  const bell_pauseAudio = async (data) => {
+    await bellAudio.pauseAsync();
+    // alert("Pause");
+  };
+
+  const bell_exitAudio = async (data) => {
+    await bellAudio.stopAsync();
+    await bellAudio.unloadAsync();
+
+    // alert("exit");
+  };
 
   const intervalTime = new Date();
 
@@ -103,14 +133,48 @@ export default function Timer() {
     : "";
 
   const audioUrl = currentAmbientSound;
+  console.log("audioUrl ", audioUrl);
+  const ambient_playAudio = async (data) => {
+    try {
+      console.log({ audioUrl });
+      await ambientAudio.unloadAsync();
+      await ambientAudio.loadAsync({ uri: audioUrl });
+      // await ambientAudio.playAsync();
+      // await ambientAudio.setVolumeAsync(previousVolumeRef.current);
+      // alert("***qwererwr" + audioUrl);
 
-  const {
-    playAudio: ambient_playAudio,
-    pauseAudio: ambient_pauseAudio,
-    resumeAudio: ambient_resumeAudio,
-    exitAudio: ambient_exitAudio,
-  } = useAudioSound(audioUrl);
+      // await ambientAudio.setVolumeAsync(previousVolumeRef.current);
+      // await ambientAudio.setVolumeAsync(1.0);
+    } catch (e) {
+      console.log({ e });
+      // alert("Something went wrong!");
+      // navigation.goBack();
+    }
+  };
+  const ambient_Play = async () => {
+    await ambientAudio.playAsync();
+  };
 
+  const ambient_resumeAudio = async () => {
+    await ambientAudio.playAsync();
+    // alert("Resume");
+  };
+
+  const ambient_pauseAudio = async (data) => {
+    await ambientAudio.pauseAsync();
+    // alert("Pause");
+  };
+
+  const ambient_exitAudio = async (data) => {
+    await ambientAudio.stopAsync();
+    await ambientAudio.unloadAsync();
+
+    // alert("exit");
+  };
+
+  useEffect(() => {
+    ambient_playAudio();
+  }, [audioUrl]);
   const [selectedBell, setSelectedBell] = useState(timerBellListData[1]?.id);
   const [timerStatus, setTimerStatus] = useState(TIMER_STATUS_INITIAL);
   const [ambientSoundSelection, setAmbientSoundSelection] = useState(false);
@@ -129,6 +193,7 @@ export default function Timer() {
     setSelectedAmbientSound,
 
     ambient_playAudio,
+    ambient_Play,
     ambient_pauseAudio,
     ambient_resumeAudio,
     ambient_exitAudio,
