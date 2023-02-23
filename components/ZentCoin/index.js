@@ -12,14 +12,14 @@ import { usePassiveEarning } from "stores/passiveEarning";
 export default function ZentCoin(props) {
   const {} = props;
   const { passiveEarningStart, timerLib, passiEarningRunning } = usePassiveEarning();
-  const { user } = useAuth();
+  const { walletAmount, user } = useAuth();
   const { theme } = useTheme();
   const navigation = useNavigation();
 
   const info = user.isPremium
     ? "Earning 30% more with Zenbase Premium"
     : "Earn 30% more with Zenbase Premium";
-  const coins = "0.02 ZENT";
+  const coins = `${Math.round(walletAmount * 100) / 100} ZENT`;
   const time =
     timerLib?.hours !== 0 && timerLib?.minutes !== 0 && timerLib?.seconds !== 0 ? (
       <>

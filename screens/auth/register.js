@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Text, Container, Canvas, Button, TextInput } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
-import { TouchableOpacity, Image } from "react-native";
+import { TouchableOpacity, Image, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "services/axios";
 import Country from "country-state-city/lib/country";
@@ -431,7 +431,7 @@ export default function Register({ navigation }) {
       <FooterWrapper>
         <Container style={{ flex: 1 }}>
           <FooterFlex>
-            {isAppleAuthAvailable && (
+            {Platform.OS == "ios" && isAppleAuthAvailable && (
               <Button
                 onPress={handleSignUpWithApple}
                 variant="secondary"

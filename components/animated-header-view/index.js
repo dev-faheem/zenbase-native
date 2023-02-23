@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Container, Canvas } from "components";
-import { Animated } from "react-native";
+import { Animated, Platform } from "react-native";
 import Constants from "expo-constants";
 import { BlurView } from "expo-blur";
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, Container, Canvas, Button } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
-import { TouchableOpacity, Image } from "react-native";
+import { TouchableOpacity, Image, Platform } from "react-native";
 import SplashScreen from "screens/splash-screen";
 import { Buffer } from "buffer";
 
@@ -185,36 +185,38 @@ export default function Login({ navigation }) {
           }}
         />
 
-        <Button
-          onPress={handleAppleLogin}
-          variant="secondary"
-          block
-          borderRadius="10"
-          height="55"
-          fontSize="16"
-          title="Sign in with Apple"
-          titleProps={{
-            style: {
-              fontWeight: "600",
-            },
-          }}
-          image={
-            <Image
-              source={AppleIcon}
-              resizeMode="contain"
-              style={{
-                width: 14.17,
-                height: 17,
-                marginRight: 8,
-                marginTop: -2,
-              }}
-            />
-          }
-          style={{
-            marginTop: 5.5,
-            marginBottom: 5.5,
-          }}
-        />
+        {Platform.OS == "ios" && (
+          <Button
+            onPress={handleAppleLogin}
+            variant="secondary"
+            block
+            borderRadius="10"
+            height="55"
+            fontSize="16"
+            title="Sign in with Apple"
+            titleProps={{
+              style: {
+                fontWeight: "600",
+              },
+            }}
+            image={
+              <Image
+                source={AppleIcon}
+                resizeMode="contain"
+                style={{
+                  width: 14.17,
+                  height: 17,
+                  marginRight: 8,
+                  marginTop: -2,
+                }}
+              />
+            }
+            style={{
+              marginTop: 5.5,
+              marginBottom: 5.5,
+            }}
+          />
+        )}
 
         <Button
           onPress={handleSignInWithGoogle}

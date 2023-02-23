@@ -189,7 +189,7 @@ const HeaderWrapper = styled(BlurView)`
   position: absolute;
   z-index: ${({ z = 0 }) => z + 2};
   width: 100%;
-  height: 90px;
+  height: ${Platform.OS == "ios" ? 90 : 55}px;
   top: 0px;
   display: flex;
 `;
