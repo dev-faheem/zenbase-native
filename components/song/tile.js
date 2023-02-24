@@ -145,7 +145,7 @@ export default function SongTile({ style, song, removable, onRemove, inGrid = tr
         {categoryName && (
           <CategoryHolder>
             <CategoryWrapper>
-              <CategoryName>{categoryName}</CategoryName>
+              <CategoryName numberOfLines={1}>{categoryName}</CategoryName>
             </CategoryWrapper>
           </CategoryHolder>
         )}

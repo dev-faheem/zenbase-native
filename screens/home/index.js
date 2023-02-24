@@ -217,14 +217,18 @@ export default function Home({ navigation, route }) {
               (section) =>
                 section.title !== "All Meditations" && section.title !== "Meditate With Friends"
             )
-            ?.map((section) => (
-              <SongList
-                categories={data?.categories?.filter((cat) => !cat.isPodcast)}
-                id={section?.id}
-                title={section.title}
-                songs={section.songs}
-              />
-            ))}
+            ?.map((section) =>
+              section.songs.length > 0 ? (
+                <SongList
+                  categories={data?.categories?.filter((cat) => !cat.isPodcast)}
+                  id={section?.id}
+                  title={section.title}
+                  songs={section.songs}
+                />
+              ) : (
+                <></>
+              )
+            )}
           <Container>
             <InviteFriend
               label="Meditate"
@@ -271,14 +275,18 @@ export default function Home({ navigation, route }) {
           </Container>
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
-            ?.map((section) => (
-              <SongList
-                categories={data?.categories?.filter((cat) => cat.isPodcast)}
-                id={section?.id}
-                title={section.title}
-                songs={section.songs}
-              />
-            ))}
+            ?.map((section) =>
+              section.songs.length > 0 ? (
+                <SongList
+                  categories={data?.categories?.filter((cat) => cat.isPodcast)}
+                  id={section?.id}
+                  title={section.title}
+                  songs={section.songs}
+                />
+              ) : (
+                <></>
+              )
+            )}
         </>
       ),
     },

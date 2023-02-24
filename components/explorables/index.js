@@ -48,7 +48,7 @@ const cards = [
     name: "Guided Meditation",
     image: CardImage1,
     duration: "5 min",
-    link: "627546e4f89098380d986d0a",
+    link: "625d48c42ca51b231dbd8bd2",
     lableColor: "#0096A0",
     index: 4,
   },
