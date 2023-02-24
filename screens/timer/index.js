@@ -6,8 +6,7 @@ import IntervalBell from "./intervalBell";
 import TimerBellList from "./timerBellList";
 import Actions from "./actions";
 import TimeSelection from "./timeSelection";
-import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TIMER_STATUS_INITIAL } from "./keys";
 import { Text, AnimatedHeaderView, Container } from "components";
 import Header from "./header";
@@ -19,8 +18,9 @@ import AmbientSoundSelection from "./ambientSoundSelection";
 
 import { useTimer as useTimerLib } from "react-timer-hook";
 import useAudioSound from "hooks/useAudioSound";
+import TimerEarned from "./timerEarned";
 
-let audio = new Audio.Sound();
+// let audio = new Audio.Sound();
 
 export default function Timer() {
   const initial = [
@@ -29,6 +29,8 @@ export default function Timer() {
     { id: "second", value: 0 },
   ];
 
+  const [earnView, setEarnView] = useState(false);
+
   const [selectedTime, setSelectedTime] = useState(initial);
 
   const [timeInput, setTimeInput] = useState(["01", "00", "00"]);
@@ -36,19 +38,68 @@ export default function Timer() {
 
   // const allSeconds =
   //   selectedTime[0].value * 60 * 60 + selectedTime[1].value * 60 + selectedTime[2].value;
-  const allSeconds =
-    parseInt(timeInput[0]) * 60 * 60 + parseInt(timeInput[1]) * 60 + parseInt(timeInput[2]);
+
+  const TotalHours = parseInt(timeInput[0]);
+  const TotalMin = parseInt(timeInput[1]);
+  const TotalSeconds = parseInt(timeInput[2]);
+
+  const allSeconds = TotalHours * 60 * 60 + TotalMin * 60 + TotalSeconds;
+
   const time = new Date();
   time.setSeconds(time.getSeconds() + allSeconds);
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = useTimerLib({
     expiryTimestamp: time,
-    onExpire: () => console.log("onExpire called"),
+    onExpire: () => setEarnView(true),
   });
 
-  const [selectedAmbientSound, setselectedAmbientSound] = useState(null);
+  const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
+
+  const bellUrl = timerBellListData[selectedBellListIndex]?.sound || "";
+  const {
+    playAudio: bell_playAudio,
+    pauseAudio: bell_pauseAudio,
+    resumeAudio: bell_resumeAudio,
+    exitAudio: bell_exitAudio,
+  } = useAudioSound(bellUrl, 2);
+
+  const intervalTime = new Date();
+
+  const TotalIntervalHours = parseInt(intervltimeInput[0]);
+  const TotalIntervalMin = parseInt(intervltimeInput[1]);
+  const TotalIntervalSeconds = parseInt(intervltimeInput[2]);
+
+  const allIntervalSeconds =
+    TotalIntervalHours * 60 * 60 + TotalIntervalMin * 60 + TotalIntervalSeconds;
+
+  intervalTime.setSeconds(time.getSeconds() + allIntervalSeconds);
+
+  const intervalTimeLib = useTimerLib({
+    expiryTimestamp: time,
+    onExpire: () => {
+      if (bellUrl) {
+        bell_playAudio();
+
+        setTimeout(() => {
+          exitAudio();
+        }, 5000);
+
+        setTimeout(() => {
+          resetInterval();
+        }, 100);
+      }
+    },
+  });
+
+  const resetInterval = () => {
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + allIntervalSeconds);
+    intervalTimeLib?.restart(time);
+  };
+
+  const [selectedAmbientSound, setSelectedAmbientSound] = useState(2);
 
   const currentAmbientSound = selectedAmbientSound
-    ? config.API_URLM + ambientSoundData.filter(({ _id }) => _id === selectedAmbientSound)[0].file
+    ? config.API_URL + ambientSoundData.filter(({ _id }) => _id === selectedAmbientSound)[0].file
     : "";
 
   const audioUrl = currentAmbientSound;
@@ -65,6 +116,8 @@ export default function Timer() {
   const [ambientSoundSelection, setAmbientSoundSelection] = useState(false);
 
   const contextProps = {
+    earnView,
+    setEarnView,
     timerBellListData,
     selectedBell,
     setSelectedBell,
@@ -73,14 +126,27 @@ export default function Timer() {
     ambientSoundSelection,
     setAmbientSoundSelection,
     selectedAmbientSound,
-    setselectedAmbientSound,
+    setSelectedAmbientSound,
+
     ambient_playAudio,
     ambient_pauseAudio,
     ambient_resumeAudio,
     ambient_exitAudio,
+
+    bell_playAudio,
+    bell_pauseAudio,
+    bell_resumeAudio,
+    bell_exitAudio,
+
     time,
     allSeconds,
     timeLib: { seconds, minutes, hours, days, isRunning, start, pause, resume, restart },
+    TotalHours,
+    TotalMin,
+    TotalSeconds,
+
+    allIntervalSeconds,
+    intervalTimeLib,
     selectedTime,
     setSelectedTime,
     timeInput,
@@ -89,29 +155,34 @@ export default function Timer() {
     setIntervlTimeInput,
   };
 
-  const mainView = () => (
-    <AnimatedHeaderView
-      previousScreenName="Timer"
-      header={<Header title={"Timer"} />}
-      inputRange={[10, 50]}
-    >
-      <Header />
-      <Container>
-        {/* <Test onPress={() => playSong()} />
-        <Test onPress={() => pause()} /> */}
-        <Title>Timer</Title>
-      </Container>
-      <Wrapper>
-        <TimerBellList />
-        <Container>
-          <TimeSelection />
-          <IntervalBell />
-          <AmbientSound />
-          <Actions />
-        </Container>
-      </Wrapper>
-    </AnimatedHeaderView>
-  );
+  const mainView = ({ hide = false }) => {
+    const mainStyle = hide ? { display: "none" } : {};
+    return (
+      <Canvas style={mainStyle}>
+        {/* <AnimatedHeaderView
+        previousScreenName="Timer"
+        header={<Header title={"Timer"} />}
+        inputRange={[10, 50]}
+        hide={hide}
+      > */}
+
+        <Wrapper>
+          <Header />
+          <Container>
+            <Title>Timer</Title>
+          </Container>
+          <TimerBellList />
+          <Container>
+            <TimeSelection />
+            <IntervalBell />
+            <AmbientSound />
+            <Actions />
+          </Container>
+        </Wrapper>
+        {/* </AnimatedHeaderView> */}
+      </Canvas>
+    );
+  };
   const startedView = () => (
     <Canvas>
       <Wrapper>
@@ -123,21 +194,23 @@ export default function Timer() {
     </Canvas>
   );
 
-  // alert(config.API_URL);
-  // console.log({ test: config.API_URLM });
-  // start, pause, resume, restart;
+  const timerViews = () => (
+    <>
+      {ambientSoundSelection ? (
+        <AmbientSoundSelection />
+      ) : timerStatus === TIMER_STATUS_INITIAL ? (
+        <></>
+      ) : (
+        startedView()
+      )}
+      {mainView({ hide: ambientSoundSelection || timerStatus !== TIMER_STATUS_INITIAL })}
+    </>
+  );
 
   return (
     <>
-      {/* <Test onPress={playAudio} /> */}
       <TimerContext.Provider value={contextProps}>
-        {ambientSoundSelection ? (
-          <AmbientSoundSelection />
-        ) : timerStatus === TIMER_STATUS_INITIAL ? (
-          mainView()
-        ) : (
-          startedView()
-        )}
+        {earnView ? <TimerEarned /> : timerViews()}
       </TimerContext.Provider>
     </>
   );
@@ -146,7 +219,7 @@ export default function Timer() {
 const Wrapper = styled.View``;
 const Test = styled.Text`
   width: 100px;
-  height: 20px;
+
   background: red;
   margin-top: 50px;
   margin-left: 30px;

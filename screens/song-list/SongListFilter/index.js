@@ -70,7 +70,7 @@ const ModalContentBackDrop = styled.TouchableOpacity`
 const ModalContentWrapper = styled.View`
   position: absolute;
   right: 7px;
-  top: 100px;
+  top: ${Platform.OS == "android" ? 70 : 100}px;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.08);
   width: 181px;
   border-radius: 30px;

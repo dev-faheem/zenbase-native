@@ -58,6 +58,7 @@ import AmbientSoundSelection from "screens/timer/ambientSoundSelection";
 import UpgradePremium from "screens/upgrade-premium";
 import UpgradePremiumSuccessfully from "screens/upgrade-premium/success";
 import JournalEntry from "screens/journal/journal-entry";
+import Redeem from "screens/redeem";
 
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -81,15 +82,15 @@ export function HomeStack() {
       backBehavior="history"
     >
       <Tabs.Screen name="Home" component={Home} />
-      <Tabs.Screen name="SongList" component={SongList} />
+      {/* <Tabs.Screen name="SongList" component={SongList} /> */}
       <Tabs.Screen name="Search" component={Search} />
       <Tabs.Screen name="Wallet" component={Wallet} />
       <Tabs.Screen name="Favorites" component={Favorites} />
       <Tabs.Screen name="FavoritesType" component={FavoritesType} />
       <Tabs.Screen name="Profile" component={Profile} />
-      <Tabs.Screen name="Followers" component={Followers} />
+      {/* <Tabs.Screen name="Followers" component={Followers} /> */}
       <Tabs.Screen name="Sounds" component={Sounds} />
-      <Tabs.Screen name="EarningTeam" component={EarningTeam} />
+      {/* <Tabs.Screen name="EarningTeam" component={EarningTeam} /> */}
     </Tabs.Navigator>
   );
 }
@@ -109,6 +110,9 @@ export default function Navigation() {
           }}
         >
           <Stack.Group>
+            <Stack.Screen name="SongList" component={SongList} />
+            <Stack.Screen name="Followers" component={Followers} />
+            <Stack.Screen name="EarningTeam" component={EarningTeam} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="LoginForm" component={LoginForm} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} />
@@ -126,6 +130,7 @@ export default function Navigation() {
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
             <Stack.Screen name="JournalEntry" component={JournalEntry} />
+            <Stack.Screen name="DeleteUser" component={DeleteAccount} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
@@ -133,6 +138,7 @@ export default function Navigation() {
               name="UpgradePremiumSuccessfully"
               component={UpgradePremiumSuccessfully}
             />
+            <Stack.Screen name="Redeem" component={Redeem} />
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="ZentDonation" component={ZentDonation} />
@@ -142,7 +148,6 @@ export default function Navigation() {
             <Stack.Screen name="AddJournal" component={AddJournal} />
             <Stack.Screen name="Play" component={Play} />
             <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
-            <Stack.Screen name="DeleteUser" component={DeleteAccount} />
             <Stack.Screen name="EnableNotification" component={EnableNotification} />
             <Stack.Screen name="TotalEarnings" component={TotalEarnings} />
 

@@ -145,7 +145,7 @@ export default function TimeSelection(props) {
     { id: "second", label: "", min: 0, max: 59, title: "sec" },
   ];
 
-  console.log("Time: ", selectedTime);
+  // console.log("Time: ", selectedTime);
   return (
     <Wrapper>
       <PickerWrapper>

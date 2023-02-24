@@ -16,6 +16,7 @@ import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import { queryClient, QueryClientProvider } from "query/client";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import config from "./config";
+import { PassiveEarningProvider } from "./stores/passiveEarning";
 
 Notifications.init();
 
@@ -36,9 +37,11 @@ export default function App() {
         <ThemeProvider>
           <SongQueueProvider>
             <AuthProvider>
-              <LoaderProvider>
-                <Navigation />
-              </LoaderProvider>
+              <PassiveEarningProvider>
+                <LoaderProvider>
+                  <Navigation />
+                </LoaderProvider>
+              </PassiveEarningProvider>
             </AuthProvider>
           </SongQueueProvider>
         </ThemeProvider>

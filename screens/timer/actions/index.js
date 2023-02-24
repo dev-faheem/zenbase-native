@@ -1,5 +1,6 @@
 import Text from "components/text";
 import styled from "styled-components/native";
+import { timerBellListData } from "../config";
 import { useTimer } from "../contex";
 import { TIMER_STATUS_INITIAL, TIMER_STATUS_ON_GOING, TIMER_STATUS_PAUSED } from "../keys";
 
@@ -13,8 +14,18 @@ export default function Actions(props) {
     ambient_pauseAudio,
     ambient_resumeAudio,
     ambient_exitAudio,
+
+    selectedBell,
+
+    bell_playAudio,
+    bell_pauseAudio,
+    bell_resumeAudio,
+    bell_exitAudio,
+
     allSeconds,
     timeLib,
+    allIntervalSeconds,
+    intervalTimeLib,
   } = useTimer();
 
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = timeLib;
@@ -27,9 +38,19 @@ export default function Actions(props) {
 
   const cancleDisable = timerStatus === TIMER_STATUS_INITIAL;
 
+  const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
+
+  const bellUrl = timerBellListData[selectedBellListIndex]?.sound || "";
+
   function handleCancel() {
     setTimerStatus(TIMER_STATUS_INITIAL);
     ambient_exitAudio();
+    // if (bellUrl) {
+    // bell_exitAudio();
+    // }
+    if (bellUrl) {
+      intervalTimeLib?.restart();
+    }
     restart();
   }
 
@@ -37,19 +58,35 @@ export default function Actions(props) {
     if (timerStatus === TIMER_STATUS_INITIAL) {
       setTimerStatus(TIMER_STATUS_ON_GOING);
       ambient_playAudio();
+      // if (bellUrl) {
+      // bell_playAudio();
+      // }
 
       const time = new Date();
       time.setSeconds(time.getSeconds() + allSeconds);
       restart(time);
+
+      const time2 = new Date();
+      time2.setSeconds(time2.getSeconds() + allIntervalSeconds);
+      intervalTimeLib?.restart(time2);
     }
     if (timerStatus === TIMER_STATUS_ON_GOING) {
       setTimerStatus(TIMER_STATUS_PAUSED);
       ambient_pauseAudio();
+      if (bellUrl) {
+        intervalTimeLib?.pause();
+      }
       pause();
     }
     if (timerStatus === TIMER_STATUS_PAUSED) {
       setTimerStatus(TIMER_STATUS_ON_GOING);
       ambient_resumeAudio();
+      // if (bellUrl) {
+      // bell_resumeAudio();
+      // }
+      if (bellUrl) {
+        intervalTimeLib?.resume();
+      }
       resume();
     }
   }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { Text, Container, Box, SongList, Explorables, NavigationPadding } from "components";
-import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions } from "react-native";
+import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions, Platform } from "react-native";
 import Constants from "expo-constants";
 import { useTheme } from "stores/theme";
 import styled from "styled-components/native";
@@ -234,14 +234,18 @@ export default function Home({ navigation, route }) {
               (section) =>
                 section.title !== "All Meditations" && section.title !== "Meditate With Friends"
             )
-            ?.map((section) => (
-              <SongList
-                categories={data?.categories?.filter((cat) => !cat.isPodcast)}
-                id={section?.id}
-                title={section.title}
-                songs={section.songs}
-              />
-            ))}
+            ?.map((section) =>
+              section.songs.length > 0 ? (
+                <SongList
+                  categories={data?.categories?.filter((cat) => !cat.isPodcast)}
+                  id={section?.id}
+                  title={section.title}
+                  songs={section.songs}
+                />
+              ) : (
+                <></>
+              )
+            )}
           <Container>
             <InviteFriend
               label="Meditate"
@@ -288,14 +292,18 @@ export default function Home({ navigation, route }) {
           </Container>
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
-            ?.map((section) => (
-              <SongList
-                categories={data?.categories?.filter((cat) => cat.isPodcast)}
-                id={section?.id}
-                title={section.title}
-                songs={section.songs}
-              />
-            ))}
+            ?.map((section) =>
+              section.songs.length > 0 ? (
+                <SongList
+                  categories={data?.categories?.filter((cat) => cat.isPodcast)}
+                  id={section?.id}
+                  title={section.title}
+                  songs={section.songs}
+                />
+              ) : (
+                <></>
+              )
+            )}
         </>
       ),
     },
@@ -319,7 +327,7 @@ export default function Home({ navigation, route }) {
         scrollEnabled={!isFirstTimeModel}
       >
         <Container>
-          <Box mt={`${Constants.statusBarHeight}px`} />
+          <Box mt={`${Platform.OS == "ios" ? Constants.statusBarHeight : 10}px`} />
 
           <PremiumTextWrapper>{user?.isPremium && <Text>Premium</Text>}</PremiumTextWrapper>
           <TopHeader title="Explore" />
@@ -332,7 +340,7 @@ export default function Home({ navigation, route }) {
         <Container>
           <ZentCoin />
         </Container>
-        <Shortcuts />
+        {/* <Shortcuts /> */}
         <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
 
         <NavigationPadding padding={50} />
@@ -353,19 +361,21 @@ export default function Home({ navigation, route }) {
           }),
         }}
       >
-        <BlurView
-          intensity={150}
-          style={{
-            width: "100%",
-            height: (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 30,
-            paddingBottom: Platform.OS == "android" ? 10 : 0,
-          }}
-          tint="dark"
-        >
-          <BlurHeaderWrapper>
-            <Text style={{ marginBottom: 15 }}>Explore</Text>
-          </BlurHeaderWrapper>
-        </BlurView>
+        {Platform.OS == "ios" && (
+          <BlurView
+            intensity={150}
+            style={{
+              width: "100%",
+              height: (Platform.OS == "ios" ? Constants.statusBarHeight : 15) + 30,
+              paddingBottom: Platform.OS == "android" ? 10 : 0,
+            }}
+            tint="dark"
+          >
+            <BlurHeaderWrapper>
+              <Text style={{ marginBottom: 15 }}>Explore</Text>
+            </BlurHeaderWrapper>
+          </BlurView>
+        )}
       </Animated.View>
 
       {isFirstTimeModel && (

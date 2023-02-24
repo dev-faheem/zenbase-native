@@ -13,6 +13,7 @@ export { CategoryList } from "components/category/list";
 export { default as Box } from "components/box";
 export { default as Divider } from "components/divider";
 export { default as TabBar } from "components/tab-bar";
+export { default as StackNavigatorTabBar } from "components/tab-bar/stack-navigator";
 export { default as Explorables } from "components/explorables";
 export { default as IOSList } from "components/ios-list";
 export { default as ZentTokenBanner } from "components/zent-token-banner";

@@ -11,7 +11,7 @@ const TabBarWrapper = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-bottom: ${(props) => props.theme.spacing.xxl};
+  margin-bottom: ${Platform.OS == "ios" ? 20 : 0}px;
 `;
 
 export default function TabBar({ state, descriptors, navigation }) {
@@ -26,7 +26,7 @@ export default function TabBar({ state, descriptors, navigation }) {
         width: "100%",
         bottom: 0,
         left: 0,
-        height: useSafeAreaInsets().bottom + 50,
+        height: useSafeAreaInsets().bottom + 50 + (Platform.OS == "android" ? 10 : 0),
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",

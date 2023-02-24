@@ -16,6 +16,8 @@ import LightRainIcon from "assets/images/ambientSound/LightRain.png";
 import OceanWavesIcon from "assets/images/ambientSound/OceanWaves.png";
 import PeacefulPondIcon from "assets/images/ambientSound/PeacefulPond.png";
 import RainforestIcon from "assets/images/ambientSound/Rainforest.png";
+import Lightning from "assets/images/ambientSound/Lightning.jpg";
+import River from "assets/images/ambientSound/River.jpg";
 
 //Bell Sounds
 
@@ -137,56 +139,56 @@ export const ambientSoundData = [
     _id: 1,
     title: "Birds",
     file: tempFile,
-    // file: "/uploads/timer/Birds.mp3",
+    file: "uploads/timer/Birds.mp3",
     songImage: BirdsIcon,
   },
   {
     _id: 2,
     title: "Deep Om",
-    file: tempFile,
-    //  file: "/uploads/timer/Deep Om.mp3",
+
+    file: "uploads/timer/Deep Om.mp3",
     songImage: DeepOmIcon,
   },
   {
     _id: 3,
     title: "Light Rain",
-    file: tempFile,
-    //  file: "/uploads/timer/Light Rain.mp3",
+
+    file: "uploads/timer/Light Rain.mp3",
     songImage: LightRainIcon,
   },
   {
     _id: 4,
     title: "Ocean Waves",
-    file: tempFile,
-    // file: "/uploads/timer/Ocean Waves.mp3",
+
+    file: "uploads/timer/Ocean Waves.mp3",
     songImage: OceanWavesIcon,
   },
   {
     _id: 5,
     title: "Peaceful Pond",
-    file: tempFile,
-    // file: "/uploads/timer/Peaceful Pond.mp3",
+
+    file: "uploads/timer/Peaceful Pond.mp3",
     songImage: PeacefulPondIcon,
   },
   {
     _id: 6,
     title: "Rainforest",
-    file: tempFile,
-    //  file: "/uploads/timer/Rainforest.mp3",
+
+    file: "uploads/timer/Rainforest.mp3",
     songImage: RainforestIcon,
   },
   {
     _id: 7,
     title: "River",
-    file: tempFile,
-    //  file: "/uploads/timer/River.mp3",
-    songImage: tempSongTile,
+
+    file: "uploads/timer/River.mp3",
+    songImage: River,
   },
   {
     _id: 8,
     title: "Storm",
-    file: tempFile,
-    //  file: "/uploads/timer/Storm.mp3",
-    songImage: tempSongTile,
+
+    file: "uploads/timer/Storm.mp3",
+    songImage: Lightning,
   },
 ];

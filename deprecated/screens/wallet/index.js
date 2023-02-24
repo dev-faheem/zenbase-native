@@ -21,8 +21,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Import Images
 import zentBackground from "assets/images/wallet/zent-bg.png";
-import zenCoinLogo from "assets/logos/zent-coin.png";
-import historyIcon from "assets/icons/history.png";
 
 // import wallpaper1 from "assets/images/wallpapers/wallpaper-1.png";
 // import wallpaper2 from "assets/images/wallpapers/wallpaper-2.png";
@@ -32,7 +30,6 @@ import { useTheme } from "stores/theme";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "stores/auth";
 import { useCallback } from "react";
-import WalletGridCard from "./walletGridCard";
 
 /**
  * *********************************************
@@ -54,27 +51,49 @@ const WalletInfoBody = styled.View`
   align-items: center;
 `;
 
-const HistoryIcon = styled.Image`
-  width: ${({ theme: { getSize } }) => getSize(33.82)}px;
-  height: ${({ theme: { getSize } }) => getSize(32)}px;
-  margin-bottom: ${({ theme: { getSize } }) => getSize(15)}px;
-`;
-
-const HistoryText = styled(Text)`
-  color: #939595;
-  font-size: ${({ theme: { getSize } }) => getSize(24)}px;
-  line-hight: ${({ theme: { getSize } }) => getSize(29)}px;
-  margin-bottom: ${({ theme: { getSize } }) => getSize(4)}px;
-`;
-const HistoryDecText = styled(Text)`
-  color: #939595;
-  font-size: ${({ theme: { getSize } }) => getSize(20)}px;
-  line-hight: ${({ theme: { getSize } }) => getSize(24)}px;
-`;
 const WalletInfoFooter = styled.View`
   width: 100%;
   flex-direction: column;
   padding-bottom: ${(props) => props.theme.spacing.lg};
+`;
+
+/**
+ * *******************
+ * Wallet History List
+ * *******************
+ */
+const WalletHistoryList = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: ${(props) => props.theme.spacing.sm};
+  margin-bottom: ${(props) => props.theme.spacing.sm};
+  padding: ${(props) => props.theme.spacing.md};
+  padding-left: ${(props) => props.theme.spacing.xxl};
+  padding-right: ${(props) => props.theme.spacing.xxl};
+  background-color: ${(props) => props.theme.color.hud};
+  border-radius: ${(props) => props.theme.borderRadius.lg};
+`;
+
+const WalletHistoryListText = styled.View`
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const WalletHistoryListThumbnail = styled.Image`
+  width: 78px;
+  height: 78px;
+  border-radius: ${(props) => props.theme.borderRadius.lg};
+`;
+
+const WalletHistoryListEmpty = styled.View`
+  width: 100%;
+  background-color: ${(props) => props.theme.color.hud}B3;
+  border-radius: ${(props) => props.theme.borderRadius.lg};
+  position: absolute;
+  z-index: -1;
+  left: ${(props) => props.theme.spacing.xxl};
 `;
 
 /**
@@ -92,10 +111,9 @@ const HeaderWrapper = styled.View`
 
 const HeaderImage = styled.Image`
   height: 30px;
-  width: 27.42px;
-  margin-bottom: 7px;
+  width: 51px;
+  margin-bottom: ${(props) => props.theme.spacing.sm};
   border-radius: 2px;
-  object-fit: contain;
 `;
 
 const transactionListenDuration = (transaction) => {
@@ -115,26 +133,6 @@ function History({ ZentBanner }) {
   const { user, zenTransactions, fetchTransactions } = useAuth();
   const navigation = useNavigation();
   const scrollY = useRef(new Animated.Value(0)).current;
-
-  console.log(JSON.stringify({ zenTransactions }, null, 2));
-
-  const filteredZenTransactions = zenTransactions
-    .filter((transaction) => transaction.type == "SONG_MINING")
-    .slice(0)
-    .reverse();
-
-  const fullDate = (date) => {
-    const mainDate = new Date(date);
-    console.log({ date, mainDate });
-
-    const month = mainDate.getMonth() + 1;
-    return (
-      <>
-        {mainDate.getDate()}/{month < 10 ? "0" + month : month}/{mainDate.getFullYear()}
-      </>
-    );
-  };
-
   return (
     <>
       <Container style={{ flex: 1 }}>
@@ -147,35 +145,48 @@ function History({ ZentBanner }) {
           showsVerticalScrollIndicator={false}
         >
           {ZentBanner}
-          <WalletGridCard />
-          <Title>Your Activity</Title>
+          <Text
+            fontSize="18"
+            fontWeight="600"
+            style={{ marginTop: 10, marginBottom: 10, marginLeft: 5 }}
+          >
+            Your Activity
+          </Text>
 
           {/* Wallet History List */}
-          {filteredZenTransactions.map((transaction) => (
-            <WalletHistoryList>
-              <WalletHistoryListText>
-                <Text fontSize="lg" numberOfLines={1}>
-                  <WalletHistoryZentCoin color="primary">
+          {zenTransactions
+            .filter((transaction) => transaction.type == "SONG_MINING")
+            .slice(0)
+            .reverse()
+            .map((transaction) => (
+              <WalletHistoryList>
+                <WalletHistoryListText>
+                  <Text fontSize="lg" numberOfLines={1}>
+                    {transactionListenDuration(transaction)} •{" "}
                     {Number(transaction.amount).toFixed(6)} ZENT
-                  </WalletHistoryZentCoin>{" "}
-                  <WalletHistoryDateTime>
-                    {transactionListenDuration(transaction)} • {fullDate(transaction?.updatedAt)}
-                  </WalletHistoryDateTime>
-                </Text>
-                <WalletHistoryListSongName numberOfLines={1}>
-                  {transaction.meta?.song}
-                </WalletHistoryListSongName>
-              </WalletHistoryListText>
-              <WalletHistoryListThumbnail
-                source={{ uri: transaction.meta?.artwork }}
-                resizeMode="cover"
-              />
-            </WalletHistoryList>
-          ))}
+                  </Text>
+                  <Text fontSize="md" numberOfLines={1} style={{ marginTop: 2 }} color="primary">
+                    {transaction.meta?.song}
+                  </Text>
+                  <Text
+                    fontSize="md"
+                    numberOfLines={1}
+                    style={{ marginTop: 2 }}
+                    color="description"
+                  >
+                    {transaction.meta?.artist}
+                  </Text>
+                </WalletHistoryListText>
+                <WalletHistoryListThumbnail
+                  source={{ uri: transaction.meta?.artwork }}
+                  resizeMode="cover"
+                />
+              </WalletHistoryList>
+            ))}
 
           {/* Wallet History List - End*/}
 
-          <NavigationPadding padding={40} />
+          <NavigationPadding padding={90} />
         </Animated.ScrollView>
       </Container>
       <Animated.View
@@ -201,7 +212,7 @@ function History({ ZentBanner }) {
           tint="dark"
         >
           <HeaderWrapper>
-            <HeaderImage source={zenCoinLogo} resizeMode="cover" />
+            <HeaderImage source={zentBackground} resizeMode="cover" />
             <Text style={{ marginBottom: 15 }}>{ZentBanner.props.tokens} Zent</Text>
           </HeaderWrapper>
         </BlurView>
@@ -237,15 +248,39 @@ function History({ ZentBanner }) {
 
 // No History Found
 function NoHistoryFound({ ZentBanner }) {
+  const generateEmptyList = (height, n) => {
+    let initTop = 255;
+    let paddintTop = 0;
+
+    let result = [];
+    for (let i = 1; i <= n; i++) {
+      result.push(
+        <WalletHistoryListEmpty key={i} style={{ top: initTop + paddintTop, height: height }} />
+      );
+      paddintTop += height + 15;
+    }
+
+    return result;
+  };
+
   return (
     <Container style={{ flex: 1 }}>
       {ZentBanner}
-      <WalletGridCard />
+      {generateEmptyList(88, 10)}
       <WalletInfoWrapper>
         <WalletInfoBody>
-          <HistoryIcon source={historyIcon} />
-          <HistoryText fontWeight="bold">History</HistoryText>
-          <HistoryDecText>Your earning activity will appear here.</HistoryDecText>
+          <MaterialCommunityIcons
+            name="clock-time-nine"
+            size={40}
+            color="white"
+            style={{ marginBottom: 6 }}
+          />
+          <Text fontSize="h2" fontWeight="bold">
+            History
+          </Text>
+          <Text fontSize="md" style={{ marginTop: 5 }}>
+            Your activity and earning history will appear here.
+          </Text>
         </WalletInfoBody>
       </WalletInfoWrapper>
       <NavigationPadding />
@@ -272,13 +307,9 @@ export default function Wallet({ route, navigation }) {
     }, [])
   );
 
-  const isSongMissing =
-    zenTransactions.filter((transaction) => transaction.type == "SONG_MINING").length > 0;
-
-  // console.log("qwere", { isSongMissing, zenTransactions });
   return (
     <Canvas>
-      {isSongMissing ? (
+      {zenTransactions.filter((transaction) => transaction.type == "SONG_MINING").length > 0 ? (
         <History ZentBanner={ZentToken} />
       ) : (
         <NoHistoryFound ZentBanner={ZentToken} />
@@ -286,55 +317,3 @@ export default function Wallet({ route, navigation }) {
     </Canvas>
   );
 }
-
-const Title = styled(Text)`
-  font-size: ${({ theme: { getSize } }) => getSize(24)}px;
-  line-height: ${({ theme: { getSize } }) => getSize(29)}px;
-  margin-bottom: ${({ theme: { getSize } }) => getSize(14)}px;
-  font-weight: 600;
-`;
-
-/**
- * *******************
- * Wallet History List
- * *******************
- */
-const WalletHistoryList = styled.View`
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: ${({ theme: { getSize } }) => getSize(15)}px;
-  height: ${({ theme: { getSize } }) => getSize(88)}px;
-  padding-left: ${({ theme: { getSize } }) => getSize(25)}px;
-  padding-right: ${({ theme: { getSize } }) => getSize(20)}px;
-  background-color: ${(props) => props.theme.color.hud};
-  border-radius: ${({ theme: { getSize } }) => getSize(10)}px;
-`;
-const WalletHistoryZentCointimeDate = styled(Text)`
-  font-size: ${({ theme: { getSize } }) => getSize(14)}px;
-  line-height: ${({ theme: { getSize } }) => getSize(17)}px;
-`;
-const WalletHistoryZentCoin = styled(WalletHistoryZentCointimeDate)`
-  font-weight: 700;
-`;
-const WalletHistoryDateTime = styled(WalletHistoryZentCointimeDate)``;
-const WalletHistoryListText = styled.View`
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const WalletHistoryListThumbnail = styled.Image`
-  width: ${({ theme: { getSize } }) => getSize(70)}px;
-  height: ${({ theme: { getSize } }) => getSize(68)}px;
-  border-radius: ${(props) => props.theme.borderRadius.lg};
-  object-fit: cover;
-`;
-
-const WalletHistoryListSongName = styled(Text)`
-  font-weight: 600;
-  padding-right: ${({ theme: { getSize } }) => getSize(10)}px;
-  font-size: ${({ theme: { getSize } }) => getSize(20)}px;
-  line-height: ${({ theme: { getSize } }) => getSize(30)}px;
-`;

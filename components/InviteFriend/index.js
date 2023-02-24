@@ -10,26 +10,28 @@ export default function InviteFriend(props) {
   const { theme } = useTheme();
 
   return (
-    <Wrapper onPress={onPress}>
+    <Wrapper
+    // onPress={onPress}
+    >
       <Icon source={inviteIcon} />
       <View>
         <Info>Invite or join friends</Info>
         <CoinWrapper>
           <Invites>{label} With Friends</Invites>
 
-          <Ionicons
+          {/* <Ionicons
             name="ios-chevron-forward"
             style={{ marginTop: 1, marginLeft: -5 }}
             size={18}
             color={theme.color.information}
-          />
+          /> */}
         </CoinWrapper>
       </View>
     </Wrapper>
   );
 }
 
-const Wrapper = styled.TouchableOpacity`
+const Wrapper = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
