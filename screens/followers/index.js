@@ -99,14 +99,15 @@ export default function Followers({ route, navigation }) {
               </Text>
 
               <UserListWrapper>
-                {users.map((user) => {
+                {users.map((user, index) => {
                   return (
                     <UserWrapper
+                      key={index}
                       onPress={() => {
                         navigation.navigate("UserProfile", { user });
                       }}
                     >
-                      <UserImage source={user?.image || profileImage} />
+                      <UserImage source={user?.image ? { uri: user?.image } : profileImage} />
                       <Text color="description">{user.name}</Text>
                     </UserWrapper>
                   );

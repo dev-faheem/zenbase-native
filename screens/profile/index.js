@@ -130,13 +130,6 @@ export default function Profile({ route, navigation }) {
               notDefault
               transparent
               data={[
-                // {
-                //   icon: <Ionicons name="ios-musical-note" size={24} color={theme.color.primary} />,
-                //   title: 'Sounds',
-                //   onPress: () => {
-                //     navigation.navigate('Sounds');
-                //   }
-                // },
                 {
                   icon: (
                     <Icon
@@ -150,24 +143,7 @@ export default function Profile({ route, navigation }) {
                     navigation.navigate("Journal");
                   },
                 },
-                {
-                  icon: (
-                    <Icon
-                      style={{ width: 24, height: 24, tintColor: "rgba(255, 255, 255, 0.35)" }}
-                      source={zentokenIcon}
-                      resizeMode="contain"
-                    />
-                  ),
-                  chevronColor: "rgba(141, 141, 146, 0.35);",
-                  color: "rgba(255, 255, 255, 0.55)",
-                  title: "Earning Team",
-                  onPress: () => {
-                    // navigation.navigate("EarningTeam", {
-                    //   previousScreenName: "Profile",
-                    // });
-                  },
-                },
-                {
+                following.length > 0 && {
                   icon: (
                     <Icon
                       style={{
@@ -193,7 +169,7 @@ export default function Profile({ route, navigation }) {
                     }
                   },
                 },
-                {
+                followers.length > 0 && {
                   icon: (
                     <Icon
                       style={{
@@ -220,6 +196,31 @@ export default function Profile({ route, navigation }) {
                     }
                   },
                 },
+                // {
+                //   icon: <Ionicons name="ios-musical-note" size={24} color={theme.color.primary} />,
+                //   title: 'Sounds',
+                //   onPress: () => {
+                //     navigation.navigate('Sounds');
+                //   }
+                // },
+
+                // {
+                //   icon: (
+                //     <Icon
+                //       style={{ width: 24, height: 24, tintColor: "rgba(255, 255, 255, 0.35)" }}
+                //       source={zentokenIcon}
+                //       resizeMode="contain"
+                //     />
+                //   ),
+                //   chevronColor: "rgba(141, 141, 146, 0.35);",
+                //   color: "rgba(255, 255, 255, 0.55)",
+                //   title: "Earning Team",
+                //   onPress: () => {
+                //     // navigation.navigate("EarningTeam", {
+                //     //   previousScreenName: "Profile",
+                //     // });
+                //   },
+                // },
               ]}
             />
 

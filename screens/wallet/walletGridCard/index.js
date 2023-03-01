@@ -3,10 +3,11 @@ import giftIcon from "assets/icons/gift.png";
 import bitCoinIcon from "assets/icons/bitcoin.png";
 import styled from "styled-components/native";
 import { useAuth } from "stores/auth";
-import { Text } from "components";
+import { Text, Box } from "components";
 import { Fragment } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { usePassiveEarning } from "stores/passiveEarning";
+import { TouchableOpacity } from "react-native";
 const TT = styled(Text)``;
 export default function WalletGridCard(props) {
   const navigation = useNavigation();
@@ -43,14 +44,22 @@ export default function WalletGridCard(props) {
         </ColWrapper>
         <ColWrapper>
           <ActionWrapper>
-            <CryptoCard>
+            {/* <CryptoCard>
               <BitCoinIcon source={bitCoinIcon} />
               <HeadText disabled>Crypto Wallet</HeadText>
             </CryptoCard>
             <RedeemCard onPress={() => navigation.navigate("Redeem")}>
               <GiftIcon source={giftIcon} />
               <HeadText>Redeem</HeadText>
-            </RedeemCard>
+            </RedeemCard> */}
+            <TouchableOpacity onPress={() => navigation.navigate("Redeem")}>
+              <ZenCard>
+                <GiftIcon source={giftIcon} />
+                <HeadText>Redeem</HeadText>
+                <Box h="20" />
+                <UseZen>Redeem Zentoken for Prizes.</UseZen>
+              </ZenCard>
+            </TouchableOpacity>
           </ActionWrapper>
         </ColWrapper>
       </Wrapper>

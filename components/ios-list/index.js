@@ -54,33 +54,35 @@ export default function IOSList({ data = [], transparent, notDefault, withoutChe
          * }
          */
         return (
-          <TouchableOpacity key={index} onPress={obj.onPress || null} style={{ width: "100%" }}>
-            <ListWrapper>
-              <VAlignCenter style={{ marginLeft: 5 }}>{obj.icon}</VAlignCenter>
-              <ListContentWrapper
-                style={
-                  !(transparent && notDefault) &&
-                  data.length - 1 == index && { borderBottomWidth: 0 }
-                }
-              >
-                <VAlignCenter>
-                  <Text color={obj.color || "white"} fontSize="18">
-                    {obj.title}
-                  </Text>
-                </VAlignCenter>
-                <VAlignCenter style={{ paddingLeft: 2 }}>
-                  {withoutChevron || (
-                    <Entypo
-                      name="chevron-right"
-                      size={20}
-                      color={obj.chevronColor || theme.color.description}
-                      style={{ marginTop: 2 }}
-                    />
-                  )}
-                </VAlignCenter>
-              </ListContentWrapper>
-            </ListWrapper>
-          </TouchableOpacity>
+          obj && (
+            <TouchableOpacity key={index} onPress={obj.onPress || null} style={{ width: "100%" }}>
+              <ListWrapper>
+                <VAlignCenter style={{ marginLeft: 5 }}>{obj.icon}</VAlignCenter>
+                <ListContentWrapper
+                  style={
+                    !(transparent && notDefault) &&
+                    data.length - 1 == index && { borderBottomWidth: 0 }
+                  }
+                >
+                  <VAlignCenter>
+                    <Text color={obj.color || "white"} fontSize="18">
+                      {obj.title}
+                    </Text>
+                  </VAlignCenter>
+                  <VAlignCenter style={{ paddingLeft: 2 }}>
+                    {withoutChevron || (
+                      <Entypo
+                        name="chevron-right"
+                        size={20}
+                        color={obj.chevronColor || theme.color.description}
+                        style={{ marginTop: 2 }}
+                      />
+                    )}
+                  </VAlignCenter>
+                </ListContentWrapper>
+              </ListWrapper>
+            </TouchableOpacity>
+          )
         );
       })}
     </View>

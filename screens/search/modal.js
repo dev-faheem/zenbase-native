@@ -397,10 +397,10 @@ export default function SearchModal({ navigation }) {
                       </Text>
                       <IconWrapper
                         style={{
-                          height: "none",
+                          height: null,
                           flexDirection: "row",
                           justifyContent: "flex-start",
-                          alignItems: "start",
+                          alignItems: "flex-start",
                         }}
                       >
                         <Text numberOfLines={1} fontSize="18" fontWeight="600">
@@ -481,10 +481,10 @@ export default function SearchModal({ navigation }) {
                       </Text>
                       <IconWrapper
                         style={{
-                          height: "none",
+                          height: null,
                           flexDirection: "row",
                           justifyContent: "flex-start",
-                          alignItems: "start",
+                          alignItems: "flex-start",
                         }}
                       >
                         <Text numberOfLines={1} fontSize="18" fontWeight="600">
