@@ -5,6 +5,8 @@ import { useTheme } from "stores/theme";
 import { TouchableOpacity, Image, Platform } from "react-native";
 import SplashScreen from "screens/splash-screen";
 import { Buffer } from "buffer";
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 
 // Import Images
 import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
@@ -66,13 +68,44 @@ export default function Login({ navigation }) {
   const { theme } = useTheme();
   const { login, refresh } = useAuth();
   const [isAppReady, setIsAppReady] = useState(false);
+  const [accessToken, setAccessToken] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
 
-  const handleAppleLogin = async () => {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: "398987133540-rqb6asm0bk0gbr1o2u67gbrtjeeddrhp.apps.googleusercontent.com",
+    androidClientId: '398987133540-8hgcjgftnnh12k1ko4qme40ii5k2c4f8.apps.googleusercontent.com',
+    iosClientId: '398987133540-4kvqsipg45p3a7cjbho3hr66alkataui.apps.googleusercontent.com',
+  });
+  useEffect(() => {
+    if (response?.type === "success") {
+      setAccessToken(response.authentication.accessToken);
+      getUserInfo();
+    }
+  }, [response, accessToken]);
+
+  //for get user details from google signIn result
+  const getUserInfo = async () => {
     try {
-      const credentials = await handleSignInWithApple();
-      const identityToken = parseJwt(credentials?.identityToken);
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      const user = await response.json();
+      handleSignInWithGoogle(user)
+      setUserInfo(user);
+    } catch (error) {
+      // Add your own error handler here
+    }
+  };
 
-      const { email: username, sub: password } = identityToken;
+  // for google signIn
+  WebBrowser.maybeCompleteAuthSession();
+  const handleSignInWithGoogle = async (user) => {
+    try {
+      console.log("user==========", user)
+      const { email: username, id: password } = user;
 
       const {
         data: { data },
@@ -104,9 +137,42 @@ export default function Login({ navigation }) {
     }
   };
 
-  const handleSignInWithGoogle = async () => {
-    alert("Google Sign In is disabled.");
+  const handleAppleLogin = async () => {
+    try {
+      const credentials = await handleSignInWithApple();
+      const identityToken = parseJwt(credentials?.identityToken);
+      console.log("identityToken", identityToken);
+      const { email: username, sub: password } = identityToken;
+      const {
+        data: { data },
+      } = await axios.post("/auth/login", {
+        username,
+        password,
+      });
+
+      if (data.isVerified) {
+        login(data);
+        mixpanel.track("Login", data);
+
+        // Reset Stack Navigation
+        navigation.dispatch(
+          CommonActions.reset({
+            routes: [{ name: "App" }],
+          })
+        );
+      } else {
+        navigation.navigate("OTP", {
+          type: "email",
+          value: data.email,
+          userId: data._id,
+          data,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
+
 
   const fetchUserFromAsyncStorage = async () => {
     const serializedUser = await AsyncStorage.getItem("@zenbase_user");
@@ -219,7 +285,11 @@ export default function Login({ navigation }) {
         )}
 
         <Button
-          onPress={handleSignInWithGoogle}
+          onPress={() => {
+            promptAsync();
+          }}
+          //  onPress={promptAsync}
+          // onPress={handleSignInWithGoogle}
           variant="secondary"
           block
           borderRadius="10"
