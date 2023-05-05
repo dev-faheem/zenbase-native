@@ -13,6 +13,7 @@ axios.handleError = (error) => {
 };
 
 axios.interceptors.request.use((request) => {
+  console.log(config.LEGACY_API_URL,request.url,'urll')
   console.log(
     `Request: ${request.method?.toUpperCase()} ${request.url} ${
       JSON.stringify(request.data, null, 2) || ""

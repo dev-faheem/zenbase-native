@@ -94,6 +94,7 @@ export default function OneTimePassword({ route, navigation }) {
   };
 
   const validateOTP = async () => {
+    console.warn(userId);
     try {
       const { data } = await axios.post("/auth/validate-otp", {
         otp: otp.join(""),
@@ -110,6 +111,7 @@ export default function OneTimePassword({ route, navigation }) {
       }
     } catch (e) {
       axios.handleError(e);
+      console.log("error", e, e?.response?.data?.error);
     }
   };
 

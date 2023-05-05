@@ -17,6 +17,10 @@ import GoogleIcon from "assets/vectors/google.png";
 import { handleSignInWithApple } from "helpers/auth-apple";
 import mixpanel from "services/mixpanel";
 
+//
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+
 // Styled Component
 const Header = styled.View`
   width: 100%;
@@ -129,6 +133,16 @@ export default function Register({ navigation }) {
   const [provinceValue, setProvinceValue] = useState("");
 
   const passwordInput = useRef();
+  const [userInfo, setUserInfo] = useState(null);
+  const [accessToken, setAccessToken] = useState("");
+
+  WebBrowser.maybeCompleteAuthSession();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: "398987133540-s2c7o901p92l2pu54lf56q9pipmjobvd.apps.googleusercontent.com",
+    androidClientId: '398987133540-8hgcjgftnnh12k1ko4qme40ii5k2c4f8.apps.googleusercontent.com',
+    iosClientId: '398987133540-4kvqsipg45p3a7cjbho3hr66alkataui.apps.googleusercontent.com',
+  });
 
   // Countries List
   const countries = [
@@ -232,8 +246,72 @@ export default function Register({ navigation }) {
       }
     }
   };
-  const handleSignUpWithGoogle = () => {
-    alert("Coming Soon");
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      setAccessToken(response.authentication.accessToken);
+      getUserInfo();
+    }
+  }, [response, accessToken]);
+
+  //for get user details from google signIn result
+  const getUserInfo = async () => {
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      const user = await response.json();
+      setUserInfo(user);
+      handleSignUpWithGoogle(user)
+    } catch (error) {
+      // Add your own error handler here
+    }
+  };
+
+  // for google signIn
+  const handleSignUpWithGoogle = async (user) => {
+    try {
+      console.warn("user==========", user)
+
+      const {
+        data: { data },
+      } = await axios.post("/auth/register", {
+        // phone: "1234567899",
+        password:user?.id,
+        email: user?.email,
+        google_user_id: user?.id,
+        name: user?.name
+        // password,
+        // country,
+        // state,
+        // device_id,
+
+      });
+      console.warn(data)
+      if (data.isVerified) {
+        login(data);
+        mixpanel.track("Login", data);
+
+        // Reset Stack Navigation
+        navigation.dispatch(
+          CommonActions.reset({
+            routes: [{ name: "App" }],
+          })
+        );
+      } else {
+        navigation.navigate("OTP", {
+          type: "email",
+          value: data.email,
+          userId: data._id,
+          data,
+        });
+      }
+    } catch (e) {
+      console.log("error", e, e?.response?.data?.error);
+    }
   };
   const handleSignUpWithApple = async () => {
     const credentials = await handleSignInWithApple();
@@ -464,8 +542,9 @@ export default function Register({ navigation }) {
               />
             )}
             <Button
-              onPress={handleSignUpWithGoogle}
-              variant="secondary"
+              onPress={() => {
+                promptAsync();
+              }} variant="secondary"
               block
               borderRadius="10"
               height="55"
