@@ -20,6 +20,9 @@ import mixpanel from "services/mixpanel";
 //
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
 
 // Styled Component
 const Header = styled.View`
@@ -131,19 +134,15 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState("");
   const [countryValue, setCountryValue] = useState("");
   const [provinceValue, setProvinceValue] = useState("");
-
   const passwordInput = useRef();
   const [userInfo, setUserInfo] = useState(null);
   const [accessToken, setAccessToken] = useState("");
-
   WebBrowser.maybeCompleteAuthSession();
-
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: "398987133540-s2c7o901p92l2pu54lf56q9pipmjobvd.apps.googleusercontent.com",
     androidClientId: '398987133540-8hgcjgftnnh12k1ko4qme40ii5k2c4f8.apps.googleusercontent.com',
     iosClientId: '398987133540-4kvqsipg45p3a7cjbho3hr66alkataui.apps.googleusercontent.com',
   });
-
   // Countries List
   const countries = [
     {
@@ -160,14 +159,11 @@ export default function Register({ navigation }) {
       })
       .filter((obj) => obj.value != "US"),
   ];
-
   const [provincesList, setProvincesList] = useState([]);
-
   // Input Handler
   const updateInput = (setState, value) => {
     setState(value);
   };
-
   const validateEmail = (email) => {
     const re =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -189,35 +185,27 @@ export default function Register({ navigation }) {
       setErrorMessage("");
     }
   };
-
   function parseJwt(token) {
     return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
   }
-
   const handleRegister = async () => {
     setIsEmailError(false);
     setIsPasswordError(false);
-
     const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
-
     let errorMessage = "";
     if (trimmedEmail == "") {
       setIsEmailError(true);
       errorMessage = "Please provide a valid email.";
     }
-
     if (trimmedPassword == "") {
       setIsPasswordError(true);
       errorMessage = "Please provide a valid password.";
     }
-
     if (trimmedEmail == "" && trimmedPassword == "") {
       errorMessage = "Please provide a valid email and password.";
     }
-
     setErrorMessage(errorMessage);
-
     if (errorMessage == "") {
       // Good to go for signup
       try {
@@ -230,9 +218,10 @@ export default function Register({ navigation }) {
           country: countryValue,
           state: provinceValue,
         });
+        console.warn('dddd',data.token)
+        await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
 
         let value = email;
-
         navigation.navigate("OTP", {
           type: "email",
           value,
@@ -246,14 +235,12 @@ export default function Register({ navigation }) {
       }
     }
   };
-
   useEffect(() => {
     if (response?.type === "success") {
       setAccessToken(response.authentication.accessToken);
       getUserInfo();
     }
   }, [response, accessToken]);
-
   //for get user details from google signIn result
   const getUserInfo = async () => {
     try {
@@ -270,12 +257,9 @@ export default function Register({ navigation }) {
       // Add your own error handler here
     }
   };
-
   // for google signIn
   const handleSignUpWithGoogle = async (user) => {
     try {
-      console.warn("user==========", user)
-
       const {
         data: { data },
       } = await axios.post("/auth/register", {
@@ -288,13 +272,13 @@ export default function Register({ navigation }) {
         // country,
         // state,
         // device_id,
-
       });
-      console.warn(data)
+      console.warn('dddd',data.token)
+      await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
+
       if (data.isVerified) {
         login(data);
         mixpanel.track("Login", data);
-
         // Reset Stack Navigation
         navigation.dispatch(
           CommonActions.reset({
@@ -331,6 +315,8 @@ export default function Register({ navigation }) {
         state: provinceValue,
         apple_user_id: credentials.user,
       });
+      console.warn('dddd',data.token)
+      await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
 
       mixpanel.track("Register", data);
 
@@ -348,7 +334,6 @@ export default function Register({ navigation }) {
       console.log("error", e, e?.response?.data?.error);
     }
   };
-
   return (
     <Canvas>
       <Header>
@@ -401,7 +386,6 @@ export default function Register({ navigation }) {
               }
             }}
           />
-
           <Text style={{ marginTop: 15 }}>Password</Text>
           <TextInput
             StyledComponent={Input}
@@ -425,14 +409,12 @@ export default function Register({ navigation }) {
             value={password}
             ref={passwordInput}
           />
-
           <TextFlex style={{ marginTop: 15 }}>
             <Text>Country</Text>
             <Text color="description" style={{ marginLeft: 8 }}>
               Optional
             </Text>
           </TextFlex>
-
           <Dropdown
             {...DropdownProps}
             data={countries}
@@ -460,7 +442,6 @@ export default function Register({ navigation }) {
               }
             }}
           />
-
           <TextFlex style={{ marginTop: 15 }}>
             <Text>State/Province</Text>
             <Text color="description" style={{ marginLeft: 8 }}>
@@ -482,7 +463,6 @@ export default function Register({ navigation }) {
             }}
           />
         </InputWrapper>
-
         <InputWrapper
           style={{
             flexDirection: "row",
@@ -495,7 +475,6 @@ export default function Register({ navigation }) {
         >
           <Text fontWeight="600">{Boolean(errorMessage) && errorMessage} </Text>
         </InputWrapper>
-
         <Button
           variant={"primary"}
           title="Sign up"
@@ -526,7 +505,7 @@ export default function Register({ navigation }) {
                 image={
                   <Image
                     source={AppleIcon}
-                    resizeMode=""
+                    resizeMode="contain"
                     style={{
                       width: 14.17,
                       height: 17,
@@ -558,7 +537,7 @@ export default function Register({ navigation }) {
               image={
                 <Image
                   source={GoogleIcon}
-                  resizeMode=""
+                  resizeMode='contain'
                   style={{
                     width: 17,
                     height: 17,
