@@ -7,7 +7,6 @@ import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import axios from "services/axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "stores/auth";
-
 // Styled Component
 const Header = styled.View`
   width: 100%;
@@ -17,14 +16,12 @@ const Header = styled.View`
   padding-left: 12px;
   margin-bottom: 12px;
 `;
-
 const InputWrapper = styled.View`
   width: 100%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
-
 const Input = styled.TextInput`
   width: 45px;
   font-size: 24px;
@@ -37,12 +34,10 @@ const Input = styled.TextInput`
   margin-left: 5px;
   margin-right: 5px;
 `;
-
 const FooterWrapper = styled.View`
   width: 100%;
   height: 120px;
 `;
-
 const FooterFlex = styled.View`
   flex: 1;
   width: 100%;
@@ -50,26 +45,20 @@ const FooterFlex = styled.View`
   justify-content: flex-start;
   align-items: center;
 `;
-
 const TextFlex = styled.View`
   flex-direction: row;
   justify-content: flex-start;
 `;
-
 export default function OneTimePassword({ route, navigation }) {
   const { theme } = useTheme();
   const { login } = useAuth();
-
   // Params
   const { type, value, userId, data: originalRegisterData, isForChangePassword } = route.params;
-
   // Refs
   const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
-
   // States
   const [isNextEnabled, setIsNextEnabled] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-
   useEffect(() => {
     if (otp.join("").length == 6) {
       setIsNextEnabled(true);
@@ -83,7 +72,6 @@ export default function OneTimePassword({ route, navigation }) {
       generateOTP();
     }
   }, []);
-
   const generateOTP = () => {
     axios.post("/auth/generate-otp", {
       headers: {
@@ -92,14 +80,13 @@ export default function OneTimePassword({ route, navigation }) {
       username: value,
     });
   };
-
   const validateOTP = async () => {
+    console.warn(userId);
     try {
       const { data } = await axios.post("/auth/validate-otp", {
         otp: otp.join(""),
         userId,
       });
-
       if (!isForChangePassword) {
         login(originalRegisterData);
         navigation.navigate("Rewards");
@@ -110,9 +97,9 @@ export default function OneTimePassword({ route, navigation }) {
       }
     } catch (e) {
       axios.handleError(e);
+      console.log("error", e, e?.response?.data?.error);
     }
   };
-
   return (
     <Canvas>
       <Header>
@@ -162,7 +149,6 @@ export default function OneTimePassword({ route, navigation }) {
                 if (value !== "") {
                   inputRefs[1].current.focus();
                 }
-
                 const updatedOtp = [...otp];
                 updatedOtp[0] = `${value}`;
                 setOtp(updatedOtp);
@@ -184,7 +170,6 @@ export default function OneTimePassword({ route, navigation }) {
                 if (value !== "") {
                   inputRefs[2].current.focus();
                 }
-
                 const updatedOtp = [...otp];
                 updatedOtp[1] = `${value}`;
                 setOtp(updatedOtp);
@@ -238,7 +223,6 @@ export default function OneTimePassword({ route, navigation }) {
                 if (value !== "") {
                   inputRefs[4].current.focus();
                 }
-
                 const updatedOtp = [...otp];
                 updatedOtp[3] = `${value}`;
                 setOtp(updatedOtp);
@@ -265,7 +249,6 @@ export default function OneTimePassword({ route, navigation }) {
                 if (value !== "") {
                   inputRefs[5].current.focus();
                 }
-
                 const updatedOtp = [...otp];
                 updatedOtp[4] = `${value}`;
                 setOtp(updatedOtp);
@@ -306,7 +289,6 @@ export default function OneTimePassword({ route, navigation }) {
             />
           </InputWrapper>
         </Container>
-
         <FooterWrapper>
           <Container style={{ flex: 1 }}>
             <FooterFlex>
@@ -324,7 +306,6 @@ export default function OneTimePassword({ route, navigation }) {
                   </Text>
                 </TouchableOpacity>
               </TextFlex>
-
               <Button
                 variant={isNextEnabled ? "primary" : "disabled"}
                 title="Next"

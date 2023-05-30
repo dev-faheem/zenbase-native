@@ -70,9 +70,9 @@ export default function Login({ navigation }) {
   const [isAppReady, setIsAppReady] = useState(false);
   const [accessToken, setAccessToken] = useState("");
   const [userInfo, setUserInfo] = useState(null);
-
+  WebBrowser.maybeCompleteAuthSession();
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "398987133540-rqb6asm0bk0gbr1o2u67gbrtjeeddrhp.apps.googleusercontent.com",
+    expoClientId: "398987133540-s2c7o901p92l2pu54lf56q9pipmjobvd.apps.googleusercontent.com",
     androidClientId: '398987133540-8hgcjgftnnh12k1ko4qme40ii5k2c4f8.apps.googleusercontent.com',
     iosClientId: '398987133540-4kvqsipg45p3a7cjbho3hr66alkataui.apps.googleusercontent.com',
   });
@@ -82,7 +82,6 @@ export default function Login({ navigation }) {
       getUserInfo();
     }
   }, [response, accessToken]);
-
   //for get user details from google signIn result
   const getUserInfo = async () => {
     try {
@@ -93,31 +92,25 @@ export default function Login({ navigation }) {
         }
       );
       const user = await response.json();
-      handleSignInWithGoogle(user)
       setUserInfo(user);
+      handleSignInWithGoogle(user)
     } catch (error) {
       // Add your own error handler here
     }
   };
-
   // for google signIn
-  WebBrowser.maybeCompleteAuthSession();
   const handleSignInWithGoogle = async (user) => {
     try {
-      console.log("user==========", user)
-      const { email: username, id: password } = user;
-
+      console.warn("user==========", user)
       const {
         data: { data },
       } = await axios.post("/auth/login", {
-        username,
-        password,
+        username: user?.email,
+        password: user?.id,
       });
-
       if (data.isVerified) {
         login(data);
         mixpanel.track("Login", data);
-
         // Reset Stack Navigation
         navigation.dispatch(
           CommonActions.reset({
@@ -133,10 +126,9 @@ export default function Login({ navigation }) {
         });
       }
     } catch (e) {
-      console.error(e);
+      console.log("error", e, e?.response?.data?.error);
     }
   };
-
   const handleAppleLogin = async () => {
     try {
       const credentials = await handleSignInWithApple();
@@ -172,18 +164,14 @@ export default function Login({ navigation }) {
       console.error(e);
     }
   };
-
-
   const fetchUserFromAsyncStorage = async () => {
     const serializedUser = await AsyncStorage.getItem("@zenbase_user");
     if (serializedUser !== null) {
       const _user = JSON.parse(serializedUser);
       console.log(`User found in AsyncStorage ${_user.name}`);
-
       try {
         const decoded = _user.token.split(".")[1];
         const jwt = JSON.parse(Buffer.from(decoded, "base64").toString("utf-8"));
-
         if (Date.now() >= jwt?.exp * 1000) {
           console.log(`AsyncStorage Token is expired`);
           await AsyncStorage.removeItem("@zenbase_user");
@@ -193,7 +181,6 @@ export default function Login({ navigation }) {
         console.error(e);
         return;
       }
-
       mixpanel.track("Auto Login", _user);
       await login(_user);
       await refresh();
@@ -206,7 +193,6 @@ export default function Login({ navigation }) {
       throw new Error("User data not found in Async Storage");
     }
   };
-
   useEffect(() => {
     (async () => {
       mixpanel.screen("Prelogin");
@@ -223,11 +209,9 @@ export default function Login({ navigation }) {
       }
     })();
   }, []);
-
   if (!isAppReady) {
     return <SplashScreen />;
   }
-
   return (
     <Canvas>
       <Container
@@ -250,7 +234,6 @@ export default function Login({ navigation }) {
             },
           }}
         />
-
         {Platform.OS == "ios" && (
           <Button
             onPress={handleAppleLogin}
@@ -283,7 +266,6 @@ export default function Login({ navigation }) {
             }}
           />
         )}
-
         <Button
           onPress={() => {
             promptAsync();
@@ -317,7 +299,6 @@ export default function Login({ navigation }) {
             marginBottom: 5.5,
           }}
         />
-
         <BottomView>
           <Image source={ZentbaseVectorWhite} style={{ width: 32, height: 32, marginBottom: 10 }} />
           <Text numberOfLines={1} adjustsFontSizeToFit fontSize="32" fontWeight="bold">

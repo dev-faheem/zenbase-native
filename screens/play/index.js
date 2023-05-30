@@ -436,7 +436,7 @@ export default function Play({ navigation }) {
   const playSong = async (data) => {
     try {
       await audio.unloadAsync();
-      await audio.loadAsync({ uri: data?.source });
+      await audio.loadAsync({uri:data.source});
       await audio.playAsync();
       await audio.setVolumeAsync(previousVolumeRef.current);
 
@@ -453,7 +453,8 @@ export default function Play({ navigation }) {
 
       setIsPlaying(true);
     } catch (e) {
-      alert("Something went wrong!");
+      console.warn(e);
+      alert("Error playing sound!!");
       navigation.goBack();
     }
   };

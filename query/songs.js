@@ -17,7 +17,7 @@ export const getQueryParameters = (props) => {
 
 export const fetchCategory = async (props) => {
   const params = getQueryParameters({ ...props, limit: 16 });
-  const url = `/legacy/songs/category-name/${props.query}?${params}`;
+  const url = `/songs/category-name/${props.query}?${params}`;
   const response = await api.get(url);
   return response?.result;
 };
@@ -26,12 +26,13 @@ export const fetchSection = async (props) => {
   const params = getQueryParameters(props);
   const url = `/songs/section/${props.query}?${params}`;
   const response = await api.get(url);
+  console.warn('responseresponse',response)
   return response?.result;
 };
 
 export const fetchSearch = async (props) => {
   const params = getQueryParameters({ ...props, limit: 16 });
-  const url = `/legacy/songs?${params}`;
+  const url = `/songs?${params}`;
   const response = await api.get(url);
   return response.result;
 };
@@ -43,7 +44,7 @@ export const fetchTimer = async (props) => {
     timeEnd: (props.query + 3) * 60,
     limit: 16,
   });
-  const url = `/legacy/songs?${params}`;
+  const url = `/songs?${params}`;
   const response = await api.get(url);
   return response.result;
 };

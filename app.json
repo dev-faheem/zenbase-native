@@ -2,8 +2,7 @@
   "expo": {
     "name": "Zenbase",
     "slug": "zenbase",
-    "owner": "zenbaseus",
-    "version": "2.0.0",
+    "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "zenbase",
@@ -13,6 +12,12 @@
       "backgroundColor": "#000000"
     },
     "plugins": [
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ],
       [
         "expo-ads-admob",
         {
@@ -37,21 +42,32 @@
           "color": "#ffffff"
         }
       ],
-      ["expo-apple-authentication"]
+      [
+        "expo-apple-authentication"
+      ]
     ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "us.zenbase.native",
-      "buildNumber": "0.4.0",
+      "buildNumber": "0.5.1",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2423909336067009~1752802852"
       },
       "infoPlist": {
-        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
+        "NSMicrophoneUsageDescription": "This app requires microphone access for audio playback.",
+        "NSCameraUsageDescription": "This app requires camera access for video playback.",
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
+        "SKAdNetworkItems": [
+          {
+            "SKAdNetworkIdentifier": "cstr6suwn9.skadnetwork"
+          }
+        ]
       }
     },
     "android": {
@@ -63,13 +79,26 @@
       },
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2423909336067009/1752802852"
-      }
+      },
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "CAMERA",
+        "RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "androidNavigationBar": {
       "backgroundColor": "#1B1C1E"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "576befda-4826-4853-adba-6a34414059bd"
+      }
     }
   }
 }
