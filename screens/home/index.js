@@ -275,7 +275,8 @@ export default function Home({ navigation, route }) {
           </Container>
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
-            ?.map((section) =>
+            ?.map((section) =>{
+              console.warn(section.songs)
               section.songs.length > 0 ? (
                 <SongList
                   categories={data?.categories?.filter((cat) => cat.isPodcast)}
@@ -286,7 +287,7 @@ export default function Home({ navigation, route }) {
               ) : (
                 <></>
               )
-            )}
+            })}
         </>
       ),
     },

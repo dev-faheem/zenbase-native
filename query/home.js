@@ -11,7 +11,7 @@ export const useQueryHomepage = () => {
 
 export const fetchHomepage = async () => {
   const response = await api.get("/songs/home");
-  console.warn(response);
+  console.warn("hanif",response);
   response.result?.categories?.map(prefetchCategoryArtwork);
   response.result?.meditation?.map((section) => section?.songs?.map(prefetchSongArtwork));
   response.result?.podcast?.map((section) => section?.songs?.map(prefetchSongArtwork));
