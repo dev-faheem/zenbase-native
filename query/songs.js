@@ -26,7 +26,6 @@ export const fetchSection = async (props) => {
   const params = getQueryParameters(props);
   const url = `/songs/section/${props.query}?${params}`;
   const response = await api.get(url);
-  console.warn('responseresponse',response)
   return response?.result;
 };
 

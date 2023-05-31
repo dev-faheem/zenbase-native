@@ -24,7 +24,7 @@ const cards = [
     name: "Daily Meditation",
     image: CardImage4,
     duration: "5 min",
-    link: "6473cb1092884708b93b929c",
+    link: "64776c4f533305a819e01bb8",
     lableColor: "#3A74A2",
     index: 1,
   },

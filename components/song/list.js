@@ -47,6 +47,8 @@ export default function SongList(props) {
 
   const songsData = songs.slice(0, 5);
 
+  console.warn(songsData);
+
   return (
     <Wrapper>
       <Container>

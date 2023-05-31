@@ -101,8 +101,7 @@ export default function Login({ navigation }) {
   // for google signIn
   const handleSignInWithGoogle = async (user) => {
     try {
-      console.warn("user==========", user)
-      const {
+            const {
         data: { data },
       } = await axios.post("/auth/login", {
         username: user?.email,
@@ -129,6 +128,7 @@ export default function Login({ navigation }) {
       console.log("error", e, e?.response?.data?.error);
     }
   };
+
   const handleAppleLogin = async () => {
     try {
       const credentials = await handleSignInWithApple();
@@ -138,8 +138,8 @@ export default function Login({ navigation }) {
       const {
         data: { data },
       } = await axios.post("/auth/login", {
-        username,
-        password,
+        username:identityToken?.email,
+        password:identityToken?.sub,
       });
 
       if (data.isVerified) {
@@ -164,6 +164,7 @@ export default function Login({ navigation }) {
       console.error(e);
     }
   };
+
   const fetchUserFromAsyncStorage = async () => {
     const serializedUser = await AsyncStorage.getItem("@zenbase_user");
     if (serializedUser !== null) {
@@ -193,6 +194,7 @@ export default function Login({ navigation }) {
       throw new Error("User data not found in Async Storage");
     }
   };
+
   useEffect(() => {
     (async () => {
       mixpanel.screen("Prelogin");

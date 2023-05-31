@@ -453,7 +453,6 @@ export default function Play({ navigation }) {
 
       setIsPlaying(true);
     } catch (e) {
-      console.warn(e);
       alert("Error playing sound!!");
       navigation.goBack();
     }

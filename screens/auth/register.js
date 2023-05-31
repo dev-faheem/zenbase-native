@@ -218,7 +218,6 @@ export default function Register({ navigation }) {
           country: countryValue,
           state: provinceValue,
         });
-        console.warn('dddd',data.token)
         await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
 
         let value = email;
@@ -273,7 +272,6 @@ export default function Register({ navigation }) {
         // state,
         // device_id,
       });
-      console.warn('dddd',data.token)
       await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
 
       if (data.isVerified) {
@@ -315,7 +313,6 @@ export default function Register({ navigation }) {
         state: provinceValue,
         apple_user_id: credentials.user,
       });
-      console.warn('dddd',data.token)
       await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
 
       mixpanel.track("Register", data);
