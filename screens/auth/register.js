@@ -21,6 +21,7 @@ import mixpanel from "services/mixpanel";
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { parseJwt as decode } from "helpers/parse-jwt";
 
 
 
@@ -139,9 +140,9 @@ export default function Register({ navigation }) {
   const [accessToken, setAccessToken] = useState("");
   WebBrowser.maybeCompleteAuthSession();
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "398987133540-s2c7o901p92l2pu54lf56q9pipmjobvd.apps.googleusercontent.com",
-    androidClientId: '398987133540-8hgcjgftnnh12k1ko4qme40ii5k2c4f8.apps.googleusercontent.com',
-    iosClientId: '398987133540-4kvqsipg45p3a7cjbho3hr66alkataui.apps.googleusercontent.com',
+    expoClientId: "890282384871-bb608dsee865fjugc9p289htpehio1fq.apps.googleusercontent.com",
+    androidClientId: '890282384871-qmd54ugmigtlj1tkipbb4j060n945ekh.apps.googleusercontent.com',
+    iosClientId: '890282384871-o7tvsr9feoev8tsol5d7o38hemkrbghu.apps.googleusercontent.com',
   });
   // Countries List
   const countries = [
@@ -176,7 +177,7 @@ export default function Register({ navigation }) {
     if (!isValidEmail) {
       setIsEmailError(true);
       setIsPasswordError(false);
-      setErrorMessage("Please provide a valid email.");
+      setErrorMessage("please provide a valid email");
     }
 
     if (email == "" || isValidEmail) {
@@ -286,48 +287,39 @@ export default function Register({ navigation }) {
           })
         );
       } else {
-        navigation.navigate("OTP", {
-          type: "email",
-          value: data.email,
-          userId: data._id,
-          data,
-        });
+        navigation.navigate("Rewards");
       }
     } catch (e) {
       console.log("error", e, e?.response?.data?.error);
     }
   };
   const handleSignUpWithApple = async () => {
+
     const credentials = await handleSignInWithApple();
-    if (!credentials.email) {
+    const identityToken = decode(credentials?.identityToken);
+    if (!identityToken.email) {
       console.error({ credentials });
       return alert("Something went wrong with Apple Sign Up");
     }
-
+    
     try {
       const {
         data: { data },
       } = await axios.post("/auth/register", {
         phone: "",
-        email: credentials.email,
+        email: identityToken.email,
         password: credentials.user,
         country: countryValue,
         state: provinceValue,
         apple_user_id: credentials.user,
       });
-      console.warn('dddd',data.token)
       await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
 
       mixpanel.track("Register", data);
 
-      let value = email;
+      let value = email || identityToken.email;
 
-      navigation.navigate("OTP", {
-        type: "email",
-        value,
-        userId: data._id,
-        data,
-      });
+      navigation.navigate("Rewards");
     } catch (e) {
       setIsEmailError(true);
       setErrorMessage(e?.response?.data?.error);
