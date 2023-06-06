@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { Text } from "components";
 import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useTheme } from "stores/theme";
 import inviteIcon from "assets/icons/invite.png";
 
@@ -10,22 +10,24 @@ export default function InviteFriend(props) {
   const { theme } = useTheme();
 
   return (
-    <Wrapper
-    // onPress={onPress}
-    >
+    <Wrapper>
       <Icon source={inviteIcon} />
       <View>
+        <TouchableOpacity     onPress={onPress}
+>
         <Info>Invite or join friends</Info>
+
         <CoinWrapper>
           <Invites>{label} With Friends</Invites>
 
-          {/* <Ionicons
+          <Ionicons
             name="ios-chevron-forward"
             style={{ marginTop: 1, marginLeft: -5 }}
             size={18}
             color={theme.color.information}
-          /> */}
+          />
         </CoinWrapper>
+        </TouchableOpacity>
       </View>
     </Wrapper>
   );
