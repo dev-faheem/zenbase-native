@@ -17,7 +17,7 @@ export const getQueryParameters = (props) => {
 
 export const fetchCategory = async (props) => {
   const params = getQueryParameters({ ...props, limit: 16 });
-  const url = `/songs/category-name/${props.query}?${params}`;
+  const url = `legacy/songs/category-name/${props.query}?${params}`;
   const response = await api.get(url);
   return response?.result;
 };
@@ -44,7 +44,7 @@ export const fetchTimer = async (props) => {
     timeEnd: (props.query + 3) * 60,
     limit: 16,
   });
-  const url = `/songs?${params}`;
+  const url = `/legacy/songs?${params}`;
   const response = await api.get(url);
   return response.result;
 };
