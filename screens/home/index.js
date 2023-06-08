@@ -294,8 +294,7 @@ export default function Home({ navigation, route }) {
   ];
 
   const activelyListeningCount = useMemo(() => {
-    const randomness = Math.round(10 * Math.random());
-    return 62 + randomness;
+    return data?.peopleListening;
   }, []);
 
   return (

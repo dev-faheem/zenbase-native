@@ -72,9 +72,10 @@ export default function Login({ navigation }) {
   const [userInfo, setUserInfo] = useState(null);
   WebBrowser.maybeCompleteAuthSession();
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "398987133540-s2c7o901p92l2pu54lf56q9pipmjobvd.apps.googleusercontent.com",
-    androidClientId: '398987133540-8hgcjgftnnh12k1ko4qme40ii5k2c4f8.apps.googleusercontent.com',
-    iosClientId: '398987133540-4kvqsipg45p3a7cjbho3hr66alkataui.apps.googleusercontent.com',
+    expoClientId: "890282384871-bb608dsee865fjugc9p289htpehio1fq.apps.googleusercontent.com",
+    androidClientId: '890282384871-qmd54ugmigtlj1tkipbb4j060n945ekh.apps.googleusercontent.com',
+    iosClientId: '890282384871-o7tvsr9feoev8tsol5d7o38hemkrbghu.apps.googleusercontent.com',
+
   });
   useEffect(() => {
     if (response?.type === "success") {
@@ -126,7 +127,7 @@ export default function Login({ navigation }) {
         });
       }
     } catch (e) {
-      console.log("error", e, e?.response?.data?.error);
+      console.log("APierror===>", e, e?.response?.data?.error);
     }
   };
   const handleAppleLogin = async () => {
@@ -141,25 +142,32 @@ export default function Login({ navigation }) {
         username,
         password,
       });
+      login(data);
+      navigation.dispatch(
+            CommonActions.reset({
+              routes: [{ name: "App" }],
+            })
+          );
 
-      if (data.isVerified) {
-        login(data);
-        mixpanel.track("Login", data);
 
-        // Reset Stack Navigation
-        navigation.dispatch(
-          CommonActions.reset({
-            routes: [{ name: "App" }],
-          })
-        );
-      } else {
-        navigation.navigate("OTP", {
-          type: "email",
-          value: data.email,
-          userId: data._id,
-          data,
-        });
-      }
+      // if (data.isVerified) {
+      //   login(data);
+      //   mixpanel.track("Login", data);
+
+      //   // Reset Stack Navigation
+      //   navigation.dispatch(
+      //     CommonActions.reset({
+      //       routes: [{ name: "App" }],
+      //     })
+      //   );
+      // } else {
+      //   navigation.navigate("OTP", {
+      //     type: "email",
+      //     value: data.email,
+      //     userId: data._id,
+      //     data,
+      //   });
+      // }
     } catch (e) {
       console.error(e);
     }
