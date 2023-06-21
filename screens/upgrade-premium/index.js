@@ -104,9 +104,8 @@ export default function UpgradePremium({
       }
 
       // Fetch Client Secret from Server
-
-      const response = await axios.post("/stripe");
-
+      const response = await axios.post("/legacy/stripe");
+            
       const clientSecret = response.data.data.clientSecret;
 
       const { error: confirmError } = await confirmApplePayPayment(clientSecret);
@@ -132,7 +131,7 @@ export default function UpgradePremium({
         premium: true,
       });
 
-      updateUserLocal("isPremium", true);
+      updateUserLocal("isPremium", false);
 
       navigation.goBack();
       navigation.navigate("UpgradePremiumSuccessfully");

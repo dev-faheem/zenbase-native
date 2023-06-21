@@ -275,6 +275,7 @@ export default function Register({ navigation }) {
         // device_id,
       });
       console.warn('dddd',data.token)
+       axios.defaults.headers.common['Authorization'] = data.token;
       await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
 
       if (data.isVerified) {
@@ -314,7 +315,7 @@ export default function Register({ navigation }) {
         apple_user_id: credentials.user,
       });
       await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
-
+      axios.defaults.headers.common['Authorization'] = data.token;
       mixpanel.track("Register", data);
 
       let value = email || identityToken.email;
