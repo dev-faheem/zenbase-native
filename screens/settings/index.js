@@ -92,8 +92,12 @@ export default function Settings({ route }) {
   // }, [autoRenew]);
 
   const inviteFriend = (message) => {
+    const username = user?.username; // Retrieve the username
+    // Replace the name placeholder with the username in the invitation message
+    const modifiedMessage = message.replace('{name}', username);
+    
     ReactNativeShare(
-      message,
+      modifiedMessage,
       () => {
         // Success
       },
@@ -164,7 +168,7 @@ export default function Settings({ route }) {
                 <TouchableOpacity
                   onPress={() => {
                     inviteFriend(
-                      `${user?.name} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`
+                      `${user?.username} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`
                     );
                   }}
                 >

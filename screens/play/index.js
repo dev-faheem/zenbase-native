@@ -448,6 +448,7 @@ export default function Play({ navigation }) {
         if (status.didJustFinish) {
           stopTokenTimer();
           onPressForwards();
+          navigation.navigate('Journal');
         }
       });
 
@@ -480,6 +481,10 @@ export default function Play({ navigation }) {
       });
     } catch (e) {
       console.error(e);
+    }
+
+    if (position === duration) {
+      navigation.navigate('Journal'); // Replace "SubscriptionPage" with the actual name of your subscription page component
     }
     // } else {
     //   navigation.push("PremiumUpgrade1");
