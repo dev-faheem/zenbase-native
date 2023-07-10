@@ -1,8 +1,9 @@
 import Axios from "axios";
 // import { config.API_URL } from '@env';
 import config from "../config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const axios = Axios;
+const axios = Axios.create();
 
 axios.defaults.baseURL = config.LEGACY_API_URL;
 
@@ -12,24 +13,29 @@ axios.handleError = (error) => {
   }
 };
 
-axios.interceptors.request.use((request) => {
-  console.log(config.LEGACY_API_URL,request.url,'urll')
-  console.log(
-    `Request: ${request.method?.toUpperCase()} ${request.url} ${
-      JSON.stringify(request.data, null, 2) || ""
-    }`,
-    request.headers.authorization
-  );
-  return request;
-});
+axios.interceptors.request.use(async(request) => {
 
-axios.interceptors.response.use((response) => {
-  // console.log("Response:", JSON.stringify(response, null, 2));
-  console.log("Axios Response", {
-    url: `${response.request._method} ${response.request._url}`,
-    data: response.data?.data || response.data,
-    code: response.status,
-  });
+  const token= await AsyncStorage.getItem('authToken');
+  console.log('REQUEST MIDDLEWARE')
+  console.log("TOKEN",token);
+  if(token){
+    console.log("SETTING TOKEN",token);
+    request.headers['Authorization'] =token;
+  }
+  return request;
+},
+(error)=>{
+  console.log('errrrrr',error)
+  Promise.reject(error)
+}
+);
+
+axios.interceptors.response.use(async(response) => {
+  if(response?.data?.data?.token){
+    await AsyncStorage.setItem('authToken',response?.data?.data?.token)
+  }
+  console.log("RESPONSE MIDDLEWARE");
+ console.log("TOKEN",response?.data?.data?.token);
   return response;
 });
 
