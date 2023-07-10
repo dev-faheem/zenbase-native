@@ -11,6 +11,8 @@ import { Dropdown } from "react-native-element-dropdown";
 import * as AppleAuthentication from "expo-apple-authentication";
 import * as Linking from "expo-linking";
 
+import { useAuth } from "../../stores/auth";
+
 // Import Images
 import AppleIcon from "assets/vectors/apple.png";
 import GoogleIcon from "assets/vectors/google.png";
@@ -86,7 +88,7 @@ const TextFlex = styled.View`
 export default function Register({ navigation }) {
   const { theme } = useTheme();
   const [isAppleAuthAvailable, setIsAppleAuthAvailable] = useState(false);
-
+  const { setUser } = useAuth();
   useEffect(async () => {
     const _isAppleAuthAvailable = await AppleAuthentication.isAvailableAsync();
     setIsAppleAuthAvailable(_isAppleAuthAvailable);
@@ -220,7 +222,8 @@ export default function Register({ navigation }) {
           state: provinceValue,
         });
         console.warn('dddd',data.token)
-        await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
+        setUser(data)
+        await AsyncStorage.setItem("authToken",data.token);
 
         let value = email;
         navigation.navigate("OTP", {
@@ -274,10 +277,12 @@ export default function Register({ navigation }) {
         // state,
         // device_id,
       });
-      console.warn('dddd',data.token)
-       axios.defaults.headers.common['Authorization'] = data.token;
-      await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
+     
+      setUser(data)
+      
+             await AsyncStorage.setItem("authToken",data.token);
 
+ 
       if (data.isVerified) {
         login(data);
         mixpanel.track("Login", data);
@@ -314,8 +319,13 @@ export default function Register({ navigation }) {
         state: provinceValue,
         apple_user_id: credentials.user,
       });
-      await AsyncStorage.setItem("authToken", JSON.stringify(data.token));
-      axios.defaults.headers.common['Authorization'] = data.token;
+
+    
+      setUser(data)
+      await AsyncStorage.setItem("authToken", data.token);
+    
+
+      
       mixpanel.track("Register", data);
 
       let value = email || identityToken.email;
