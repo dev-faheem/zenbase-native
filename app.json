@@ -71,7 +71,7 @@
       }
     },
     "android": {
-      "package": "us.zenbase.native",
+      "package": "us.zenbase.meditation",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
