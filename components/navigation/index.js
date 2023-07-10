@@ -131,6 +131,7 @@ export default function Navigation() {
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />
             <Stack.Screen name="JournalEntry" component={JournalEntry} />
             <Stack.Screen name="DeleteUser" component={DeleteAccount} />
+            <Stack.Screen name="Play" component={Play} />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
@@ -146,7 +147,8 @@ export default function Navigation() {
             <Stack.Screen name="ZenbaseAds" component={ZenbaseAds} />
             <Stack.Screen name="SearchModal" component={SearchModal} />
             <Stack.Screen name="AddJournal" component={AddJournal} />
-            <Stack.Screen name="Play" component={Play} />
+          
+            {/* <Stack.Screen name="Play" component={Play} /> */}
             <Stack.Screen name="ClaimToWallet" component={ClaimToWallet} />
             <Stack.Screen name="EnableNotification" component={EnableNotification} />
             <Stack.Screen name="TotalEarnings" component={TotalEarnings} />
