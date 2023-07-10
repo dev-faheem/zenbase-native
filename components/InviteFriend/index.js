@@ -4,16 +4,42 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, View } from "react-native";
 import { useTheme } from "stores/theme";
 import inviteIcon from "assets/icons/invite.png";
+import { useAuth } from "stores/auth";
+import { ReactNativeShare } from "helpers";
 
 export default function InviteFriend(props) {
   const { label = "", onPress = () => {} } = props;
   const { theme } = useTheme();
+  const { user } = useAuth();
+
+  const onPressNavigateToNextScreen = () => {
+    navigation.navigate("PremiumTrial");
+  };
+
+  const inviteFriend = (message) => {
+    ReactNativeShare(
+      message,
+      onPressNavigateToNextScreen,
+      () => {
+        // Dismissed
+      },
+      (err) => {
+        // Error
+      }
+    );
+  };
+
+
 
   return (
     <Wrapper>
       <Icon source={inviteIcon} />
       <View>
-        <TouchableOpacity     onPress={onPress}
+        <TouchableOpacity       onPress={() =>
+                inviteFriend(
+                  `${user?.name} is inviting you to meditate with them. Zenbase is the fastest-growing meditation app with cryptocurrency rewards. \n\nJoin Here: https://apps.apple.com/in/app/zenbase-meditate-to-earn/id1619530022`
+                )
+              }
 >
         <Info>Invite or join friends</Info>
 
