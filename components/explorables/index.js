@@ -15,7 +15,8 @@ const cards = [
     name: "Introduction to Meditation",
     image: CardImage5,
     duration: "10 min",
-    link: "6473cb1092884708b93b929c",
+    link: "64a427c0d2d7e154414277c5",
+
     lableColor: "#6F39C6",
     background: CardBackgroung5,
     index: 0,
@@ -24,7 +25,7 @@ const cards = [
     name: "Daily Meditation",
     image: CardImage4,
     duration: "5 min",
-    link: "6473cb1092884708b93b929c",
+    link: "64a42ca1d2d7e154414278e8",
     lableColor: "#3A74A2",
     index: 1,
   },
@@ -32,7 +33,7 @@ const cards = [
     name: "Morning Gratitude",
     image: CardImage3,
     duration: "5 min",
-    link: "6473f270533305a819df8350",
+    link: "64a42d33d2d7e15441427a74",
     lableColor: "#C96971",
     index: 2,
   },
@@ -40,7 +41,7 @@ const cards = [
     name: "Deep Sleep",
     image: CardImage2,
     duration: "5 min",
-    link: "6473cb1092884708b93b929c",
+    link: "64a42dd9d2d7e15441427a7d",
     lableColor: "#B89726",
     index: 3,
   },
@@ -48,7 +49,7 @@ const cards = [
     name: "Guided Meditation",
     image: CardImage1,
     duration: "5 min",
-    link: "6473cb1092884708b93b929c",
+    link: "64a42e22d2d7e15441427a86",
     lableColor: "#0096A0",
     index: 4,
   },
@@ -127,3 +128,5 @@ export default function Explorables() {
     </>
   );
 }
+
+
