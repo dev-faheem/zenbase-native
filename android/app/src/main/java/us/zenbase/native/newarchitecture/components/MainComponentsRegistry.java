@@ -1,4 +1,4 @@
-package us.zenbase.meditation.newarchitecture.components;
+package us.zenbase.native.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

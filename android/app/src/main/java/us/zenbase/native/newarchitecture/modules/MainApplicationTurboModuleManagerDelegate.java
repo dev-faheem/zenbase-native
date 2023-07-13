@@ -1,4 +1,4 @@
-package us.zenbase.meditation.newarchitecture.modules;
+package us.zenbase.native.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

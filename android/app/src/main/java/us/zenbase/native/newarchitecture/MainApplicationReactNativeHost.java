@@ -1,4 +1,4 @@
-package us.zenbase.meditation.newarchitecture;
+package us.zenbase.native.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import us.zenbase.meditation.BuildConfig;
-import us.zenbase.meditation.newarchitecture.components.MainComponentsRegistry;
-import us.zenbase.meditation.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import us.zenbase.native.BuildConfig;
+import us.zenbase.native.newarchitecture.components.MainComponentsRegistry;
+import us.zenbase.native.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
