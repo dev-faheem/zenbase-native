@@ -46,7 +46,7 @@
     "expo-linking": "~3.3.0",
     "expo-modules-core": "~1.0.4 || ~1.1.1",
     "expo-notifications": "~0.17.0",
-    "expo-random": "^13.1.1",
+    "expo-random": "~13.0.0",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "expo-tracking-transparency": "~3.0.1",

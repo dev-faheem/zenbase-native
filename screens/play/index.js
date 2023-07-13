@@ -415,7 +415,7 @@ export default function Play({ navigation }) {
         return;
       }
 
-      navigation.navigate("AddJournal", {
+      navigation.navigate("Journal", {
         song: lastClickedSong,
         zentokens,
         transactTokens,
@@ -435,6 +435,7 @@ export default function Play({ navigation }) {
 
   const playSong = async (data) => {
     try {
+      const lastClickedSong = await getLastClickedSong();
       await audio.unloadAsync();
       await audio.loadAsync({uri:data.source});
       await audio.playAsync();
@@ -444,11 +445,20 @@ export default function Play({ navigation }) {
       audio.setOnPlaybackStatusUpdate((status) => {
         setDuration(status.durationMillis);
         setPosition(status.positionMillis);
-
         if (status.didJustFinish) {
           stopTokenTimer();
           onPressForwards();
-          navigation.navigate('Journal');
+          navigation.navigate('AddJournal',
+          { song: song,
+            zentokens,
+            transactTokens,
+            claimToWalletProps: JSON.stringify({
+              zentokens,
+              song: lastClickedSong,
+              duration,
+              position,
+            }),}
+          );
         }
       });
 
@@ -473,8 +483,10 @@ export default function Play({ navigation }) {
   };
 
   const onSlidingComplete = async (value) => {
+    const lastClickedSong = await getLastClickedSong();
     // if (user.isPremium) {
     try {
+   
       await audio.setPositionAsync(value, {
         toleranceMillisAfter: value - 1000,
         toleranceMillisBefore: value + 1000,
@@ -484,11 +496,19 @@ export default function Play({ navigation }) {
     }
 
     if (position === duration) {
-      navigation.navigate('Journal'); // Replace "SubscriptionPage" with the actual name of your subscription page component
+      navigation.navigate('AddJournal',
+      { song: song,
+        zentokens,
+        transactTokens,
+        claimToWalletProps: JSON.stringify({
+          zentokens,
+          song: lastClickedSong,
+          duration,
+          position,
+        }),}
+        ); 
     }
-    // } else {
-    //   navigation.push("PremiumUpgrade1");
-    // }
+
   };
 
   const onPressBackwards = async () => {

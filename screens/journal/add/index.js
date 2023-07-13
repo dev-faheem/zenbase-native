@@ -196,7 +196,7 @@ export default function AddJournal({ navigation }) {
         title: journalTitle,
         description: journalDescription,
         emotion,
-        song: song._id,
+        song: song?._id,
         zentValue,
         created: new Date(),
       },
