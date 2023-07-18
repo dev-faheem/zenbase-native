@@ -5,8 +5,8 @@ const config = {
   API_URL: "https://k3ixpfmbv5.us-east-1.awsapprunner.com",
   LEGACY_API_URL: "https://k3ixpfmbv5.us-east-1.awsapprunner.com/legacy/",  
 
-  // API_URL: "http://192.168.3.35:3000",
-  // LEGACY_API_URL: "http://192.168.3.35:3000/legacy/",  
+  // API_URL: "http://192.168.100.33:3000",
+  // LEGACY_API_URL: "http://192.168.100.33:3000/legacy/",  
 
 
 
