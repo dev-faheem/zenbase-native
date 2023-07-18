@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, Container, Canvas, Button } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
-import { TouchableOpacity, Image, Platform } from "react-native";
+import { TouchableOpacity, Image, Platform , Alert} from "react-native";
 import SplashScreen from "screens/splash-screen";
 import { Buffer } from "buffer";
 import * as WebBrowser from 'expo-web-browser';
@@ -22,6 +22,8 @@ import { CommonActions } from "@react-navigation/native";
 import mixpanel from "services/mixpanel";
 import { parseJwt } from "helpers/parse-jwt";
 import axios from "services/axios";
+import Toast from 'react-native-toast-message';
+
 
 // Styled Component
 const ZenbaseLogo = styled.Image`
@@ -65,6 +67,8 @@ const BottomView = styled.View`
 `;
 
 export default function Login({ navigation }) {
+ 
+  const { setUser } = useAuth();
   const { theme } = useTheme();
   const { login, refresh } = useAuth();
   const [isAppReady, setIsAppReady] = useState(false);
@@ -109,6 +113,8 @@ export default function Login({ navigation }) {
         username: user?.email,
         password: user?.id,
       });
+
+      setUser(data)
       if (data.isVerified) {
         login(data);
         mixpanel.track("Login", data);
@@ -127,7 +133,23 @@ export default function Login({ navigation }) {
         });
       }
     } catch (e) {
-      console.log("APierror===>", e, e?.response?.data?.error);
+
+
+      if (e.response && e.response.status === 401) {
+        // User doesn't exist, show a toast message
+        Toast.show({
+          type: 'error',
+          // position: 'center',
+          text1: 'User not found',
+          text2: 'There is no account associated with this Google Account. Please sign up'
+        });
+      } else {
+        // Some other error occurred, handle it as desired
+        console.error(e);
+      }
+
+
+      
     }
   };
   const handleAppleLogin = async () => {
@@ -148,7 +170,7 @@ export default function Login({ navigation }) {
               routes: [{ name: "App" }],
             })
           );
-
+          setUser(data)
 
       // if (data.isVerified) {
       //   login(data);
@@ -169,7 +191,24 @@ export default function Login({ navigation }) {
       //   });
       // }
     } catch (e) {
-      console.error(e);
+
+    
+      if (e.response && e.response.status === 401) {
+      
+        Alert.alert(
+          "User not found",
+          "There is no account associated with this Apple ID. Please sign up with your Apple ID or Google account instead.",
+          [{ text: "OK" }],
+          { cancelable: true }
+        );
+      } else {
+        
+        console.error(e);
+      }
+
+
+
+ 
     }
   };
   const fetchUserFromAsyncStorage = async () => {

@@ -205,7 +205,7 @@ export default function Play({ navigation }) {
   const clickContinueListeningRef = useRef(false);
   const [zentokens, setZentokens] = useState(0);
   const [zentokenMined, setZentokenMined] = useState(0);
-
+const tokens = { value:0}
   // Function to Init continue button animation
   const startProgressBarAnimation = () => {
     setContinueListening(true);
@@ -263,7 +263,8 @@ export default function Play({ navigation }) {
       () => {
         // setAdBonus(adBonus + 1);
         // Giveaway 30 seconds worth of token on an ad play
-        setZentokens(zentoken + 30 * secondsWorth);
+        setZentokens(zentokens + 30 * secondsWorth);
+        tokens.value = zentokens + 30 * secondsWorth
       }
     );
 
@@ -298,6 +299,7 @@ export default function Play({ navigation }) {
         secondsRef.current > GIVEAWAY_TOKEN_AFTER_SECONDS &&
         secondsRef.current < MAX_LISTENING_TIME
       ) {
+        tokens.value = zentokens + 30 * secondsWorth
         setZentokens((oldZentoken) => {
           return (
             oldZentoken + secondsWorth + (user.isPremium ? secondsWorth * 0.1 : 0) // 10% more for premium users
@@ -328,7 +330,7 @@ export default function Play({ navigation }) {
       if (!isClosingTransaction) {
         setZentokenMined(zentokenMined + zentokens);
       }
-      // setZentokens(0);
+      setZentokens();
     } catch (e) {
       console.error(e);
     }
@@ -336,7 +338,7 @@ export default function Play({ navigation }) {
 
   // Fetch and Add To Recents
   useEffect(() => {
-    fetchSong(_id);
+    fetchSong(_id); activateKeepAwake
     addToRecents(_id);
   }, [_id]);
 
@@ -448,12 +450,14 @@ export default function Play({ navigation }) {
         if (status.didJustFinish) {
           stopTokenTimer();
           onPressForwards();
+          console.log('zented',zentokens)
+          console.log('zented',tokens.value)
           navigation.navigate('AddJournal',
           { song: song,
-            zentokens,
+            zentokens:tokens.value,
             transactTokens,
             claimToWalletProps: JSON.stringify({
-              zentokens,
+              zentokens : tokens.value,
               song: lastClickedSong,
               duration,
               position,
@@ -483,6 +487,7 @@ export default function Play({ navigation }) {
   };
 
   const onSlidingComplete = async (value) => {
+    console.log('song completed')
     const lastClickedSong = await getLastClickedSong();
     // if (user.isPremium) {
     try {
@@ -686,6 +691,7 @@ export default function Play({ navigation }) {
                   minimumTrackTintColor="rgba(255, 255, 255, 0.6)"
                   maximumTrackTintColor="rgba(255, 255, 255, 0.1)"
                   onSlidingComplete={onSlidingComplete}
+                  onValueChange={setPosition}
                 />
                 <SongTimingWrapper>
                   <Text style={{ color: "rgba(255, 255, 255, 0.35)" }}>
@@ -863,3 +869,5 @@ export default function Play({ navigation }) {
     </Canvas>
   );
 }
+
+

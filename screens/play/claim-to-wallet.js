@@ -216,7 +216,7 @@ export default function ClaimToWallet({ route, navigation }) {
             horizontal={true}>
 
           </ScrollView> */}
-
+             
           <InfoWrapper>
             <InfoBody>
               <Ionicons name="gift" size={34} style={{ marginBottom: 12 }} color="white" />
@@ -228,6 +228,7 @@ export default function ClaimToWallet({ route, navigation }) {
                   That’s your 100th meditation!
                 </Text>
               )}
+              
             </InfoBody>
             <InfoFooter>
               <Button
@@ -245,3 +246,4 @@ export default function ClaimToWallet({ route, navigation }) {
     </Canvas>
   );
 }
+ 

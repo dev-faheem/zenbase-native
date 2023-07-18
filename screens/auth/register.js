@@ -24,6 +24,7 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { parseJwt as decode } from "helpers/parse-jwt";
+import Toast from 'react-native-toast-message';
 
 
 
@@ -296,6 +297,8 @@ export default function Register({ navigation }) {
         navigation.navigate("Rewards");
       }
     } catch (e) {
+      setIsEmailError(true);
+      setErrorMessage(e?.response?.data?.error);
       console.log("error", e, e?.response?.data?.error);
     }
   };

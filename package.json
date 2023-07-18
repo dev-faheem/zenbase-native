@@ -69,6 +69,7 @@
     "react-native-shadow-2": "^5.1.2",
     "react-native-svg": "13.4.0",
     "react-native-swipe-list-view": "^3.2.9",
+    "react-native-toast-message": "^2.1.6",
     "react-native-web": "~0.18.7",
     "react-timer-hook": "^3.0.5",
     "styled-components": "^5.3.1",

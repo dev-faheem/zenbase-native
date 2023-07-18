@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { Text, Container, Box, SongList, Explorables, NavigationPadding } from "components";
-import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions, Platform } from "react-native";
+import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions, Platform, KeyboardAvoidingView } from "react-native";
 import Constants from "expo-constants";
 import { useTheme } from "stores/theme";
 import styled from "styled-components/native";

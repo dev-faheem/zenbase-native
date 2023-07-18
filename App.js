@@ -10,7 +10,7 @@ import { queryClient, QueryClientProvider } from "query/client";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import config from "./config";
 import { PassiveEarningProvider } from "./stores/passiveEarning";
-
+import Toast from 'react-native-toast-message';
 Notifications.init();
 
 export default function App() {
@@ -29,10 +29,12 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <SongQueueProvider>
+         
             <AuthProvider>
               <PassiveEarningProvider>
                 <LoaderProvider>
                   <Navigation />
+                  <Toast />
                 </LoaderProvider>
               </PassiveEarningProvider>
             </AuthProvider>
