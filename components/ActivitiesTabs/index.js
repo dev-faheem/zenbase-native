@@ -22,7 +22,7 @@ export default function ActivitiesTabs(props) {
               mr={index === tabContent?.length - 1 ? "20px" : "10px"}
             >
               <TabButton active={id === activeTab} onPress={() => setActiveTab(id)}>
-                {icon && <Icon {...icon} />}
+                { <Icon {...icon} />}
                 <Text>{name}</Text>
               </TabButton>
             </Box>
@@ -37,7 +37,7 @@ export default function ActivitiesTabs(props) {
   return (
     <Wrapper>
       <Container>{title && <Title>{title}</Title>}</Container>
-      {renderTabButtons()}
+      {/* {renderTabButtons()} */}
       {currentTab && currentTab?.component}
       {/* {activeTab} */}
     </Wrapper>

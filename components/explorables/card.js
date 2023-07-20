@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { Dimensions } from "react-native";
+import React, { useState } from "react";
+import { Dimensions, ActivityIndicator } from "react-native";
 import styled from "styled-components/native";
 import { Text } from "components";
 
@@ -58,6 +58,8 @@ export default function ExplorableCard({
   lableColor,
 }) {
   const navigation = useNavigation();
+  const [imageLoading, setImageLoading] = useState(true);
+
   return (
     <CardWrapper
       onPress={() => {
@@ -66,7 +68,15 @@ export default function ExplorableCard({
         }
       }}
     >
-      <CardImage source={image} style={[isLast && { marginRight: 15 }]} />
+      {imageLoading && (
+        <ActivityIndicator size="small" color="#0000ff" style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, alignItems: "center", justifyContent: "center" }} />
+      )} 
+      <CardImage
+        source={image}
+        style={[isLast && { marginRight: 15 }]}
+        onLoad={() => setImageLoading(false)}
+        onError={() => setImageLoading(false)}
+      />
       <OverlayWrapper bgColor={lableColor}>
         <Title>{name}</Title>
         <DurationWrapper>

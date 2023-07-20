@@ -1,8 +1,12 @@
 import styled from "styled-components/native";
 import { Text } from "components";
 import ZenbaseWhiteVector from "assets/vectors/zenbase-white.png";
-import { useState, useEffect } from "react";
-import axios from "services/axios";
+
+import { ImageBackground, TouchableOpacity, StyleSheet, View } from "react-native";
+import rectangle from "assets/vectors/Rectangle.png";
+
+
+
 
 const ActivelyListingView = styled.View`
   display: flex;
@@ -21,11 +25,22 @@ export default function ActivelyListing({ count = null }) {
   if (count === null) return null;
 
   return (
-    <ActivelyListingView>
-      <ZenbaseWhiteImage source={ZenbaseWhiteVector} />
-      <Text color="white">
-        {count} {count == 1 ? "person" : "people"} listening
-      </Text>
+
+
+    <ActivelyListingView style={{ alignSelf: 'center',marginTop:'8%'}}>
+      <TouchableOpacity >
+        <ImageBackground source={rectangle} style={{   width:'100%',flexDirection: 'row', padding: '2%', justifyContent: 'center', paddingLeft: 0, paddingRight: 0,alignItems:'center' }}>
+
+        
+          <ZenbaseWhiteImage source={ZenbaseWhiteVector}/>
+          <Text color="white">
+            {count} {count <= 1 ? 'person' : 'people'} Meditating now
+          </Text>
+        
+
+        </ImageBackground>
+      </TouchableOpacity>
     </ActivelyListingView>
+
   );
 }

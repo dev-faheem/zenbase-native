@@ -1,6 +1,6 @@
 // Import Dependencies
 import React, { useState, useEffect } from "react";
-import { Platform, TouchableOpacity, FlatList } from "react-native";
+import { Platform, TouchableOpacity, FlatList,View,ActivityIndicator } from "react-native";
 import { Text, Container, Canvas, SongTile, NavigationPadding, Box } from "components";
 import styled from "styled-components/native";
 import Constants from "expo-constants";
@@ -15,6 +15,7 @@ import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import mixpanel from "services/mixpanel";
 import StackNavigatorTabBar from "../../components/tab-bar/stack-navigator";
+import SongTileImage from "./SongTileImage";
 
 // Styled Component
 const Header = styled.SafeAreaView`
@@ -57,13 +58,9 @@ const ListImage = styled.Image`
   border-radius: ${(props) => props.theme.borderRadius.md};
 `;
 
-export default function SongList({ route, navigation }) {
-  /**
-   * title: Explore
-   * type: category | section | timer
-   * query
-   */
+export default function SongList({ route, navigation,onEndReached  }) {
 
+  const [refreshHeaderZindex, setRefreshHeaderZindex] = useState(0);
   const timeSlots = [
     { time: "1-10", timeStart: 0, timeEnd: 600 },
     { time: "10-20", timeStart: 600, timeEnd: 20 * 60 },
@@ -81,12 +78,13 @@ export default function SongList({ route, navigation }) {
 
   const activeslotIndex = timeSlots.findIndex((d) => d.time === activeslot);
   const timeQueryProps = activeslot !== "" ? { ...timeSlots[activeslotIndex] } : {};
+  const [isLoading, setIsLoading] = useState(true);
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteSearch(type, {
     query,
     ...timeQueryProps,
   });
-
+  
   const songs = data?.pages?.reduce((accumulator, page) => {
     let pageSongs = [];
     if (page && page.results && page.results.length > 0) {
@@ -97,29 +95,27 @@ export default function SongList({ route, navigation }) {
     }
     return [...accumulator, ...pageSongs];
   }, []);
-
+  
   useEffect(() => {
-    mixpanel.track("View Item List", {
-      type,
-      query: {
-        query,
-        ...timeQueryProps,
-      },
-      pages: data?.pages?.length,
-      songs,
-      title,
-    });
+    if (data) setIsLoading(false);
   }, [data]);
-
-  const onEndReached = () => {
-    if (hasNextPage) fetchNextPage();
+  const [imageLoading, setImageLoading] = useState({});
+  const handleImageLoad = (songId) => {
+    setImageLoading((prevState) => ({
+      ...prevState,
+      [songId]: false, // Set the loading status for this song's image to false
+    }));
   };
-
-  const [refreshHeaderZindex, setRefreshHeaderZindex] = useState(0);
-
+  
+  const handleImageError = (songId) => {
+    setImageLoading((prevState) => ({
+      ...prevState,
+      [songId]: false, // Set the loading status for this song's image to false
+    }));
+  };
   return (
     <>
-      <HeaderWrapper intensity={150} tint="dark" z={refreshHeaderZindex}>
+    <HeaderWrapper intensity={150} tint="dark" blurType="dark" style={{ zIndex: refreshHeaderZindex + 2 }}>
         <HeaderButtons>
           <TouchableOpacity
             onPress={() => {
@@ -135,30 +131,33 @@ export default function SongList({ route, navigation }) {
         </Header>
       </HeaderWrapper>
       <Canvas style={{ position: "relative", zIndex: 1 }}>
-        {/* <ScrollView style={{ flex: 1, paddingTop: 10 }} showsVerticalScrollIndicator={false}> */}
+  
         <Container style={{ flex: 1, position: "relative", zIndex: 2 }}>
-          <SongListWrapper>
-            <FlatList
-              style={{
-                paddingTop: 34 + 25,
-                marginBottom: -70,
-
-                // marginTop: -100,
-                // height: Dimensions?.get("window").height - 100,
-                // backgroundColor: "red",
-              }}
-              onScroll={() => setRefreshHeaderZindex((p) => 1 - p)}
-              columnWrapperStyle={{ justifyContent: "space-between" }}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-              numColumns={2}
-              data={songs || []}
-              keyExtractor={(item, index) => index + "_" + item._id}
-              renderItem={({ item, index }) => (
-                <SongTileWrapper>
-                  {/* <Label>
-                    {index} {index % 2}
-                  </Label> */}
+          {isLoading ? (
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center",alignSelf:'center' }}>
+              <ActivityIndicator size="large" color="white" />
+            </View>
+          ) : (
+            <SongListWrapper>
+              <FlatList
+                style={{
+                  paddingTop: 34 + 25,
+                  marginBottom: -70,
+                }}
+                onScroll={() => setRefreshHeaderZindex((p) => 1 - p)}
+                columnWrapperStyle={{ justifyContent: "space-between" }}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                numColumns={2}
+                data={songs || []}
+                keyExtractor={(item, index) => index + "_" + item._id}
+                renderItem={({ item, index }) => (
+                  <SongTileWrapper>
+                  {imageLoading[item._id] && (
+                    <View style={{ }}>
+                      <ActivityIndicator size="large" color="white" />
+                    </View>
+                  )}
                   <SongTile
                     allCategories={categoryData?.categories}
                     style={{ marginBottom: index === songs?.length - 1 ? 160 : 20 }}
@@ -166,25 +165,25 @@ export default function SongList({ route, navigation }) {
                     song={item}
                     queue={item}
                   />
+                  <SongTileImage
+                    source={{ uri: item?.artwork?.url || "" }}
+                    onLoad={() => handleImageLoad(item._id)}
+                    onError={() => handleImageError(item._id)}
+                  />
                 </SongTileWrapper>
-              )}
-              onEndReachedThreshold={0.5}
-              onEndReached={onEndReached}
-            />
-
-            {/* {data?.songs.map((song) => (
-              <SongTile style={{ marginBottom: 20 }} inGrid song={song} queue={songs} />
-            ))} */}
-          </SongListWrapper>
+                )}
+                onEndReachedThreshold={0.5}
+                onEndReached={onEndReached}
+              />
+  
+            </SongListWrapper>
+          )}
         </Container>
         <NavigationPadding />
-        {/* </ScrollView> */}
         <StackNavigatorTabBar style={{ zIndex: 9 }} />
       </Canvas>
     </>
-  );
-}
-
+  );}
 const HeaderWrapper = styled(BlurView)`
   position: absolute;
   z-index: ${({ z = 0 }) => z + 2};

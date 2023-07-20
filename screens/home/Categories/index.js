@@ -1,10 +1,11 @@
-import { FlatList, Dimensions } from "react-native";
+import { FlatList, Dimensions, ActivityIndicator } from "react-native";
 import styled from "styled-components/native";
 import Box from "components/box";
 import config from "services/config";
 import { Container } from "components";
 import { useNavigation } from "@react-navigation/native";
 import mixpanel from "services/mixpanel";
+import { useState } from "react";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const sizeReduce = (WINDOW_WIDTH - 20) / 414;
@@ -12,6 +13,8 @@ const TILE_SIZE = Math.min((WINDOW_WIDTH - 40) * 0.5 - 5, 182);
 
 export default function Categories({ categories, inGrid = false }) {
   const navigation = useNavigation();
+  const [loadingStates, setLoadingStates] = useState({});
+
   const onPress = (category) => {
     const props = {
       type: "category",
@@ -19,7 +22,25 @@ export default function Categories({ categories, inGrid = false }) {
       title: category.name,
     };
     mixpanel.track("Select Item List", props);
+    setLoadingStates((prevState) => ({
+      ...prevState,
+      [category._id]: true,
+    }));
     navigation.navigate("SongList", props);
+  };
+
+  const handleLoadStart = (categoryId) => {
+    setLoadingStates((prevState) => ({
+      ...prevState,
+      [categoryId]: true,
+    }));
+  };
+
+  const handleLoadEnd = (categoryId) => {
+    setLoadingStates((prevState) => ({
+      ...prevState,
+      [categoryId]: false,
+    }));
   };
 
   return (
@@ -40,7 +61,10 @@ export default function Categories({ categories, inGrid = false }) {
                 <ShortcutImage
                   source={{ uri: config.EDGE_IMAGE_PREFIX + item?.artwork }}
                   inGrid={inGrid}
+                  onLoadStart={() => handleLoadStart(item._id)} // set loading state to true when image starts loading
+                  onLoadEnd={() => handleLoadEnd(item._id)} // set loading state to false when image finishes loading
                 />
+                {loadingStates[item._id] && <Loader animating={true} />} 
               </Item>
               <Box ml="0px" mr={inGrid ? "10px" : index === categories?.length - 1 ? 0 : "10px"} />
             </Box>
@@ -61,26 +85,20 @@ const Wrapper = styled.View`
 const Item = styled.TouchableOpacity``;
 
 const ShortcutImage = styled.Image`
-  /*${(props) => {
-    if (props.inGrid) {
-      const size = TILE_SIZE;
-      if (size < 182) {
-        return `
-        width: ${size}px;
-      `;
-      }
-    }
-
-    return `
-    width: 182px;
-  `;
-  }}
-  height: ${(props) => (props.inGrid ? (114 / 182) * TILE_SIZE : "114")}px;*/
-
   width: ${WINDOW_WIDTH < 414 ? 182 * sizeReduce : 182}px;
   height: ${WINDOW_WIDTH < 414 ? 114 * sizeReduce : 114}px;
-  /* width: ${({ theme: { getSize } }) => getSize(182)}px;
-  height:${({ theme: { getSize } }) => getSize(182)}px; */
   border-radius: 8px;
   margin-bottom: 13px;
 `;
+
+const Loader = styled(ActivityIndicator)`
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  
+`;
+
+
+
+
+ 

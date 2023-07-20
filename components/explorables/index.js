@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect} from "react";
 import ExplorableCard from "components/explorables/card";
 import CardImage1 from "assets/images/explorable/card-1.png";
 import CardImage2 from "assets/images/explorable/card-2.png";
@@ -7,7 +7,7 @@ import CardImage4 from "assets/images/explorable/card-4.png";
 import CardImage5 from "assets/images/explorable/start-here.png";
 import CardBackgroung5 from "assets/images/explorable/card-5-bg.png";
 import ExplorableLinearGradient from "assets/images/explorable-gradient.png";
-import { FlatList, Animated, Dimensions } from "react-native";
+import { FlatList, Animated, Dimensions,ActivityIndicator,View } from "react-native";
 import styled from "styled-components/native";
 
 const cards = [
@@ -73,7 +73,7 @@ const BackdropOverlay = styled.Image`
 
 function BackgroundLoader(props) {
   const opacity = useRef(new Animated.Value(0)).current;
-
+ 
   const onLoad = () => {
     Animated.sequence([
       Animated.timing(opacity, { toValue: 0.2, duration: 0, useNativeDriver: true }),
@@ -98,35 +98,50 @@ export default function Explorables() {
     viewAreaCoveragePercentThreshold: 55,
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // simulate a delay to fetch the card data
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
     <>
       <BackgroundLoader
         source={currentBackdrop}
         blurRadius={currentBackdropIndex !== 0 ? 100 : 0}
         style={{
-          height: 400,
+          height: 550,
           position: "absolute",
-          zIndex: -1000,
+          zIndex: -800,
           width: "100%",
         }}
       />
       <BackdropOverlay source={ExplorableLinearGradient} />
-
-      <FlatList
-        horizontal
-        data={cards}
-        style={{ paddingLeft: 15 }}
-        snapToInterval={Dimensions.get("window").width * 0.92 + 10}
-        decelerationRate="fast"
-        showsHorizontalScrollIndicator={false}
-        onViewableItemsChanged={onViewableItemsChangedRef.current}
-        viewabilityConfig={viewabilityConfigRef.current}
-        renderItem={({ item, index }) => (
-          <ExplorableCard key={index} {...item} isLast={index == cards.length - 1} />
-        )}
-      />
+    
+      {isLoading ? (
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      ) : (
+        <FlatList
+          horizontal
+          // data={cards}
+          style={{ paddingLeft: 15 }}
+          snapToInterval={Dimensions.get("window").width * 0.92 + 10}
+          decelerationRate="fast"
+          showsHorizontalScrollIndicator={false}
+          onViewableItemsChanged={onViewableItemsChangedRef.current}
+          viewabilityConfig={viewabilityConfigRef.current}
+          renderItem={({ item, index }) => (
+            <ExplorableCard key={index} {...item} isLast={index == cards.length - 1} />
+          )}
+        />
+      )}
     </>
-  );
-}
+  )}
 
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { Text, Container, Box, SongList, Explorables, NavigationPadding } from "components";
-import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions, Platform, KeyboardAvoidingView } from "react-native";
+import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions, Platform, KeyboardAvoidingView, ActivityIndicator, View } from "react-native";
 import Constants from "expo-constants";
 import { useTheme } from "stores/theme";
 import styled from "styled-components/native";
 import { BlurView } from "expo-blur";
 import { useAuth } from "stores/auth";
 import { useFocusEffect } from "@react-navigation/native";
-import axios from "services/axios";
+import axios from "services/axios"; BrowseByTime
 import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "helpers/notifications";
@@ -84,15 +84,15 @@ export default function Home({ navigation, route }) {
   const { data, isLoading } = useQueryHomepage();
   // console.log("m data", data);
 
-  const { setLoading } = useLoader();
 
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading]);
 
-  useEffect(() => {
-    !isLoading && mixpanel.screen("Home", data);
-  }, [data, isLoading]);
+  // useEffect(() => {
+  //   setLoading(isLoading);
+  // }, [isLoading]);
+
+  // useEffect(() => {
+  //   !isLoading && mixpanel.screen("Home", data);
+  // }, [data, isLoading]);
 
   // useEffect(() => {
   //   playAds();
@@ -177,6 +177,10 @@ export default function Home({ navigation, route }) {
     }, [])
   );
 
+  const [loading, setLoading] = useState(true);
+
+
+
   const removeFirstTimeModal = async () => {
     try {
       setIsFirstTimeModal(false);
@@ -209,8 +213,12 @@ export default function Home({ navigation, route }) {
       icon: { source: meditationIcon, width: "18px" },
       component: (
         <>
-          <Categories isMeditation categories={data?.categories?.filter((cat) => !cat.isPodcast)} />
-          <BrowseByTime />
+          <View style={{ marginBottom: '-10%' }}>
+            <Categories isMeditation categories={data?.categories?.filter((cat) => !cat.isPodcast)} />
+          </View>
+          <View style={{}}>
+            <BrowseByTime />
+          </View>
 
           {data?.meditation
             ?.filter(
@@ -264,7 +272,7 @@ export default function Home({ navigation, route }) {
     },
     {
       id: "PODCASTS",
-      name: "PODCASTS",
+      name: "PODCAST",
       icon: { source: micIcon, width: "10.87px" },
       component: (
         <>
@@ -275,7 +283,7 @@ export default function Home({ navigation, route }) {
           </Container>
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
-            ?.map((section) =>{
+            ?.map((section) => {
               console.warn(section.songs)
               section.songs.length > 0 ? (
                 <SongList
@@ -311,12 +319,19 @@ export default function Home({ navigation, route }) {
       >
         <Container>
           <Box mt={`${Platform.OS == "ios" ? Constants.statusBarHeight : 10}px`} />
-
-          <PremiumTextWrapper>{user?.isPremium && <Text>Premium</Text>}</PremiumTextWrapper>
-          <TopHeader title="Explore" />
-
           <ActivelyListing count={activelyListeningCount} />
+          {/* <PremiumTextWrapper>{user?.isPremium && <Text>Premium</Text>}</PremiumTextWrapper> */}
+
+          <View style={{ marginTop: '90%', flexDirection: 'row', alignItems: "center" }}>
+            <TopHeader title="Start Here" />
+            <View style={{ backgroundColor: 'gray', paddingLeft: 2, paddingRight: 2, borderRadius: 20, borderColor: 'black' }}>
+              <Text style={{ textAlign: 'center' }}>15 min</Text>
+            </View>
+          </View >
+
+
         </Container>
+
 
         <Explorables />
 
@@ -324,7 +339,7 @@ export default function Home({ navigation, route }) {
           <ZentCoin />
         </Container>
         {/* <Shortcuts /> */}
-        <ActivitiesTabs title="Wellness Activities" tabContent={tabContent} />
+        <ActivitiesTabs title="Wellness Tools" tabContent={tabContent} />
 
         <NavigationPadding padding={50} />
       </Animated.ScrollView>
