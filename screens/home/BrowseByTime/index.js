@@ -74,7 +74,8 @@ const Title = styled(Text)`
   font-weight: 600;
   font-size: 24px;
   line-height: 29px;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
+  margin-top:10px
 `;
 
 const Item = styled.TouchableOpacity`

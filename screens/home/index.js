@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { Text, Container, Box, SongList, Explorables, NavigationPadding } from "components";
-import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions, Platform, KeyboardAvoidingView, ActivityIndicator, View } from "react-native";
+import { Animated, TouchableWithoutFeedback, StatusBar, Dimensions, Platform, KeyboardAvoidingView, ActivityIndicator, Image, View, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
 import { useTheme } from "stores/theme";
 import styled from "styled-components/native";
@@ -11,7 +11,7 @@ import axios from "services/axios"; BrowseByTime
 import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "helpers/notifications";
-
+import play from '../../assets/play.png'
 // Import Images
 import meditationIcon from "assets/icons/meditation.png";
 import micIcon from "assets/icons/mic.png";
@@ -27,6 +27,7 @@ import EarnMore from "components/EarnMore";
 import { useQueryHomepage } from "query/home";
 import { useLoader } from "stores/loader";
 import mixpanel from "services/mixpanel";
+import Play from "../play";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -232,6 +233,9 @@ export default function Home({ navigation, route }) {
                   id={section?.id}
                   title={section.title}
                   songs={section.songs}
+                  onSongPlay={(title) => setCurrentSongTitle(title)}
+                  onSongPress={(songId) => navigation.navigate('Play', { songId })}
+               
                 />
               ) : (
                 <></>
@@ -291,6 +295,7 @@ export default function Home({ navigation, route }) {
                   id={section?.id}
                   title={section.title}
                   songs={section.songs}
+               
                 />
               ) : (
                 <></>
@@ -320,13 +325,35 @@ export default function Home({ navigation, route }) {
         <Container>
           <Box mt={`${Platform.OS == "ios" ? Constants.statusBarHeight : 10}px`} />
           <ActivelyListing count={activelyListeningCount} />
-          {/* <PremiumTextWrapper>{user?.isPremium && <Text>Premium</Text>}</PremiumTextWrapper> */}
+      
 
-          <View style={{ marginTop: '90%', flexDirection: 'row', alignItems: "center" }}>
-            <TopHeader title="Start Here" />
-            <View style={{ backgroundColor: 'gray', paddingLeft: 2, paddingRight: 2, borderRadius: 20, borderColor: 'black' }}>
-              <Text style={{ textAlign: 'center' }}>15 min</Text>
+          <View style={{ marginTop: "90%", flexDirection: 'row', alignItems: "center", width: '100%', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row', alignItems: "center", width: '60%' }}>
+
+              <TouchableOpacity onPress={() => {
+
+
+                navigation.navigate('Play', { _id:'64a427c0d2d7e154414277c5' });
+           
+            }}>
+              <TopHeader title="Start Here" />
+              </TouchableOpacity>
+
+              <View style={{ backgroundColor: 'gray', paddingHorizontal: 5, paddingVertical: 5, borderRadius: 20, alignItems: "center", marginLeft: '2%' }}>
+                <Text style={{ textAlign: 'center' }}>15 min</Text>
+              </View>
             </View>
+
+            <TouchableOpacity onPress={() => {
+
+
+                navigation.navigate('Play', { _id:'64a427c0d2d7e154414277c5' });
+           
+            }}>
+              <Image style={{ resizeMode: 'contain', height: 30, width: 30 }} source={play} />
+            </TouchableOpacity>
+
+
           </View >
 
 

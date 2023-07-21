@@ -60,6 +60,7 @@ import UpgradePremiumSuccessfully from "screens/upgrade-premium/success";
 import JournalEntry from "screens/journal/journal-entry";
 import Redeem from "screens/redeem";
 
+
 // Create Stack Navigator
 const Stack = createNativeStackNavigator();
 
@@ -91,6 +92,7 @@ export function HomeStack() {
       {/* <Tabs.Screen name="Followers" component={Followers} /> */}
       <Tabs.Screen name="Sounds" component={Sounds} />
       {/* <Tabs.Screen name="EarningTeam" component={EarningTeam} /> */}
+      {/* <Tabs.Screen name="play" component={Play} /> */}
     </Tabs.Navigator>
   );
 }

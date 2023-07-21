@@ -6,7 +6,7 @@ import { useTheme } from "stores/theme";
 import inviteIcon from "assets/icons/invite.png";
 import { useAuth } from "stores/auth";
 import { ReactNativeShare } from "helpers";
-
+import friendsIcon from "assets/icons/friends.png";
 export default function InviteFriend(props) {
   const { label = "", onPress = () => {} } = props;
   const { theme } = useTheme();
@@ -33,7 +33,8 @@ export default function InviteFriend(props) {
 
   return (
     <Wrapper>
-      <Icon source={inviteIcon} />
+      {/* <Icon source={inviteIcon} /> */}
+      <Icon source={friendsIcon} />
       <View>
         <TouchableOpacity       onPress={() =>
                 inviteFriend(
@@ -64,10 +65,11 @@ const Wrapper = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 20px;
+  margin-top:-20px
 `;
 const Icon = styled.Image`
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   margin-right: 13px;
 `;
 const Info = styled(Text)`
