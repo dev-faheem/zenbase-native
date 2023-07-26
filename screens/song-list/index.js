@@ -135,7 +135,7 @@ export default function SongList({ route, navigation,onEndReached  }) {
         <Container style={{ flex: 1, position: "relative", zIndex: 2 }}>
           {isLoading ? (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center",alignSelf:'center' }}>
-              <ActivityIndicator size="large" color="white" />
+              <ActivityIndicator size="large" color="blue " />
             </View>
           ) : (
             <SongListWrapper>
@@ -155,7 +155,7 @@ export default function SongList({ route, navigation,onEndReached  }) {
                   <SongTileWrapper>
                   {imageLoading[item._id] && (
                     <View style={{ }}>
-                      <ActivityIndicator size="large" color="white" />
+                      <ActivityIndicator size="large" color="blue " />
                     </View>
                   )}
                   <SongTile

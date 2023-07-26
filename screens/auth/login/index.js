@@ -10,7 +10,7 @@ import * as Google from 'expo-auth-session/providers/google';
 
 // Import Images
 import ZentbaseLogoWhite from "assets/images/zenbase-full-white-logo.png";
-import ZentbaseVectorWhite from "assets/vectors/zenbase-white.png";
+import ZentbaseVectorWhite from "assets/vectors/zentoken-flat-circle-logo.png";
 import AppleIcon from "assets/vectors/apple.png";
 import GoogleIcon from "assets/vectors/google.png";
 import { handleSignInWithApple } from "helpers/auth-apple";

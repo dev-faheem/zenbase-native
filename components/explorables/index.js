@@ -62,7 +62,7 @@ const BackdropImage = styled.Image`
 `;
 
 const BackdropOverlay = styled.Image`
-  position: absolute;
+   position: absolute;
   width: 200%;
   top: 340px;
   left: 0px;
@@ -104,7 +104,7 @@ export default function Explorables() {
     // simulate a delay to fetch the card data
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 6000);
     return () => clearTimeout(timer);
   }, []);
   
@@ -118,6 +118,7 @@ export default function Explorables() {
           position: "absolute",
           zIndex: -800,
           width: "100%",
+          marginTop:"5%"
         }}
       />
       <BackdropOverlay source={ExplorableLinearGradient} />

@@ -32,6 +32,7 @@ export default function ZentCoin(props) {
 
   return (
     <Wrapper
+    style={{marginTop:'6%'}}
       onPress={() => {
         user.isPremium
           ? navigation.navigate("Wallet")
@@ -40,6 +41,7 @@ export default function ZentCoin(props) {
             });
       }}
     >
+     
       <ZentIcon source={zentLogo} />
       <View>
         <Info style={{color:'white',marginTop:"10%"}}>{info}</Info>
@@ -54,6 +56,7 @@ export default function ZentCoin(props) {
           />
         </CoinWrapper>
       </View>
+    
     </Wrapper>
   );
 }

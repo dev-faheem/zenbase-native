@@ -7,7 +7,7 @@ import { Video } from "expo-av";
 // Import images
 import ZenbaseFullLogo from "assets/images/zenbase-full-white-logo.png";
 import { useAuth } from "stores/auth";
-import ZentbaseVectorWhite from "assets/vectors/zenbase-white.png";
+import ZentbaseVectorWhite from "assets/vectors/zentoken-flat-circle-logo.png";
 
 // Import Videos
 import BackgroundVideo from "assets/videos/water.mp4";

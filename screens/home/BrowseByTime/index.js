@@ -59,7 +59,9 @@ export default function Shortcuts() {
       />
       <Container>
         <BottomContent>
-          Tell us how much time you have and we’ll recommend you content.
+          {`All Things Pass.If There Were No Illusion.
+          There'd be No Enlightenment`}
+
         </BottomContent>
       </Container>
     </Wrapper>
@@ -108,4 +110,5 @@ const ShortcutImage = styled.Image`
 
 const BottomContent = styled(Text)`
   color: ${({ theme }) => theme?.color?.description};
+  align-self:center
 `;

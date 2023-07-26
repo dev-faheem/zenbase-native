@@ -327,7 +327,7 @@ export default function Home({ navigation, route }) {
           <ActivelyListing count={activelyListeningCount} />
       
 
-          <View style={{ marginTop: "90%", flexDirection: 'row', alignItems: "center", width: '100%', justifyContent: 'space-between' }}>
+          <View style={{ marginTop: "85%", flexDirection: 'row', alignItems: "center", width: '100%', justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: "center", width: '60%' }}>
 
               <TouchableOpacity onPress={() => {
@@ -339,7 +339,7 @@ export default function Home({ navigation, route }) {
               <TopHeader title="Start Here" />
               </TouchableOpacity>
 
-              <View style={{ backgroundColor: 'gray', paddingHorizontal: 5, paddingVertical: 5, borderRadius: 20, alignItems: "center", marginLeft: '2%' }}>
+              <View style={{ backgroundColor: 'gray', paddingHorizontal: 8, paddingVertical: 5, borderRadius: 20, alignItems: "center", marginLeft: '7%' }}>
                 <Text style={{ textAlign: 'center' }}>15 min</Text>
               </View>
             </View>
