@@ -125,7 +125,7 @@ function History({ ZentBanner }) {
 
   const fullDate = (date) => {
     const mainDate = new Date(date);
-    console.log({ date, mainDate });
+   
 
     const month = mainDate.getMonth() + 1;
     return (

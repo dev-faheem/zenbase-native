@@ -19,8 +19,9 @@ import { playAds } from "services/playAds";
 import { useAuth } from "stores/auth";
 import ReactNativeShare from "helpers/react-native-share";
 import { useSongQueue } from "stores/song-queue";
+import TotalEarnings from "./total-earnings";
 
-const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
+const GIVEAWAY_TOKEN_AFTER_SECONDS = 0.01 * 60; // seconds
 // const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
 const CONTINUE_LISTENING = 60 * 60 * 1; //seconds
 // const MAX_LISTENING_TIME = 10 * 1; // seconds
@@ -205,6 +206,8 @@ export default function Play({ navigation }) {
   const clickContinueListeningRef = useRef(false);
   const [zentokens, setZentokens] = useState(0);
   const [zentokenMined, setZentokenMined] = useState(0);
+  const [listeningTime,setListeningTime]=useState(0)
+  const [timerInterval,setTimerInterval]=useState(null)
 const tokens = { value:0}
   // Function to Init continue button animation
   const startProgressBarAnimation = () => {
@@ -288,7 +291,15 @@ const tokens = { value:0}
   const secondsRef = useRef(0);
   const tokenInterval = useRef(null);
   const startTokenTimer = () => {
-    const intervalId = setInterval(() => {
+    // setListeningTime(0);
+  const intervalId = setInterval(() => {
+
+
+    // setListeningTime((prevTime)=>prevTime+1);
+    
+   
+    
+  // setTimerInterval(intervalId);
       secondsRef.current++;
 
       if (secondsRef.current >= MAX_LISTENING_TIME) {
@@ -309,6 +320,33 @@ const tokens = { value:0}
     }, 1000);
     tokenInterval.current = intervalId;
   };
+
+
+  useEffect(() => {
+    let timerInterval = null;
+  
+   
+    const startTimer = () => {
+      timerInterval = setInterval(() => {
+        setListeningTime((prevTime) => prevTime + 1);
+      }, 1000);
+    };
+  
+   
+    const stopTimer = () => {
+      clearInterval(timerInterval);
+    };
+  
+   
+    if (isPlaying) {
+      startTimer();
+    } else {
+      stopTimer();
+    }
+  
+   
+    return () => stopTimer();
+  }, [isPlaying]);
 
   const stopTokenTimer = () => {
     clearInterval(tokenInterval.current);
@@ -407,29 +445,41 @@ const tokens = { value:0}
   };
 
   const onPressClose = async () => {
+    // clearInterval(timerInterval);
+
     const lastClickedSong = await getLastClickedSong();
-
+  
     try {
-      await onPressPause();
-      if (zentokens == 0) {
-        navigation.goBack();
-        resetSongQueue();
-        return;
-      }
+      // await onPressPause();
+      // if (zentokens == 0) {
+      //   navigation.goBack();
+      //   resetSongQueue();
+      //   return;
+      // }
+      await audio.unloadAsync();
+      if (listeningTime >=  GIVEAWAY_TOKEN_AFTER_SECONDS) {
 
-      navigation.navigate("Journal", {
-        song: lastClickedSong,
-        zentokens,
-        transactTokens,
-        claimToWalletProps: JSON.stringify({
+        console.log('time update',listeningTime)
+       
+        navigation.navigate("AddJournal", {
+          song,
           zentokens,
-          song: lastClickedSong,
-          duration,
-          position,
-        }),
-      });
-      // await transactTokens();
-    } catch (e) {
+          transactTokens,
+          claimToWalletProps: JSON.stringify({
+            zentokens,
+            song,
+            duration,
+            position,
+          }),
+        });
+      } else {
+        // Navigating back to the previous screen
+        navigation.goBack();
+      }
+    
+      resetSongQueue();
+    }
+    catch (e) {
       console.error(e);
     }
     resetSongQueue();
@@ -487,7 +537,7 @@ const tokens = { value:0}
   };
 
   const onSlidingComplete = async (value) => {
-    console.log('song completed')
+    
     const lastClickedSong = await getLastClickedSong();
     // if (user.isPremium) {
     try {

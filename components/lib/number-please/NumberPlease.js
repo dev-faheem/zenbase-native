@@ -32,7 +32,7 @@ const PickerFactory = ({ pickerProps, selectedValue, onChange, pickerStyle, item
 const NumberPlease = ({ digits, values, onChange, ...rest }) => {
   const onChangeHandle = (value, index) => {
     const temp = JSON.parse(JSON.stringify(values));
-    console.log({ value });
+  
     temp[index] = value;
     onChange(temp);
   };

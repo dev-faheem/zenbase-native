@@ -106,7 +106,7 @@ export default function Login({ navigation }) {
   // for google signIn
   const handleSignInWithGoogle = async (user) => {
     try {
-      console.warn("user==========", user)
+ 
       const {
         data: { data },
       } = await axios.post("/auth/login", {
@@ -156,7 +156,7 @@ export default function Login({ navigation }) {
     try {
       const credentials = await handleSignInWithApple();
       const identityToken = parseJwt(credentials?.identityToken);
-      console.log("identityToken", identityToken);
+     
       const { email: username, sub: password } = identityToken;
       const {
         data: { data },
@@ -220,7 +220,7 @@ export default function Login({ navigation }) {
         const decoded = _user.token.split(".")[1];
         const jwt = JSON.parse(Buffer.from(decoded, "base64").toString("utf-8"));
         if (Date.now() >= jwt?.exp * 1000) {
-          console.log(`AsyncStorage Token is expired`);
+          
           await AsyncStorage.removeItem("@zenbase_user");
           return;
         }

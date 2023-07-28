@@ -209,14 +209,14 @@ export default function AddJournal({ navigation }) {
   return (
     <BlurView intensity={200} tint="dark" style={{ width: "100%", height: "100%" }}>
       <SafeAreaView style={{ flex: 1 }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}
           style={{ marginLeft: 10 }}
         >
-          <Ionicons name="ios-chevron-back" size={30} color="white" />
-        </TouchableOpacity>
+          <Ionicons name="ios-chevron-back" size={30} color="blue" />
+        </TouchableOpacity> */}
         <View>
           <ScrollView
             showsHorizontalScrollIndicator={false}

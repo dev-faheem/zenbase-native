@@ -101,11 +101,11 @@ export default function Home({ navigation, route }) {
 
   useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      console.log("notification", notification);
+      
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log("response notification", response);
+     
     });
 
     (async () => {
@@ -288,7 +288,7 @@ export default function Home({ navigation, route }) {
           {data?.podcast
             ?.filter((section) => section.title !== "All Meditations")
             ?.map((section) => {
-              console.warn(section.songs)
+         
               section.songs.length > 0 ? (
                 <SongList
                   categories={data?.categories?.filter((cat) => cat.isPodcast)}

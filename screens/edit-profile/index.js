@@ -95,6 +95,9 @@ export default function EditProfile({ route, navigation }) {
   const { user, updateUser, updateUserLocal, setUser } = useAuth();
   // Profile Image
   const [image, setImage] = useState(user?.image || null);
+
+
+
   // States
   const [isProfileUpdated, setIsProfileUpdated] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -126,10 +129,12 @@ export default function EditProfile({ route, navigation }) {
     }
   };
 
+
   const editProfile = async () => {
     try {
       setIsUpdating(true);
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
       if (status !== "granted") {
         alert("Sorry, we need camera roll permissions to make this work!");
       }
@@ -137,10 +142,10 @@ export default function EditProfile({ route, navigation }) {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [4, 4],
+        // aspect: [4, 4],
         quality: 1,
       });
-
+     
       if (!result.canceled) {
         setImage(result.assets[0].uri);
 
@@ -151,10 +156,14 @@ export default function EditProfile({ route, navigation }) {
           name: "image.jpg",
           type: "image/jpeg",
         });
+     
         const {
           data: { data: imageURL },
         } = await axios.patch("/auth/profile-image", formData);
+
+      
         updateUserLocal("image", imageURL);
+        console.log('URL : ', imageURL)
         setIsProfileUpdated(true);
         setIsUpdating(false);
       } else {
@@ -162,7 +171,7 @@ export default function EditProfile({ route, navigation }) {
       }
     } catch (err) {
       // Error Handling
-      console.log("Rupinder", err);
+     
       setIsUpdating(false);
     }
   };
@@ -212,6 +221,9 @@ export default function EditProfile({ route, navigation }) {
     }
   };
 
+  const cacheBuster = Date.now();
+const profileImageUrlWithCacheBuster = `${image}?cb=${cacheBuster}`;
+
   return (
     <Canvas>
       <EditProfileHeader>
@@ -230,7 +242,8 @@ export default function EditProfile({ route, navigation }) {
       </EditProfileHeader>
       <Container style={{ flex: 1 }}>
         <ProfileImageWrapper>
-          <ProfileImage source={image ? { uri: image } : profileImage} resizeMode="cover" />
+          <ProfileImage source={image ? { uri: profileImageUrlWithCacheBuster } : profileImage} resizeMode="cover" />
+          
           <EditButton onPress={editProfile}>
             <Text color="white" fontSize="md">
               EDIT PHOTO

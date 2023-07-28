@@ -222,7 +222,7 @@ export default function Register({ navigation }) {
           country: countryValue,
           state: provinceValue,
         });
-        console.warn('dddd',data.token)
+
         setUser(data)
         await AsyncStorage.setItem("authToken",data.token);
 

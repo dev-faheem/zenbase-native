@@ -96,7 +96,7 @@ export default function UpgradePremium({
       });
 
       if (error) {
-        console.log({ applePayError: error });
+       
         Alert.alert("Something Went Wrong!", error.message, [{ text: "OK", onPress: () => {} }], {
           userInterfaceStyle: "dark",
         });
@@ -136,7 +136,7 @@ export default function UpgradePremium({
       navigation.goBack();
       navigation.navigate("UpgradePremiumSuccessfully");
     } catch (e) {
-      console.log({ applePayError: e });
+     
     }
   };
   return (

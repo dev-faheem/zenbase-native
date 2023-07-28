@@ -92,7 +92,7 @@ export default function SignupBonus({ route, navigation }) {
       await transactions.createWithAmount(0.01, "SIGNUP_REWARD");
       navigation.navigate("ReferFriends");
     } catch (e) {
-      console.error(e.response.data);
+    
     }
   };
 

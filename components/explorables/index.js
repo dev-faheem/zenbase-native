@@ -118,7 +118,7 @@ export default function Explorables() {
           position: "absolute",
           zIndex: -800,
           width: "100%",
-          marginTop:"5%"
+          // marginTop:"1%"
         }}
       />
       <BackdropOverlay source={ExplorableLinearGradient} />

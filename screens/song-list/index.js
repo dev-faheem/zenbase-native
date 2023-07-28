@@ -135,7 +135,7 @@ export default function SongList({ route, navigation,onEndReached  }) {
         <Container style={{ flex: 1, position: "relative", zIndex: 2 }}>
           {isLoading ? (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center",alignSelf:'center' }}>
-              <ActivityIndicator size="large" color="blue " />
+              <ActivityIndicator size="large" color="white " />
             </View>
           ) : (
             <SongListWrapper>
@@ -151,11 +151,15 @@ export default function SongList({ route, navigation,onEndReached  }) {
                 numColumns={2}
                 data={songs || []}
                 keyExtractor={(item, index) => index + "_" + item._id}
-                renderItem={({ item, index }) => (
+                renderItem={({ item, index }) => {
+               
+     return (
+
+        
                   <SongTileWrapper>
                   {imageLoading[item._id] && (
                     <View style={{ }}>
-                      <ActivityIndicator size="large" color="blue " />
+                      <ActivityIndicator size="large" color="white" />
                     </View>
                   )}
                   <SongTile
@@ -166,12 +170,12 @@ export default function SongList({ route, navigation,onEndReached  }) {
                     queue={item}
                   />
                   <SongTileImage
-                    source={{ uri: item?.artwork?.url || "" }}
+                    source={ item?.artwork}
                     onLoad={() => handleImageLoad(item._id)}
                     onError={() => handleImageError(item._id)}
                   />
                 </SongTileWrapper>
-                )}
+            )  }}
                 onEndReachedThreshold={0.5}
                 onEndReached={onEndReached}
               />
