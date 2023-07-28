@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { Container, Canvas, Text, Button, ZentTokenBanner, Box } from "components";
+import React from "react";
+import { Container, Canvas, Text, Button } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
-import { TouchableOpacity, Dimensions, Alert } from "react-native";
+import { TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useApplePay } from "@stripe/stripe-react-native";
 import { useAuth } from "stores/auth";
@@ -104,12 +104,8 @@ export default function UpgradePremium({
       }
 
       // Fetch Client Secret from Server
-      const response = await axios.post("/legacy/stripe");
-            
-      const clientSecret = response.data.data.clientSecret;
-
+      const {data: {data: clientSecret}} = await axios.post("/stripe");
       const { error: confirmError } = await confirmApplePayPayment(clientSecret);
-
       if (confirmError) {
         console.log({ applePayConfirmError: confirmError });
         Alert.alert(
@@ -122,7 +118,6 @@ export default function UpgradePremium({
         );
         return;
       }
-
       // Payment Success
       await axios.post("/payments", {
         amount: 499,
@@ -139,6 +134,7 @@ export default function UpgradePremium({
      
     }
   };
+
   return (
     <Canvas>
       <Wrapper>
@@ -173,7 +169,9 @@ export default function UpgradePremium({
               </DescriptionWrapper>
             </InfoBody>
             <InfoFooter>
-              <Button height="55" title="Buy ($4.99 per month)" block onPress={onPressGet} />
+              {isApplePaySupported && 
+                <Button height="55" title="Buy ($4.99 per month)" block onPress={onPressGet} />
+              }
             </InfoFooter>
           </InfoWrapper>
         </Container>

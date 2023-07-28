@@ -11,6 +11,7 @@ import { StripeProvider } from "@stripe/stripe-react-native";
 import config from "./config";
 import { PassiveEarningProvider } from "./stores/passiveEarning";
 import Toast from 'react-native-toast-message';
+
 Notifications.init();
 
 export default function App() {
@@ -23,7 +24,7 @@ export default function App() {
 
   return (
     <StripeProvider
-      publishableKey={config.STRIPE_KEY}
+      publishableKey={config.MODE === 'development' ? config.STRIPE_TEST_KEY : config.STRIPE_LIVE_KEY}
       merchantIdentifier={config.STRIPE_MERCHANT_ID} // required for Apple Pay
     >
       <QueryClientProvider client={queryClient}>
