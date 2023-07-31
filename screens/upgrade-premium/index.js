@@ -91,7 +91,7 @@ export default function UpgradePremium({
         cartItems: [{ label: "Zenbase Premium", amount: "4.99", paymentType: "Immediate" }],
         country: "US",
         currency: "USD",
-
+        requiredShippingAddressFields: [ 'emailAddress', 'name', 'phoneNumber', 'phoneticName', 'postalAddress'],
         requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
       });
 
