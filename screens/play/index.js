@@ -21,7 +21,7 @@ import ReactNativeShare from "helpers/react-native-share";
 import { useSongQueue } from "stores/song-queue";
 import TotalEarnings from "./total-earnings";
 
-const GIVEAWAY_TOKEN_AFTER_SECONDS = 0.01 * 60; // seconds
+const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
 // const GIVEAWAY_TOKEN_AFTER_SECONDS = 5 * 60; // seconds
 const CONTINUE_LISTENING = 60 * 60 * 1; //seconds
 // const MAX_LISTENING_TIME = 10 * 1; // seconds
@@ -208,7 +208,7 @@ export default function Play({ navigation }) {
   const [zentokenMined, setZentokenMined] = useState(0);
   const [listeningTime,setListeningTime]=useState(0)
   const [timerInterval,setTimerInterval]=useState(null)
-const tokens = { value:0}
+const tokens = useRef(0)
   // Function to Init continue button animation
   const startProgressBarAnimation = () => {
     setContinueListening(true);
@@ -267,12 +267,16 @@ const tokens = { value:0}
         // setAdBonus(adBonus + 1);
         // Giveaway 30 seconds worth of token on an ad play
         setZentokens(zentokens + 30 * secondsWorth);
-        tokens.value = zentokens + 30 * secondsWorth
+        tokens.current = zentokens + 30 * secondsWorth
       }
     );
 
     return () => {
       deactivateKeepAwake();
+      onPressPause(); // Pause audio playback
+      audio.unloadAsync(); // Unload audio
+      clearInterval(tokenInterval.current); // Clear token timer
+      clearInterval(timerInterval); // Clear listening timer
     };
   }, []);
 
@@ -293,7 +297,7 @@ const tokens = { value:0}
   const startTokenTimer = () => {
     // setListeningTime(0);
   const intervalId = setInterval(() => {
-
+  
 
     // setListeningTime((prevTime)=>prevTime+1);
     
@@ -310,7 +314,7 @@ const tokens = { value:0}
         secondsRef.current > GIVEAWAY_TOKEN_AFTER_SECONDS &&
         secondsRef.current < MAX_LISTENING_TIME
       ) {
-        tokens.value = zentokens + 30 * secondsWorth
+        tokens.current = tokens.current + secondsWorth + (user.isPremium ? secondsWorth * 0.1 : 0) 
         setZentokens((oldZentoken) => {
           return (
             oldZentoken + secondsWorth + (user.isPremium ? secondsWorth * 0.1 : 0) // 10% more for premium users
@@ -320,31 +324,35 @@ const tokens = { value:0}
     }, 1000);
     tokenInterval.current = intervalId;
   };
+  
+
+
+
 
 
   useEffect(() => {
     let timerInterval = null;
-  
-   
+
+
     const startTimer = () => {
       timerInterval = setInterval(() => {
         setListeningTime((prevTime) => prevTime + 1);
       }, 1000);
     };
-  
-   
+
+
     const stopTimer = () => {
       clearInterval(timerInterval);
     };
-  
-   
+
+
     if (isPlaying) {
       startTimer();
     } else {
       stopTimer();
     }
-  
-   
+
+
     return () => stopTimer();
   }, [isPlaying]);
 
@@ -353,11 +361,12 @@ const tokens = { value:0}
   };
 
   const transactTokens = async (isClosingTransaction = true) => {
-    if (zentokens <= 0) return;
+    console.log({transactTokens: tokens.current})
+    if (tokens.current <= 0) return;
     const lastPlayedSong = await getLastClickedSong();
     try {
       await axios.post("/transactions", {
-        amount: zentokens - zentokenMined,
+        amount: tokens.current - zentokenMined,
         appreciatedFor: secondsWorth,
         type: "SONG_MINING",
         remarks: "",
@@ -366,9 +375,10 @@ const tokens = { value:0}
         },
       });
       if (!isClosingTransaction) {
-        setZentokenMined(zentokenMined + zentokens);
+        setZentokenMined(zentokenMined + tokens.current);
       }
       setZentokens();
+      tokens.current = 0
     } catch (e) {
       console.error(e);
     }
@@ -379,6 +389,9 @@ const tokens = { value:0}
     fetchSong(_id); activateKeepAwake
     addToRecents(_id);
   }, [_id]);
+
+
+
 
   const fetchSong = async (id) => {
     try {
@@ -448,7 +461,7 @@ const tokens = { value:0}
     // clearInterval(timerInterval);
 
     const lastClickedSong = await getLastClickedSong();
-  
+
     try {
       // await onPressPause();
       // if (zentokens == 0) {
@@ -460,7 +473,7 @@ const tokens = { value:0}
       if (listeningTime >=  GIVEAWAY_TOKEN_AFTER_SECONDS) {
 
         console.log('time update',listeningTime)
-       
+
         navigation.navigate("AddJournal", {
           song,
           zentokens,
@@ -473,10 +486,10 @@ const tokens = { value:0}
           }),
         });
       } else {
-        // Navigating back to the previous screen
+        await audio.unloadAsync();
         navigation.goBack();
       }
-    
+
       resetSongQueue();
     }
     catch (e) {
@@ -492,7 +505,7 @@ const tokens = { value:0}
       await audio.loadAsync({uri:data.source});
       await audio.playAsync();
       await audio.setVolumeAsync(previousVolumeRef.current);
-
+  
       startTokenTimer();
       audio.setOnPlaybackStatusUpdate((status) => {
         setDuration(status.durationMillis);
@@ -500,22 +513,21 @@ const tokens = { value:0}
         if (status.didJustFinish) {
           stopTokenTimer();
           onPressForwards();
-          console.log('zented',zentokens)
-          console.log('zented',tokens.value)
+     
           navigation.navigate('AddJournal',
           { song: song,
-            zentokens:tokens.value,
+            zentokens:tokens.current,
             transactTokens,
             claimToWalletProps: JSON.stringify({
-              zentokens : tokens.value,
+              zentokens : tokens.current,
               song: lastClickedSong,
               duration,
               position,
             }),}
           );
         }
-      });
-
+          });
+  
       setIsPlaying(true);
     } catch (e) {
       console.warn(e);
@@ -537,11 +549,11 @@ const tokens = { value:0}
   };
 
   const onSlidingComplete = async (value) => {
-    
+
     const lastClickedSong = await getLastClickedSong();
     // if (user.isPremium) {
     try {
-   
+
       await audio.setPositionAsync(value, {
         toleranceMillisAfter: value - 1000,
         toleranceMillisBefore: value + 1000,
@@ -574,9 +586,9 @@ const tokens = { value:0}
   };
 
   const onPressForwards = async () => {
-    if (queueMetaData.nextIndex >= 0) {
-      updateSongQueue(songQueue[queueMetaData.nextIndex]);
-      setSongId(songQueue[queueMetaData.nextIndex]);
+      if (queueMetaData.nextIndex >= 0) {
+        updateSongQueue(songQueue[queueMetaData.nextIndex]);
+        setSongId(songQueue[queueMetaData.nextIndex]);
     }
   };
 

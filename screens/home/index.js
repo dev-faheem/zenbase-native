@@ -28,6 +28,17 @@ import { useQueryHomepage } from "query/home";
 import { useLoader } from "stores/loader";
 import mixpanel from "services/mixpanel";
 import Play from "../play";
+import Timer from "../timer";
+import Actions from "../timer/actions";
+import AmbientSound from "../timer/ambientSound";
+import AmbientSoundSelection from "../timer/ambientSoundSelection";
+import Counter from "../timer/counter";
+import IntervalBell from "../timer/intervalBell";
+import TimerBellList from "../timer/timerBellList";
+import BellCard from "../timer/timerBellList/bellCard";
+import BellIconCard from "../timer/timerBellList/bellIconCard";
+import TimerEarned from "../timer/timerEarned";
+import TimeSelection from "../timer/timeSelection";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -309,7 +320,7 @@ export default function Home({ navigation, route }) {
   const activelyListeningCount = useMemo(() => {
     return data?.peopleListening;
   }, []);
-
+   
   return (
     <>
       <StatusBar barStyle="light-content" />
@@ -322,11 +333,12 @@ export default function Home({ navigation, route }) {
         showsVerticalScrollIndicator={false}
         scrollEnabled={!isFirstTimeModel}
       >
+          
         <Container>
           <Box mt={`${Platform.OS == "ios" ? Constants.statusBarHeight : 10}px`} />
           <ActivelyListing count={activelyListeningCount} />
-      
-
+        
+          
           <View style={{ marginTop: "85%", flexDirection: 'row', alignItems: "center", width: '100%', justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: "center", width: '60%' }}>
 
@@ -339,7 +351,7 @@ export default function Home({ navigation, route }) {
               <TopHeader title="Start Here" />
               </TouchableOpacity>
 
-              <View style={{ backgroundColor: 'gray', paddingHorizontal: 8, paddingVertical: 5, borderRadius: 20, alignItems: "center", marginLeft: '7%' }}>
+              <View style={{ backgroundColor: 'gray', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 20, alignItems: "center", marginLeft: '9%' }}>
                 <Text style={{ textAlign: 'center' }}>15 min</Text>
               </View>
             </View>
@@ -353,6 +365,8 @@ export default function Home({ navigation, route }) {
               <Image style={{ resizeMode: 'contain', height: 30, width: 30 }} source={play} />
             </TouchableOpacity>
 
+             
+       
 
           </View >
 
@@ -437,3 +451,4 @@ export default function Home({ navigation, route }) {
     </>
   );
 }
+

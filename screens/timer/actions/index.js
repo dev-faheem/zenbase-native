@@ -45,9 +45,9 @@ export default function Actions(props) {
   function handleCancel() {
     setTimerStatus(TIMER_STATUS_INITIAL);
     ambient_exitAudio();
-    // if (bellUrl) {
-    // bell_exitAudio();
-    // }
+    if (bellUrl) {
+    bell_exitAudio();
+    }
     if (bellUrl) {
       intervalTimeLib?.restart();
     }
@@ -58,9 +58,9 @@ export default function Actions(props) {
     if (timerStatus === TIMER_STATUS_INITIAL) {
       setTimerStatus(TIMER_STATUS_ON_GOING);
       ambient_playAudio();
-      // if (bellUrl) {
-      // bell_playAudio();
-      // }
+      if (bellUrl) {
+      bell_playAudio();
+    }
 
       const time = new Date();
       time.setSeconds(time.getSeconds() + allSeconds);
@@ -81,9 +81,9 @@ export default function Actions(props) {
     if (timerStatus === TIMER_STATUS_PAUSED) {
       setTimerStatus(TIMER_STATUS_ON_GOING);
       ambient_resumeAudio();
-      // if (bellUrl) {
-      // bell_resumeAudio();
-      // }
+      if (bellUrl) {
+      bell_resumeAudio();
+    }
       if (bellUrl) {
         intervalTimeLib?.resume();
       }
@@ -140,25 +140,26 @@ const NormalButton = styled.View`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
+  border-radius: 100;
   width: ${({ theme: { getSize } }) => getSize(90)}px;
   height: ${({ theme: { getSize } }) => getSize(90)}px;
 `;
 const Button = styled.TouchableOpacity`
   position: relative;
-
+  border-radius: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
+
   width: ${({ theme: { getSize } }) => getSize(90)}px;
   height: ${({ theme: { getSize } }) => getSize(90)}px;
 `;
 const ButtonLine = styled.View`
-  border-radius: 100%;
-  position: absloute;
 
-  border: 3px solid ${({ theme: { color } }) => color?.background};
+
+  position:  absolute;
+  border-radius: 100;
+
   top: ${({ theme: { getSize } }) => getSize(0)}px;
   left: ${({ theme: { getSize } }) => getSize(0)}px;
   width: ${({ theme: { getSize } }) => getSize(84)}px;
@@ -178,7 +179,7 @@ const ButtonText = styled(Text)`
   position: absolute;
   width: 100%;
   text-align: center;
-
+  
   font-size: ${({ theme: { getSize } }) => getSize(19)}px;
   line-height: ${({ theme: { getSize } }) => getSize(24)}px;
   color: ${({ color }) => color};

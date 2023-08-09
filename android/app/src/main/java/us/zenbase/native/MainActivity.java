@@ -1,4 +1,4 @@
-package us.zenbase.native;
+package us.zenbase.meditation;
 
 import android.os.Build;
 import android.os.Bundle;

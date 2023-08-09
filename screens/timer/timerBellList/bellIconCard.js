@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 
 export default function BellIconCard(props) {
   const { id, title, icon, iconShadowColor, width, height } = props;
-
+// console.log('title',title)
   const shadowStyle = {
     shadowColor: iconShadowColor,
     shadowOffset: { width: 0, height: 0 },

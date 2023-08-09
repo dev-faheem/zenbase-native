@@ -17,7 +17,7 @@ function CurrentTime() {
   );
 }
 
-export default function Counter() {
+export default function Counter({belldata}) {
   const {
     timerBellListData = [],
     selectedBell,
@@ -30,8 +30,9 @@ export default function Counter() {
     intervalTimeLib,
   } = useTimer();
   const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = timeLib;
-
+  // const { id, title, icon, iconShadowColor, width, height } = props;
   const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
+
   return (
     <Wrapper>
       {/* {tempTest()} */}
@@ -41,7 +42,10 @@ export default function Counter() {
           <ZenTokenText>Earn 0.0125 ZENT after 5 min</ZenTokenText>
         </ZenTokenWrapper>
         <BellIconWrapper>
+    
           <BellIconCard {...timerBellListData[selectedBellListIndex]} />
+          {/* <Title>{title}</Title> */}
+       
         </BellIconWrapper>
         <CounterTime>
           {hours < 10 && "0"}
@@ -58,7 +62,11 @@ export default function Counter() {
     </Wrapper>
   );
 }
-
+const Title = styled(Text)`
+  width: 100%;
+  text-align: center;
+  color:white;
+`;
 const Wrapper = styled.View`
   width: 100%;
   display: flex;
@@ -120,3 +128,8 @@ const Test = styled.TouchableOpacity`
   margin-top: 50px;
   margin-left: 30px;
 `;
+const NromalText = styled(Text)`
+  font-size: ${({ theme: { getSize } }) => getSize(16)}px;
+  line-height: ${({ theme: { getSize } }) => getSize(19.09)}px;
+`;
+

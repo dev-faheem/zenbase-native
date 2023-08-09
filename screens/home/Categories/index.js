@@ -6,16 +6,21 @@ import { Container } from "components";
 import { useNavigation } from "@react-navigation/native";
 import mixpanel from "services/mixpanel";
 import { useState } from "react";
+import Timer from "../../timer";
+
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const sizeReduce = (WINDOW_WIDTH - 20) / 414;
 const TILE_SIZE = Math.min((WINDOW_WIDTH - 40) * 0.5 - 5, 182);
 
-export default function Categories({ categories, inGrid = false }) {
+export default function Categories({categories, inGrid = false }) {
   const navigation = useNavigation();
   const [loadingStates, setLoadingStates] = useState({});
 
   const onPress = (category) => {
+    if(category.name==='Timer'){
+      navigation.navigate(Timer)
+    }else{
     const props = {
       type: "category",
       query: category.name,
@@ -28,7 +33,7 @@ export default function Categories({ categories, inGrid = false }) {
     }));
     navigation.navigate("SongList", props);
   };
-
+}
   const handleLoadStart = (categoryId) => {
     setLoadingStates((prevState) => ({
       ...prevState,

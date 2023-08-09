@@ -59,8 +59,7 @@ export default function Shortcuts() {
       />
       <Container>
         <BottomContent>
-          {`All Things Pass.If There Were No Illusion.
-          There'd be No Enlightenment`}
+          {`Your WIll Is Determined By Your Actions`}
 
         </BottomContent>
       </Container>

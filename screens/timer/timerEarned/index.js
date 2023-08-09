@@ -92,6 +92,7 @@ export default function TimerEarned(props) {
                 transact();
                 setEarnView(false);
                 setTimerStatus(TIMER_STATUS_INITIAL);
+                // navigation.navigate('Wallet')
               }}
             />
           </NormalView>
@@ -102,21 +103,24 @@ export default function TimerEarned(props) {
 }
 const Wrapper = styled.View`
   width: 100%;
-
-  flex: 1;
+ 
+  // flex: 1;
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
+  margin-top:30
 `;
 
 const BellIconWrapper = styled.View`
   margin-bottom: ${({ theme: { getSize } }) => getSize(81)}px;
+
 `;
 
 const YouEarned = styled(Text)`
   font-weight: 700;
   font-size: ${({ theme: { getSize } }) => getSize(32)}px;
   line-height: ${({ theme: { getSize } }) => getSize(38.19)}px;
+
 `;
 
 const NormalView = styled.View``;

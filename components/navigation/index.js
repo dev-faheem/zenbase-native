@@ -59,6 +59,14 @@ import UpgradePremium from "screens/upgrade-premium";
 import UpgradePremiumSuccessfully from "screens/upgrade-premium/success";
 import JournalEntry from "screens/journal/journal-entry";
 import Redeem from "screens/redeem";
+import Actions from "../../screens/timer/actions";
+import AmbientSound from "../../screens/timer/ambientSound";
+import IntervalBell from "../../screens/timer/intervalBell";
+import TimerBellList from "../../screens/timer/timerBellList";
+import BellCard from "../../screens/timer/timerBellList/bellCard";
+import BellIconCard from "../../screens/timer/timerBellList/bellIconCard";
+import TimerEarned from "../../screens/timer/timerEarned";
+import TimeSelection from "../../screens/timer/timeSelection";
 
 
 // Create Stack Navigator
@@ -83,6 +91,7 @@ export function HomeStack() {
       backBehavior="history"
     >
       <Tabs.Screen name="Home" component={Home} />
+    
       {/* <Tabs.Screen name="SongList" component={SongList} /> */}
       <Tabs.Screen name="Search" component={Search} />
       <Tabs.Screen name="Wallet" component={Wallet} />
@@ -90,6 +99,7 @@ export function HomeStack() {
       <Tabs.Screen name="FavoritesType" component={FavoritesType} />
       <Tabs.Screen name="Profile" component={Profile} />
       {/* <Tabs.Screen name="Followers" component={Followers} /> */}
+      <Tabs.Screen name='Timer' component={Timer}/>
       <Tabs.Screen name="Sounds" component={Sounds} />
       {/* <Tabs.Screen name="EarningTeam" component={EarningTeam} /> */}
       {/* <Tabs.Screen name="play" component={Play} /> */}
@@ -127,7 +137,7 @@ export default function Navigation() {
             <Stack.Screen name="ReferFriends" component={ReferFriends} />
             <Stack.Screen name="Rewards" component={Rewards} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
-            <Stack.Screen name="Timer" component={Timer} />
+            {/* <Stack.Screen name="Timer" component={Timer} /> */}
             <Stack.Screen name="AmbientSoundSelection" component={AmbientSoundSelection} />
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="UpgradePremium" component={UpgradePremium} />

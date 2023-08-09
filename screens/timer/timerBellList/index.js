@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import Text from "../../../components/text";
 import { useTimer } from "../contex";
 import BellCard from "./bellCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function TimerBellList(props) {
   const { timerBellListData = [], setSelectedBell = () => {} } = useTimer();
@@ -31,6 +32,9 @@ export default function TimerBellList(props) {
   return (
     <>
       <Wrapper>
+
+
+       
         <FlatList
           horizontal
           data={timerBellListData}
@@ -40,6 +44,7 @@ export default function TimerBellList(props) {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           scrollEventThrottle={1}
+          style={{marginTop:'7%'}}
           renderItem={({ item, index }) => (
             <BellCard key={index} {...item} isLast={index == timerBellListData.length - 1} />
           )}
@@ -55,6 +60,7 @@ export default function TimerBellList(props) {
             });
             if (currentIndex != -1) {
               setSelectedBell(timerBellListData[currentIndex]?.id);
+              
             }
           }}
           keyExtractor={(item, index) => `${index}-${item}`}
@@ -64,4 +70,7 @@ export default function TimerBellList(props) {
   );
 }
 
-const Wrapper = styled.View``;
+const Wrapper = styled.View`
+
+
+`;

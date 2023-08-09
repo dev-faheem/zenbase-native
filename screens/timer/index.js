@@ -19,10 +19,11 @@ import AmbientSoundSelection from "./ambientSoundSelection";
 import { useTimer as useTimerLib } from "react-timer-hook";
 import useAudioSound from "hooks/useAudioSound";
 import TimerEarned from "./timerEarned";
+import Wallet from "../../deprecated/screens/wallet";
 
 // let audio = new Audio.Sound();
 
-export default function Timer() {
+export default function Timer({navigation}) {
   const initial = [
     { id: "hour", value: 1 },
     { id: "min", value: 0 },
@@ -33,8 +34,8 @@ export default function Timer() {
 
   const [selectedTime, setSelectedTime] = useState(initial);
 
-  const [timeInput, setTimeInput] = useState(["01", "00", "00"]);
-  const [intervltimeInput, setIntervlTimeInput] = useState(["00", "15", "00"]);
+  const [timeInput, setTimeInput] = useState(["00", "15", "00"]);
+  const [intervltimeInput, setIntervlTimeInput] = useState(["00", "00", "00"]);
 
   // const allSeconds =
   //   selectedTime[0].value * 60 * 60 + selectedTime[1].value * 60 + selectedTime[2].value;
@@ -74,20 +75,20 @@ export default function Timer() {
   intervalTime.setSeconds(time.getSeconds() + allIntervalSeconds);
 
   const intervalTimeLib = useTimerLib({
-    expiryTimestamp: time,
-    onExpire: () => {
-      if (bellUrl) {
-        bell_playAudio();
+    // expiryTimestamp: time,
+    // onExpire: () => {
+    //   if (bellUrl) {
+    //     bell_playAudio();
 
-        setTimeout(() => {
-          exitAudio();
-        }, 5000);
+    //     setTimeout(() => {
+    //       exitAudio();
+    //     }, 5000);
 
-        setTimeout(() => {
-          resetInterval();
-        }, 100);
-      }
-    },
+    //     setTimeout(() => {
+    //       resetInterval();
+    //     }, 100);
+    //   }
+    // },
   });
 
   const resetInterval = () => {
@@ -112,6 +113,9 @@ export default function Timer() {
   } = useAudioSound(audioUrl);
 
   const [selectedBell, setSelectedBell] = useState(timerBellListData[1]?.id);
+
+
+  // console.log('selectedbell',selectedBell)
   const [timerStatus, setTimerStatus] = useState(TIMER_STATUS_INITIAL);
   const [ambientSoundSelection, setAmbientSoundSelection] = useState(false);
 
@@ -156,6 +160,7 @@ export default function Timer() {
   };
 
   const mainView = ({ hide = false }) => {
+    // console.log('first',timerBellListData[selectedBell-1])
     const mainStyle = hide ? { display: "none" } : {};
     return (
       <Canvas style={mainStyle}>
@@ -188,7 +193,7 @@ export default function Timer() {
       <Wrapper>
         <Container>
           <Counter />
-          <Actions />
+           <Actions />
         </Container>
       </Wrapper>
     </Canvas>
@@ -210,24 +215,28 @@ export default function Timer() {
   return (
     <>
       <TimerContext.Provider value={contextProps}>
-        {earnView ? <TimerEarned /> : timerViews()}
+        {earnView ? <TimerEarned navigation={navigation}/>: timerViews()}
       </TimerContext.Provider>
     </>
   );
 }
 
-const Wrapper = styled.View``;
-const Test = styled.Text`
-  width: 100px;
+const Wrapper = styled.View`
 
-  background: red;
-  margin-top: 50px;
-  margin-left: 30px;
+
+
+
 `;
 
+const Head = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
 const Title = styled(Text)`
-  font-weight: 700;
-  font-size: ${({ theme: { getSize } }) => getSize(32)}px;
-  line-height: ${({ theme: { getSize } }) => getSize(38)}px;
-  margin-bottom: ${({ theme: { getSize } }) => getSize(17)}px;
+  font-weight: 600;
+  font-size: ${({ theme: { getSize } }) => getSize(20)}px;
+  line-height: ${({ theme: { getSize } }) => getSize(19)}px;
 `;

@@ -11,6 +11,7 @@ import { StripeProvider } from "@stripe/stripe-react-native";
 import config from "./config";
 import { PassiveEarningProvider } from "./stores/passiveEarning";
 import Toast from 'react-native-toast-message';
+import Timer from "./screens/timer";
 
 Notifications.init();
 
@@ -35,6 +36,7 @@ export default function App() {
               <PassiveEarningProvider>
                 <LoaderProvider>
                   <Navigation />
+              
                   <Toast />
                 </LoaderProvider>
               </PassiveEarningProvider>
@@ -45,3 +47,5 @@ export default function App() {
     </StripeProvider>
   );
 }
+
+

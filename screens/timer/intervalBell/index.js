@@ -2,9 +2,11 @@ import { Text } from "components";
 import styled from "styled-components/native";
 import { useTheme } from "stores/theme";
 import lineIcon from "assets/images/timerIcons/timer-inp-link.png";
-import { TextInput } from "react-native";
+import { TextInput,TouchableWithoutFeedback  } from "react-native";
 import { useTimer } from "../contex";
-import { useRef, useState } from "react";
+import { useRef, useState ,useEffect} from "react";
+
+
 
 const InputWrapper = styled.View`
   display: flex;
@@ -28,7 +30,7 @@ const Input = styled.TextInput`
   width: ${({ theme: { getSize } }) => getSize(20)}px;
 
   color: ${(props) => props.theme.color.white};
-  /* margin-left: ${({ theme: { getSize } }) => getSize(5)}px;
+  margin-left: ${({ theme: { getSize } }) => getSize(5)}px;
   margin-right: ${({ theme: { getSize } }) => getSize(5)}px; */
   font-weight: 400;
   font-size: ${({ theme: { getSize } }) => getSize(14)}px;
@@ -40,9 +42,9 @@ function TimerInputs() {
   const { theme } = useTheme();
   const inputRefs = [useRef(), useRef(), useRef()];
 
-  // useEffect(() => {
-  //   inputRefs[0].current.focus();
-  // }, []);
+  useEffect(() => {
+    inputRefs[0].current.focus();
+  }, []);
   return (
     <>
       <InputWrapper>
@@ -109,7 +111,7 @@ function TimerInputs() {
           ref={inputRefs[2]}
           onChangeText={(value) => {
             if (value !== "" && value?.length === 2) {
-              // inputRefs[3].current.focus();
+              inputRefs[3].current.focus();
             }
 
             const updatedtimeInput = [...intervltimeInput];
@@ -141,13 +143,17 @@ export default function IntervalBell(props) {
   const [number, onChangeNumber] = useState("");
   const { timerBellListData = [], selectedBell, setSelectedBell = () => {} } = useTimer();
   const selectedBellListIndex = timerBellListData?.findIndex(({ id }) => id === selectedBell);
-
+  const [isClicked, setIsClicked] = useState(false);
   const { viewTitle, title } = timerBellListData[selectedBellListIndex];
   return (
-    <Wrapper>
+
+    <TouchableWithoutFeedback onPress={() => setIsClicked(true)}>
+    <Wrapper      isClicked={isClicked}>
+  
+     
       <ContentWrapper>
         <Head>
-          <Title>Interval Bell</Title>
+          <Title>Interval Bells</Title>
           <NromalText>{viewTitle || title}</NromalText>
         </Head>
         <InpHandlerWrapper>
@@ -158,22 +164,28 @@ export default function IntervalBell(props) {
         </InpHandlerWrapper>
       </ContentWrapper>
     </Wrapper>
+    </TouchableWithoutFeedback>
   );
 }
 
 const Wrapper = styled.View`
- display: flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   width: 100%;
-  background:${({ theme: { color } }) => color?.card};
+  background: ${({ theme: { color } }) => color?.card};
   border-radius: ${({ theme: { getSize } }) => getSize(15)}px;
   height: ${({ theme: { getSize } }) => getSize(102)}px;
   padding: ${({ theme: { getSize } }) => `0 ${getSize(36)}px 0 ${getSize(19.5)}px`}};
   margin-bottom: ${({ theme: { getSize } }) => getSize(40)}px;
+  border: ${({ isClicked, theme: { color } }) =>
+    isClicked ? `1px #6B26FF` : color?.card}; 
+  &:focus {
+    outline: none;
+  }
 `;
 const ContentWrapper = styled.View`
-  display: block;
+  display: flex;
   width: 100%;
   flex-grow: 1;
   flex-direction: column;

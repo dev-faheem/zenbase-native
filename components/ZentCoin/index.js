@@ -44,7 +44,7 @@ export default function ZentCoin(props) {
      
       <ZentIcon source={zentLogo} />
       <View>
-        <Info style={{color:'white',marginTop:"10%"}}>{info}</Info>
+        <Info style={{color:'white',marginTop:"1.6%"}}>{info}</Info>
         <CoinWrapper>
           <Coins>{coins}</Coins>
           {time && <Time>{time}</Time>}

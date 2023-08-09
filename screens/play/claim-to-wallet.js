@@ -91,6 +91,8 @@ export default function ClaimToWallet({ route, navigation }) {
   const { transactTokens, zentokens, song, position, duration } = route.params;
   const { secondsWorth } = useAuth();
 
+  console.log({ClaimToWalletTokens: zentokens})
+
   const [is100thMeditation, setIs100thMeditation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
