@@ -75,12 +75,26 @@ const Logo = styled.Image`
   margin-bottom: 43px;
 `;
 
+const cart = { label: "Zenbase Premium", amount: "4.99", paymentType: "Immediate" };
+
 export default function UpgradePremium({
   route,
   text = "Upgrade your account to Zenbase Premium.",
   navigation,
 }) {
-  const { isApplePaySupported, presentApplePay, confirmApplePayPayment } = useApplePay();
+  const { isApplePaySupported, presentApplePay, confirmApplePayPayment } = useApplePay({
+    onShippingMethodSelected: (shippingMethod, handler) => {
+      console.log('shippingMethod', shippingMethod);
+      // Update cart summary based on selected shipping method.
+      const updatedCart = [cart];
+      handler(updatedCart);
+    },
+    onShippingContactSelected: (shippingContact, handler) => {
+      console.log('shippingContact', shippingContact);
+      // Make modifications to cart here e.g. adding tax.
+      handler(cart);
+    },
+  });
   const { previousScreenName } = route.params;
   const { updateUserLocal } = useAuth();
   const { theme } = useTheme();
@@ -88,23 +102,21 @@ export default function UpgradePremium({
   const onPressGet = async () => {
     try {
       const { error, paymentMethod } = await presentApplePay({
-        cartItems: [{ label: "Zenbase Premium", amount: "4.99", paymentType: "Immediate" }],
+        cartItems: [cart],
         country: "US",
         currency: "USD",
-
+        requiredShippingAddressFields: [ 'emailAddress', 'name', 'phoneNumber', 'phoneticName', 'postalAddress'],
         requiredBillingContactFields: ["phoneNumber", "name", "emailAddress"],
       });
 
       if (error) {
-       
         Alert.alert("Something Went Wrong!", error.message, [{ text: "OK", onPress: () => {} }], {
           userInterfaceStyle: "dark",
         });
         return;
       }
-
       // Fetch Client Secret from Server
-      const {data: {data: clientSecret}} = await axios.post("/stripe");
+      const {data: {data: {clientSecret}}} = await axios.post("/stripe/499");
       const { error: confirmError } = await confirmApplePayPayment(clientSecret);
       if (confirmError) {
         console.log({ applePayConfirmError: confirmError });
@@ -131,7 +143,7 @@ export default function UpgradePremium({
       navigation.goBack();
       navigation.navigate("UpgradePremiumSuccessfully");
     } catch (e) {
-     
+      console.log('error', e)
     }
   };
 

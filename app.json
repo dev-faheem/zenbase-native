@@ -61,8 +61,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "us.zenbase.meditation",
-      "buildNumber": "0.5.1",
+      "bundleIdentifier": "us.zenbase.native",
+      "buildNumber": "1",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2423909336067009~1752802852"
       },
